@@ -1,0 +1,200 @@
+<div class="main">
+    <div class="header">
+        <span>Editar datos</span>
+    </div>
+
+    <div class="body">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div class="sub-container">
+                    <span>Información general del producto</span>
+                    <span class="border" (click)="allowEdit()">Editar</span>
+
+                </div>
+
+                <div class="inputs">
+
+                    <div class="o-input">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Clave</mat-label>
+                            <input matInput formControlName="clave" [disabled]="true">
+                            <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                              Name is required.
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+                   
+
+                    <div class="o-input">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Proveedor</mat-label>
+                            <input matInput formControlName="proveedor">
+                            <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                              Name is required.
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+
+
+                    <div class="o-input">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Descripción</mat-label>
+                            <input matInput formControlName="descripcion">
+                            <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                              Name is required.
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+
+                    <div class="o-input">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Conjuntos</mat-label>
+                            <input matInput formControlName="conjuntos">
+                            <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                              Name is required.
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+
+
+                      
+                </div>
+
+                <div class="datos">
+                    <span class="sub">Unidades por mes</span>
+
+                    <div class="d-containers">
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Enero</mat-label>
+                                <input matInput formControlName="enero">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Febrero</mat-label>
+                                <input matInput formControlName="febrero">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Marzo</mat-label>
+                                <input matInput formControlName="marzo">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Abril</mat-label>
+                                <input matInput formControlName="abril">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Mayo</mat-label>
+                                <input matInput formControlName="mayo">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Junio</mat-label>
+                                <input matInput formControlName="junio">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Julio</mat-label>
+                                <input matInput formControlName="julio">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Agosto</mat-label>
+                                <input matInput formControlName="agosto">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Septiembre</mat-label>
+                                <input matInput formControlName="septiembre">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Octubre</mat-label>
+                                <input matInput formControlName="octubre">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Noviembre</mat-label>
+                                <input matInput formControlName="noviembre">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+
+                        <div class="d-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Diciembre</mat-label>
+                                <input matInput formControlName="diciembre">
+                                <mat-error *ngIf="editForm.get('name')?.hasError('required')">
+                                  Name is required.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                        
+                   
+                </div>
+              
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <button class="btn btn-danger" (click)="close()">Cancelar</button>
+        <button class="btn btn-success" [disabled]="editForm.invalid"
+            (click)="testSend()">Guardar</button>
+    </div>
+</div>

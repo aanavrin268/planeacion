@@ -1,0 +1,44 @@
+<div class="background">
+    <div class="card">
+      <div class="header">
+        <span class="title">Todos los productos</span>
+      </div>
+      <div class="body">
+        <div class="sides">
+          <div class="left">
+            <div class="sub-container">
+                <span class="sub-title">Filtros</span>
+                <span class="sub-title-1">Mostrando {{filteredProducts.length}}  productos</span>
+            </div>
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let filter of filters">
+                <mat-expansion-panel-header>
+                  {{ filter.name }}
+                </mat-expansion-panel-header>
+  
+                
+                <mat-selection-list [(ngModel)]="filter.selectedOptions" (ngModelChange)="applyFilters()">
+                  <mat-list-option *ngFor="let option of filter.options" [value]="option">
+                    {{ option }}
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+  
+          <div class="right">
+            <div class="item-container">
+              <div class="item" *ngFor="let item of filteredProducts" (click)="openProduct(item)">
+                <span>{{ item.NOMBRE_GENERICO ? item.NOMBRE_GENERICO : 'No hay datos' }}</span>
+                <span>{{ item.MARCA_COMERCIAL ? item.MARCA_COMERCIAL : 'No hay datos' }}</span>
+                <span>{{ item.PRESENTACION ? item.PRESENTACION : 'No hay datos' }}</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+  </div>

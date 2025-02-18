@@ -1,0 +1,34 @@
+
+
+
+  <div class="container">
+
+
+    <div class="ball"
+        id="draggable-item"    
+        draggable="true"
+        (dragstart)="onDragStart($event)"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)"
+    >   
+
+    </div>
+
+    <div class="frasco"
+        data-id="dropzone1"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)"
+    >
+        
+
+        <div class="jar">
+            <div class="jar-lid"></div>
+            <div class="jar-content">
+              <div class="water"></div>
+            </div>
+          </div>
+        
+          
+    </div>
+  </div>
+

@@ -1,0 +1,45 @@
+<div class="main">
+    <!-- Elemento arrastrable -->
+    <div class="object"
+         id="draggable-item"
+         draggable="true"
+         (dragstart)="onDragStart($event)"
+         (dragover)="onDragOver($event)"
+         (drop)="onDrop($event)">
+      Arrástrame
+    </div>
+  
+    <!-- Zonas de drop -->
+    <div class="top">
+      <div class="dropzone1"
+           data-id="dropzone1"
+           (dragover)="onDragOver($event)"
+           (drop)="onDrop($event)">
+        Zona de Drop 1
+      </div>
+  
+      <div class="dropzone1"
+           data-id="dropzone2"
+           (dragover)="onDragOver($event)"
+           (drop)="onDrop($event)">
+        Zona de Drop 2
+      </div>
+    </div>
+  
+    <div class="down">
+      <div class="dropzone1"
+           data-id="dropzone1"
+           (dragover)="onDragOver($event)"
+           (drop)="onDrop($event)">
+        Zona de Drop 3
+      </div>
+  
+      <div class="dropzone1"
+           data-id="dropzone1"
+           (dragover)="onDragOver($event)"
+           (drop)="onDrop($event)">
+        Zona de Drop 4
+      </div>
+    </div>
+  </div>
+  

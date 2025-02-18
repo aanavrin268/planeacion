@@ -1,0 +1,89 @@
+<div class="main">
+    <div class="card">
+
+        <div class="header">
+            <span>{{ testData.descripcion}}</span>
+
+        </div>
+
+
+        <div class="sides">
+            <div class="left">
+                <div class="card-info">
+                    <span>Detalles</span>
+                    <span>Precio unitario: $169.00 </span>
+                    <span>Proveedor {{ testData.proveedor}}</span>
+                    <span>Conjuntos {{ testData.conjuntos}}</span>
+
+                </div>
+            </div>
+    
+            <div class="right">
+                <div class="top">
+                    <div class="grafica">
+                        <div id="chart">
+                            <apx-chart
+                              [series]="chartOptions.series"
+                              [chart]="chartOptions.chart"
+                              [xaxis]="chartOptions.xaxis"
+                              [title]="chartOptions.title"
+                            ></apx-chart>
+                          </div>
+                    </div>
+
+                    <div class="grafica">
+                        <div id="chart">
+                            <apx-chart
+                              [series]="chartOptions2.series"
+                              [chart]="chartOptions2.chart"
+                              [xaxis]="chartOptions2.xaxis"
+                              [title]="chartOptions2.title"
+                            ></apx-chart>
+                          </div>
+                    </div>
+
+
+                    <div class="grafica">
+                        <div id="chart">
+                            <apx-chart
+                              [series]="chartOptions3.series"
+                              [chart]="chartOptions3.chart"
+                              [xaxis]="chartOptions3.xaxis"
+                              [title]="chartOptions3.title"
+                            ></apx-chart>
+                          </div>
+                    </div>
+
+                    <div class="grafica">
+                        <div id="chart">
+                            <apx-chart
+                              [series]="chartOptions2.series"
+                              [chart]="chartOptions2.chart"
+                              [xaxis]="chartOptions2.xaxis"
+                              [title]="chartOptions2.title"
+                            ></apx-chart>
+                          </div>
+                    </div>
+                </div>
+
+
+                <div class="down">
+                    <div class="menu">
+                        <button class="btn btn-primary">U. Fincadas</button>
+                        <button class="btn btn-primary">Ventas</button>
+                        <button class="btn btn-primary">Inventario</button>
+                    </div>
+                  
+
+
+            </div>
+        </div>
+
+
+     
+
+
+
+      
+    </div>
+</div>

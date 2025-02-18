@@ -1,0 +1,122 @@
+body, html{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
+
+$blue-900: #1e3a8a;
+$blue-700: #1d4ed8;
+$blue-500: #3b82f6;
+$white-10: rgba(255, 255, 255, 0.1);
+$white-15: rgba(255, 255, 255, 0.15);
+$white-20: rgba(255, 255, 255, 0.2);
+
+
+.background{
+    min-height: 100vh;
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(209, 209, 209);
+    background: #283c86;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #45a247, #283c86);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #45a247, #283c86); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     
+
+
+    .card{
+        //background-color: white;
+        display: flex;
+        flex-direction: column;
+        //padding: 1rem;
+        width: 95vw;
+        height: 95vh;
+        position: relative;
+        //height: 86vh;
+        //border-radius: 16px;
+
+
+        //max-width: 64rem;
+        background: $white-10;
+        backdrop-filter: blur(15px);
+        border: 1px solid $white-20;
+        border-radius: 1rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        padding: 2rem;
+
+       
+
+        .header{
+            width: 100%;
+            display: flex;
+            height: 10%;
+            //background-color: red;
+
+            .title{
+                line-height: 1.1;
+                color: rgb(255 255 255 / 70%);
+                font-size: 1.7rem;
+                font-weight: 600;
+            }
+
+        }
+
+        .body{
+            width: 100%;
+            height: 90%;
+            display: flex;
+            //background-color: blue;
+            flex-direction: column;
+
+            .menu-container{
+                display: flex;
+                width: 100%;
+                height: 100%;
+                justify-content: space-evenly;
+                align-items: center;
+                flex-wrap: wrap;
+                padding: 1rem;
+
+                .menu{
+                    display: flex;
+                    flex-direction: column;
+                    padding: 1rem;
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.226);
+                    border-radius: 16px;
+                    background-color: $white-10;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: $white-20;
+                    }
+                }
+            }
+        
+
+
+
+         
+        }
+    }
+}
+
+
+
+::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #6e6b6b; /* Color de la parte que se mueve */
+    border-radius: 10px; /* Bordes redondeados */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Color de la pista */
+    border-radius: 10px;
+  }
+  

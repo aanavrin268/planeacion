@@ -1,0 +1,16 @@
+<div class="main">
+    <div class="header">
+        <span class="title">Inventario</span>
+        <span class="close" (click)="close()">X</span>
+    </div>
+    <div class="body">
+        <span>Selecciona una opcion</span>
+
+        <div class="option-container">
+            <div class="option" *ngFor="let option of inventary_options">
+                <span (click)="selectOption(option)"
+                >{{option.title}}</span>
+            </div>
+        </div>
+    </div>
+</div>

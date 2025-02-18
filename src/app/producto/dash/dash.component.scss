@@ -1,0 +1,96 @@
+
+$blue-900: #1e3a8a;
+$blue-700: #1d4ed8;
+$blue-500: #3b82f6;
+$white-10: rgba(255, 255, 255, 0.1);
+$white-15: rgba(255, 255, 255, 0.15);
+$white-20: rgba(255, 255, 255, 0.2);
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.background {
+    min-height: 100vh;
+    //background: linear-gradient(to bottom right, $blue-900, $blue-700, $blue-500);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    //background: #1D2B64;  /* fallback for old browsers */
+    background: #373B44;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+    .title{
+        line-height: 1.1;
+        font-size: 36px;
+        align-self: flex-start;
+        font-weight: 700;
+        color: #faebd7ad;
+        transform: translate(42%, -170%);
+    }
+
+
+}
+
+.main-container {
+    width: 100%;
+    max-width: 64rem;
+    background: $white-10;
+    backdrop-filter: blur(15px);
+    border: 1px solid $white-20;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    padding: 2rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.card {
+    background: $white-15;
+    backdrop-filter: blur(10px);
+    border: 1px solid $white-10;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    color: white;
+    transition: 0.3s all ease-in-out;
+
+    &:hover{
+        cursor: pointer;
+        background-color: $white-20;
+        transform: scale(1.03);
+    }
+
+    .p-button{
+        transition: 0.3s all ease-in-out;
+        
+        &:hover{
+            cursor: pointer;
+            background-color: $white-20;
+        }
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        opacity: 0.8;
+    }
+}
