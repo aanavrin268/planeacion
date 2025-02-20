@@ -9,12 +9,15 @@ import { DashComponent } from './producto/dash/dash.component';
 import { ProductComponent } from './producto/product/product.component';
 import { RepFincadasComponent } from './reportes/rep-fincadas/rep-fincadas.component';
 import { UFincadasComponent } from './shared/semi/u-fincadas/u-fincadas.component';
+import { HomeComponent } from './dashboards/home/home.component';
 
 export const routes: Routes = [
 {path:  'quatri', component: QuatriComponent},
 {path: 'product', component: ProductComponent},
 {path: 'repFincadas', component: RepFincadasComponent},
 {path: 'uFincadas', component: UFincadasComponent},
+{path: 'home', component: HomeComponent},
+
 
 
 {
@@ -41,7 +44,7 @@ export const routes: Routes = [
 
 
 {path: 'test', component:TestComponent},
-{path: '', component: DashComponent, pathMatch: 'full'}
+{path: '', component: HomeComponent, pathMatch: 'full'}
 
 
 

@@ -17,19 +17,26 @@ interface Data {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
-  templateUrl: './app.component.html',
+  imports: [RouterOutlet, CommonModule, RouterModule
+  ],  templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
   title = 'test';
-
+  protected logged!: boolean;
+  protected isToggled = false;
 
 
   constructor(private apiService: ApiService, private router: Router){}
 
   ngOnInit(): void {
  
+  }
+
+
+
+  toggleMenu(): void {
+    this.isToggled = !this.isToggled;
   }
 
 
