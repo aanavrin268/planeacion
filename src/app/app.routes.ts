@@ -12,6 +12,7 @@ import { UFincadasComponent } from './shared/semi/u-fincadas/u-fincadas.componen
 import { HomeComponent } from './dashboards/home/home.component';
 import { DashProductsComponent } from './dashboards/dash-products/dash-products.component';
 import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
+import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 
 export const routes: Routes = [
 {path:  'quatri', component: QuatriComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
 {path: 'home', component: HomeComponent},
 {path: 'dashProducts', component: DashProductsComponent},
 {path: 'dashReports', component: DashReportsComponent},
+{path: 'dashPlan', component: DashPlanComponent},
 
 
 

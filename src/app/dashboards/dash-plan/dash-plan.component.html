@@ -1,0 +1,28 @@
+<div class="background">
+    <div class="body">
+        <section class="main">
+            <div class="header">
+                <span class="title">Plan ventas</span>
+                <div class="add-container">
+                    <i class="bi bi-plus-circle btn-c"></i>
+                    <span>Agregar nuevo</span>
+                    <i class="bi bi-gear-wide-connected btn-c-black"></i>
+
+                </div>
+
+            </div>
+            <div class="body">
+                <span>Selecciona un plan ya guardado o genera uno nuevo para continuar</span>
+                <div class="plan-container">
+                    <div class="plan" *ngFor="let plan of plan_list">
+                        <span class="p-title">{{plan.name}}</span>
+                        <span class="p-sub">Visualiza los siguientes puntos:</span>
+                        <div class="filters-container" *ngFor="let filter of plan.filters">
+                            <span class="filters">{{filter}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
