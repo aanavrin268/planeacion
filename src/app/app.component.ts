@@ -17,13 +17,14 @@ interface Data {
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterModule],
-  templateUrl: './app.component.html',
+  imports: [RouterOutlet, CommonModule, RouterModule
+  ],  templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
-
-  isSidebarCollapsed = false;
+  title = 'test';
+  protected logged!: boolean;
+  protected isToggled = false;
 
 
   constructor(private apiService: ApiService, private router: Router){}
@@ -32,16 +33,11 @@ export class AppComponent implements OnInit{
  
   }
 
-  
 
 
-
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  toggleMenu(): void {
+    this.isToggled = !this.isToggled;
   }
-
-
-
 
 
 

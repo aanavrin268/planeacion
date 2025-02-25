@@ -4,37 +4,36 @@
         <span>{{product.NOMBRE_GENERICO}}</span>
     </div>
     <div class="body">
-        <div class="sub-header">
-            <span>{{product.MARCA_COMERCIAL}}</span>
-            <span>{{product.PRESENTACION}}</span>
+        <div class="stats-container">
+            <div class="stats" *ngFor="let stat of stats_list">
+                <div class="header">
+                    <span class="title">{{stat.title}}</span>
 
+                </div>
+                <div class="body">
+                    <i class="{{stat.icon}}"></i>
+                    <span>{{stat.value}}</span>
+                </div>
+                <div class="footer">
+                    <span>{{stat.subtitle}}</span>
+                </div>
+            </div>
         </div>
 
-       <div class="menu-container" *ngIf="hideMenu === false">
-            <div class="menu" *ngFor="let item of menu_options"
-                (click)="growMenu(item)">
-                <span>{{item.title}}</span> 
-                    @if(item.isActive &&  item.id === 1){
-                        
-                    }
-
-            </div>
-       </div>
-
-       <div class="c-container"  *ngIf="hideMenu">
-        <app-inventario [product]="product"></app-inventario>
+       
+       
 
     </div>
 
 
-
-
-
-    </div>
     <div class="footer">
         <button class="btn btn-light"
             (click)="close()"
         >Cerrar</button>
     </div>
 
-</div>
+
+    </div>
+  
+
+

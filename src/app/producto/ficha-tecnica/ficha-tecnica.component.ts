@@ -129,7 +129,7 @@ export class FichaTecnicaComponent implements OnInit {
         data: [87000, 135000, 135000]
       }],
       chart: {
-        type: "line",
+        type: "bar",
         height: 350
       },
       title: {

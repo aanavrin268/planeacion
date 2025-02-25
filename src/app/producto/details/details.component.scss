@@ -22,117 +22,66 @@
         //background-color: rgb(224, 159, 159);
         overflow-y: auto;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        padding: 1rem;
 
-        .sub-header{
+
+        .stats-container{
             display: flex;
-            justify-content: space-evenly;
-            align-items: flex-start;
-        }
-
-        .menu-container{
             width: 100%;
-            height: 100%;
-            display: flex;
-            padding: 1rem;
-            justify-content: center;
-            //align-items: flex-start;
-            //background-color: yellow;
-            position: relative;
-            flex-wrap: wrap;
-            
+            height: 25%;
+            //background-color: rgba(255, 0, 0, 0.311);
+            justify-content: space-between;
+            align-items: center;
             gap: 1rem;
-            overflow-y: auto;
 
-            .menu{
-                width: 45%;
-                padding: 1rem;
+
+            .stats{
+                width: 25%;
                 display: flex;
                 flex-direction: column;
-                background-color: whitesmoke;
-                border-radius: 16px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.288);
-                transition: 0.3s ease-in-out;
+                padding: .8rem;
+                height: 95%;
+                background-color: antiquewhite;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.371);
+                border-radius: 8px;
 
-                &:hover{
-                    cursor: pointer;
-                    //transform: scale(1.03);
-                    background-color: rgb(209, 206, 206);
-
-
-                }
-
-
-                .list-option-container{
+                .header{
+                    width: 100%;
+                    height: 15%;
                     display: flex;
-                    flex-direction: column;
 
-
-                    .list-option{
-                        &:hover{
-                           cursor: pointer;
-                           transform: scale(1.03);
-                        }
-                   }
-    
+                    .title{
+                        line-height: 1.1;
+                        font-size: 16px;
+                    }
                 }
-                
-              
 
-            }
+                .body{
+                    width: 100%;
+                    height: 70%;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    flex-direction: row;
 
-
-            .not{
-                opacity: 0;
-            }
-
-
-            .menu-selected{
-                width: 95%;
-                height: 54vh;
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                background-color: #e5e5e5;
-                border-radius: 16px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.288);
-                transition: 0.3s ease-in-out;
-                position: absolute;
-                top: -35%;
-                transform: translate(0%, 53%);
-                z-index: 10;
-
-                &:hover{
-                    cursor: pointer;
-                    transform: scale(0);
-
+                    span{
+                        line-height: 1.1;
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
                 }
-               
-            }
 
-          
+                .footer{
+                    width: 100%;
+                    height: 15%;
+                    display: flex;
+                }
+            }
         }
 
-        .c-container{
-            width: 90%;
-            height: 90%;
-            display: flex;
-            padding: 1rem;
-            justify-content: center;
-            //align-items: flex-start;
-            //background-color: yellow;
-            position: relative;
-            background-color: rgb(206, 255, 127);
-                border-radius: 16px;
-                box-shadow: 0px 4px 6px black;
-            gap: 1rem;
-
-            app-inventario{
-                width: 100%;
-                height: 100%;
-            }
-        }
+      
     }
 
     .footer{

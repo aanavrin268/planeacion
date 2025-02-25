@@ -1,111 +1,171 @@
-// app.component.scss
-.wrapper {
+
+
+
+
+
+  /* Wrapper for the whole layout */
+  #wrapper {
     display: flex;
     width: 100%;
-    height: 100vh;
-    overflow: hidden; // Previene scroll en el wrapper
+    align-items: stretch;
+    padding-top: 2rem;
+
+  }
+  
+  /* Sidebar Styles */
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -350px;
+    transition: margin 0.25s ease-out;
+    width: 350px;
+
+
+  }
+  
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+    color: white;
+
+    background-color: black !important;
+  }
+  
+  #page-content-wrapper {
+    width: 100%;
+  }
+  
+  /* Custom styles for the sidebar */
+  .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+    color: white;
+    background-color: black !important;
+
+  }
+  
+  .list-group-item {
+    padding: 20px 15px;
+    background-color: black;
+
+  }
+
+  nav.semi-nav {
+    background-color: rgb(97, 4, 163) !important;
+    background-color: red;
+
+  }
+
+
+  .navbar-nav .nav-link {
+    color: white;
+    
 }
 
-#sidebar {
-    width: 20%;
-    min-width: 250px;
-    max-width: 250px;
-    height: 100vh;
-    background: #343a40;
-    color: #fff;
-    transition: all 0.3s;
+
+
+.a-item{
+  color: white;
+}
+
+
+.otro{
+  background-color: red;
+}
+
+
+.container-fluid{
+  //padding: 0 5rem;
+       --bs-gutter-x: 0; 
+       --bs-gutter-y: 0;
+  //background-color: antiquewhite;
+  padding: 0;
+}
+
+
+
+
+  
+  
+  .colors{
+    color: white;
+  }
+
+  .icon-menu{
     display: flex;
     flex-direction: column;
-    position: relative; // Para posicionamiento del botón
-    overflow-y: auto; // Permite scroll si el menú es muy largo
+    color: white;
+    padding: .5rem;
 
-    &.collapsed {
-        width: 60px;
-        min-width: 60px;
-        max-width: 60px;
+    &:hover{
+      cursor: pointer;
+      color: #a8a8a8;
+      transform: translate(1.1);
 
-        .sidebar-header h3 {
-            display: none;
-        }
-
-        .components li a {
-            padding: 10px 15px;
-            justify-content: center;
-            
-            i {
-                margin-right: 0;
-                font-size: 1.2em;
-            }
-        }
     }
+  }
 
-    .sidebar-header {
-        padding: 20px;
-        background: #2c3136;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
 
-        h3 {
-            margin: 0;
-            color: #fff;
-        }
 
-        .toggle-btn {
-            color: #fff;
-            padding: 5px 10px;
-            
-            &:hover {
-                color: #ccc;
-            }
-
-            i {
-                font-size: 1.2em;
-            }
-        }
-    }
-
-    ul.components {
-        padding: 20px 0;
-        flex-grow: 1;
-        margin: 0;
-
-        li {
-            a {
-                padding: 10px 20px;
-                display: flex;
-                align-items: center;
-                color: #fff;
-                text-decoration: none;
-                transition: all 0.3s;
-
-                &:hover {
-                    background: #2c3136;
-                }
-
-                &.active {
-                    background: #2c3136;
-                    border-left: 4px solid #007bff;
-                }
-
-                i {
-                    margin-right: 10px;
-                    width: 20px;
-                    text-align: center;
-                }
-            }
-        }
-    }
+  .custom-link {
+    color: black !important;
 }
 
-#content {
-    flex: 1;
-    padding: 20px;
-    background: #f8f9fa;
-    transition: all 0.3s;
-    overflow-y: auto; // Permite scroll en el contenido
-    height: 100vh;
 
-    .content-wrapper {
-        max-width: 100%;
-        height: 100%;
+.cont{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  padding: 1.5rem 1rem;
+  background-color: white;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.212);
+  z-index: 10;
+
+  .logo-container{
+    display: flex;
+    width: 10%;
+    height: 10%;
+
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
+  }
+
+ 
 }
+
+
+.test-color{
+ 
+}
+
+.nav-container{
+  display: flex;
+  border: 1px solid #c9c3c3;
+  border-radius: 32px;
+  align-self: center;
+  padding: 0.2rem 1.5rem;
+  justify-content: space-between;
+  background-color: #ededed;
+  transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+
+  li{
+    margin: 0;
+    padding: 0;
+
+    &:hover{
+      background-color: white;
+      border-radius: 16px;
+      border: 1px solid white;
+      box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.223);
+    }
+  }
+  
+
+}
+
+
