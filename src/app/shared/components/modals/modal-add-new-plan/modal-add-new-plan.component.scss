@@ -1,0 +1,77 @@
+.main{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .header{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+ .body {
+    width: 100%;
+    height: 80%; // Esto es importante para establecer la altura base
+    margin: 0; // Quita márgenes por defecto
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgb(156, 226, 226);
+    padding: 1rem;
+
+        
+        mat-horizontal-stepper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            
+            // Hacer que el contenedor del paso actual ocupe todo el espacio
+            ::ng-deep .mat-horizontal-stepper-content {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                background-color: rgb(198, 152, 241);
+            }
+
+            mat-step {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                
+                form {
+                    width: 100%;
+                    flex: 1; // Esto es clave para que ocupe el espacio disponible
+                    display: flex;
+                    flex-direction: column;
+                    background-color: red;
+                    justify-content: center;
+                    align-items: flex-start;
+                    padding: 1rem;
+        
+                    .step1 {
+                        width: 100%;
+                        flex: 1; // Esto hará que ocupe todo el espacio disponible
+                        display: flex;
+                        flex-direction: column;
+                        background-color: rgba(0, 0, 255, 0.397);
+                    }
+                }
+            }
+        
+    }
+}
+
+    .footer{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

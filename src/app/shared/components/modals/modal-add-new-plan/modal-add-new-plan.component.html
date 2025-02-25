@@ -1,1 +1,55 @@
-<p>modal-add-new-plan works!</p>
+<div class="main">
+    <section class="header">
+        <span class="title">Nuevo plan</span>
+    </section>
+    <section class="body">
+
+        <mat-horizontal-stepper>
+    <!----FIRST STEP-->
+            <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Paso 1</ng-template>
+
+              <form [formGroup]="firstFormGroup">
+                    <div class="step1">
+                        <span>Para ver un nuevo plan, completa los parametros que se requieren.</span>
+                        <span>Personaliza los datos</span>
+                        <span>Elige los filtros que necesites para adecuarlos a vista del nuevo plan.</span>
+                    </div>
+
+
+
+
+                <div>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </div>
+              </form>
+            </mat-step>
+<!----SECOND STEP-->            
+            <mat-step [stepControl]="secondFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Paso 2</ng-template>
+                <mat-form-field appearance="fill">
+                  <mat-label>Apellido</mat-label>
+                  <input matInput formControlName="secondCtrl" required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperPrevious>Anterior</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Finalizado</ng-template>
+              <p>¡Has completado todos los pasos!</p>
+              <div>
+                <button mat-button matStepperPrevious>Anterior</button>
+                <button mat-button (click)="resetStepper()">Reiniciar</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+
+    </section>
+    <section class="footer">
+        <button>Cerrar</button>
+    </section>
+</div>

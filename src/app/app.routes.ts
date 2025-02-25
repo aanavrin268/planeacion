@@ -14,6 +14,8 @@ import { DashProductsComponent } from './dashboards/dash-products/dash-products.
 import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
 import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 
+
+
 export const routes: Routes = [
 {path:  'quatri', component: QuatriComponent},
 {path: 'product', component: ProductComponent},
