@@ -30,7 +30,7 @@ export class DetailsComponent implements OnInit {
   protected menu_options:any[] = [
     {id:1, title:'Inventario', isActivate: false },
     {id:2, title: 'ventas', isActivate: false },
-    {id:2, title: 'Fabricación', isActivate: false }
+    {id:2, title: 'Arribos', isActivate: false }
 
   ];
 

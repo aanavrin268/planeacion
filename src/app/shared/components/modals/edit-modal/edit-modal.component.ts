@@ -119,6 +119,9 @@ export class EditModalComponent implements OnInit {
 
     const monthsJson = JSON.stringify(months);
 
+
+    console.log("meses", monthsJson);
+
     this.service.actualizarDetallePlan(table, condition, condition_value, monthsJson)
       .subscribe(
         response => {
