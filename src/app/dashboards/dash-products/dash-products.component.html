@@ -1,0 +1,125 @@
+<div class="background">
+    <div class="sidess">
+        <div class="card">
+            <div class="header">
+              <span class="title">Todos los productos</span>
+            </div>
+            <div class="body">
+                <div class="sides">
+                    <div class="left">
+                      <div class="sub-container">
+                          <span class="sub-title">Filtros</span>
+                          <span class="sub-title-1">Mostrando {{filteredProducts.length}}  productos</span>
+                      </div>
+                      <mat-accordion>
+                        <mat-expansion-panel *ngFor="let filter of filters">
+                          <mat-expansion-panel-header>
+                            {{ filter.name }}
+                          </mat-expansion-panel-header>
+            
+                          
+                          <mat-selection-list [(ngModel)]="filter.selectedOptions" (ngModelChange)="applyFilters()">
+                            <mat-list-option *ngFor="let option of filter.options" [value]="option">
+                              {{ option }}
+                            </mat-list-option>
+                          </mat-selection-list>
+                        </mat-expansion-panel>
+                      </mat-accordion>
+                    </div>
+            
+                    <div class="right">
+                      <div class="item-container">
+                        <div class="item" *ngFor="let item of filteredProducts" (click)="openProduct(item)">
+                          <span class="i-title">{{ item.NOMBRE_GENERICO ? item.NOMBRE_GENERICO : 'No hay datos' }}</span>
+                          <span class="i-subtitle" 
+                          [ngStyle]="{ 'color': item.MARCA_COMERCIAL ? '#0f0f61' : '#a90303' }">
+                      {{ item.MARCA_COMERCIAL ? item.MARCA_COMERCIAL : 'No hay datos' }}
+                    </span>
+                                              <span class="i-presen">{{ item.PRESENTACION ? item.PRESENTACION : 'No hay datos' }}</span>
+                        </div>
+                      </div>
+                    </div>
+          
+          
+                  </div>
+            </div>
+            <div class="footer"></div>
+          </div>
+
+        <div class="right-side">
+
+            <div class="r-card">
+
+              <div class="c-left">
+                <div class="header">
+                  <span class="title">Top Ventas</span>
+                  <span class="menus">...</span>
+                </div>
+
+
+                  <ngx-charts-bar-vertical
+                  [view]="[200, 200]"
+                  [scheme]="colorScheme"
+                  [results]="data"
+                  [gradient]="false"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="true"
+                  [showDataLabel]="true">
+                </ngx-charts-bar-vertical>
+              </div>
+
+              <div class="c-right">
+                <div class="header">
+                  <span class="title">Top cantidad $</span>
+                  <i class="bi bi-three-dots-vertical menus"
+                    (click)="openMenu()"></i>/i>                
+                </div>
+
+                  <ngx-charts-bar-vertical
+                  [view]="[200, 200]"
+                  [scheme]="colorScheme"
+                  [results]="data"
+                  [gradient]="false"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="true"
+                  [showDataLabel]="true">
+                </ngx-charts-bar-vertical>
+              </div>
+
+              <div class="float-menu" *ngIf="menuToggle">
+                  <div class="fmenu-list">
+                    <div class="fmenu-item" *ngFor="let item of fMenuOptions"
+                      (click)="onfMenuClick(item)">
+                      {{item.title}}
+                    </div>
+                  </div>
+              </div>
+                
+
+            
+
+            </div>
+
+            <div class="r-card-2">
+              <span>Próximos a caducar</span>
+              <span>Los siguientes productos estan en riesgo de caducar.</span>
+
+           
+
+              <ngx-charts-pie-chart
+              [view]="[300, 300]"
+              [scheme]="colorScheme1"
+              [results]="dataCad"
+              [gradient]="false"
+              [legend]="true"
+              [labels]="true"
+              [doughnut]="true">
+            </ngx-charts-pie-chart>
+            </div>
+
+        </div>
+    </div>
+   
+  </div>

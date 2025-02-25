@@ -12,7 +12,7 @@ import { InventarioComponent } from '../../shared/components/semi/inventario/inv
 
 @Component({
   selector: 'app-details',
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule, InventarioComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
@@ -40,10 +40,20 @@ export class DetailsComponent implements OnInit {
 
   ];
 
+  protected stats_list:any[] = [];
+
 
   constructor(private active: NgbActiveModal, private service: ApiService, private modal: NgbModal) {
     this.activate = false;
     this.hideMenu = false;
+
+    this.stats_list = [
+      {id:1, title:'Valor', subtitle:'Valor fincado', icon:'bi bi-search', value: 456000},
+      {id:2, title:'Ordenes', subtitle:'Ordenes completadas', icon:'bi bi-search', value: 678},
+      {id:1, title:'Valor', subtitle:'Valor fincado', icon:'bi bi-search', value: 456000},
+      {id:1, title:'Valor', subtitle:'Valor fincado', icon:'bi bi-search', value: 456000},
+
+    ]
    }
 
   ngOnInit(): void {

@@ -1,12 +1,116 @@
 <div class="background">
-    <div class="card">
-      <div class="header">
-        <span class="title">Hola, bienvenido!</span>
-        <span>Cuentas con las siguientes notificaciones</span>
+   <div class="body">
+
+      <div class="headers">
+        <span>Hola, admin</span>
+        <div class="h-container">
+
+          <i class="bi bi-bell i-container"></i>
+
+          <div class="info-container">
+              <div class="image"></div>
+              <div class="contact">
+                <span>Admin</span>
+                <span>adminmail.com</span>
+              </div>
+              <i class="bi bi-chevron-down"></i>
+          </div>          
+        </div>
       </div>
-      <div class="body">
+
+      <div class="kpis">
+        <span class="title">Indicadores Clave</span>
+
+        <div class="kpi-container">
+          <div class="kpi" *ngFor="let item of kpi_list">
+            <span>{{item.title}}</span>
+
+
+            @if(item.id === 2){
+              <ngx-charts-bar-horizontal
+              [view]="[230, 250]"
+
+              [results]="inventario"
+              [scheme]="'flame'"
+              [xAxis]="true"
+              [yAxis]="true"
+              [legend]="false"
+              [showDataLabel]="true">
+            </ngx-charts-bar-horizontal>
+            }@else if(item.id === 1 ) {
+              <ngx-charts-bar-vertical
+              [view]="[230, 250]"
+              [results]="item.data"
+              [scheme]="'cool'"
+              [xAxis]="true"
+              [yAxis]="true"
+              [legend]="false"
+              [showDataLabel]="true">
+            </ngx-charts-bar-vertical>
+            }@else if(item.id === 3){
+              <ngx-charts-pie-chart
+              [view]="[230, 250]"
+              [results]="item.data"
+              [scheme]="'ocean'"
+              [legend]="false"
+              [labels]="false"
+              [doughnut]="true">
+            </ngx-charts-pie-chart>
+          }@else if(item.id === 4){
+            <ngx-charts-gauge
+            [view]="[230, 250]"
+
+            [results]="item.data"
+            [scheme]="'flame'"
+            [angleSpan]="240"
+            [startAngle]="-120"
+            [units]="'%'">
+          </ngx-charts-gauge>
+          
+          }
+          
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tendecia">
+        <span class="title">Tendencias</span>
+
+        <div class="plot">
+          <ngx-charts-line-chart
+          [results]="tendenciaDatos"
+          [scheme]="'cool'"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true"
+          [showGridLines]="true"
+          [autoScale]="true">
+        </ngx-charts-line-chart>
+      
+        </div>
+
+      
+
+      </div>
+
+      <div class="tools">
+        <span class="title">
+          Herramientas de Análisis
+        </span>
         
+
+        <div class="tools-container">
+          <div class="tool" *ngFor="let tool of tools_list"
+          [ngStyle]="{ 'background': tool.color }">
+          <span class="title-tool">{{tool.title}}</span>
+            <span class="sub-title">{{tool.subtitle}}</span>
+            <i class="{{tool.icon}} great"></i>
+            <button class="btn-tool"
+            [ngStyle]="{ 'background':tool.btnColor}"
+            >Ver más</button>
+          </div>
+        </div>
       </div>
-      <div class="footer"></div>
-    </div>
+   </div>
   </div>
