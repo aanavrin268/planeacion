@@ -64,6 +64,14 @@ $white-20: rgba(255, 255, 255, 0.2);
                         background-color: green;
                         color: white;
                         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.336);
+                        transition: all 0.2s ease-in-out;
+
+                        &:hover{
+                            cursor:pointer;
+                            transform: scale(1.02);
+                            background-color: rgb(3, 73, 3);
+
+                        }
 
                     }
 
@@ -77,6 +85,16 @@ $white-20: rgba(255, 255, 255, 0.2);
                         background-color: rgb(0, 0, 0);
                         color: white;
                         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.336);
+
+                        transition: all 0.2s ease-in-out;
+
+                        &:hover{
+                            cursor:pointer;
+                            transform: scale(1.02);
+                            background-color: rgb(53, 52, 52);
+
+                        }
+
                     
                     }
 
@@ -111,6 +129,13 @@ $white-20: rgba(255, 255, 255, 0.2);
                         align-items: flex-start;
                         box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.322);
                         gap: .7rem;
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover{
+                            cursor:pointer;
+                            transform: scale(1.03);
+                            border: 1px solid green;
+                        }
 
                         .p-title{
                             line-height: 1.1;
