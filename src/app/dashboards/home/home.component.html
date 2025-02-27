@@ -21,6 +21,8 @@
       <div class="kpis">
         <span class="title">Indicadores Clave</span>
 
+        <span class="sb">Visualiza puntos clave de múltiples áreas</span>
+
         <div class="kpi-container">
           <div class="kpi" *ngFor="let item of kpi_list">
             <span>{{item.title}}</span>
@@ -77,6 +79,8 @@
       <div class="tendecia">
         <span class="title">Tendencias</span>
 
+        <span class="sb">Ten una vista precisa sobre alguna tendencia en específico</span>
+
         <div class="plot">
           <ngx-charts-line-chart
           [results]="tendenciaDatos"
@@ -98,6 +102,8 @@
         <span class="title">
           Herramientas de Análisis
         </span>
+
+        <span class="sb">Selecciona la herramienta que adecuada para la información requerida</span>
         
 
         <div class="tools-container">

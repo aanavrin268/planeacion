@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatStepperModule } from '@angular/material/stepper';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +25,22 @@ export class ModalAddNewPlanComponent implements OnInit {
   secondFormGroup!: FormGroup;
 
 
-  constructor(private _formBuilder: FormBuilder) {}
+  @ViewChild('stepper') private stepper!: MatStepper;
+
+
+  protected tipoProveedores: any;
+  protected fgEmpresa: FormGroup;
+
+
+  constructor(private _formBuilder: FormBuilder) {
+    this.fgEmpresa = _formBuilder.group({
+      nameCompany:['',Validators.required],
+      nameProvider:['',Validators.required ],
+      categoryProvider:['',Validators.required],
+      typeProvider:['',Validators.required],
+
+    });
+  }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -34,6 +49,10 @@ export class ModalAddNewPlanComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+  }
+
+  showFormData(fgEmpresa:any){
+
   }
 
 

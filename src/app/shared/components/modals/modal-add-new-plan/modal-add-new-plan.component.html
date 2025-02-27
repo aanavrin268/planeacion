@@ -1,55 +1,69 @@
-<div class="main">
-    <section class="header">
-        <span class="title">Nuevo plan</span>
-    </section>
-    <section class="body">
+<div class="modal-container">
+  <div class="hor-container">
+      <h2>Nuevo plan</h2>
+      <button >X</button>
+  </div>
 
-        <mat-horizontal-stepper>
-    <!----FIRST STEP-->
-            <mat-step [stepControl]="firstFormGroup">
-            <ng-template matStepLabel>Paso 1</ng-template>
+  <div class="body">
+      <!--MAT HORINZAL STEPPER-->
+  <mat-horizontal-stepper   #stepper>
+    <!--PRIMER PASO EMPRESA-->
+          <mat-step [stepControl]="fgEmpresa">
+              <ng-template matStepLabel>Datos</ng-template>
+      <!---FORM-->
+              <form [formGroup]="fgEmpresa" (ngSubmit)="showFormData(fgEmpresa)"> 
+                  <div class="form-container">
+                    <span>Para ver un nuevo plan completa los parametros que se requieren.</span>
+    
+                    <span>Personaliza los datos</span>
+                    <span>Elige los filtros que necesites para adecuarlos a la nueva vista del plan</span>
 
-              <form [formGroup]="firstFormGroup">
-                    <div class="step1">
-                        <span>Para ver un nuevo plan, completa los parametros que se requieren.</span>
-                        <span>Personaliza los datos</span>
-                        <span>Elige los filtros que necesites para adecuarlos a vista del nuevo plan.</span>
+                    <div class="inputs-cont">
+                      <div class="input-container11">
+                        <input type="text" id="name" placeholder=" " required
+                            >
+                        <label for="name">Conjuntos</label>
+                      </div>
+      
+                      <div class="input-container11">
+                        <input type="text" id="name" placeholder=" " required
+                            >
+                        <label for="name">Tipo producto</label>
+                      </div>
+
+                      <div class="input-container11">
+                        <input type="text" id="name" placeholder=" " required
+                            >
+                        <label for="name">Tipo producto</label>
+                      </div>
+
+                      <div class="input-container11">
+                        <input type="text" id="name" placeholder=" " required
+                            >
+                        <label for="name">Tipo producto</label>
+                      </div>
+                      
                     </div>
-
-
-
-
-                <div>
-                  <button mat-button matStepperNext>Siguiente</button>
-                </div>
+    
+    
+                   
+    
+    
+       
+          <!---BUTTON-->
+                      <button class="btn-payment" matStepperNext type="submit"
+                          [disabled]="!fgEmpresa.valid">
+                          Continuar
+                      </button>
+                  </div>
               </form>
-            </mat-step>
-<!----SECOND STEP-->            
-            <mat-step [stepControl]="secondFormGroup">
-              <form [formGroup]="secondFormGroup">
-                <ng-template matStepLabel>Paso 2</ng-template>
-                <mat-form-field appearance="fill">
-                  <mat-label>Apellido</mat-label>
-                  <input matInput formControlName="secondCtrl" required>
-                </mat-form-field>
-                <div>
-                  <button mat-button matStepperPrevious>Anterior</button>
-                  <button mat-button matStepperNext>Siguiente</button>
-                </div>
-              </form>
-            </mat-step>
-            <mat-step>
-              <ng-template matStepLabel>Finalizado</ng-template>
-              <p>¡Has completado todos los pasos!</p>
-              <div>
-                <button mat-button matStepperPrevious>Anterior</button>
-                <button mat-button (click)="resetStepper()">Reiniciar</button>
-              </div>
-            </mat-step>
-          </mat-horizontal-stepper>
+          </mat-step>
+    
+      </mat-horizontal-stepper>
+  </div>
 
-    </section>
-    <section class="footer">
-        <button>Cerrar</button>
-    </section>
+  <div class="footer">
+
+  </div>
+
 </div>
