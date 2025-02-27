@@ -13,35 +13,37 @@
       <!---FORM-->
               <form [formGroup]="fgEmpresa" (ngSubmit)="showFormData(fgEmpresa)"> 
                   <div class="form-container">
-                    <span>Para ver un nuevo plan completa los parametros que se requieren.</span>
+                    <span class="ms-sub">Para ver un nuevo plan completa los parametros que se requieren.</span>
     
-                    <span>Personaliza los datos</span>
-                    <span>Elige los filtros que necesites para adecuarlos a la nueva vista del plan</span>
+                    <span class="ms-main-sub">Personaliza los datos</span>
+                    <span class="ms-sub">Elige los filtros que necesites para adecuarlos a la nueva vista del plan</span>
 
                     <div class="inputs-cont">
                       <div class="input-container11">
-                        <input type="text" id="name" placeholder=" " required
-                            >
-                        <label for="name">Conjuntos</label>
+
+                        <label for="conjuntos">Conjuntos</label>
+                      <select name="" id="conjuntos" class="form-select"></select>
                       </div>
       
                       <div class="input-container11">
-                        <input type="text" id="name" placeholder=" " required
-                            >
-                        <label for="name">Tipo producto</label>
+
+                        <label for="tipo">Tipo producto</label>
+                      <select name="" id="tipo" class="form-select"></select>
                       </div>
+      
 
                       <div class="input-container11">
-                        <input type="text" id="name" placeholder=" " required
-                            >
-                        <label for="name">Tipo producto</label>
+
+                        <label for="proveedor">Proveedor</label>
+                      <select name="" id="proveedor" class="form-select"></select>
                       </div>
 
-                      <div class="input-container11">
-                        <input type="text" id="name" placeholder=" " required
-                            >
-                        <label for="name">Tipo producto</label>
+                      <div class="input-container1">
+
+                        <label for="nombre">Nombre del plan</label>
+                      <input name="" id="nombre" class="form-control" type="text">
                       </div>
+                   
                       
                     </div>
     
@@ -51,19 +53,49 @@
     
        
           <!---BUTTON-->
-                      <button class="btn-payment" matStepperNext type="submit"
-                          [disabled]="!fgEmpresa.valid">
-                          Continuar
-                      </button>
+          <div class="buttons">
+            <button class="btn btn-light" type="button" (click)="close()"
+              >Cancelar</button>
+            <button class="btn btn-primary" matStepperNext
+              type="submit" 
+            >Continuar</button>
+
+          </div>
+                    
                   </div>
               </form>
           </mat-step>
+    <!---SECOND STEP TIME-->
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel>Tiempo</ng-template>
+          <form [formGroup]="secondFormGroup">
+            <div class="second-container">
+              <span class="ms-sub">Para ver un nuevo plan completa los parametros que se requieren.</span>
+              <span class="ms-main-sub">Perio de tiempo</span>
+              <span class="ms-sub">Elige el periodo de tiempo en el que deseas que se visualicen los datos. 
+                Puedese eligir entre los periodos predeterminados o selecciona un rango personalizado.</span>
+
+                <div class="choose-container">
+                  <div class="left">
+                    <div class="select-container">
+                      <label for="prdet">Periodos predeterminados</label>
+                      <select name="" id="prdet"></select>
+                    </div>
+  
+                    <button class="btn btn-secondary">Elegir</button>
+                  </div>
+                 
+
+                  <span> + Rango personalizado</span>
+                </div>
+
+            </div>
+          </form>
+        </mat-step>
     
       </mat-horizontal-stepper>
   </div>
 
-  <div class="footer">
-
-  </div>
+  
 
 </div>

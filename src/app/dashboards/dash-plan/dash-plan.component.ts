@@ -31,8 +31,9 @@ export class DashPlanComponent implements OnInit {
   addNewPlan(){
     const modalRef = this.modal.open(ModalAddNewPlanComponent, 
       {
-        size:'md',
-        centered:true
+        size:'lg',
+        centered:true,
+        windowClass:'redondo'
       });
   }
 
