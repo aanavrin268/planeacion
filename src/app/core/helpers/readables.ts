@@ -1574,3 +1574,59 @@
 ]
 
 
+
+export const status: any[] = [
+    
+        {
+            "Status Corto": "Cancelada"
+        },
+        {
+            "Status Corto": "Completada"
+        },
+        {
+            "Status Corto": "Devolución"
+        },
+        {
+            "Status Corto": "Incumplida"
+        },
+        {
+            "Status Corto": "Ingresada"
+        },
+        {
+            "Status Corto": "proceso de entrega"
+        },
+        {
+            "Status Corto": "Rechazo"
+        }
+    
+]
+
+export const conjuntos: any[] = [
+    {
+        "nombre": "importado"
+    },
+    {
+        "nombre": "no esta en plan"
+    },
+    {
+        "nombre": "plan gobierno"
+    },
+    {
+        "nombre": "planta"
+    }
+]
+
+export const tipo_producto: any[] = [
+    {
+        "nombre": "importado"
+    },
+    {
+        "nombre": "no esta en plan"
+    },
+    {
+        "nombre": "plan"
+    },
+    {
+        "nombre": "riesgo"
+    }
+]

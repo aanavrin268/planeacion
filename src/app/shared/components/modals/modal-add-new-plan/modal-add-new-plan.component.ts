@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { StatusService } from '../../../../core/services/status.service';
 
 
 
@@ -32,7 +33,9 @@ export class ModalAddNewPlanComponent implements OnInit {
   protected fgEmpresa: FormGroup;
 
 
-  constructor(private _formBuilder: FormBuilder, private active: NgbActiveModal) {
+  constructor(private _formBuilder: FormBuilder, private active: NgbActiveModal,
+    private statusService: StatusService
+  ) {
     this.fgEmpresa = _formBuilder.group({
       nameCompany:['',Validators.required],
       nameProvider:['',Validators.required ],
@@ -48,7 +51,27 @@ export class ModalAddNewPlanComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+    this.statusService.getAllStatus().subscribe({
+      next:(data) => {
+        console.log('status', data);
+      },
+      error:(error) => {
+        console.error('error:', error);
+      }
+    });
+
+    this.statusService.getAllConjuntos().subscribe({
+      next:(data) => {
+        console.log('conjutnos', data);
+      }
+    });
+
+    
+    this.statusService.getAllTipoProducto().subscribe({
+      next:(data) => {
+        console.log('tipo_producto', data);
+      }
+    });
   }
 
   close(){
