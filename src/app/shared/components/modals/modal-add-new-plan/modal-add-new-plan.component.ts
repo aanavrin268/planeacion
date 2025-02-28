@@ -6,8 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusService } from '../../../../core/services/status.service';
+import { conjuntos, periodos_tiempo, statusss, tipo_producto } from '../../../../core/helpers/readables';
+import { MiniComponent } from '../mini/mini.component';
 
 
 
@@ -24,6 +26,7 @@ import { StatusService } from '../../../../core/services/status.service';
 export class ModalAddNewPlanComponent implements OnInit {
 
   secondFormGroup!: FormGroup;
+  thirdFg!: FormGroup;
 
 
   @ViewChild('stepper') private stepper!: MatStepper;
@@ -32,9 +35,17 @@ export class ModalAddNewPlanComponent implements OnInit {
   protected tipoProveedores: any;
   protected fgEmpresa: FormGroup;
 
+  protected conjuntos_list: any[] = [];
+  protected tipo_list: any[] = [];
+  protected status_list: any[] = [];
+  protected periodos_list: any[] = [];
+
+  protected periodSelected: string;
+
+  protected showPeriodContainer: boolean;
 
   constructor(private _formBuilder: FormBuilder, private active: NgbActiveModal,
-    private statusService: StatusService
+    private statusService: StatusService, private modal: NgbModal
   ) {
     this.fgEmpresa = _formBuilder.group({
       nameCompany:['',Validators.required],
@@ -48,9 +59,25 @@ export class ModalAddNewPlanComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+
+    this.thirdFg = _formBuilder.group({
+      
+    });
+
+
+    this.conjuntos_list = conjuntos;
+    this.tipo_list = tipo_producto;
+    this.status_list = statusss;
+    this.periodos_list = periodos_tiempo;
+
+    this.periodSelected = '';
+
+    this.showPeriodContainer = false;
   }
 
   ngOnInit() {
+
+    /*
     this.statusService.getAllStatus().subscribe({
       next:(data) => {
         console.log('status', data);
@@ -72,7 +99,39 @@ export class ModalAddNewPlanComponent implements OnInit {
         console.log('tipo_producto', data);
       }
     });
+
+    */
   }
+
+  openMini(){
+    const modalRef = this.modal.open(MiniComponent, {
+      size:'md',
+      centered: true,
+      windowClass: 'redondo'
+    });
+  }
+
+  choosePeriod(){
+    this.showPeriodContainer = true;
+  }
+
+
+  onSelectChange(event: Event, tipo:number){
+    const select = event.target as HTMLSelectElement;
+    const value = select.value;
+    console.log('es: ', value);
+
+    switch(tipo){
+      case 5:
+         this.periodSelected = value;
+         break;
+    }
+
+    }
+
+   
+
+  
 
   close(){
     this.active.close();

@@ -73,6 +73,11 @@
               flex-wrap: wrap;
               gap: 1rem;
               margin-bottom: 11vh;
+              margin-top: 2rem;
+
+              .input-container11d{
+                width: calc(33% - 16px);
+            }
 
                 .input-container11{
                     width: calc(50% - 16px);
@@ -116,13 +121,14 @@
         }
 
         .second-container{
+              
           display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            //background-color: #0d306157;
-            width: 100%;
-            height: 100%;
-            position: relative;
+          flex-direction: column;
+          gap: 1.2rem;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          padding-bottom: 33vh;
 
             .ms-sub{
               color: #4B4A4A;
@@ -140,16 +146,95 @@
 
             .choose-container{
               display: flex;
-              //background-color: yellow;
               width: 100%;
               justify-content: space-between;
               align-items: center;
+              //background-color: aquamarine;
+              padding: .8rem;
 
               .left{
                 display: flex;
+                //background-color: rgba(13, 48, 97, 0.3333333333);
+                justify-content: flex-start;
+                align-items: center;
+                gap: 1rem;
+                width: 60%;
+                padding: .8rem 0px;
+
+                .boton-side{
+                  margin-top: 1.1rem;
+                }
+
+              }
+
+              .ranges{
+                color: rgb(21, 127, 21);
+                font-weight: 600;
+                line-height: 1.1;
+                transition: all 0.3s ease-in-out;
+                margin-top: 1rem;
+
+                &:hover{
+                  cursor: pointer;
+                  transform: scale(1.02);
+                  color: rgb(16, 95, 16);
+
+                }
               }
               
             }
+
+            .period-container{
+              display: flex;
+              gap: 1rem;
+              justify-content: flex-start;
+              align-items: center;
+              position: absolute;
+              bottom: 15vh;
+
+              .t-periodo{
+                font-size: 610;
+                font-size: 21px;
+                color: rgb(22, 141, 22);
+              }
+            }
+
+            .buttons-2{
+              display: flex;
+              gap: 1.3rem;
+              justify-content: flex-end;
+              align-items: center;
+              position: absolute;
+              bottom: -1%;
+              width: 100%;
+              z-index: 102;
+            }
+        }
+
+        .third-container{
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          padding-bottom: 33vh;
+
+          .ms-sub{
+            color: #4B4A4A;
+            line-height: 1.1;
+            font-size: 14px;
+            font-weight: 500;
+          }
+
+          .ms-main-sub{
+            color: #070707;
+            line-height: 1.1;
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+
         }
     
     }

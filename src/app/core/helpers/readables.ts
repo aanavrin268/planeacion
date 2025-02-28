@@ -1573,30 +1573,44 @@
     }
 ]
 
+export const periodos_tiempo:any[] =[
+    {id:1, name: 'Historico'},
+    {id:2, name: 'Trimestres'},
+    {id:3, name: 'Q1'},
+    {id:4, name: 'Q2'},
+    {id:5, name: 'Q3'},
+    {id:5, name: 'Q4'},
 
 
-export const status: any[] = [
+];
+
+
+
+
+
+
+export const statusss: any[] = [
     
         {
-            "Status Corto": "Cancelada"
+            "nombre": "Cancelada"
         },
         {
-            "Status Corto": "Completada"
+            "nombre": "Completada"
         },
         {
-            "Status Corto": "Devolución"
+            "nombre": "Devolución"
         },
         {
-            "Status Corto": "Incumplida"
+            "nombre": "Incumplida"
         },
         {
-            "Status Corto": "Ingresada"
+            "nombre": "Ingresada"
         },
         {
-            "Status Corto": "proceso de entrega"
+            "nombre": "proceso de entrega"
         },
         {
-            "Status Corto": "Rechazo"
+            "nombre": "Rechazo"
         }
     
 ]

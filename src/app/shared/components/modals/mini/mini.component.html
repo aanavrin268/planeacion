@@ -1,0 +1,55 @@
+<div class="modal-main">
+  <div class="header">
+    <span class="title">Selección de rangos</span>
+  </div>
+
+  <div class="body">
+    <span class="m-text">Selecciona un rango de fechas</span>
+
+    <!-- Selector de fecha de inicio -->
+    <div class="form-group">
+      <label>Fecha de inicio</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="dd/mm/yyyy"
+          ngbDatepicker
+          #startDatePicker="ngbDatepicker"
+          [(ngModel)]="startDate"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          (click)="startDatePicker.toggle()"
+          type="button"
+        >
+          📅
+        </button>
+      </div>
+    </div>
+
+    <!-- Selector de fecha de fin -->
+    <div class="form-group">
+      <label>Fecha de fin</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="dd/mm/yyyy"
+          ngbDatepicker
+          #endDatePicker="ngbDatepicker"
+          [(ngModel)]="endDate"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          (click)="endDatePicker.toggle()"
+          type="button"
+        >
+          📅
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="btn btn-primary" >Aceptar</button>
+  </div>
+</div>

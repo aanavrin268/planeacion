@@ -19,16 +19,45 @@
                     <span class="ms-sub">Elige los filtros que necesites para adecuarlos a la nueva vista del plan</span>
 
                     <div class="inputs-cont">
-                      <div class="input-container11">
+                      <div class="input-container11d">
 
                         <label for="conjuntos">Conjuntos</label>
-                      <select name="" id="conjuntos" class="form-select"></select>
+                      <select name="" id="conjuntos" class="form-select"
+                      (change)="onSelectChange($event, 1)">
+                        <option value="" selected disabled>Selecciona uno</option>
+                        <option value="" *ngFor="let conjunto of conjuntos_list"
+                        [value]="conjunto.nombre">
+                          {{conjunto.nombre}}
+                        </option>
+
+                      </select>
                       </div>
       
-                      <div class="input-container11">
+                      <div class="input-container11d">
 
                         <label for="tipo">Tipo producto</label>
-                      <select name="" id="tipo" class="form-select"></select>
+                      <select name="" id="tipo" class="form-select"
+                      (change)="onSelectChange($event, 2)">
+                          <option value="" selected disabled>Selecciona uno</option>
+                          <option value="" *ngFor="let tipo of tipo_list"
+                          [value]="tipo.nombre">
+                            {{tipo.nombre}}
+                          </option>
+                      </select>
+                      </div>
+
+
+                      <div class="input-container11d">
+
+                        <label for="tipo">Estatus</label>
+                      <select name="" id="tipo" class="form-select"
+                      (change)="onSelectChange($event, 2)">
+                          <option value="" selected disabled>Selecciona uno</option>
+                          <option value="" *ngFor="let status of status_list"
+                          [value]="status.nombre">
+                            {{status.nombre}}
+                          </option>
+                      </select>
                       </div>
       
 
@@ -79,16 +108,48 @@
                   <div class="left">
                     <div class="select-container">
                       <label for="prdet">Periodos predeterminados</label>
-                      <select name="" id="prdet"></select>
+                      <select name="" id="prdet" class="form-select"
+                      (change)="onSelectChange($event, 5)">
+                        <option value=""dissabled selected>
+                          Selecciona uno
+                        </option>
+                        <option [value]="tiempo.name" *ngFor="let tiempo of periodos_list">
+                          {{tiempo.name}}
+                        </option>
+                      </select>
                     </div>
   
-                    <button class="btn btn-secondary">Elegir</button>
+                    <button class="btn btn-primary boton-side"
+                      (click)="choosePeriod()">Elegir</button>
                   </div>
                  
 
-                  <span> + Rango personalizado</span>
+                  <span class="ranges" (click)="openMini()"> + Rango personalizado</span>
                 </div>
 
+                <div class="period-container" *ngIf="showPeriodContainer">
+                  <img src="calendario.png" alt="">
+                  <span>Has elegido: </span>
+                  <span class="t-periodo">{{periodSelected}}</span>
+
+                </div>
+
+                <div class="buttons-2">
+                  <button class="btn btn-light" matStepperPrevious>Regresar</button>
+                  <button class="btn btn-success" matStepperNext
+                   >Continuar</button>
+                </div>
+
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFg">
+          <ng-template matStepLabel>Finalizar</ng-template>
+          <form [formGroup]="thirdFg">
+            <div class="third-container">
+              <span class="ms-sub">Para ver un nuevo plan completa los parametros que se requieren.</span>
+              <span class="ms-main-sub">Perio de tiempo</span>
             </div>
           </form>
         </mat-step>
