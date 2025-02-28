@@ -64,7 +64,12 @@
                       <div class="input-container11">
 
                         <label for="proveedor">Proveedor</label>
-                      <select name="" id="proveedor" class="form-select"></select>
+                      <select name="" id="proveedor" class="form-select">
+                        <option value="" disabled selected>Selecciona uno</option>
+                        <option value="" *ngFor="let proveedor of proveedores_list">
+                          {{proveedor.NOMBRE_ENTIDAD}}
+                        </option>
+                      </select>
                       </div>
 
                       <div class="input-container1">
@@ -149,7 +154,13 @@
           <form [formGroup]="thirdFg">
             <div class="third-container">
               <span class="ms-sub">Para ver un nuevo plan completa los parametros que se requieren.</span>
-              <span class="ms-main-sub">Perio de tiempo</span>
+              <span class="ms-main-sub">Resumen</span>
+              <span class="ms-sub">Resumen final del plan. Haz click en ‘Guardar’ para finalizar y guardar tu vista. Si deseas, puedes generar una vista previa antes de guardar el plan final.</span>
+
+              <div class="preview-container">
+                <i class="bi bi-table circle-icon"></i>
+                <span class="p-text">Vista previa</span>
+              </div>
             </div>
           </form>
         </mat-step>

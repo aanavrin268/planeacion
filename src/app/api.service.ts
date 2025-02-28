@@ -16,6 +16,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getProvidersPT():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/proveedoresPT`);
+  }
+
+
   getInventaryByCi(clave_ins: any):Observable<any>{
     let body = {"clave_ins": clave_ins};
 

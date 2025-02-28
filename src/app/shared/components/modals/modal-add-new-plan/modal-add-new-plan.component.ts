@@ -8,8 +8,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusService } from '../../../../core/services/status.service';
-import { conjuntos, periodos_tiempo, statusss, tipo_producto } from '../../../../core/helpers/readables';
+import { conjuntos, periodos_tiempo, proveedores_pt, statusss, tipo_producto } from '../../../../core/helpers/readables';
 import { MiniComponent } from '../mini/mini.component';
+import { ApiService } from '../../../../api.service';
 
 
 
@@ -39,13 +40,14 @@ export class ModalAddNewPlanComponent implements OnInit {
   protected tipo_list: any[] = [];
   protected status_list: any[] = [];
   protected periodos_list: any[] = [];
+  protected proveedores_list: any[] = [];
 
   protected periodSelected: string;
 
   protected showPeriodContainer: boolean;
 
   constructor(private _formBuilder: FormBuilder, private active: NgbActiveModal,
-    private statusService: StatusService, private modal: NgbModal
+    private statusService: StatusService, private modal: NgbModal, private apiService: ApiService
   ) {
     this.fgEmpresa = _formBuilder.group({
       nameCompany:['',Validators.required],
@@ -69,6 +71,7 @@ export class ModalAddNewPlanComponent implements OnInit {
     this.tipo_list = tipo_producto;
     this.status_list = statusss;
     this.periodos_list = periodos_tiempo;
+    this.proveedores_list = proveedores_pt;
 
     this.periodSelected = '';
 
@@ -100,7 +103,17 @@ export class ModalAddNewPlanComponent implements OnInit {
       }
     });
 
+     this.apiService.getProvidersPT().subscribe({
+      next:(data) => {
+        console.log('proveedores', data);
+      }
+    });
+
     */
+
+   
+
+    
   }
 
   openMini(){

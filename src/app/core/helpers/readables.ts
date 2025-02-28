@@ -1644,3 +1644,69 @@ export const tipo_producto: any[] = [
         "nombre": "riesgo"
     }
 ]
+
+export const proveedores_pt: any[] = [
+    {
+        "NOMBRE_ENTIDAD": "LABORATORIOS VANQUISH S.A. DE C.V."
+    },
+    {
+        "NOMBRE_ENTIDAD": "VANQUISH FARMACEUTICA"
+    },
+    {
+        "NOMBRE_ENTIDAD": "VANTAGE SERVICIOS INTEGRALES DE SALUD"
+    },
+    {
+        "NOMBRE_ENTIDAD": "AXON PHARMA SPA"
+    },
+    {
+        "NOMBRE_ENTIDAD": "BIOCON PHARMA LIMITED"
+    },
+    {
+        "NOMBRE_ENTIDAD": "BIOCON PHARMA INC"
+    },
+    {
+        "NOMBRE_ENTIDAD": "BIOCON PHARMA MALTA I LIMITED"
+    },
+    {
+        "NOMBRE_ENTIDAD": "JSC JORINIS / STANEX DRUGS & CHEMICALS PVT LTD "
+    },
+    {
+        "NOMBRE_ENTIDAD": "JSC JORINIS"
+    },
+    {
+        "NOMBRE_ENTIDAD": "AQ VIDA GMBH"
+    },
+    {
+        "NOMBRE_ENTIDAD": "PHARMAPLAST S.A.E"
+    },
+    {
+        "NOMBRE_ENTIDAD": "GERMED FARMACEUTICA LTDA"
+    },
+    {
+        "NOMBRE_ENTIDAD": "EMS S/A"
+    },
+    {
+        "NOMBRE_ENTIDAD": "QUIMICA ARISTON S.A.I.C."
+    },
+    {
+        "NOMBRE_ENTIDAD": "LABORATORIO VARIFARMA, S.A."
+    },
+    {
+        "NOMBRE_ENTIDAD": "GENERIC PHARMA INTERNATIONAL LTD"
+    },
+    {
+        "NOMBRE_ENTIDAD": "LABORATORIOS RICHET S.A."
+    },
+    {
+        "NOMBRE_ENTIDAD": "MEILLEURE ENTERPRISE DEVELOPMENT COMPANY LIMITED"
+    },
+    {
+        "NOMBRE_ENTIDAD": "CHIA TAI TIANQING PHARMACEUTICAL GROUP CO., LTD."
+    },
+    {
+        "NOMBRE_ENTIDAD": "SOLUCIONES INTEGRALES FARMACEUTICAS Y HOSPITALARIAS S.A. DE C.V."
+    },
+    {
+        "NOMBRE_ENTIDAD": "PHARMATHEN SA"
+    }
+]
