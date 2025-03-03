@@ -197,6 +197,8 @@ export class QuatriComponent implements OnInit {
     doc.save('angular-demo.pdf');
   }
 
+
+
   onCheckboxChange(element: any): void {
     //console.log('Checkbox state changed for element:', element);
 

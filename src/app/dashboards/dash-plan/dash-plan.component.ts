@@ -42,7 +42,8 @@ export class DashPlanComponent implements OnInit {
     const modalRef = this.modal.open(ModalPlanViewComponent, 
       { 
         size:'xl',
-        centered:true
+        centered:true,
+        windowClass: 'redondo'
       }
     );
   }

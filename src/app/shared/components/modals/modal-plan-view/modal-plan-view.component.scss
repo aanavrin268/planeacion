@@ -1,0 +1,117 @@
+.main-modal{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+    height: 90vh;
+
+    .header{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .title{
+            line-height: 1.1;
+            font-size: 28px;
+            font-weight: 630;
+        }
+
+        .circle-icon{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            font-size: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.363);
+            transition: all 0.3s ease-in-out;
+
+            &:hover{
+                cursor: pointer;
+                background-color: rgb(48, 47, 47);
+                transform: scale(1.03);
+            }
+        }
+    }
+
+    .body{
+        width: 100%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-y: auto;
+
+        .options-container{
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            align-items: center;
+
+            .sub{
+                line-height: 1.1;
+                font-size: 22px;
+                font-weight: 580;
+                color: #424242;
+            }
+
+            .icon-container{
+                display: flex;
+                justify-content: flex-start;
+                gap: 1rem;
+                align-items: center;
+                margin-left: 7rem;
+
+                .circle-icon{
+                    background-color: rgb(24, 24, 185);
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color:white;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: rgb(17, 17, 112);
+                        transform: scale(1.03);
+                    }
+                }
+            }
+        }
+
+        .tables{
+            margin-top: 2rem;
+            width: 100%;
+            flex-direction: column;
+            display: flex;
+            margin-bottom: 3rem;
+            padding: 3rem;
+            //background-color: #4643434d;
+        }
+    }
+}
+
+
+
+// Añade esto a tu archivo SCSS del componente
+::ng-deep .mat-mdc-paginator-page-size-select {
+    z-index: 1100 !important; // Mayor que el z-index del modal de Bootstrap
+  }
+  
+  ::ng-deep .mat-mdc-select-panel {
+    z-index: 1100 !important;
+  }
+  
+  // Y asegúrate de que el modal tenga la configuración de overflow adecuada
+  ::ng-deep .modal-body {
+    overflow: visible !important;
+  }

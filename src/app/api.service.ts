@@ -64,7 +64,7 @@ export class ApiService {
 
 
   getDetallesPlan(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/getDetallesPlan`); 
+    return this.http.get<any>(`${this.apiUrl}/api/detallesPlan`); 
   }
 
 
