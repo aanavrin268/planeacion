@@ -13,6 +13,7 @@ import { HomeComponent } from './dashboards/home/home.component';
 import { DashProductsComponent } from './dashboards/dash-products/dash-products.component';
 import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
 import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
+import { ExampleComponent } from './plan/example/example.component';
 
 
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
 {path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
 
+{path: 'example', component: ExampleComponent},
 
 
 {

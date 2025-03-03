@@ -63,6 +63,11 @@ export class ApiService {
   }
 
 
+  getDetallesPlanPrivate(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/detallesPlanPrivado`);
+  }
+
+
   getDetallesPlan(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/detallesPlan`); 
   }

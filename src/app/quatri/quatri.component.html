@@ -59,7 +59,8 @@
           
               <ng-container *ngIf="header.title === 'seleccionar'">
                 <td mat-cell *matCellDef="let element">
-                  <input type="checkbox" [(ngModel)]="element.selected" (click)="$event.stopPropagation()" (change)="onCheckboxChange(element)">
+                  <input type="checkbox" [(ngModel)]="element.selected" (click)="$event.stopPropagation()" 
+                  (change)="onCheckboxChange(element)">
                 </td>
               </ng-container>
           

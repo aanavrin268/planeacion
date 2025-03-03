@@ -17,8 +17,8 @@ export class DashPlanComponent implements OnInit {
 
   constructor(private modal: NgbModal){
     this.plan_list = [
-      {name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
-      {name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
+      {id:1, name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
+      {id: 2, name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
 
     ];
   }
@@ -35,10 +35,15 @@ export class DashPlanComponent implements OnInit {
         centered:true,
         windowClass:'redondo'
       });
+
+
+      
   }
 
   openPlan(plan:any){
-    console.log(plan)
+
+    console.log("el plan es", plan);
+
     const modalRef = this.modal.open(ModalPlanViewComponent, 
       { 
         size:'xl',
@@ -46,6 +51,11 @@ export class DashPlanComponent implements OnInit {
         windowClass: 'redondo'
       }
     );
+
+
+    //plan.nombre = ''
+
+    modalRef.componentInstance.plan = plan;
   }
 
 }

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../../../api.service';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,11 +20,23 @@ import { EditModalComponent } from '../edit-modal/edit-modal.component';
 export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  protected plan: any;
+
+  protected plans_list:any[] = [
+    {}
+  ];
+
   
   protected first_quarter: string[] = ['Enero', 'Febrero', 'Marzo'];
   protected second_quarter: string[] = ['Abril', 'Mayo', 'Junio'];
   protected third_quarter: string[] = ['Julio', 'Agosto', 'Septiembre'];
   protected fourth_quarter: string[] = ['Octubre', 'Noviembre', 'Diciembre'];
+
+  protected list_menu_views: any[] = [
+    {id: 1, title: 'General'},     {id: 2, title: 'Scroll telling'},
+    {id: 3, title: 'Múltiples tablas'},  {id: 4, title: 'Cerrar'},
+
+  ]
 
   protected selectedRow : any;
   displayedColumns: string[] = [];
@@ -32,6 +45,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   limits: number;
   protected showMenu: boolean = false;
+  protected showViewsMenu: boolean = false;
 
 
   public data: any[] = [];  
@@ -45,6 +59,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   filteredData: any[] = [];
   searchText: string = '';
   originalData: any[] = [];
+
 
   protected headersQ1 = [
     {id: 1, title: 'enero'},   
@@ -86,26 +101,90 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   ];
 
 
-  constructor(private modal: NgbModal, private service: ApiService){
+  constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1;
 
   }
 
 
-  
+
   ngAfterViewInit(): void {
-    // Añade un pequeño retraso para asegurar que el DOM del modal esté completamente renderizado
     setTimeout(() => {
       if (this.paginator) {
         this.dataSource.paginator = this.paginator;
         
-        // Fuerza la detección de cambios en el paginador
         this.paginator._changePageSize(this.paginator.pageSize);
       }
     }, 100);
   }
   ngOnInit(): void {
-    this.showDRows();
+
+    if(this.plan.id === 1){
+      this.showDRows();
+
+    }else if(this.plan.id === 2){
+        this.showPrivateRows();
+    }
+
+
+  }
+
+
+  showPrivateRows(){
+    let newHeaders: any[] = [];
+    if (this.limits === 1) {
+      newHeaders = this.headersQ1;
+    } else if (this.limits === 2) {
+      newHeaders = this.headersQ1.concat(this.headersQ2);
+    } else if (this.limits === 3) {
+      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3);
+    } else if (this.limits === 4) {
+      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3).concat(this.headersQ4);
+    }
+  
+    const allHeaders = this.headers.concat(newHeaders);
+  
+    this.headers = Array.from(
+      new Map(allHeaders.map(header => [header.title, header])).values()
+    );
+  
+    this.displayedColumns = this.headers.map(header => 
+      header.title.toLowerCase().replace(' ', '')
+    );
+  
+    this.service.getDetallesPlanPrivate().subscribe({
+      next: (response) => {
+        const formattedData = this.formatData(response);
+        console.log("data to pdf", formattedData);
+  
+        this.originalData = [...formattedData];
+        this.dataSource.data = formattedData;
+  
+        // Asigna el paginador después de cargar los datos
+  
+        this.filteredData = [...this.dataSource.data];
+
+        //this.dataSource.paginator = this.paginator;
+
+      }
+    });
+  }
+
+
+  onMenuSelect(option:any){
+    switch(option.id){
+      case 4:
+        this.showViewsMenu = !this.showViewsMenu;
+        break;
+    }
+  }
+
+  openExample(){
+    //this.router.navigate(['/example']);
+    this.showViewsMenu = !this.showViewsMenu;
+
+
+
 
   }
 
@@ -238,7 +317,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     const tableOffset = (clickedRow.closest('table') as HTMLElement).getBoundingClientRect().top;
   
     this.menuTop = rowPosition - tableOffset + clickedRow.clientHeight; 
-    this.menuLeft = event.clientX;
+    this.menuLeft = event.clientX - 160;
   
     this.showMenu = true;
   

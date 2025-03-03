@@ -53,6 +53,7 @@
             width: 100%;
             justify-content: flex-start;
             align-items: center;
+            position: relative;
 
             .sub{
                 line-height: 1.1;
@@ -86,16 +87,185 @@
                     }
                 }
             }
+
+
+            .views-menu{
+                position: absolute;
+                background-color: whitesmoke;
+                border-radius: 16px;
+                box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.425);
+                transition: all 0.2s ease-in-out;
+                padding: 1rem;
+                right: 56%;
+                top: 59%;
+                width: 16vw;
+                height: 171px;
+                display: flex;
+                flex-direction: column;
+
+                .menu-option{
+                    line-height: 1.1;
+                    font-weight: 600px;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: rgba(128, 128, 128, 0.199);
+                    }
+                }
+
+            }
         }
 
         .tables{
-            margin-top: 2rem;
+        margin-top: 2.1rem;
             width: 100%;
             flex-direction: column;
             display: flex;
             margin-bottom: 3rem;
-            padding: 3rem;
+            padding: 0px 1rem;
             //background-color: #4643434d;
+
+            
+            .left{
+                width: 100%;
+                height: 100%;
+                //background-color: yellow;
+                overflow-y: auto;
+                //padding: 1rem;
+                //soverflow: hidden;
+                //border-radius: 16px;
+                white-space: nowrap;
+                position: relative;
+                //box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.336);
+
+              
+                .float-selected{
+                  position: fixed;
+                  border-radius: 20px;
+                  width: 40vw;
+                  right: 30%;
+                  height: 72px;
+                  justify-content: center;
+                  padding: 1rem;
+                  background-color: #ffffff;
+                  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.39);
+                  top: 34%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  z-index: 10000000000000;
+
+                    .close{
+                      position: absolute;
+                      top: 5%;
+                      right: 2%;
+                      width: 32px;
+                      height: 32px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      border-radius: 50%;
+
+                      &:hover{
+                        background-color: #d9d9d95d;
+                        cursor: pointer;
+                      }
+                    }
+                }
+
+
+
+                table{
+
+
+                  th.mat-header-cell {
+                    color: red;
+                    background-color: black;
+                  }
+
+                    .mat-mdc-row:hover {
+                        background-color: rgb(224, 220, 220);
+                        cursor: pointer;
+                      }
+
+                                            
+                    tr.mat-row {
+                        cursor: pointer;
+                    }
+                    
+                    tr.mat-row:hover {
+                        background-color: #f5f5f5;
+                    }
+
+
+                    mat-row {
+                        cursor: pointer;
+                      }
+                      
+                      /* Efecto hover sobre las filas */
+                      mat-row:hover {
+                        background-color: #f5f5f5;
+                      }
+
+                }
+
+                /*
+                      .tablax{
+                  border-radius: 16px;
+                }
+                */  
+              
+
+
+      
+                .l-menu{
+                  position: absolute;
+                  width: 18vw;
+                  height: 23vh;
+                  z-index: 1000;
+                  top: 0;
+                  left: 0;
+                  border-radius: 8px;
+                  padding: 1rem;
+                  background-color: #f0f0f0;
+                  box-shadow: 3px 5px 7px rgba(0, 0, 0, 0.425);
+                 
+                  display: flex;
+                  flex-direction: column;
+
+                  .menu-list{
+                    line-height: 1.1;
+                    transition: 0.3s ease;
+                    padding: .6rem 0;
+                    padding-left: .4rem;
+                    transition: all .2s ease-in-out;
+
+                    
+                    &:hover{
+                      cursor: pointer;
+                      background-color: #27262650;
+                    }
+
+                  }
+                }
+
+
+
+               
+
+
+                .subtitulo {
+                    text-align: center;
+                    background-color: #f2f2f2;
+                    font-weight: bold;
+                    padding: 10px;
+                    font-size: 16px;
+                  }
+                  
+
+            }
+
         }
     }
 }

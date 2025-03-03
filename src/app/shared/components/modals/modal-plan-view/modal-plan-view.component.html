@@ -1,7 +1,7 @@
 <div class="main-modal">
     <div class="header">
         <span class="title">
-            Plan público
+            {{plan.name}}
         </span>
 
         <i class="bi bi-gear-wide-connected circle-icon"></i>
@@ -12,9 +12,17 @@
             <span class="sub">Vista general</span>
 
             <div class="icon-container">
-                <i class="bi bi-shuffle circle-icon"></i>
+                <i class="bi bi-shuffle circle-icon"
+                  (click)="openExample()"></i>
                 <span>Cambiar vista</span>
 
+            </div>
+
+            <div class="views-menu" *ngIf="showViewsMenu">
+                <span class="menu-option" *ngFor="let optio of list_menu_views"
+                  (click)="onMenuSelect(optio)">
+                  {{optio.title}}
+                </span>
             </div>
         </div>
 
@@ -69,6 +77,13 @@
             showFirstLastButtons
             [length]="dataSource.data.length"
             ></mat-paginator>
+
+            <div class="l-menu" *ngIf="showMenu" [ngStyle]="{'top.px': menuTop, 'left.px': menuLeft}">
+              <span class="menu-list" *ngFor="let option of menu_lists"
+                (click)="chooseOption(option.id)">
+                {{option.title}}
+              </span>
+            </div>
                   
            
             
