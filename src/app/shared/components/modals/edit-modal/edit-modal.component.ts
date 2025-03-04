@@ -110,6 +110,9 @@ export class EditModalComponent implements OnInit {
 
 
   actualizarDetalle() {
+
+    
+
     const table = 'DetallePlan';
     const condition = 'clave institucional';
     const condition_value = this.editForm.get('clave')?.value;
@@ -163,6 +166,63 @@ export class EditModalComponent implements OnInit {
 
 
 
+actualizarDetallePrivado() {
+
+    
+
+  const table = 'plan_privado';
+  const condition = 'clave institucional';
+  const condition_value = this.editForm.get('clave')?.value;
+  
+  const months = {
+      "Enero F": this.editForm.get('enero')?.value,
+      "Febrero F": this.editForm.get('febrero')?.value,
+      "Marzo F": this.editForm.get('marzo')?.value,
+      "Abril F": this.editForm.get('abril')?.value,
+      "Mayo F": this.editForm.get('mayo')?.value,
+      "Junio F": this.editForm.get('junio')?.value,
+      "Julio F": this.editForm.get('julio')?.value,
+      "Agosto F": this.editForm.get('agosto')?.value,
+      "Septiembre F": this.editForm.get('septiembre')?.value,
+      "Octubre F": this.editForm.get('octubre')?.value,
+      "Noviembre F": this.editForm.get('noviembre')?.value,
+      "Diciembre F": this.editForm.get('diciembre')?.value,
+
+  };
+
+  const monthsJson = JSON.stringify(months);
+
+
+  console.log("meses", monthsJson);
+
+  this.service.actualizarDetallePlanPrivado(table, condition, condition_value, monthsJson)
+    .subscribe(
+      response => {
+        this.active.close();
+
+
+        Swal.fire({
+          title: '¡Actualización exitosa!',
+          text: '¡Registro actualizado con éxito!',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      },
+      error => {
+        this.active.close();
+
+        Swal.fire({
+          title: '¡Ups!',
+          text: 'Ha ocurrido un error al intentar actualizar',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
+}
+
+
+
   testSend(){
 
     if(this.editForm.valid){
@@ -175,7 +235,17 @@ export class EditModalComponent implements OnInit {
         "condition_value":  this.editForm.get('clave')?.value
       };
 
-      this.actualizarDetalle();
+
+      if(this.row.id_plan === 1){
+        console.log("ES 1");
+        this.actualizarDetalle();
+
+      }else if(this.row.id_plan === 2){
+        console.log("ES 2")
+        this.actualizarDetallePrivado();
+      }
+
+      //this.actualizarDetalle();
 
     }
 

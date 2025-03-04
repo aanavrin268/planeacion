@@ -238,19 +238,38 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
 
   afterModalClosed(result: any) {
-    this.service.getDetallesPlan().subscribe(
-      {
-        next: (response) => {
-          console.log('Response:', response); 
-          this.data = response; 
 
-          this.dataSource.data = this.formatData(response);  
-        }
-      });
+    if(this.plan.id === 1){
+        
+      this.service.getDetallesPlan().subscribe(
+        {
+          next: (response) => {
+            console.log('Response:', response); 
+            this.data = response; 
+  
+            this.dataSource.data = this.formatData(response);  
+          }
+        });
+    }else if(this.plan.id === 2){
+      this.service.getDetallesPlanPrivate().subscribe({
+          next: (response) => {
+            console.log('respoinse private', response);
+            this.data = response;
+
+            this.dataSource.data = this.formatData(response);
+          }
+      })
+    }
+
   }
 
     onRowClick(row: any): void {
   
+      if(this.plan.id === 1){
+        row.id_plan = 1;
+      }else if(this.plan.id === 2){
+        row.id_plan = 2;
+      }
   
       const modalRef = this.modal.open(EditModalComponent, {
         centered: true,

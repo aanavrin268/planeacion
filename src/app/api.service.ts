@@ -10,10 +10,28 @@ export class ApiService {
   private apiUrl = 'http://localhost:3000'; 
   private baseUrl: string = 'http://localhost:3000/exec';  
   private apiUrlU = 'http://localhost:3000/update-table';
-  private api3=  'http://localhost:3000/update-detalleplan';
-
+  private api3=  'http://localhost:3000/api/updatePlanPublico';
+  private api4=  'http://localhost:3000/api/updatePlanPrivado';
 
   constructor(private http: HttpClient) { }
+
+
+
+  
+  actualizarDetallePlanPrivado(table: string, condition: string, condition_value: string, months: string): Observable<any> {
+    const payload = {
+      table: table,
+      condition: condition,
+      condition_value: condition_value,
+      months: months
+    };
+
+    return this.http.post(this.api4, payload, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
 
 
   getProvidersPT():Observable<any>{
