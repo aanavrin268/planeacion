@@ -17,6 +17,11 @@ import Swal from 'sweetalert2';
 export class EditModalComponent implements OnInit {
   editForm: FormGroup;
 
+  protected showEdit: boolean;
+
+  protected item: string;
+  protected proveedor: string;
+
   row: any;
 
   constructor(private fbuilder: FormBuilder, private service: ApiService, private active: NgbActiveModal,
@@ -45,6 +50,11 @@ export class EditModalComponent implements OnInit {
 
       }
     );
+
+    this.showEdit = false;
+
+    this.item = "";
+    this.proveedor = "";
    }
 
 
@@ -75,6 +85,9 @@ export class EditModalComponent implements OnInit {
     this.editForm.get('descripcion')?.disable();
     this.editForm.get('proveedor')?.disable();
     this.editForm.get('conjuntos')?.disable();
+
+    this.item = this.editForm.get('descripcion')?.value;
+    this.proveedor = this.editForm.get('proveedor')?.value;
 
   }
 

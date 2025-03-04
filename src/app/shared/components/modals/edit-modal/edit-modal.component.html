@@ -1,18 +1,26 @@
 <div class="main">
     <div class="header">
-        <span>Editar datos</span>
+        <span>Editar simple</span>
+        <span class="sub-title">Edita la cantidad de unidades disponibles al mes.</span>
     </div>
 
     <div class="body">
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <div class="sub-container">
-                    <span>Información general del producto</span>
-                    <span class="border" (click)="allowEdit()">Editar</span>
+                    <span class="t-text">Valores de unidades por mes.</span>
+
+                    <div class="info-edit">
+                      <span class="item">{{item + ', ' + proveedor }}</span>
+                      <i class="bi bi-info-circle border" (click)="allowEdit()"></i>
+
+                    </div>
+
+                   
 
                 </div>
 
-                <div class="inputs">
+                <div class="inputs" *ngIf="showEdit">
 
                     <div class="o-input">
                         <mat-form-field appearance="fill" class="full-width">
@@ -61,9 +69,88 @@
                 </div>
 
                 <div class="datos">
-                    <span class="sub">Unidades por mes</span>
 
-                    <div class="d-containers">
+                      <div class="all-inputs">
+                        <div class="input-container11">
+                          <label for="ener">Enero</label>
+                          <input type="text" placeholder=" " id="ener"
+                            formControlName="enero">
+                         </div>
+
+
+                         <div class="input-container11">
+                          <label for="feb">Febrero</label>
+                          <input type="text" placeholder=" " id="feb"
+                            formControlName="febrero">
+                         </div>
+
+
+                         <div class="input-container11">
+                          <label for="marz">Marzo</label>
+                          <input type="text" placeholder=" " id="marz"
+                            formControlName="marzo">
+                         </div>
+
+
+                         <div class="input-container11">
+                          <label for="abri">Abril</label>
+                          <input type="text" placeholder=" " id="abri"
+                            formControlName="abril">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="mayo">Mayo</label>
+                          <input type="text" placeholder=" " id="mayo"
+                            formControlName="mayo">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="juni">Junio</label>
+                          <input type="text" placeholder=" " id="juni"
+                            formControlName="junio">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="juli">Julio</label>
+                          <input type="text" placeholder=" " id="juli"
+                            formControlName="julio">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="agost">Agosto</label>
+                          <input type="text" placeholder=" " id="agost"
+                            formControlName="agosto">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="septi">Septiembre</label>
+                          <input type="text" placeholder=" " id="septi"
+                            formControlName="septiembre">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="octubre">Octubre</label>
+                          <input type="text" placeholder=" " id="octubre"
+                            formControlName="octubre">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="novie">Noviembre</label>
+                          <input type="text" placeholder=" " id="novie"
+                            formControlName="noviembre">
+                         </div>
+
+                         <div class="input-container11">
+                          <label for="dicie">Diciembre</label>
+                          <input type="text" placeholder=" " id="dicie"
+                            formControlName="diciembre">
+                         </div>
+
+                      </div>
+
+                     
+
+                    <div class="d-containers" *ngIf="showEdit">
                         <div class="d-input">
                             <mat-form-field appearance="fill" class="full-width">
                                 <mat-label>Enero</mat-label>
@@ -193,7 +280,7 @@
     </div>
 
     <div class="footer">
-        <button class="btn btn-danger" (click)="close()">Cancelar</button>
+        <button class="btn btn-light" (click)="close()">Cancelar</button>
         <button class="btn btn-success" [disabled]="editForm.invalid"
             (click)="testSend()">Guardar</button>
     </div>

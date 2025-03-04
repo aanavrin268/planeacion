@@ -247,7 +247,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
       const modalRef = this.modal.open(EditModalComponent, {
         centered: true,
         size: 'lg',
-        windowClass:'rounded'
+        windowClass:'redondo'
       });
       modalRef.componentInstance.row = row;
   
