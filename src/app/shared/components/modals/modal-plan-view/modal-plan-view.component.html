@@ -18,6 +18,13 @@
 
             </div>
 
+            <div class="icon-container">
+              <i class="bi bi-floppy circle-icon-green"(click)="saveVersion()"></i>
+              <span>Guardar versión</span>
+
+          </div>
+
+
             <div class="views-menu" *ngIf="showViewsMenu">
                 <span class="menu-option" *ngFor="let optio of list_menu_views"
                   (click)="onMenuSelect(optio)">

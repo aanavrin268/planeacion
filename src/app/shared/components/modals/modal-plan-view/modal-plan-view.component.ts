@@ -10,6 +10,7 @@ import { ApiService } from '../../../../api.service';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   protected plan: any;
   protected isLoading: boolean;
+
+  protected ogData: any;
 
   protected plans_list:any[] = [
     {}
@@ -133,6 +136,55 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   }
 
 
+  saveVersion() {
+    const replaceNullWithZero = (obj: { [x: string]: number }) => {
+        for (let key in obj) {
+            if (obj[key] === null) {
+                obj[key] = 0;
+            }
+        }
+        return obj;
+    };
+
+    const jsonFixed = this.originalData.map(replaceNullWithZero);
+
+    Swal.fire({
+        title: 'Guardando...',
+        text: 'Por favor, espera un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading(); 
+        }
+    });
+
+    this.service.insertHistoricoPublico("plan_historico_publico", jsonFixed).subscribe({
+        next: (response) => {
+            console.log("Respuesta:", response);
+
+            Swal.fire({
+                icon: 'success',
+                title: '¡Guardado exitoso!',
+                text: 'Los datos se han guardado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        },
+        error: (error) => {
+            console.log("Error:", error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+}
+
+
+
+
+
   showPrivateRows(){
     this.isLoading = true;
 
@@ -220,6 +272,10 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
+        console.log('og data:', response);
+        this.ogData = response;
+
+
         const formattedData = this.formatData(response);
         console.log("data to pdf", formattedData);
   

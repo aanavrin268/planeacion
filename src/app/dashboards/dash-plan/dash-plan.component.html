@@ -26,5 +26,27 @@
                 </div>
             </div>
         </section>
+
+        <section class="main-comparativa">
+            <div class="header">
+                <span class="title">Comparativa</span>
+                <div class="add-container">
+                    <i class="bi bi-gear-wide-connected btn-c-black"></i>
+
+                </div>
+
+            </div>
+            <div class="body">
+                <span>Elige un plan y comparalo con las diferentes versiones guardadas.</span>
+                <div class="plan-container">
+                    <div class="plan" *ngFor="let plan of plan_version_list"
+                        (click)="openComparative(plan)">
+                        <span class="p-sub">{{plan.versions}}</span>
+                        <span class="p-title">{{plan.name}}</span>
+
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

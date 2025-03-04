@@ -240,6 +240,10 @@ actualizarDetallePrivado() {
         console.log("ES 1");
         this.actualizarDetalle();
 
+
+        
+
+
       }else if(this.row.id_plan === 2){
         console.log("ES 2")
         this.actualizarDetallePrivado();

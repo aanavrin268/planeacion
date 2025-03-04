@@ -17,6 +17,27 @@ export class ApiService {
 
 
 
+  getPlanPublicoKeys():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPlanPublicoKeys`);
+  }
+
+
+
+
+  insertHistoricoPublico(table: string, _json: any): Observable<any>{
+    const payload = {
+      table: table,
+      json: _json
+    };
+
+    return this.http.post(`${this.apiUrl}/api/insertHistoricoPublico`,
+      payload, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+
+        })
+      });
+  }
   
   actualizarDetallePlanPrivado(table: string, condition: string, condition_value: string, months: string): Observable<any> {
     const payload = {

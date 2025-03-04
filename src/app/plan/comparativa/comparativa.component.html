@@ -1,0 +1,91 @@
+<div class="background">
+    <div class="body">
+        <section class="main">
+            <div class="header">
+                <div class="text-container">
+                    <span class="title">Comparativa de planes</span>
+
+                    <div class="badge-container" *ngIf="isPlanSelected">
+                        <span class="p-text-selected">Plan público version 1</span>
+                        <span class="badge" (click)="closeSelected()">X</span>
+                    </div>
+                </div>
+              
+                <div class="add-container">
+                    <i class="bi bi-gear-wide-connected btn-c-black"
+                        (click)="openSettingsMenu()"></i>
+
+                    <div class="settings-menu" *ngIf="showSettingsMenu">
+                        <span>Cerrar</span>
+                    </div>
+
+                </div>
+
+              
+
+
+
+            </div>
+            <div class="body" *ngIf="!isPlanSelected">
+                <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                <div class="plan-container">
+                    <div class="plan" *ngFor="let plan of plan_list">
+                        <i class="bi bi-clock-history plan-icon"></i>
+                        <span class="p-title">{{ plan.name }}</span>
+                        <span class="p-sub">{{ plan.date }}</span>
+                        <button class="p-button" (click)="selectPlan(plan)">Seleccionar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="planes" *ngIf="isPlanSelected">
+            <section class="main-plan-actual">
+                <div class="header">
+                    <span class="title">Plan actual</span>
+                </div>
+                <div class="body">
+                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                            <td mat-cell *matCellDef="let element; let i = index"
+                                [class.highlight]="isDifferent(element, dataSource2[i], column)">
+                                {{ element[column] }}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="main-plan-seleccionado">
+                <div class="header">
+                    <span class="title">Plan público version 1</span>
+                </div>
+                <div class="body">
+                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                    <table mat-table [dataSource]="dataSource2">
+                        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="main-plan-resumen">
+                <div class="header">
+                    <span class="title">Resumen de cambios</span>
+                </div>
+                <div class="body">
+                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                  
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

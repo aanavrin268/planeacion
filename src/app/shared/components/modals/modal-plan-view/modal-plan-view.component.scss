@@ -37,6 +37,26 @@
                 transform: scale(1.03);
             }
         }
+
+        .circle-icon-green{
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: black;
+          color: white;
+          font-size: 17px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.363);
+          transition: all 0.3s ease-in-out;
+
+          &:hover{
+              cursor: pointer;
+              background-color: rgb(48, 47, 47);
+              transform: scale(1.03);
+          }
+      }
     }
 
     .body{
@@ -86,6 +106,24 @@
                         transform: scale(1.03);
                     }
                 }
+
+                .circle-icon-green{
+                  background-color: rgb(24, 153, 6);
+                  width: 35px;
+                  height: 35px;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color:white;
+                  transition: all 0.3s ease-in-out;
+
+                  &:hover{
+                      cursor: pointer;
+                      background-color: rgb(18, 112, 6);
+                      transform: scale(1.03);
+                  }
+              }
             }
 
 
