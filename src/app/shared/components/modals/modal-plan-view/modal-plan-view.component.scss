@@ -285,3 +285,19 @@
   ::ng-deep .modal-body {
     overflow: visible !important;
   }
+
+
+
+  
+              
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Ajusta la altura según sea necesario */
+  }
+  
+  mat-spinner {
+    margin: 0 auto; /* Centra el spinner */
+  }

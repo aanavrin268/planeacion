@@ -9,11 +9,12 @@ import { MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../../../api.service';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
   selector: 'app-modal-plan-view',
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule],
   templateUrl: './modal-plan-view.component.html',
   styleUrl: './modal-plan-view.component.scss'
 })
@@ -21,6 +22,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   protected plan: any;
+  protected isLoading: boolean;
 
   protected plans_list:any[] = [
     {}
@@ -104,6 +106,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1;
 
+    this.isLoading = false;
   }
 
 
@@ -131,6 +134,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
 
   showPrivateRows(){
+    this.isLoading = true;
+
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -166,6 +171,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
         //this.dataSource.paginator = this.paginator;
 
+        this.isLoading = false;
       }
     });
   }
@@ -189,6 +195,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   }
 
   showDRows() {
+    this.isLoading = true;
+
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -223,7 +231,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         this.filteredData = [...this.dataSource.data];
 
         //this.dataSource.paginator = this.paginator;
-
+        this.isLoading = false;
       }
     });
   }
