@@ -161,6 +161,20 @@ $white-20: rgba(255, 255, 255, 0.2);
                         }
                     }
                 }
+
+
+                .menu-an{
+                    width: 20vw;
+                    height: 15vh;
+                    background-color: white;
+                    border-radius: 16px;
+                    padding: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.415);
+                    margin-top: 2rem;
+                }
             }
 
         }
