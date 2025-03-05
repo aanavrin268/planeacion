@@ -14,6 +14,7 @@ export class ComparativaComponent implements OnInit {
 
   protected isPlanSelected: boolean;
   protected showSettingsMenu: boolean;
+  protected showLoading: boolean;
 
   protected plan_list: any[] = [
     {id:1, name:'público version 1', date:'03/03/2025', icon: 'history'},
@@ -208,6 +209,7 @@ displayedColumns: string[] = [];
 
   constructor(){
 
+    this.showLoading = false;
     this.isPlanSelected = false;
     this.showSettingsMenu = false;
   }
@@ -247,8 +249,16 @@ displayedColumns: string[] = [];
 }
 
   selectPlan(plan: any){
+    this.showLoading = true;
 
-    this.isPlanSelected = true;
+    setTimeout(() => {
+
+      this.isPlanSelected = true;
+
+    }, 2000);
+
+    this.showLoading = false;
+
   }
 
 }
