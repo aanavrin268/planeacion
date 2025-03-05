@@ -3,9 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalAddNewPlanComponent } from '../../shared/components/modals/modal-add-new-plan/modal-add-new-plan.component';
 import { ModalPlanViewComponent } from '../../shared/components/modals/modal-plan-view/modal-plan-view.component';
-import { gsap } from 'gsap';
-
-
+import { ApiService } from '../../api.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dash-plan',
@@ -16,60 +16,76 @@ import { gsap } from 'gsap';
 export class DashPlanComponent implements OnInit {
 
   protected plan_list:any[] = [];
-  protected showAn: boolean = false;
+  protected plan_version_list: any[] = [];
 
-  @ViewChild('menu') menu!: ElementRef;
+  protected keyPublicAmount: number;
+  protected keyPublicText: string;
 
 
-  constructor(private modal: NgbModal){
+  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router){
     this.plan_list = [
       {id:1, name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
       {id: 2, name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
 
     ];
+
+    this.plan_version_list = [
+      {id:1, name: 'Plan público', versions:'1 versión disponible'},
+      {id:2, name: 'Plan privado', versions:'1 versión disponible'},
+
+    ];
+
+    this.keyPublicAmount = 0;
+    this.keyPublicText = "";
   }
 
   ngOnInit(): void {
 
+    this.plan_version_list[1].versions='Sin versiones';
 
-  }
+    this.apiService.getPlanPublicoKeys().subscribe({
+      next:(response:any[]) => {
+        console.log("keys public", response);
+        this.keyPublicAmount = response.length;
+        console.log("key amlunt", this.keyPublicAmount);
 
-
-  openIt() {
-    if (this.showAn) {
-      // Cerrar menú con animación de salida
-      gsap.to(this.menu.nativeElement, {
-        opacity: 0,
-        scale: 0.5,
-        duration: 0.3,
-        ease: 'power2.in',
-        onComplete: () => {
-          this.showAn = false;
-          this.menu.nativeElement.style.display = "none"; // Ocultamos después de la animación
+        switch(this.keyPublicAmount){
+            case 0:
+              this.keyPublicText = 'Sin versiones';
+              break;
+            case 1:
+              this.keyPublicText = '1 versión disponible';
+              break;
+            case 2:
+              this.keyPublicText = this.keyPublicAmount + ' versiones disponibles';
         }
-      });
-    } else {
-      this.showAn = true; // Activamos la bandera primero
-  
-      // Aseguramos que el menú esté visible antes de animar
-      this.menu.nativeElement.style.display = "block";
-  
-      // Definimos manualmente el estado inicial antes de la animación
-      gsap.set(this.menu.nativeElement, { opacity: 0, scale: 0.5 });
-  
-      // Animación de entrada
-      gsap.to(this.menu.nativeElement, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        ease: 'power2.out'
-      });
-    }
+
+        this.plan_version_list[0].versions= this.keyPublicText;
+
+
+      }
+    });
+
   }
-  
-  
 
 
+  openComparative(plan: any){
+    console.log("es", plan);
+
+    if(plan.id === 2){
+      this.showAlert();
+    }else {
+      this.router.navigate(['/comparativa']);
+
+    }
+
+  }
+
+  showAlert(){
+    Swal.fire('Sin versiones disponibles', 'Error, no hay ninguna versión disponible para este plan',
+      'error'
+    )
+  }
 
   addNewPlan(){
     const modalRef = this.modal.open(ModalAddNewPlanComponent, 

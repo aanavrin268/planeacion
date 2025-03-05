@@ -14,6 +14,7 @@ import { DashProductsComponent } from './dashboards/dash-products/dash-products.
 import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
 import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 import { ExampleComponent } from './plan/example/example.component';
+import { ComparativaComponent } from './plan/comparativa/comparativa.component';
 
 
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
 {path: 'dashProducts', component: DashProductsComponent},
 {path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
+{path: 'comparativa', component: ComparativaComponent},
 
 {path: 'example', component: ExampleComponent},
 

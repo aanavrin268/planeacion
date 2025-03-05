@@ -9,11 +9,13 @@ import { MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../../../api.service';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Swal from 'sweetalert2';
 
 
 @Component({
   selector: 'app-modal-plan-view',
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule],
   templateUrl: './modal-plan-view.component.html',
   styleUrl: './modal-plan-view.component.scss'
 })
@@ -21,6 +23,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   protected plan: any;
+  protected isLoading: boolean;
+
+  protected ogData: any;
 
   protected plans_list:any[] = [
     {}
@@ -104,6 +109,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1;
 
+    this.isLoading = false;
   }
 
 
@@ -130,7 +136,58 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   }
 
 
+  saveVersion() {
+    const replaceNullWithZero = (obj: { [x: string]: number }) => {
+        for (let key in obj) {
+            if (obj[key] === null) {
+                obj[key] = 0;
+            }
+        }
+        return obj;
+    };
+
+    const jsonFixed = this.originalData.map(replaceNullWithZero);
+
+    Swal.fire({
+        title: 'Guardando...',
+        text: 'Por favor, espera un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading(); 
+        }
+    });
+
+    this.service.insertHistoricoPublico("plan_historico_publico", jsonFixed).subscribe({
+        next: (response) => {
+            console.log("Respuesta:", response);
+
+            Swal.fire({
+                icon: 'success',
+                title: '¡Guardado exitoso!',
+                text: 'Los datos se han guardado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        },
+        error: (error) => {
+            console.log("Error:", error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+}
+
+
+
+
+
   showPrivateRows(){
+    this.isLoading = true;
+
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -166,6 +223,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
         //this.dataSource.paginator = this.paginator;
 
+        this.isLoading = false;
       }
     });
   }
@@ -189,6 +247,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   }
 
   showDRows() {
+    this.isLoading = true;
+
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -212,6 +272,10 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
+        console.log('og data:', response);
+        this.ogData = response;
+
+
         const formattedData = this.formatData(response);
         console.log("data to pdf", formattedData);
   
@@ -223,26 +287,45 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         this.filteredData = [...this.dataSource.data];
 
         //this.dataSource.paginator = this.paginator;
-
+        this.isLoading = false;
       }
     });
   }
 
 
   afterModalClosed(result: any) {
-    this.service.getDetallesPlan().subscribe(
-      {
-        next: (response) => {
-          console.log('Response:', response); 
-          this.data = response; 
 
-          this.dataSource.data = this.formatData(response);  
-        }
-      });
+    if(this.plan.id === 1){
+        
+      this.service.getDetallesPlan().subscribe(
+        {
+          next: (response) => {
+            console.log('Response:', response); 
+            this.data = response; 
+  
+            this.dataSource.data = this.formatData(response);  
+          }
+        });
+    }else if(this.plan.id === 2){
+      this.service.getDetallesPlanPrivate().subscribe({
+          next: (response) => {
+            console.log('respoinse private', response);
+            this.data = response;
+
+            this.dataSource.data = this.formatData(response);
+          }
+      })
+    }
+
   }
 
     onRowClick(row: any): void {
   
+      if(this.plan.id === 1){
+        row.id_plan = 1;
+      }else if(this.plan.id === 2){
+        row.id_plan = 2;
+      }
   
       const modalRef = this.modal.open(EditModalComponent, {
         centered: true,
