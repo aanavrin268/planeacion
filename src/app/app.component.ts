@@ -4,6 +4,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from './api.service';
 import { range } from 'rxjs';
 import { SubmenuComponent } from './shared/components/menus/submenu/submenu.component';
+import { PlanService } from './plan/services/plan.service';
 
 
 
@@ -16,24 +17,31 @@ import { SubmenuComponent } from './shared/components/menus/submenu/submenu.comp
 })
 export class AppComponent implements OnInit{
 
+  isPlanTellingActive = false;
+
+
   protected logged!: boolean;
   protected isToggled = false;
   protected showBage: boolean;
 
   showSubmenu: string | null = null;
 
+
+
   planSubmenuItems = [
     { label: 'Plan de ventas', link: '/dashPlan' },
-    { label: 'Scroll telling', link: '/stPlan' },
+    { label: 'Scroll telling', link: '/planTelling' },
   ];
 
 
-  constructor(private apiService: ApiService, private router: Router){
+  constructor(private apiService: ApiService, private router: Router, private planService: PlanService){
     this.showBage = false;
   }
 
   ngOnInit(): void {
- 
+    this.planService.isPlanTellingActive$.subscribe((isActive) => {
+      this.isPlanTellingActive = isActive;
+    });
   }
 
 
