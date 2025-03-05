@@ -15,6 +15,7 @@ import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.com
 import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 import { ExampleComponent } from './plan/example/example.component';
 import { ComparativaComponent } from './plan/comparativa/comparativa.component';
+import { SettingsComponent } from './settings/settings/settings.component';
 
 
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
 {path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
 {path: 'comparativa', component: ComparativaComponent},
+{path: 'settings', component: SettingsComponent},
 
 {path: 'stPlan', component: ExampleComponent},
 

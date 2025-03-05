@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
 
   protected logged!: boolean;
   protected isToggled = false;
+  protected showBage: boolean;
 
   showSubmenu: string | null = null;
 
@@ -27,7 +28,9 @@ export class AppComponent implements OnInit{
   ];
 
 
-  constructor(private apiService: ApiService, private router: Router){}
+  constructor(private apiService: ApiService, private router: Router){
+    this.showBage = false;
+  }
 
   ngOnInit(): void {
  

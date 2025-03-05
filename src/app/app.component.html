@@ -1,73 +1,14 @@
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light otro">
-    <div class="container-fluid">
-      <a class="navbar-brand">
-  
-        <i   class="fa-solid fa-bars" (click)="toggleMenu()"></i>
-  
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="cont">
-        <a class="navbar-brand">
-  
-          <i   class="bi bi-list" (click)="toggleMenu()"></i>
-    
-        </a>
-        
-  
-  
-        <div class="collapse navbar-collapse test-color" id="navbarNav">
-        
-    
-            <!----    
-                <ul class="navbar-nav ms-auto nav-container">
-                <li class="nav-item">
-              <a class="nav-link active custom-link" [routerLink]="'/home'">Home</a>
-            </li>
-    
-            <li class="nav-item">
-              <a class="nav-link active custom-link" [routerLink]="'/acerca'">¿Quiénes somos?</a>
-            </li>
-  
-       
-    
-            <li class="nav-item" *ngIf="logged">
-              <a class="nav-link custom-link" >Cerrar Sesión</a>
-            </li>
-    
-            <li class="nav-item" *ngIf="!logged">
-              <a class="nav-link custom-link" [routerLink]="'/login2'">Login</a>
-            </li>
-            <li class="nav-item" *ngIf="!logged">
-              <a class="nav-link custom-link" [routerLink]="'/register2'">Registrarse</a>
-            </li>
-
-              </ul>
-            
-            -->
-          
-           
-        
-        </div>
-        
-        
-        
-  
-      </div>
-  
-     
-    </div>
-  </nav>
-  
   
   
   <div    class="d-flex" [ngClass]="{'toggled': isToggled}" id="wrapper">
       <!-- Sidebar -->
       <div class="border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Menu</div>
+        <div class="sidebar-heading">Menu
+
+          <i   class="bi bi-list" (click)="toggleMenu()"></i>
+
+        </div>
         <div class="list-group list-group-flush">
 
           <div class="h-container" routerLinkActive="active-link">
@@ -108,17 +49,29 @@
             <a class="list-group-item list-group-item-action a-item" [routerLink]="'/inventary'">Inventario</a>
 
           </div>  
+
+
+          <div class="h-container end" routerLinkActive="active-link">
+            <i class="bi bi-gear"></i>            
+            <a class="list-group-item list-group-item-action a-item" [routerLink]="'/settings'"
+            >Configuraciones</a>
+
+          </div>  
         </div>
       </div>
     
   
   <!---NAVBAR-->
           
-         
+  <div class="badge" *ngIf="isToggled"
+    (click)="toggleMenu()">
+    <i class="bi bi-list"></i>
+  </div>
   
         
     <!---RIGHT CONTENT ROUTEr-->
         <div class="container-fluid">
          <router-outlet></router-outlet>
         </div>
-      </div>
+  </div>
+

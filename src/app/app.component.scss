@@ -1,29 +1,58 @@
 
 
 
+  .badge{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: black;
+    font-size: 20px;
+    position: fixed;
+    z-index: 100000;
+    box-shadow: 2px 1px 9px black;
+    right: 94%;
+    top: 6%;
+    transition: all 0.3 ease-in-out;
 
+    &:hover{
+      cursor: pointer;
+      transform: scale(1.02);
+      background-color: rgb(49, 49, 49);
+
+    }
+  }
 
   /* Wrapper for the whole layout */
   #wrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
-    padding-top: 2rem;
+    background:#DFDFDF;
 
   }
   
   /* Sidebar Styles */
   #sidebar-wrapper {
     min-height: 100vh;
-    margin-left: -350px;
-    transition: margin 0.25s ease-out;
-    width: 350px;
-
-
+    width: 250px;
+    background-color: black !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.25s ease-out;
+    border-top-right-radius: 53px;
+    box-shadow: 0px 4px 33px black;
+    overflow-y: hidden;
   }
   
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: 0;
+    transform: translateX(-100%); 
     color: white;
 
     background-color: black !important;
@@ -61,6 +90,10 @@
 }
 
 
+.navbar{
+  //background-color: black !important;
+}
+
 
 .a-item{
   color: white;
@@ -77,7 +110,30 @@
        --bs-gutter-x: 0; 
        --bs-gutter-y: 0;
   //background-color: antiquewhite;
+
+  margin-left: 250px; /* Margen igual al ancho del sidebar */
   padding: 0;
+  width: calc(100% - 250px); /* Ajusta el ancho del contenido */
+  box-sizing: border-box;
+  transition: margin 0.25s ease-out, width 0.25s ease-out; /* Transición suave */
+
+}
+
+  #wrapper.toggled .container-fluid {
+  margin-left: 0; /* Sin margen cuando el sidebar está oculto */
+  width: 100%; /* Ocupa todo el ancho */
+}
+
+.navbar{
+  .container-fluild{
+    margin-left: 0;
+    width: 100%;
+
+    .cont{
+      margin-left: 0;
+      width: 100%;
+    }
+  }
 }
 
 
@@ -137,9 +193,7 @@
 }
 
 
-.test-color{
- 
-}
+
 
 .nav-container{
   display: flex;
@@ -149,9 +203,9 @@
   padding: 0.2rem 1.5rem;
   justify-content: space-between;
   background-color: #ededed;
-  transform: translateX(-50%);
+  //transform: translateX(-50%);
   position: absolute;
-  left: 50%;
+  //left: 50%;
 
   li{
     margin: 0;
@@ -220,6 +274,24 @@
   }
 }
 
+.list-group{
+  position: relative;
+}
+
+.end{
+  position: absolute;
+  /* background-color: rgba(168, 168, 168, 0.3647058824); */
+  /* border: 1px solid white; */
+  bottom: -87%;
+
+  
+}
+
+
+.h-container .list-group .end{
+  border: 1px solid white;
+  background-color: #a8a8a85d;
+}
 
 
 
