@@ -6,10 +6,12 @@ import { ModalPlanViewComponent } from '../../shared/components/modals/modal-pla
 import { ApiService } from '../../api.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @Component({
   selector: 'app-dash-plan',
-  imports: [CommonModule],
+  imports: [CommonModule, MatProgressSpinnerModule],
   templateUrl: './dash-plan.component.html',
   styleUrl: './dash-plan.component.scss'
 })

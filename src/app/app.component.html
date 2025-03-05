@@ -69,17 +69,49 @@
       <div class="border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Menu</div>
         <div class="list-group list-group-flush">
-          <a  class="list-group-item list-group-item-action a-item" [routerLink]="'/home'">Dashboard</a>
-          <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashPlan'">Plan</a>
-          <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashProducts'">Productos</a>
-          <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashReports'">Reportes</a>
+
+          <div class="h-container" routerLinkActive="active-link">
+            <i class="bi bi-house"  ></i>
+            <a  class="list-group-item list-group-item-action a-item" [routerLink]="'/home'"
+              >Dashboard</a>
+          </div>
+
+
+
+          <div class="h-container" routerLinkActive="active-link">
+            <i class="bi bi-calendar2-week"></i>
+            <div class="v-container">
+              <a class="list-group-item list-group-item-action a-item"
+              (click)="toggleSubmenu('plan')"
+              >Plan</a>
+              <app-submenu *ngIf="showSubmenu === 'plan'" 
+              [submenuItems]="planSubmenuItems">
+              </app-submenu>
+            </div>
+          
+          </div>
+        
   
-          <a class="list-group-item list-group-item-action a-item" [routerLink]="'/inventary'">Inventario</a>
+
+          <div class="h-container" routerLinkActive="active-link">
+            <i class="bi bi-capsule"></i>
+            <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashProducts'">Productos</a>
+          </div>
+
+          <div class="h-container" routerLinkActive="active-link">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashReports'">Reportes</a>
+          </div>
+  
+          <div class="h-container" routerLinkActive="active-link">
+            <i class="bi bi-box2"></i>
+            <a class="list-group-item list-group-item-action a-item" [routerLink]="'/inventary'">Inventario</a>
+
+          </div>  
         </div>
       </div>
     
   
-          
   <!---NAVBAR-->
           
          

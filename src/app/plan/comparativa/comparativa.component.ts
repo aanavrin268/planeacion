@@ -248,17 +248,25 @@ displayedColumns: string[] = [];
     return row1[column] !== row2[column];
 }
 
-  selectPlan(plan: any){
-    this.showLoading = true;
+selectPlan(plan: any) {
+  this.showLoading = true;
 
-    setTimeout(() => {
+  Swal.fire({
+      title: 'Cargando...',
+      text: 'Por favor, espera un momento.',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading(); 
+      }
+  });
+
+  setTimeout(() => {
+      Swal.close();
 
       this.isPlanSelected = true;
 
-    }, 2000);
-
-    this.showLoading = false;
-
-  }
+      this.showLoading = false;
+  }, 1000); 
+}
 
 }

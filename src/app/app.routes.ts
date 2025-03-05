@@ -29,7 +29,7 @@ export const routes: Routes = [
 {path: 'dashPlan', component: DashPlanComponent},
 {path: 'comparativa', component: ComparativaComponent},
 
-{path: 'example', component: ExampleComponent},
+{path: 'stPlan', component: ExampleComponent},
 
 
 {

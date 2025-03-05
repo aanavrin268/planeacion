@@ -169,3 +169,67 @@
 }
 
 
+
+
+.h-container{
+  display: flex;
+  //justify-content: center;
+  align-items: flex-start;
+  padding: .8rem;
+  min-height: 60px;
+  //background-color: rgba(128, 128, 128, 0.548);
+  transition: min-height 0.3s ease-in-out;
+  box-sizing: border-box;
+
+
+  &:hover{
+    .list-group-item, i{
+      color: rgb(11, 11, 173);
+      transition: all 0.2s ease-in-out;
+    }
+
+}
+
+  .v-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    //padding: .3rem;
+    //background-color: gainsboro;
+
+    .submenu {
+      padding-left: 20px;
+      background-color: black;
+      color: white;
+  }
+    
+    .list-group-item {
+      cursor: pointer;
+    }
+  }
+
+  .list-group-item{
+    border: none;
+    align-self: flex-start;
+    justify-self: flex-start;
+    /* transform: translateY(0%); */
+    transition: all 0.2s ease-in-out;
+    padding: 0 !important;
+    min-height: 0 !important;
+    padding-left: 1rem !important;
+  }
+}
+
+
+
+
+.h-container.active-link {
+  i {
+    color: blue; 
+  }
+
+  .list-group-item {
+    color: blue; 
+    font-weight: bold; 
+  }
+}

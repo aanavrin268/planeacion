@@ -1,0 +1,42 @@
+.submenu {
+    padding-left: 10px;
+    background-color: black;
+    color: white;
+    gap: .8rem;
+}
+  
+  .list-group-item {
+
+    padding-left: 10px;
+    padding: 0 !important;
+    min-height: 0 !important;
+    background-color: black;
+    color: white;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    margin-top: .6rem !important;
+
+    &:hover{
+        cursor: pointer;
+        background: rgba(75, 74, 74, 0.37);
+    }
+
+    &.active-link {
+        color: blue; 
+        font-weight: bold; 
+      }
+  }
+
+
+  
+
+.h-container.active-link {
+    i {
+      color: blue; 
+    }
+  
+    .list-group-item {
+      color: blue; 
+      font-weight: bold; 
+    }
+  }
