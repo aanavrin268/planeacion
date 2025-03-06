@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { gsap } from 'gsap'; 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'; 
 import { PlanService } from '../services/plan.service';
+import { Router } from '@angular/router';
 
 
 
@@ -13,7 +14,7 @@ import { PlanService } from '../services/plan.service';
 })
 export class PlanTellingComponent implements OnInit, OnDestroy {
 
-  constructor(private planService: PlanService){
+  constructor(private planService: PlanService, private router: Router){
     gsap.registerPlugin(ScrollTrigger);
     gsap.defaults({ ease: 'none', duration: 2});
   }
@@ -32,20 +33,23 @@ export class PlanTellingComponent implements OnInit, OnDestroy {
 
   }
 
+  goBack(){
+    this.router.navigate(['/dashPlan']);
+  }
+
 
   initScrollAnimations(){
     const tl = gsap.timeline();
 
     tl.from('.seccion_2', {xPercent: -100});
     tl.from('.seccion_3', {xPercent: 100});
-    tl.from('.seccion_4', {yPercent: -100});
 
     ScrollTrigger.create({
       animation: tl,
       trigger: '.contenedor_animacion',
       markers: false,
       start: 'top top',
-      end: '+=4000',
+      end: '+=3000',
       pinReparent: true,
       pin: true,
       scrub: true,

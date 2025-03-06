@@ -1,23 +1,90 @@
 <header class="inicio">
-    <span>CVV</span>
-    <span>Modulo de Plan Financiero</span>
+    <span class="title">CVV</span>
+    <span class="sub">Modulo de Plan de ventas</span>
+    <div class="image-container">
+        <img src="logovan.png" alt="logo">
+    </div>
 </header>
 
 <main class="contenedor_animacion">
     <section  class="seccion seccion_1">
-       
+            <div class="left">
+                <span class="s-title">Visualización de planes</span>
+                <span class="s-sub">Observa a detalle los planes de ventas para los sectores público y privado.</span>
+            </div>
+
+            <div class="l-image">
+                <img src="tabla.png" alt="tabla_ver">
+            </div>
+
+            <span class="l-text">
+                *Imagén tomada de un plan público general.
+            </span>
+
+     
     </section>
     <section class="seccion seccion_2">
-        <h2>seccion 2</h2>
+        <div class="header">
+            <span class="s-title">Comparativa de planes</span>
+        </div>
+        <div class="body">
+            <div class="left">
+                <span class="s-title">Plan actual</span>
+                <span class="s-sub">Es el plan original con el que se esta trabajando.</span>
+                <div class="s-image-container">
+                    <img src="p1.png" alt="">
+                </div>
+            </div>
+
+            <div class="vs">
+                <span>Vs</span>
+            </div>
+    
+            <div class="right">
+                <span class="s-title">Plan a comprar</span>
+                <span class="s-sub">Es el plan seleccionado a partir del backup historico de cambios.</span>
+                <div class="s-image-container">
+                    <img src="p2.png" alt="">
+                </div>
+            </div>
+
+            <div class="info">
+                <span>La diferencia de los valores entre ambos planes se marca en las celdas de la primer tabla con un color diferente.</span>
+            </div>
+        </div>
+      
     </section>
     <section class="seccion seccion_3">
-        <h2>seccion 3</h2>
+        <div class="body">
+            <div class="left">
+                <img src="edit-cantidad.png" alt="modalEditar" 
+                    class="l-images">
+
+                <span class="info">*Imagén correspiendte a la edificón del medicamento Tacrolimus</span>
+            </div>
+    
+            <div class="right">
+                <span class="s-title">
+                    Edita los datos
+                </span>
+    
+                <span class="s-sub">
+                    Modifica los valores del CMP de los productos para generar backups historicos y diferentes escenarios.
+                </span>
+
+
+            </div>
+        </div>
+      
     </section>
-    <section class="seccion seccion_4">
-        <h2>seccion 4</h2>
-    </section>
+   
 </main>
 
 <footer class="final">
-    <h2>adios</h2>
+    <span class="f-title">Gracias por llegar al final</span>
+    <button class="f-button" 
+        (click)="goBack()">Finalizar</button>
+    <div class="image-container">
+        <img src="logovan.png" alt="logo">
+    </div>
 </footer>
