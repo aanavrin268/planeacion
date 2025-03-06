@@ -32,8 +32,8 @@ export class DashPlanComponent implements OnInit {
     ];
 
     this.plan_version_list = [
-      {id:1, name: 'Plan público', versions:'1 versión disponible'},
-      {id:2, name: 'Plan privado', versions:'1 versión disponible'},
+      {id:1, name: 'Plan público', versions:''},
+      {id:2, name: 'Plan privado', versions:''},
 
     ];
 
@@ -46,9 +46,10 @@ export class DashPlanComponent implements OnInit {
     this.plan_version_list[1].versions='Sin versiones';
 
     this.apiService.getPlanPublicoKeys().subscribe({
-      next:(response:any[]) => {
+      next:(response:any) => {
         console.log("keys public", response);
-        this.keyPublicAmount = response.length;
+
+        this.keyPublicAmount = response.result[0].total;
         console.log("key amlunt", this.keyPublicAmount);
 
         switch(this.keyPublicAmount){
@@ -58,8 +59,9 @@ export class DashPlanComponent implements OnInit {
             case 1:
               this.keyPublicText = '1 versión disponible';
               break;
-            case 2:
+            default:
               this.keyPublicText = this.keyPublicAmount + ' versiones disponibles';
+              break;
         }
 
         this.plan_version_list[0].versions= this.keyPublicText;

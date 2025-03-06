@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../api.service';
 
 
 @Component({
@@ -16,10 +17,7 @@ export class ComparativaComponent implements OnInit {
   protected showSettingsMenu: boolean;
   protected showLoading: boolean;
 
-  protected plan_list: any[] = [
-    {id:1, name:'público version 1', date:'03/03/2025', icon: 'history'},
-    {id:2, name:'público version 2', date:'04/03/2025', icon: 'history'}
-  ];
+  protected plan_list: any[] = [];
 
   dataSource = [
     {
@@ -207,7 +205,7 @@ dataSource2 = [
 displayedColumns: string[] = [];
 
 
-  constructor(){
+  constructor(private service: ApiService){
 
     this.showLoading = false;
     this.isPlanSelected = false;
@@ -217,6 +215,13 @@ displayedColumns: string[] = [];
   ngOnInit(): void {
    
     this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+
+    this.service.getAllPlanHistoricUnion().subscribe({
+      next:(response)=> {
+        console.log("historic", response);
+        this.plan_list = response.result;
+      }
+    });
   
   }
 

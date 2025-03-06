@@ -16,14 +16,35 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getAllPlanHistoricUnion():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllPlanesHistoric`);
+  }
+
+
+  insertPlanHistoicUnion(name:string, type:string):Observable<any>{
+    const payload={
+      p_name:name,
+      p_type: type
+    }
+
+    return this.http.post(`${this.apiUrl}/api/insertPlanUnion`, 
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+  }
+
+  getLastIdNumber(type: string):Observable<any>{
+    const payload = {
+      p_type: type
+    }
+    return this.http.post(`${this.apiUrl}/api/getLastId`,
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+
+  }
 
   getPlanPublicoKeys():Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/api/getPlanPublicoKeys`);
   }
-
-
-
-
   insertHistoricoPublico(table: string, _json: any): Observable<any>{
     const payload = {
       table: table,

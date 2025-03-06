@@ -59,7 +59,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   menuTop: number = 0;
   menuLeft: number = 0;
-
+  protected idValue: number;
   
   filteredData: any[] = [];
   searchText: string = '';
@@ -107,9 +107,11 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
-    this.limits = 1;
+    this.limits = 1; 
+    this.idValue = 0;
 
     this.isLoading = false;
+    
   }
 
 
@@ -132,11 +134,36 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         this.showPrivateRows();
     }
 
+    this.service.getLastIdNumber('publico').subscribe({
+      next:(response) => {
+        console.log('value ublico', response.result);
+        this.idValue = response.result;
+      }
+    });
+
+
+  
 
   }
 
 
-  saveVersion() {
+ async saveVersion() {
+
+    let pName = '';
+    let pType = '';
+    this.idValue = this.idValue +1;
+
+  if(this.plan.id === 1){
+      pName = 'plan público version' + String(this.idValue);
+      pType  = 'publico';
+    }else if(this.plan.id === 2){
+    }
+
+
+
+
+
+
     const replaceNullWithZero = (obj: { [x: string]: number }) => {
         for (let key in obj) {
             if (obj[key] === null) {
@@ -157,29 +184,63 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         }
     });
 
-    this.service.insertHistoricoPublico("plan_historico_publico", jsonFixed).subscribe({
+    try{
+      const response1 = await this.insertPlanUnionPromise(pName, pType);
+
+      const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixed);
+      Swal.fire({
+        icon: 'success',
+        title: '¡Guardado exitoso!',
+        text: 'Los datos se han guardado correctamente.',
+        confirmButtonText: 'Aceptar'
+    });
+    }catch(err){
+      console.log("Error:", err);
+
+      Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+          confirmButtonText: 'Aceptar'
+      });
+    }
+
+
+ 
+}
+
+  insertPlanUnionPromise = (name:string, type:string) => {
+    return new Promise((resolve, reject) => {
+      
+    this.service.insertPlanHistoicUnion(name, type).subscribe({
+      next:(response) => {
+        console.log('registro:', response);
+        resolve(response);
+      },
+      error: (error) => {
+        console.error('error al insertar', error);
+        reject(error);
+      }
+
+    });
+
+    })
+  }
+
+  insertHistoricoPublicoPromise = (name: string, data: any) => {
+    return new Promise((resolve, reject) => {
+      this.service.insertHistoricoPublico(name, data).subscribe({
         next: (response) => {
             console.log("Respuesta:", response);
-
-            Swal.fire({
-                icon: 'success',
-                title: '¡Guardado exitoso!',
-                text: 'Los datos se han guardado correctamente.',
-                confirmButtonText: 'Aceptar'
-            });
+          resolve(response);
+        
         },
         error: (error) => {
-            console.log("Error:", error);
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
-                confirmButtonText: 'Aceptar'
-            });
+           reject(error);
         }
     });
-}
+    });
+  }
 
 
 
