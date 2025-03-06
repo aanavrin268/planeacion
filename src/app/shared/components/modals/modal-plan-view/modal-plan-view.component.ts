@@ -159,11 +159,6 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     }else if(this.plan.id === 2){
     }
 
-
-
-
-
-
     const replaceNullWithZero = (obj: { [x: string]: number }) => {
         for (let key in obj) {
             if (obj[key] === null) {
@@ -174,6 +169,15 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     };
 
     const jsonFixed = this.originalData.map(replaceNullWithZero);
+
+    const jsonFixedWithPlan = jsonFixed.map((item) => {
+      return {
+          ...item, 
+          nombre_plan: pName
+      };
+  });
+
+
 
     Swal.fire({
         title: 'Guardando...',
