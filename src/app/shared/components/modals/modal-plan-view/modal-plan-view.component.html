@@ -34,7 +34,7 @@
         </div>
 
 
-        <div class="tables">
+        <div class="tables" *ngIf="plan.id === 1">
             <div class="left">
               
 
@@ -103,6 +103,70 @@
             
             </div>
     
+            </div>
+
+
+            <div class="tables" *ngIf="plan.id === 2">
+              <div class="left">
+                <div *ngIf="isLoading" class="spinner-container">
+                  <mat-spinner></mat-spinner>
+                </div>
+            
+                <div *ngIf="!isLoading">
+                  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tablax">
+                    <!-- Definir las columnas -->
+                    <ng-container *ngFor="let header of headers" [matColumnDef]="header.title.toLowerCase().replace(' ', '')">
+                      <th mat-header-cell *matHeaderCellDef
+                          [ngClass]="{
+                              'custom-header': header.title.toLowerCase() === 'enero' || header.title.toLowerCase() === 'febrero' || header.title.toLowerCase() === 'marzo',
+                              'custom-header-q2': header.title.toLowerCase() === 'abril' || header.title.toLowerCase() === 'mayo' || header.title.toLowerCase() === 'junio',
+                              'custom-header-q3': header.title.toLowerCase() === 'julio' || header.title.toLowerCase() === 'agosto' || header.title.toLowerCase() === 'septiembre',
+                              'custom-header-q4': header.title.toLowerCase() === 'octubre' || header.title.toLowerCase() === 'noviembre' || header.title.toLowerCase() === 'diciembre'
+                          }"
+                          [ngStyle]="{
+                              '--varY': limits === 1 ? '112%' : limits === 2 ? '59%' : limits === 3 ? '-6%' : '-23%', 
+                              '--varX': limits === 1 ? '-190%' : limits === 2 ? '-190%' : limits === 3 ? '-190%' : '-190%',
+                              '--sizeW': limits === 1 ? '13vw' : limits === 2 ? '12vw': limits === 3 ? '11vw' : '10vw'
+                          }">
+                          {{ header.title }}
+                      </th>
+            
+                      <!-- Columna para checkboxes -->
+                      <ng-container *ngIf="header.title === 'seleccionar'">
+                        <td mat-cell *matCellDef="let element">
+                          <input type="checkbox" [(ngModel)]="element.seleccionar" (click)="$event.stopPropagation()" (change)="onCheckboxChange(element)">
+                        </td>
+                      </ng-container>
+            
+                      <!-- Otras columnas -->
+                      <ng-container *ngIf="header.title !== 'seleccionar'">
+                        <td mat-cell *matCellDef="let element">
+                          {{ element[header.title.toLowerCase().replace(' ', '')] }}
+                        </td>
+                      </ng-container>
+                    </ng-container>
+            
+                    <!-- Definir las filas -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openMenu($event, row)"></tr>
+                  </table>
+                </div>
+            
+                <!-- Paginador -->
+                <mat-paginator 
+                  [pageSizeOptions]="[5, 10, 25, 100]" 
+                  [pageSize]="5"
+                  showFirstLastButtons
+                  [length]="dataSource.data.length">
+                </mat-paginator>
+            
+                <!-- Menú contextual -->
+                <div class="l-menu" *ngIf="showMenu" [ngStyle]="{'top.px': menuTop, 'left.px': menuLeft}">
+                  <span class="menu-list" *ngFor="let option of menu_lists" (click)="chooseOption(option.id)">
+                    {{option.title}}
+                  </span>
+                </div>
+              </div>
             </div>
     </div>
 </div>

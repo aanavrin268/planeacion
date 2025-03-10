@@ -16,6 +16,16 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getPlanSelectedByName(name:string):Observable<any>{
+    const payload = {p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/getSelectedPlanByName`, 
+      payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
+
   getAllPlanHistoricUnion():Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/api/getAllPlanesHistoric`);
   }

@@ -1,211 +1,46 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../api.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
   selector: 'app-comparativa',
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule],
   templateUrl: './comparativa.component.html',
   styleUrl: './comparativa.component.scss'
 })
-export class ComparativaComponent implements OnInit {
+export class ComparativaComponent implements OnInit, AfterViewChecked {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorC!: MatPaginator;
 
   protected isPlanSelected: boolean;
   protected showSettingsMenu: boolean;
   protected showLoading: boolean;
+  protected selectedPlan: any;
 
   protected plan_list: any[] = [];
-
-  dataSource = [
-    {
-        clave: '010.000.4229.00',
-        proveedor: 'JS jorinis',
-        descripcion: 'L-Asparaginasa',
-        conjuntos: 'IMPORTADO',
-        enero: 7500,
-        febrero: 7500,
-        marzo: 7500,
-        totalTrimestre: 22500,
-        eneroM: 15667500,
-        febreroM: 15667500,
-        marzoM: 15667500,
-        totalMontoVentaTrimestre: 47002500,
-        piezasDisponibles: '3030',
-    },
-    
-    {
-      "clave": "010.000.5084.00",
-      "proveedor": "BIOCON",
-      "descripcion": "Tacro 1-50",
-      "conjuntos": "IMPORTADO",
-      "enero": 135000,
-      "febrero": 135000,
-      "marzo": 135000,
-      "abril": 0,
-      "mayo": 0,
-      "junio": 0,
-      "julio": 0,
-      "agosto": 0,
-      "septiembre": 0,
-      "octubre": 0,
-      "noviembre": 0,
-      "diciembre": 0,
-      "totalTrimestre": 357000,
-      "eneroM": 14703000,
-      "febreroM": 22815000,
-      "marzoM": 22815000,
-      "totalMontoVentaTrimestre": 60333000,
-      "piezasDisponibles": "15212"
-  },
-  {
-      "clave": "010.000.3461.00",
-      "proveedor": "Germed",
-      "descripcion": "Azatioprina",
-      "conjuntos": "IMPORTADO",
-      "enero": 30000,
-      "febrero": 40000,
-      "marzo": 40000,
-      "abril": 0,
-      "mayo": 0,
-      "junio": 0,
-      "julio": 0,
-      "agosto": 0,
-      "septiembre": 0,
-      "octubre": 0,
-      "noviembre": 0,
-      "diciembre": 0,
-      "totalTrimestre": 110000,
-      "eneroM": 5070000,
-      "febreroM": 6760000,
-      "marzoM": 6760000,
-      "totalMontoVentaTrimestre": 18590000,
-      "piezasDisponibles": "30945"
-  },
-  {
-      "clave": "010.000.1774.00",
-      "proveedor": "AQVida",
-      "descripcion": "Epirubicina 1-50mg",
-      "conjuntos": "IMPORTADO",
-      "enero": 0,
-      "febrero": 25000,
-      "marzo": 25000,
-      "abril": null,
-      "mayo": null,
-      "junio": null,
-      "julio": null,
-      "agosto": null,
-      "septiembre": null,
-      "octubre": null,
-      "noviembre": null,
-      "diciembre": null,
-      "totalTrimestre": 50000,
-      "eneroM": 0,
-      "febreroM": 11000000,
-      "marzoM": 11000000,
-      "totalMontoVentaTrimestre": 22000000,
-      "piezasDisponibles": "27544"
-  },
-];
+  originalData: any[] = [];
+  protected originalDataC: any[] = [];
 
 
-dataSource2 = [
-  {
-      clave: '010.000.4229.00',
-      proveedor: 'JS jorinis',
-      descripcion: 'L-Asparaginasa',
-      conjuntos: 'IMPORTADO',
-      enero: 500,
-      febrero: 7500,
-      marzo: 500,
-      totalTrimestre: 22500,
-      eneroM: 15667500,
-      febreroM: 15667500,
-      marzoM: 15667500,
-      totalMontoVentaTrimestre: 47002500,
-      piezasDisponibles: '3030',
-  },
-  
-  {
-    "clave": "010.000.5084.00",
-    "proveedor": "BIOCON",
-    "descripcion": "Tacro 1-50",
-    "conjuntos": "IMPORTADO",
-    "enero": 13000,
-    "febrero": 1000,
-    "marzo": 135000,
-    "abril": 0,
-    "mayo": 0,
-    "junio": 0,
-    "julio": 0,
-    "agosto": 0,
-    "septiembre": 0,
-    "octubre": 0,
-    "noviembre": 0,
-    "diciembre": 0,
-    "totalTrimestre": 357000,
-    "eneroM": 14703000,
-    "febreroM": 22815000,
-    "marzoM": 22815000,
-    "totalMontoVentaTrimestre": 60333000,
-    "piezasDisponibles": "15212"
-},
-{
-    "clave": "010.000.3461.00",
-    "proveedor": "Germed",
-    "descripcion": "Azatioprina",
-    "conjuntos": "IMPORTADO",
-    "enero": 30000,
-    "febrero": 40000,
-    "marzo": 40000,
-    "abril": 0,
-    "mayo": 0,
-    "junio": 0,
-    "julio": 0,
-    "agosto": 0,
-    "septiembre": 0,
-    "octubre": 0,
-    "noviembre": 0,
-    "diciembre": 0,
-    "totalTrimestre": 110000,
-    "eneroM": 5070000,
-    "febreroM": 6760000,
-    "marzoM": 6760000,
-    "totalMontoVentaTrimestre": 18590000,
-    "piezasDisponibles": "30945"
-},
-{
-    "clave": "010.000.1774.00",
-    "proveedor": "AQVida",
-    "descripcion": "Epirubicina 1-50mg",
-    "conjuntos": "IMPORTADO",
-    "enero": 0,
-    "febrero": 25000,
-    "marzo": 25000,
-    "abril": null,
-    "mayo": null,
-    "junio": null,
-    "julio": null,
-    "agosto": null,
-    "septiembre": null,
-    "octubre": null,
-    "noviembre": null,
-    "diciembre": null,
-    "totalTrimestre": 50000,
-    "eneroM": 0,
-    "febreroM": 11000000,
-    "marzoM": 11000000,
-    "totalMontoVentaTrimestre": 22000000,
-    "piezasDisponibles": "27544"
-},
-];
+
+
+  dataSource = new MatTableDataSource<any>();  
+  protected dataSourceC = new MatTableDataSource<any>();
+
 
 displayedColumns: string[] = [];
+  protected displayedColumnsC: string[] = [];
 
 
-  constructor(private service: ApiService){
+
+  constructor(private service: ApiService, private cdr:ChangeDetectorRef){
 
     this.showLoading = false;
     this.isPlanSelected = false;
@@ -215,6 +50,8 @@ displayedColumns: string[] = [];
   ngOnInit(): void {
    
     this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+
 
     this.service.getAllPlanHistoricUnion().subscribe({
       next:(response)=> {
@@ -222,7 +59,66 @@ displayedColumns: string[] = [];
         this.plan_list = response.result;
       }
     });
+
+
+    this.service.getDetallesPlan().subscribe({
+      next:(response) => {
+        console.log("plan actual", response);
+        const formattedData = this.formatData(response);
+        console.log("data to pdf", formattedData);
   
+        this.originalData = [...formattedData];
+        this.dataSource.data = formattedData;
+
+      }
+    })
+
+
+  
+  }
+
+
+
+
+  ngAfterViewChecked(): void {
+    if (this.isPlanSelected && this.dataSource && !this.dataSource.paginator && !this.dataSourceC.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSourceC.paginator = this.paginatorC;
+      this.cdr.detectChanges(); 
+    }
+
+
+  }
+
+
+  
+  formatData(response: any[]): any[] {
+    return response.map(item => {
+      return {
+        clave: item['clave institucional'],
+        proveedor: item['Proveedor'],
+        descripcion: item['Descripción'],
+        conjuntos: item['CONJUNTOS'],
+        enero: item['Enero F'],
+        febrero: item['Febrero F'],
+        marzo: item['Marzo F'],
+        abril: item['Abril F'],
+        mayo: item['Mayo F'],
+        junio: item['Junio F'],
+        julio: item['Julio F'],
+        agosto: item['Agosto F'],
+        septiembre: item['Septiembre F'],
+        octubre: item['Octubre F'],
+        noviembre: item['Noviembre F'],
+        diciembre: item['Diciembre F'],
+        totalTrimestre: item['Total Trimestre'],
+        eneroM: item['Enero M'],
+        febreroM: item['Febrero M'],
+        marzoM: item['Marzo M'],
+        totalMontoVentaTrimestre: item['Total Monto en Venta Trimestre'],
+        piezasDisponibles: item['TOTAL Piezas Disponibles'],
+      };
+    });
   }
 
   openSettingsMenu(){
@@ -243,6 +139,9 @@ displayedColumns: string[] = [];
     }).then((result) => {
       if(result.isConfirmed){
         this.isPlanSelected = false;
+
+        this.dataSourceC.data = [];
+
       }else if(result.isDismissed){
 
       }
@@ -254,7 +153,12 @@ displayedColumns: string[] = [];
 }
 
 selectPlan(plan: any) {
+  this.selectedPlan = plan;
   this.showLoading = true;
+
+
+
+  console.log("plan seleccionado", plan);
 
   Swal.fire({
       title: 'Cargando...',
@@ -262,6 +166,21 @@ selectPlan(plan: any) {
       allowOutsideClick: false,
       didOpen: () => {
           Swal.showLoading(); 
+          //cargar los datos de la actual table
+          
+      this.service.getPlanSelectedByName(plan.name).subscribe({
+        next:(response) => {
+          console.log("selected plan data from api is", response.result[0]);
+
+          //const formattedData = this.formatData(response.result[0]);
+          //console.log("data to pdf", formattedData);
+    
+          this.originalDataC = [...response.result[0]];
+          this.dataSourceC.data = response.result[0];
+        }
+      })
+
+          //cargar los datos del seleccionado
       }
   });
 
@@ -269,9 +188,10 @@ selectPlan(plan: any) {
       Swal.close();
 
       this.isPlanSelected = true;
+      
 
       this.showLoading = false;
-  }, 1000); 
+  }, 600); 
 }
 
 }

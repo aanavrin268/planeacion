@@ -125,12 +125,18 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
       }
     }, 100);
   }
+
+
+  
   ngOnInit(): void {
 
     if(this.plan.id === 1){
       this.showDRows();
 
     }else if(this.plan.id === 2){
+
+
+
         this.showPrivateRows();
     }
 
@@ -191,7 +197,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     try{
       const response1 = await this.insertPlanUnionPromise(pName, pType);
 
-      const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixed);
+      const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixedWithPlan);
       Swal.fire({
         icon: 'success',
         title: '¡Guardado exitoso!',
@@ -212,6 +218,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
  
 }
+
+ 
 
   insertPlanUnionPromise = (name:string, type:string) => {
     return new Promise((resolve, reject) => {
@@ -248,46 +256,44 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
 
 
-
-
-  showPrivateRows(){
+  showPrivateRows() {
     this.isLoading = true;
-
-    let newHeaders: any[] = [];
-    if (this.limits === 1) {
-      newHeaders = this.headersQ1;
-    } else if (this.limits === 2) {
-      newHeaders = this.headersQ1.concat(this.headersQ2);
-    } else if (this.limits === 3) {
-      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3);
-    } else if (this.limits === 4) {
-      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3).concat(this.headersQ4);
-    }
   
-    const allHeaders = this.headers.concat(newHeaders);
+    // Definir los headers con los nombres de las columnas que quieres mostrar
+    this.headers = [
+      { id: 1, title: 'seleccionar' }, // Columna adicional para checkboxes
+      { id: 2, title: 'Producto' },
+      { id: 3, title: 'Inventario' },
+     
+      // Agrega aquí el resto de las columnas que necesites
+    ];
   
-    this.headers = Array.from(
-      new Map(allHeaders.map(header => [header.title, header])).values()
-    );
-  
+    // Transformar los títulos de las columnas a minúsculas y sin espacios
     this.displayedColumns = this.headers.map(header => 
-      header.title.toLowerCase().replace(' ', '')
+      header.title.toLowerCase().replace(/ /g, '')
     );
   
+    // Obtener los datos de la API
     this.service.getDetallesPlanPrivate().subscribe({
       next: (response) => {
-        const formattedData = this.formatData(response);
-        console.log("data to pdf", formattedData);
+        // Transformar las claves de los datos a minúsculas y sin espacios
+        const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+          const newItem: { [key: string]: any } = {};
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              const newKey = key.toLowerCase().replace(/ /g, ''); // Transformar la clave
+              newItem[newKey] = item[key];
+            }
+          }
+          newItem['seleccionar'] = false; // Agregar la columna 'seleccionar'
+          return newItem;
+        });
   
+        // Asignar los datos transformados a la tabla
         this.originalData = [...formattedData];
-        this.dataSource.data = formattedData;
-  
-        // Asigna el paginador después de cargar los datos
-  
+        this.dataSource.data = this.originalData;
         this.filteredData = [...this.dataSource.data];
-
-        //this.dataSource.paginator = this.paginator;
-
+  
         this.isLoading = false;
       }
     });
