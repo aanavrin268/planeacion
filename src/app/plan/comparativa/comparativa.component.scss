@@ -149,7 +149,7 @@ $white-20: rgba(255, 255, 255, 0.2);
 
                     .settings-menu{
                         width: 15vw;
-                        height: 11vh;
+                        height: auto;
                         background-color: white;
                         border-radius: 12px;
                         padding: 1rem;
@@ -158,8 +158,29 @@ $white-20: rgba(255, 255, 255, 0.2);
                         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.384);
                         position: absolute;
                         z-index: 1000;
-                        top: 95%;
-                        right: -16%;
+                        top: 89%;
+                        right: 2%;
+                        .settings-menu-container{
+                            display: flex;
+                            flex-direction: column;
+
+                            .settings-item{
+                                transition: all 0.2s ease-in-out;
+                                padding: .3rem .6rem;
+
+                                &:hover{
+                                    cursor: pointer;
+                                    background-color: rgba(128, 128, 128, 0.212);
+                                }
+
+                                span{
+                                    line-height: 1.1;
+                                    font-weight: 600;
+                                }
+
+                              
+                            }
+                        }
                     }
 
                   

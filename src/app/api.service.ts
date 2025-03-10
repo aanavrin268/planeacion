@@ -16,6 +16,14 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  deletePlanHistoricByName(name:string):Observable<any>{
+    const payload ={p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/deletePlanByName`, payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
   getPlanSelectedByName(name:string):Observable<any>{
     const payload = {p_name: name}
 

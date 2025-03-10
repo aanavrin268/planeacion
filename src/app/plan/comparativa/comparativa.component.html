@@ -16,7 +16,13 @@
                         (click)="openSettingsMenu()"></i>
 
                     <div class="settings-menu" *ngIf="showSettingsMenu">
-                        <span>Cerrar</span>
+                        <div class="settings-menu-container">
+                            <div class="settings-item" *ngFor="let item of settings_list_menu">
+                                <span (click)="onSettingsSelected(item)">
+                                    {{item.title}}
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

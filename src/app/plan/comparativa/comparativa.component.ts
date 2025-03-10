@@ -7,6 +7,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
+import { BehaviorsService } from '../../core/services/behaviors.service';
 
 
 @Component({
@@ -27,6 +30,7 @@ export class ComparativaComponent implements OnInit, AfterViewChecked {
   protected plan_list: any[] = [];
   originalData: any[] = [];
   protected originalDataC: any[] = [];
+  protected settings_list_menu: any[] = [];
 
 
 
@@ -40,7 +44,9 @@ displayedColumns: string[] = [];
 
 
 
-  constructor(private service: ApiService, private cdr:ChangeDetectorRef){
+  constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService){
+
+    this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
 
     this.showLoading = false;
     this.isPlanSelected = false;
@@ -53,12 +59,7 @@ displayedColumns: string[] = [];
     this.displayedColumnsC = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
 
 
-    this.service.getAllPlanHistoricUnion().subscribe({
-      next:(response)=> {
-        console.log("historic", response);
-        this.plan_list = response.result;
-      }
-    });
+    this.getPlaListData();
 
 
     this.service.getDetallesPlan().subscribe({
@@ -78,8 +79,6 @@ displayedColumns: string[] = [];
   }
 
 
-
-
   ngAfterViewChecked(): void {
     if (this.isPlanSelected && this.dataSource && !this.dataSource.paginator && !this.dataSourceC.paginator) {
       this.dataSource.paginator = this.paginator;
@@ -89,6 +88,59 @@ displayedColumns: string[] = [];
 
 
   }
+
+
+  getPlaListData(){
+    this.behaviorService.loadAllPlanhistoricUnion();
+    this.behaviorService.planHistoric$.subscribe(
+      (data) => {
+        this.plan_list = data;
+      }
+    )
+  }
+
+  afterModalClosed(result:any){
+
+    this.service.getAllPlanHistoricUnion().subscribe({
+      next:(response)=> {
+        console.log("historic", response);
+        this.plan_list = response.result;
+      }
+    });
+  }
+
+  openEditList(){
+    this.openSettingsMenu();
+
+    const modalRef = this.modal.open(EditPlanListModalComponent, {
+      size:'md', 
+      centered: true,
+      windowClass: 'redondo'
+    });
+
+    modalRef.componentInstance.list = this.plan_list;
+
+    modalRef.result.then(
+      (result) => {
+
+      },
+      (reason) => {
+
+      }
+    );
+  }
+
+
+  onSettingsSelected(item:any){
+    switch(item.id){
+      case 1:
+        this.openEditList();
+        break;
+      case 2:
+          this.openSettingsMenu();
+        break;
+    }
+  } 
 
 
   

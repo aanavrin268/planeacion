@@ -1,0 +1,20 @@
+<div class="modal-main">
+    <div class="header">
+        <span class="title">Planes disponibles</span>
+    </div>
+    <div class="body">
+        <span class="sub">Haz click en el plan que deseas eliminar. La acción no puede revertirse.</span>
+        <div class="plan-container">
+            <div class="plan" *ngFor="let item of nList">
+                <div class="plan-card">
+                    <span>{{item.name}}</span>
+                </div>
+                <i class="bi bi-trash3 plan-icon"
+                    (click)="deletePlan(item)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="footer"> 
+        <button class="btn btn-light" (click)="closeModal()">Cerrar</button>
+    </div>
+</div>
