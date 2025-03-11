@@ -7,6 +7,8 @@ import { ApiService } from '../../api.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BehaviorSubject } from 'rxjs';
+import { BehaviorsService } from '../../core/services/behaviors.service';
 
 
 @Component({
@@ -23,8 +25,11 @@ export class DashPlanComponent implements OnInit {
   protected keyPublicAmount: number;
   protected keyPublicText: string;
 
+  valuees: any;
 
-  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router){
+
+
+  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router, private behaviors: BehaviorsService){
     this.plan_list = [
       {id:1, name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
       {id: 2, name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
@@ -39,12 +44,14 @@ export class DashPlanComponent implements OnInit {
 
     this.keyPublicAmount = 0;
     this.keyPublicText = "";
+
   }
 
   ngOnInit(): void {
 
-    this.plan_version_list[1].versions='Sin versiones';
 
+    /*
+    this.plan_version_list[1].versions='Sin versiones';
     this.apiService.getPlanPublicoKeys().subscribe({
       next:(response:any) => {
         console.log("keys public", response);
@@ -69,7 +76,22 @@ export class DashPlanComponent implements OnInit {
 
       }
     });
+    */
+ 
+    this.loadListData();
 
+
+  }
+
+  loadListData(){
+    this.behaviors.loadAllPlanhistoricUnion();
+    this.behaviors.planHistoric$.subscribe(
+      (data:any[]) => {
+        this.plan_version_list[0].versions = data.length +' versiones';
+
+        //this.valuees = data.length;
+      }
+    )
   }
 
 
@@ -119,6 +141,16 @@ export class DashPlanComponent implements OnInit {
     //plan.nombre = ''
 
     modalRef.componentInstance.plan = plan;
+
+    modalRef.result.then(
+      (result) => {
+        this.loadListData();
+      },
+      (reason) => {
+        this.loadListData();
+
+      }
+    )
   }
 
 }
