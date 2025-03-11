@@ -177,23 +177,15 @@ actualizarDetallePrivado() {
 
     
 
-  const table = 'plan_privado';
-  const condition = 'clave institucional';
-  const condition_value = this.editForm.get('clave')?.value;
+  const table = 'detalles_privado';
+  const condition = 'producto';
+  const condition_value = this.editForm.get('descripcion')?.value;
   
   const months = {
-      "Enero F": this.editForm.get('enero')?.value,
-      "Febrero F": this.editForm.get('febrero')?.value,
-      "Marzo F": this.editForm.get('marzo')?.value,
-      "Abril F": this.editForm.get('abril')?.value,
-      "Mayo F": this.editForm.get('mayo')?.value,
-      "Junio F": this.editForm.get('junio')?.value,
-      "Julio F": this.editForm.get('julio')?.value,
-      "Agosto F": this.editForm.get('agosto')?.value,
-      "Septiembre F": this.editForm.get('septiembre')?.value,
-      "Octubre F": this.editForm.get('octubre')?.value,
-      "Noviembre F": this.editForm.get('noviembre')?.value,
-      "Diciembre F": this.editForm.get('diciembre')?.value,
+      "enero": this.editForm.get('enero')?.value,
+      "febrero": this.editForm.get('febrero')?.value,
+      "marzo": this.editForm.get('marzo')?.value,
+      
 
   };
 
