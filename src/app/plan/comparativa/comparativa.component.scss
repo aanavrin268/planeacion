@@ -58,8 +58,26 @@ $white-20: rgba(255, 255, 255, 0.2);
                     .badge-container{
                         display: flex;
                         position: relative;
+                        justify-content: center;
+                        align-items: center;
 
-                        .p-text-selected{
+                        .b-text{
+                            line-height: 1.1;
+                            font-size: 12px;
+                            font-weight: 700;
+                            color: #404040;
+                            margin-left: 1rem;
+                        }
+
+                        .p-text-v{
+                            line-height: 1.1;
+                            font-weight: 800;
+                            font-size: 13px;
+                            margin-left: .6rem;
+                            margin-right: .6rem;
+                        }
+
+                        .p-text-actual{
                             line-height: 1.1;
                             font-weight: 600;
                             font-size: 14px;
@@ -70,19 +88,30 @@ $white-20: rgba(255, 255, 255, 0.2);
     
                         }
 
+                        .p-text-selected{
+                            line-height: 1.1;
+                            font-weight: 600;
+                            font-size: 14px;
+                            color: white;
+                            background-color: #571713;
+                            padding: .5rem .8rem;
+                            border-radius: 8px;
+    
+                        }
+
                         .badge{
                             position: absolute;
                             background-color: red;
                             z-index: 10;
-                            right: -4%;
-                            top: -36%;
+                            right: 37%;
+                            top: -38%;
                             width: 20px;
                             height: 20px;
                             display: flex;
                             justify-content: center;
                             align-items: center;
                             font-size: 16px;
-                            transition:  all 0.2s ease-in-out;
+                            transition: all 0.2s ease-in-out;
 
                             &:hover{
                                 cursor: pointer;
@@ -313,6 +342,7 @@ $white-20: rgba(255, 255, 255, 0.2);
                         line-height: 1.1;
                         font-weight: 700;
                         font-size: 28px;
+                        color: #132557;
                     }
                 }
     
@@ -321,6 +351,14 @@ $white-20: rgba(255, 255, 255, 0.2);
                     display: flex;
                     flex-direction: column;
                     margin-top: 1.5rem;
+
+                    .sub{
+                        color: #353535;
+                        line-height: 1.1;
+                        font-style: 15px;
+                        font-weight: 630;
+                        margin-bottom: 1rem;
+                    }
     
                    
                 }
@@ -344,6 +382,7 @@ $white-20: rgba(255, 255, 255, 0.2);
                         line-height: 1.1;
                         font-weight: 700;
                         font-size: 28px;
+                        color: #571713;
                     }
                 }
     
@@ -352,6 +391,14 @@ $white-20: rgba(255, 255, 255, 0.2);
                     display: flex;
                     flex-direction: column;
                     margin-top: 1.5rem;
+
+                    .sub{
+                        color: #353535;
+                        line-height: 1.1;
+                        font-style: 15px;
+                        font-weight: 630;
+                        margin-bottom: 1rem;
+                    }
     
                    
                 }
@@ -384,7 +431,23 @@ $white-20: rgba(255, 255, 255, 0.2);
                     display: flex;
                     flex-direction: column;
                     margin-top: 1.5rem;
-    
+                    
+                    .no-differences{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100%;
+                        height: 40vh;
+                        gap: 3rem;
+                        flex-direction: column;
+
+                        .title{
+                            font-size: 26px;
+                            font-weight: 710;
+                            color: #0d193a;
+                            line-height: 1.1;
+                        }
+                    }
                    
                 }
     

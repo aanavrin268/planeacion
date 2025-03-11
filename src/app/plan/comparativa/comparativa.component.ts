@@ -29,8 +29,10 @@ export class ComparativaComponent implements OnInit, AfterViewChecked {
   protected selectedPlan: any;
 
   protected id: any;
+  protected difference_text: string;
 
   protected plan_list: any[] = [];
+  protected differencesArray: any[] = [];
   originalData: any[] = [];
   protected originalDataC: any[] = [];
   protected settings_list_menu: any[] = [];
@@ -52,6 +54,7 @@ displayedColumns: string[] = [];
   ){
 
     this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
+    this.difference_text = '';
 
     this.showLoading = false;
     this.isPlanSelected = false;
@@ -84,6 +87,59 @@ displayedColumns: string[] = [];
   }
 
 
+  getDifferences(dataSource1: any[], dataSource2: any[]): any[] {
+    const differences: any[] = [];
+  
+    if (dataSource1.length !== dataSource2.length) {
+      console.error("Los dataSource no tienen la misma longitud.");
+      return differences;
+    }
+  
+    dataSource1.forEach((row1, index) => {
+      const row2 = dataSource2[index];
+  
+      const rowDifferences: any = {};
+  
+      Object.keys(row1).forEach(key => {
+        if (row2.hasOwnProperty(key)) {
+          const value1 = String(row1[key]);
+          const value2 = String(row2[key]);
+  
+          if (value1 !== value2) {
+            rowDifferences[key] = {
+              value1: row1[key], 
+              value2: row2[key]  
+            };
+          }
+        }
+      });
+  
+      if (Object.keys(rowDifferences).length > 0) {
+        differences.push({
+          producto: row1.producto, 
+          diferencias: rowDifferences 
+        });
+      }
+    });
+  
+    return differences;
+  }
+
+
+  async getDifferencesPromise(data1: any[], data2: any[]){
+    return new Promise((resolve, reject) => {
+      try{
+        const dif = this.getDifferences(data1, data2);
+        resolve(dif);
+      }catch(err){
+        reject(err);
+      }
+
+
+    })
+  }
+
+  
   getPlaListData(){
     if(this.id == 1){
       
@@ -218,7 +274,7 @@ displayedColumns: string[] = [];
     return row1[column] !== row2[column];
 }
 
-selectPlan(plan: any) {
+async selectPlan(plan: any) {
   this.selectedPlan = plan;
   this.showLoading = true;
 
@@ -230,7 +286,7 @@ selectPlan(plan: any) {
       title: 'Cargando...',
       text: 'Por favor, espera un momento.',
       allowOutsideClick: false,
-      didOpen: () => {
+      didOpen: async () => {
           Swal.showLoading(); 
           //cargar los datos de la actual table
 
@@ -263,45 +319,74 @@ selectPlan(plan: any) {
           
           
 
-        } else if(this.id == 2){
+        } 
 
-          this.service.getDetallesPlanPrivate().subscribe({
-            next: (response) => {
-              const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
-                const newItem: { [key: string]: any } = {};
-                for (const key in item) {
-                  if (item.hasOwnProperty(key)) {
-                    const newKey = key.toLowerCase().replace(/ /g, ''); 
-                    newItem[newKey] = item[key];
+        else if (this.id == 2) {
+          const getDetallesPlanPrivatePromise = new Promise((resolve, reject) => {
+            this.service.getDetallesPlanPrivate().subscribe({
+              next: (response) => {
+                const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+                  const newItem: { [key: string]: any } = {};
+                  for (const key in item) {
+                    if (item.hasOwnProperty(key)) {
+                      const newKey = key.toLowerCase().replace(/ /g, '');
+                      newItem[newKey] = item[key];
+                    }
                   }
-                }
-                newItem['seleccionar'] = false; 
-                return newItem;
-              });
+                  newItem['seleccionar'] = false;
+                  return newItem;
+                });
         
-              this.originalData = [...formattedData];
-              console.log('private data', this.originalData);
-              this.dataSource.data = this.originalData;
-              this.filteredData = [...this.dataSource.data];
-        
-              //this.isLoading = false;
-            }
+                this.originalData = [...formattedData];
+                console.log('private data', this.originalData);
+                this.dataSource.data = this.originalData;
+                this.filteredData = [...this.dataSource.data];
+                resolve(true); 
+              },
+              error: (err) => {
+                reject(err); 
+              }
+            });
           });
-
-
-          this.service.getPlanSelectedPrivateByName(plan.name).subscribe({
-            next:(response) => {
-              console.log("selected plan data from api is", response.result[0]);
-    
-              //const formattedData = this.formatData(response.result[0]);
-              //console.log("data to pdf", formattedData);
         
-              this.originalDataC = [...response.result[0]];
-              this.dataSourceC.data = response.result[0];
-            }
-          })
+          const getPlanSelectedPrivateByNamePromise = new Promise((resolve, reject) => {
+            this.service.getPlanSelectedPrivateByName(plan.name).subscribe({
+              next: (response) => {
+                console.log("selected plan data from api is", response.result[0]);
+        
+                this.originalDataC = [...response.result[0]];
+                this.dataSourceC.data = response.result[0];
+                resolve(true); 
+              },
+              error: (err) => {
+                reject(err); 
+              }
+            });
+          });
+        
+          Promise.all([getDetallesPlanPrivatePromise, getPlanSelectedPrivateByNamePromise])
+            .then(() => {
+               this.differencesArray = this.getDifferences(this.originalDataC, this.originalData);
+              console.log("diferencias ", this.differencesArray);
+
+              if(this.differencesArray.length === 0){
+                this.difference_text = '(0 diferencias encontradas)';
+              }else if(this.differencesArray.length === 1){
+                this.difference_text = '(1 diferencia encontrada)';
+
+              }else{
+                this.difference_text = '(' +  this.differencesArray.length  +'diferencias encontradas)';
+
+              }
+
+            })
+            .catch((err) => {
+              console.error("Error al obtener los datos:", err);
+            });
         }
-          
+        
+        
+      
     
    
 
