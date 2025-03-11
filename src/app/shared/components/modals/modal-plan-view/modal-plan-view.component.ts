@@ -11,6 +11,7 @@ import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
+import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, menu_lists } from '../../../../core/helpers/arrays';
 
 
 @Component({
@@ -24,24 +25,11 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   protected plan: any;
   protected isLoading: boolean;
-
   protected ogData: any;
-
-  protected plans_list:any[] = [
-    {}
-  ];
+  protected plans_list:any[] = [];
 
   
-  protected first_quarter: string[] = ['Enero', 'Febrero', 'Marzo'];
-  protected second_quarter: string[] = ['Abril', 'Mayo', 'Junio'];
-  protected third_quarter: string[] = ['Julio', 'Agosto', 'Septiembre'];
-  protected fourth_quarter: string[] = ['Octubre', 'Noviembre', 'Diciembre'];
-
-  protected list_menu_views: any[] = [
-    {id: 1, title: 'General'},     {id: 2, title: 'Scroll telling'},
-    {id: 3, title: 'Múltiples tablas'},  {id: 4, title: 'Cerrar'},
-
-  ]
+  protected list_menu_views: any[] = []
 
   protected selectedRow : any;
   displayedColumns: string[] = [];
@@ -51,7 +39,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   limits: number;
   protected showMenu: boolean = false;
   protected showViewsMenu: boolean = false;
-
+  protected typeText: string;
 
   public data: any[] = [];  
 
@@ -66,51 +54,29 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   originalData: any[] = [];
 
 
-  protected headersQ1 = [
-    {id: 1, title: 'enero'},   
-    {id: 2, title: 'febrero'},
-    {id: 3, title: 'marzo'},
-  ];
+  protected headersQ1: any[]= [];
+  protected headersQ2: any[] = [];
+  protected headersQ3: any[] = [];
+  protected headersQ4: any[] = [];
+  protected menu_lists: any[] = [];
 
-  protected headersQ2 = [
-    {id: 1, title: 'abril'},   
-    {id: 2, title: 'mayo'},
-    {id: 3, title: 'junio'},
-  ];
-
-  protected headersQ3 = [
-    {id: 1, title: 'julio'},   
-    {id: 2, title: 'agosto'},
-    {id: 3, title: 'septiembre'}
-  ];
-
-  protected headersQ4 = [
-    {id: 1, title: 'octubre'},   
-    {id: 2, title: 'noviembre'},
-    {id: 3, title: 'diciembre'}
-  ];
-
-  protected menu_lists: any[] = [
-    {id:1, title:'Ver producto'},
-    {id:2, title:'Editar información'},
-    {id:3, title:'Cancelar'},
-
-  ]
-
-  protected headers = [
-    {id: 1, title: 'seleccionar'},   
-    {id: 2, title: 'clave'},   
-    {id: 3, title: 'Proveedor'},
-    {id: 4, title: 'descripcion'}, 
-    {id: 5, title: 'conjuntos'},
-  ];
-
+  protected headers: any[] = [];
+  protected headersPrivate: any[] = [];
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1; 
     this.idValue = 0;
 
+    this.headersQ1 = headersQ1;
+    this.headersQ2 = headersQ2;
+    this.headersQ3 = headersQ3;
+    this.headersQ4 = headersQ4;
+    this.menu_lists = menu_lists;
+    this.list_menu_views = list_menu_views;
+    this.headers = headers;
     this.isLoading = false;
+
+    this.typeText = '';
     
   }
 
@@ -132,28 +98,112 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
     if(this.plan.id === 1){
       this.showDRows();
-
+      this.typeText = 'publico';
     }else if(this.plan.id === 2){
+      this.typeText = 'privado';
 
 
 
         this.showPrivateRows();
     }
 
-    this.service.getLastIdNumber('publico').subscribe({
+    this.service.getLastIdNumber(this.typeText).subscribe({
       next:(response) => {
-        console.log('value ublico', response.result);
+        console.log('valor ', this.typeText,  ' ', response.result);
         this.idValue = response.result;
       }
     });
-
 
   
 
   }
 
 
+  async savePublicPlan(pName: string, pType: string){
+
+    const replaceNullWithZero = (obj: { [x: string]: number }) => {
+      for (let key in obj) {
+          if (obj[key] === null) {
+              obj[key] = 0;
+          }
+      }
+      return obj;
+  };
+
+  const jsonFixed = this.originalData.map(replaceNullWithZero);
+
+  const jsonFixedWithPlan = jsonFixed.map((item) => {
+    return {
+        ...item, 
+        nombre_plan: pName
+    };
+});
+
+  
+
+Swal.fire({
+  title: 'Guardando...',
+  text: 'Por favor, espera un momento.',
+  allowOutsideClick: false,
+  didOpen: () => {
+      Swal.showLoading(); 
+  }
+});
+
+try{
+const response1 = await this.insertPlanUnionPromise(pName, pType);
+
+const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixedWithPlan);
+Swal.fire({
+  icon: 'success',
+  title: '¡Guardado exitoso!',
+  text: 'Los datos se han guardado correctamente.',
+  confirmButtonText: 'Aceptar'
+});
+}catch(err){
+console.log("Error:", err);
+
+Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+    confirmButtonText: 'Aceptar'
+});
+}
+
+
+
+  }
+
+
  async saveVersion() {
+
+  const jtest= {
+    "table": "plan_historico_privado",
+    "json": [
+        {
+            "producto": "Acido Ascórbico 1 gr c/ 10 Aurax",
+            "inventario": 0,
+            "enero": 1000,
+            "febrero": 1000,
+            "marzo": 1000
+        },
+        {
+            "producto": "Paracetamol 500 mg c/ 10",
+            "inventario": 50,
+            "enero": 2000,
+            "febrero": 1500,
+            "marzo": 1800
+        },
+        {
+            "producto": "Ibuprofeno 400 mg c/ 20",
+            "inventario": 30,
+            "enero": 1200,
+            "febrero": 1300,
+            "marzo": 1400
+        }
+    ]
+}
 
     let pName = '';
     let pType = '';
@@ -162,63 +212,62 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   if(this.plan.id === 1){
       pName = 'plan público version' + String(this.idValue);
       pType  = 'publico';
+
+      await this.savePublicPlan(pName, pType);
+
     }else if(this.plan.id === 2){
-    }
+      pName = 'plan privado version' + String(this.idValue);
+      pType  = 'privado';
 
-    const replaceNullWithZero = (obj: { [x: string]: number }) => {
-        for (let key in obj) {
-            if (obj[key] === null) {
-                obj[key] = 0;
-            }
-        }
-        return obj;
-    };
 
-    const jsonFixed = this.originalData.map(replaceNullWithZero);
-
-    const jsonFixedWithPlan = jsonFixed.map((item) => {
-      return {
-          ...item, 
-          nombre_plan: pName
-      };
-  });
+      const filtered_private_data = this.originalData.map(item => ({
+        producto: item.producto,
+        inventario: item.inventario !== null ? item.inventario : 0,
+        enero: item.enero !== null ? item.enero: 0,
+        febrero: item.febrero !== null ? item.febrero: 0,
+        marzo: item.marzo !== null ? item.marzo:0
+      }));
 
 
 
-    Swal.fire({
-        title: 'Guardando...',
-        text: 'Por favor, espera un momento.',
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading(); 
-        }
+      const jsonFixedWithPlan = filtered_private_data.map((item) => {
+        return {
+            ...item, 
+            nombre_plan: pName
+        };
     });
+    
 
-    try{
+
+
+      console.log("filtered_private", filtered_private_data);
+
       const response1 = await this.insertPlanUnionPromise(pName, pType);
+      const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
 
-      const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixedWithPlan);
-      Swal.fire({
-        icon: 'success',
-        title: '¡Guardado exitoso!',
-        text: 'Los datos se han guardado correctamente.',
-        confirmButtonText: 'Aceptar'
-    });
-    }catch(err){
-      console.log("Error:", err);
 
-      Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
-          confirmButtonText: 'Aceptar'
-      });
     }
+
+    
 
 
  
 }
 
+
+  insertPlanHistoricoPrivadoPromise = (table_name: string, data_json: any) => {
+    return new Promise((resolve, reject) => {
+      this.service.insertPlanHistoricoPrivado(table_name, data_json).subscribe({
+        next:(data) => {
+          console.log("registor privado", data);
+          resolve(data);
+        },
+        error:(error) => {
+          reject(error);
+        } 
+      })
+    })
+  }
  
 
   insertPlanUnionPromise = (name:string, type:string) => {
@@ -259,38 +308,36 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   showPrivateRows() {
     this.isLoading = true;
   
-    // Definir los headers con los nombres de las columnas que quieres mostrar
     this.headers = [
-      { id: 1, title: 'seleccionar' }, // Columna adicional para checkboxes
+      { id: 1, title: 'seleccionar' }, 
       { id: 2, title: 'Producto' },
       { id: 3, title: 'Inventario' },
-     
-      // Agrega aquí el resto de las columnas que necesites
+      { id: 4, title: 'enero' },
+      { id: 5, title: 'febrero' },
+      { id: 6, title: 'marzo' },
+
     ];
   
-    // Transformar los títulos de las columnas a minúsculas y sin espacios
     this.displayedColumns = this.headers.map(header => 
       header.title.toLowerCase().replace(/ /g, '')
     );
   
-    // Obtener los datos de la API
     this.service.getDetallesPlanPrivate().subscribe({
       next: (response) => {
-        // Transformar las claves de los datos a minúsculas y sin espacios
         const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
           const newItem: { [key: string]: any } = {};
           for (const key in item) {
             if (item.hasOwnProperty(key)) {
-              const newKey = key.toLowerCase().replace(/ /g, ''); // Transformar la clave
+              const newKey = key.toLowerCase().replace(/ /g, ''); 
               newItem[newKey] = item[key];
             }
           }
-          newItem['seleccionar'] = false; // Agregar la columna 'seleccionar'
+          newItem['seleccionar'] = false; 
           return newItem;
         });
   
-        // Asignar los datos transformados a la tabla
         this.originalData = [...formattedData];
+        console.log('private data', this.originalData);
         this.dataSource.data = this.originalData;
         this.filteredData = [...this.dataSource.data];
   

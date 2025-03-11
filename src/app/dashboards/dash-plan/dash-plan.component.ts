@@ -87,23 +87,38 @@ export class DashPlanComponent implements OnInit {
     this.behaviors.loadAllPlanhistoricUnion();
     this.behaviors.planHistoric$.subscribe(
       (data:any[]) => {
-        this.plan_version_list[0].versions = data.length +' versiones';
-
-        //this.valuees = data.length;
+        if(data.length === 0) this.plan_version_list[0].versions = 'Sin versiones';
+        else if(data.length === 1) this.plan_version_list[0].versions = '1 versión';
+        else if(data.length > 0)  this.plan_version_list[0].versions = data.length +' versiones';
       }
-    )
+    );
+
+    this.behaviors.loadAllPlanPrivateUnion();
+    this.behaviors.planPrivateHistoric$.subscribe(
+      (data: any[]) => {
+        if(data.length === 0) this.plan_version_list[1].versions = 'Sin versiones';
+        else if(data.length === 1) this.plan_version_list[1].versions = '1 versión';
+        else if(data.length > 0)  this.plan_version_list[1].versions = data.length +' versiones';
+      }
+    );
+
+
+
   }
+
+
+
 
 
   openComparative(plan: any){
     console.log("es", plan);
+    const id = plan.id;
 
-    if(plan.id === 2){
-      this.showAlert();
-    }else {
-      this.router.navigate(['/comparativa']);
+    if(plan.versions === 'Sin versiones')  this.showAlert();
+    else{
+      this.router.navigate(['/comparativa', id]);
 
-    }
+    } 
 
   }
 

@@ -16,6 +16,37 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getPlanSelectedPrivateByName(name:string):Observable<any>{
+    const payload = {p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/getSelectedPlanPrivateByName`, 
+      payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
+
+  insertPlanHistoricoPrivado(table_name: string, json_data: any):Observable<any>{
+    const payload = {
+      table: table_name,
+      json: json_data
+    }
+
+    return this.http.post(`${this.apiUrl}/api/insertHistoricoPrivado`, payload,
+      {headers: new HttpHeaders({'Content-Type':'application/json'})}
+    );
+  }
+
+
+
+  getAllPlanPrivadoHistoric(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllPlanUnionPrivate`);
+  }
+
+  getPlanPrivadoKeys():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPlanPrivadoKeys`);
+  }
+
   deletePlanHistoricByName(name:string):Observable<any>{
     const payload ={p_name: name}
 

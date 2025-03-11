@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class EditPlanListModalComponent implements OnInit {
   protected list: any[] = [];
   protected nList: any[] = [];
+  protected id: any;
 
   constructor(private active: NgbActiveModal, private apiService: ApiService, private behaviorService: BehaviorsService){}
 
@@ -55,12 +56,22 @@ export class EditPlanListModalComponent implements OnInit {
   }
 
   getData(){
-    this.behaviorService.loadAllPlanhistoricUnion();
-    this.behaviorService.planHistoric$.subscribe(
-      (data) => {
-        this.nList = data;
-      }
-    )
+    if(this.id == 1){
+      this.behaviorService.loadAllPlanhistoricUnion();
+      this.behaviorService.planHistoric$.subscribe(
+        (data) => {
+          this.nList = data;
+        }
+      );
+    }else if(this.id == 2){
+      this.behaviorService.loadAllPlanPrivateUnion();
+      this.behaviorService.planPrivateHistoric$.subscribe(
+        (data) => {
+          this.nList = data;
+        }
+      );
+    }
+
   }
 
   closeModal(){

@@ -29,7 +29,7 @@ export const routes: Routes = [
 {path: 'dashProducts', component: DashProductsComponent},
 {path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
-{path: 'comparativa', component: ComparativaComponent},
+{path: 'comparativa/:id', component: ComparativaComponent},
 {path: 'settings', component: SettingsComponent},
 {path: 'planTelling', component: PlanTellingComponent},
 

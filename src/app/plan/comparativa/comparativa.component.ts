@@ -10,6 +10,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
 import { BehaviorsService } from '../../core/services/behaviors.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -27,11 +28,13 @@ export class ComparativaComponent implements OnInit, AfterViewChecked {
   protected showLoading: boolean;
   protected selectedPlan: any;
 
+  protected id: any;
+
   protected plan_list: any[] = [];
   originalData: any[] = [];
   protected originalDataC: any[] = [];
   protected settings_list_menu: any[] = [];
-
+  protected filteredData: any[] = [];
 
 
 
@@ -44,7 +47,9 @@ displayedColumns: string[] = [];
 
 
 
-  constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService){
+  constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService,
+    private route: ActivatedRoute
+  ){
 
     this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
 
@@ -54,28 +59,17 @@ displayedColumns: string[] = [];
   }
 
   ngOnInit(): void {
-   
-    this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
-    this.displayedColumnsC = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      console.log('el id es:', this.id);
+
+    });
+
 
 
     this.getPlaListData();
 
 
-    this.service.getDetallesPlan().subscribe({
-      next:(response) => {
-        console.log("plan actual", response);
-        const formattedData = this.formatData(response);
-        console.log("data to pdf", formattedData);
-  
-        this.originalData = [...formattedData];
-        this.dataSource.data = formattedData;
-
-      }
-    })
-
-
-  
   }
 
 
@@ -91,12 +85,32 @@ displayedColumns: string[] = [];
 
 
   getPlaListData(){
-    this.behaviorService.loadAllPlanhistoricUnion();
-    this.behaviorService.planHistoric$.subscribe(
-      (data) => {
-        this.plan_list = data;
-      }
-    )
+    if(this.id == 1){
+      
+    this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+
+      this.behaviorService.loadAllPlanhistoricUnion();
+      this.behaviorService.planHistoric$.subscribe(
+        (data) => {
+          this.plan_list = data;
+        }
+      );
+
+    }else if(this.id == 2){
+      
+    this.displayedColumns = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
+
+      this.behaviorService.loadAllPlanPrivateUnion();
+      this.behaviorService.planPrivateHistoric$.subscribe(
+        (data) => {
+          this.plan_list = data;
+        }
+      );
+    }
+
+ 
   }
 
   afterModalClosed(result:any){
@@ -118,7 +132,7 @@ displayedColumns: string[] = [];
       windowClass: 'redondo'
     });
 
-    modalRef.componentInstance.list = this.plan_list;
+    modalRef.componentInstance.id = this.id;
 
     modalRef.result.then(
       (result) => {
@@ -219,6 +233,21 @@ selectPlan(plan: any) {
       didOpen: () => {
           Swal.showLoading(); 
           //cargar los datos de la actual table
+
+        if(this.id == 1){
+          this.service.getDetallesPlan().subscribe({
+            next:(response) => {
+              console.log("plan actual", response);
+              const formattedData = this.formatData(response);
+              console.log("data to pdf", formattedData);
+        
+              this.originalData = [...formattedData];
+              this.dataSource.data = formattedData;
+      
+            }
+          });
+
+
           
       this.service.getPlanSelectedByName(plan.name).subscribe({
         next:(response) => {
@@ -231,6 +260,53 @@ selectPlan(plan: any) {
           this.dataSourceC.data = response.result[0];
         }
       })
+          
+          
+
+        } else if(this.id == 2){
+
+          this.service.getDetallesPlanPrivate().subscribe({
+            next: (response) => {
+              const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+                const newItem: { [key: string]: any } = {};
+                for (const key in item) {
+                  if (item.hasOwnProperty(key)) {
+                    const newKey = key.toLowerCase().replace(/ /g, ''); 
+                    newItem[newKey] = item[key];
+                  }
+                }
+                newItem['seleccionar'] = false; 
+                return newItem;
+              });
+        
+              this.originalData = [...formattedData];
+              console.log('private data', this.originalData);
+              this.dataSource.data = this.originalData;
+              this.filteredData = [...this.dataSource.data];
+        
+              //this.isLoading = false;
+            }
+          });
+
+
+          this.service.getPlanSelectedPrivateByName(plan.name).subscribe({
+            next:(response) => {
+              console.log("selected plan data from api is", response.result[0]);
+    
+              //const formattedData = this.formatData(response.result[0]);
+              //console.log("data to pdf", formattedData);
+        
+              this.originalDataC = [...response.result[0]];
+              this.dataSourceC.data = response.result[0];
+            }
+          })
+        }
+          
+    
+   
+
+
+
 
           //cargar los datos del seleccionado
       }
