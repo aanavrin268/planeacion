@@ -101,9 +101,6 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
       this.typeText = 'publico';
     }else if(this.plan.id === 2){
       this.typeText = 'privado';
-
-
-
         this.showPrivateRows();
     }
 
@@ -413,26 +410,8 @@ Swal.fire({
 
   afterModalClosed(result: any) {
 
-    if(this.plan.id === 1){
-        
-      this.service.getDetallesPlan().subscribe(
-        {
-          next: (response) => {
-            console.log('Response:', response); 
-            this.data = response; 
-  
-            this.dataSource.data = this.formatData(response);  
-          }
-        });
-    }else if(this.plan.id === 2){
-      this.service.getDetallesPlanPrivate().subscribe({
-          next: (response) => {
-            console.log('respoinse private', response);
-            this.data = response;
-
-            this.dataSource.data = this.formatData(response);
-          }
-      })
+    if(this.plan.id === 1){ this.showDRows();
+    }else if(this.plan.id === 2){ this.showPrivateRows();
     }
 
   }
@@ -450,6 +429,9 @@ Swal.fire({
         size: 'lg',
         windowClass:'redondo'
       });
+
+
+
       modalRef.componentInstance.row = row;
   
   

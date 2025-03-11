@@ -60,11 +60,14 @@ export class EditModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("ros", this.row);
+    const descripcion = this.row.id_plan === 1 ? this.row.descripcion : this.row.producto;
+    const proveedor = this.row.id_plan === 1 ? this.row.proveedor : ''
+
+    console.log("recived data", this.row);
     this.editForm.patchValue({
       clave: this.row.clave,
-      proveedor: this.row.proveedor,
-      descripcion: this.row.descripcion,
+      proveedor: proveedor,
+      descripcion: descripcion,
       conjuntos: this.row.conjuntos,
       enero: this.row.enero,
       febrero: this.row.febrero,
@@ -163,6 +166,10 @@ export class EditModalComponent implements OnInit {
         }
       );
 }
+
+
+
+
 
 
 
