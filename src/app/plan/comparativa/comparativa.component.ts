@@ -11,11 +11,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
 import { BehaviorsService } from '../../core/services/behaviors.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @Component({
   selector: 'app-comparativa',
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule, MatExpansionModule],
   templateUrl: './comparativa.component.html',
   styleUrl: './comparativa.component.scss'
 })

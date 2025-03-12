@@ -37,7 +37,7 @@
 
             </div>
             <div class="body" *ngIf="!isPlanSelected">
-                <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                <span>Selecciona la versión del plan que deseas comparar.</span>
                 <div class="plan-container">
                     <div class="plan" *ngFor="let plan of plan_list">
                         <i class="bi bi-clock-history plan-icon"></i>
@@ -109,17 +109,45 @@
                     </div>
 
                     <div class="with-differences" *ngIf="differencesArray.length > 0">
+                        <span class="sub">Listado de todas las diferencias encontradas al comparar ambos planes. Adicionalmente se muestras las múltiples
+                            divergencias que estas mismas podrían contener.
+                        </span>
+
                         <div class="diff-container">
                             <div class="diff" *ngFor="let diff of differencesArray; let i = index">
                                 <div class="left">
-                                    <span>Diferencia # {{i}}</span>
-                                    <span>{{diff.producto}}</span>
-                                    <span>Con un total de {{diff.diferencias.length}} divirgencias</span>
+                                    <span class="d-title">Diferencia # {{i + 1}}</span>
+                                    <span class="d-sub">{{diff.producto}}</span>
+                                    <span class="d-sub-sub">Con un total de {{diff.diferencias.length}} divirgencias</span>
                                 </div>
                                 <div class="right">
+                                    <span class="r-text">
+                                        Listado de divergencias
+                                    </span>
                                     <div class="differences-in">
                                         <div class="diff-in" *ngFor="let din of diff.diferencias">
-                                            <span>{{din.campo}}</span>
+
+                                            <mat-accordion>
+                                                <mat-expansion-panel>
+                                                    <mat-expansion-panel-header>
+                                                        <span>{{din.campo === 'enero' ? 'CMP  ' + din.campo : din.campo}}</span>
+
+                                                    </mat-expansion-panel-header>
+
+                                                    
+                                                    <div class="flex-diff">
+                                                        <span class="rt-left">Valor actual: {{din.valor2}}</span>
+                                                        <span class="rt-right">Valor guardado: {{din.valor1}}</span>
+
+                                                    </div>
+                                                    
+                                                </mat-expansion-panel>
+                                            </mat-accordion>
+
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -129,6 +157,8 @@
                     </div>
                 </div>
             </section>
+
+        
         </div>
     </div>
 </div>

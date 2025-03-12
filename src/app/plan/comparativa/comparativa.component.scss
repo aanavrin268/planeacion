@@ -407,7 +407,6 @@ $white-20: rgba(255, 255, 255, 0.2);
 
             .main-plan-resumen{
                 width: 100%;
-                height: 30%;
                 display: flex;
                 flex-direction: column;
                 margin-top: 4rem;
@@ -451,21 +450,29 @@ $white-20: rgba(255, 255, 255, 0.2);
 
                     .with-differences{
                         width: 100%;
-                        height: 80vh;
+                        height: auto;
                         display: flex;
                         flex-direction: column;
+
+                        .sub{
+                            line-height: 1.1;
+                            color: #424242;
+                            font-weight: 600;
+                            font-size: 16px;
+                            margin-bottom: 2rem;
+                        }
 
                         .diff-container{
                             display: flex;
                             width: 100%;
                             flex-direction: column;
-                            gap: 1rem;
+                            gap: 2rem;
                             justify-content: center;
                             align-items: center;
 
                             .diff{
                                 display: flex;
-                                width: 90%;
+                                width: 95%;
                                 padding: 1rem;
                                 background-color: white;
                                 border-radius: 8px;
@@ -476,6 +483,29 @@ $white-20: rgba(255, 255, 255, 0.2);
                                     flex-direction: column;
                                     width: 50%;
                                     height: 100%;
+
+                                    .d-title{
+                                        line-height: 1.1;
+                                        font-weight: 750;
+                                        font-size: 22px;
+                                    }
+
+                                    .d-sub{
+                                        line-height: 1.1;
+                                        font-weight: 600;
+                                        font-size: 16px;
+                                        color: #4e4e4e;
+                                        margin-top: 3.2rem;
+                                    }
+
+                                    .d-sub-sub{
+                                        line-height: 1.1;
+                                        font-weight: 600;
+                                        font-size: 18px;
+                                        color: #c78846;
+                                        margin-top: 3rem;
+                                        width: 200px;
+                                    }
                                 }
 
                                 .right{
@@ -483,6 +513,15 @@ $white-20: rgba(255, 255, 255, 0.2);
                                     flex-direction: column;
                                     width: 50%;
                                     height: 100%;
+                                    margin-top: 2.5rem;
+
+                                    .r-text{
+                                        line-height: 1.1;
+                                        font-size: 16px;
+                                        font-weight: 700;
+                                        color: #424242;
+                                        margin-bottom: 1rem;
+                                    }
 
                                     .differences-in{
                                         width: 100%;
@@ -490,7 +529,54 @@ $white-20: rgba(255, 255, 255, 0.2);
                                         flex-direction: column;
 
                                         .diff-in{
-                                            background-color: #1e3a8a;
+                                            //background-color: #1e3a8a;
+                                            display: flex;
+                                            flex-direction: column;
+
+                                            .flex-diff{
+                                                display: flex;
+                                                justify-content: space-between;
+                                                align-items: center;
+                                                margin-top: .6rem;
+
+                                                .rt-left{
+                                                    line-height: 1.1;
+                                                    font-size: 13px;
+                                                    font-weight: 650;
+                                                    color: #2e2d2d;
+                                                    position: relative;
+
+                                                    &::after{
+                                                        content: "";
+                                                        width: 10px;
+                                                        height: 10px;
+                                                        border-radius: 50%;
+                                                        background-color: #0d193a;
+                                                        position: absolute;
+                                                        top: 11%;
+                                                        left: -13%;
+                                                    }
+                                                }
+
+                                                .rt-right{
+                                                    line-height: 1.1;
+                                                    font-size: 13px;
+                                                    font-weight: 650;
+                                                    color: #2e2d2d;
+                                                    position: relative;
+
+                                                    &::after{
+                                                        content: "";
+                                                        width: 10px;
+                                                        height: 10px;
+                                                        border-radius: 50%;
+                                                        background-color:#571713;
+                                                        position: absolute;
+                                                        top: 11%;
+                                                        left: -13%;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
