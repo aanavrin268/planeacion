@@ -147,10 +147,21 @@ Swal.fire({
   }
 });
 
+
+const filtered_private_data = this.originalData.map(item => ({
+  clave: item.clave,
+  descripcion: item.descripcion !== null ? item.descripcion : 0,
+  enero: item.enero !== null ? item.enero: 0,
+  febrero: item.febrero !== null ? item.febrero: 0,
+  marzo: item.marzo !== null ? item.marzo:0,
+  nombre_plan: pName
+}));
+
+
 try{
 const response1 = await this.insertPlanUnionPromise(pName, pType);
 
-const response2 = await this.insertHistoricoPublicoPromise("plan_historico_publico",jsonFixedWithPlan);
+const response2 = await this.insertHistoricoPublicoPromise("historico_dos",filtered_private_data);
 Swal.fire({
   icon: 'success',
   title: '¡Guardado exitoso!',
@@ -233,6 +244,9 @@ Swal.fire({
             nombre_plan: pName
         };
     });
+
+
+
     
 
 
@@ -391,11 +405,12 @@ Swal.fire({
         this.ogData = response;
 
 
-        const formattedData = this.formatData(response);
-        console.log("data to pdf", formattedData);
+        //const formattedData = this.formatData(response);
+        //console.log("data to pdf", formattedData);
+        console.log("data publica inicial", response);
   
-        this.originalData = [...formattedData];
-        this.dataSource.data = formattedData;
+        this.originalData = [...response];
+        this.dataSource.data = response;
   
         // Asigna el paginador después de cargar los datos
   

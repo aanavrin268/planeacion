@@ -145,8 +145,8 @@ displayedColumns: string[] = [];
   getPlaListData(){
     if(this.id == 1){
       
-    this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
-    this.displayedColumnsC = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+    this.displayedColumns = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
 
       this.behaviorService.loadAllPlanhistoricUnion();
       this.behaviorService.planHistoric$.subscribe(
@@ -293,31 +293,64 @@ async selectPlan(plan: any) {
           //cargar los datos de la actual table
 
         if(this.id == 1){
-          this.service.getDetallesPlan().subscribe({
-            next:(response) => {
-              console.log("plan actual", response);
-              const formattedData = this.formatData(response);
-              console.log("data to pdf", formattedData);
-        
-              this.originalData = [...formattedData];
-              this.dataSource.data = formattedData;
-      
-            }
+
+          const getDetallesPlanPublicPromise = new Promise((resolve, reject) => {
+            this.service.getDetallesPlan().subscribe({
+              next:(response) => {
+                console.log("plan actual", response);
+                //const formattedData = this.formatData(response);
+                //console.log("data to pdf", formattedData);
+          
+                this.originalData = [...response];
+                this.dataSource.data = response;
+                resolve(true);
+              },
+              error:(err) => {
+                reject(err);
+              }
+            });
           });
 
+          const getPlanSelectedByNamePublicPromise = new Promise((resolve, reject) => {
+            this.service.getPlanSelectedByName(plan.name).subscribe({
+              next:(response) => {
+                console.log("selected plan data from api is", response.result[0]);
+      
+                //const formattedData = this.formatData(response.result[0]);
+                //console.log("data to pdf", formattedData);
+          
+                this.originalDataC = [...response.result[0]];
+                this.dataSourceC.data = response.result[0];
+                resolve(true);
+              },
+              error:(err) => {
+                reject(err);
+              }
+            });
+          });
+     
+
+          Promise.all([getDetallesPlanPublicPromise, getPlanSelectedByNamePublicPromise])
+            .then(() => {
+              this.differencesArray = this.getDifferences(this.originalDataC, this.originalData);
+              console.log("diferencias ", this.differencesArray);
+
+              if(this.differencesArray.length === 0){
+                this.difference_text = '(0 diferencias encontradas)';
+              }else if(this.differencesArray.length === 1){
+                this.difference_text = '(1 diferencia encontrada)';
+
+              }else{
+                this.difference_text = '(' +  this.differencesArray.length  +'diferencias encontradas)';
+
+              }
+            })
+            .catch((error) => {
+              console.log("error al obtener todos los datos publicos de losplanes", error);
+            })
 
           
-      this.service.getPlanSelectedByName(plan.name).subscribe({
-        next:(response) => {
-          console.log("selected plan data from api is", response.result[0]);
-
-          //const formattedData = this.formatData(response.result[0]);
-          //console.log("data to pdf", formattedData);
-    
-          this.originalDataC = [...response.result[0]];
-          this.dataSourceC.data = response.result[0];
-        }
-      })
+  
           
           
 
