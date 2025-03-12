@@ -109,7 +109,23 @@
                     </div>
 
                     <div class="with-differences" *ngIf="differencesArray.length > 0">
-                        <span>Hay diferencias</span>
+                        <div class="diff-container">
+                            <div class="diff" *ngFor="let diff of differencesArray; let i = index">
+                                <div class="left">
+                                    <span>Diferencia # {{i}}</span>
+                                    <span>{{diff.producto}}</span>
+                                    <span>Con un total de {{diff.diferencias.length}} divirgencias</span>
+                                </div>
+                                <div class="right">
+                                    <div class="differences-in">
+                                        <div class="diff-in" *ngFor="let din of diff.diferencias">
+                                            <span>{{din.campo}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

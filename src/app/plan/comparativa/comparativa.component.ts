@@ -90,6 +90,7 @@ displayedColumns: string[] = [];
   getDifferences(dataSource1: any[], dataSource2: any[]): any[] {
     const differences: any[] = [];
   
+    // Verificamos que ambos arrays tengan la misma longitud
     if (dataSource1.length !== dataSource2.length) {
       console.error("Los dataSource no tienen la misma longitud.");
       return differences;
@@ -98,7 +99,7 @@ displayedColumns: string[] = [];
     dataSource1.forEach((row1, index) => {
       const row2 = dataSource2[index];
   
-      const rowDifferences: any = {};
+      const rowDifferences: any[] = [];
   
       Object.keys(row1).forEach(key => {
         if (row2.hasOwnProperty(key)) {
@@ -106,15 +107,16 @@ displayedColumns: string[] = [];
           const value2 = String(row2[key]);
   
           if (value1 !== value2) {
-            rowDifferences[key] = {
-              value1: row1[key], 
-              value2: row2[key]  
-            };
+            rowDifferences.push({
+              campo: key, 
+              valor1: row1[key],
+              valor2: row2[key]  
+            });
           }
         }
       });
   
-      if (Object.keys(rowDifferences).length > 0) {
+      if (rowDifferences.length > 0) {
         differences.push({
           producto: row1.producto, 
           diferencias: rowDifferences 
@@ -124,7 +126,6 @@ displayedColumns: string[] = [];
   
     return differences;
   }
-
 
   async getDifferencesPromise(data1: any[], data2: any[]){
     return new Promise((resolve, reject) => {
