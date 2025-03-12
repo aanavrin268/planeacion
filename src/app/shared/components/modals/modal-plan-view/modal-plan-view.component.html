@@ -4,7 +4,8 @@
             {{plan.name}}
         </span>
 
-        <i class="bi bi-gear-wide-connected circle-icon"></i>
+        <i class="bi bi-three-dots-vertical circle-icon"
+        (click)="openSettingsMenu()"></i>
     </div>
 
     <div class="body">
@@ -12,16 +13,28 @@
             <span class="sub">Vista general</span>
 
             <div class="icon-container">
-                <i class="bi bi-shuffle circle-icon"
+                <i class="bi bi-shuffle circle-icon" data-tooltip="Cambiar vista"
                   (click)="openExample()"></i>
-                <span>Cambiar vista</span>
+
+                  <i class="bi bi-floppy circle-icon green"(click)="saveVersion()"
+                    data-tooltip="Guardar"></i>
+
+                  <i class="bi bi-calculator circle-icon red"
+                    data-tooltip="Operaciones" (click)="openOpsMenu()"></i>
+
+                    <div class="op-menu" *ngIf="showOpsMenu">
+                      <div class="op-menu-container" *ngFor="let option of ops_menu_list">
+                        <span (click)="onOpsMenuClick(option)">{{option.title}}</span>
+                      </div>
+                    </div>
 
             </div>
 
-            <div class="icon-container">
-              <i class="bi bi-floppy circle-icon-green"(click)="saveVersion()"></i>
-              <span>Guardar versión</span>
+      
 
+          <div class="input-container">
+            <i class="bi bi-search icons"></i>
+            <input type="text" placeholder="Ingresa algo para buscar">
           </div>
 
 
@@ -31,6 +44,8 @@
                   {{optio.title}}
                 </span>
             </div>
+
+        
         </div>
 
 
@@ -168,5 +183,21 @@
                 </div>
               </div>
             </div>
+
+        <div class="utilidad" *ngIf="showUtility">
+          <div class="left">
+            <span class="u-title">
+              Utilidad bruta
+            </span>
+            <span class="u-sub">
+              Del plan actual: 
+            </span>
+          </div>
+          <div class="right">
+            <span class="r-title">
+              $50,000 MXN
+            </span>
+          </div>
+        </div>
     </div>
 </div>

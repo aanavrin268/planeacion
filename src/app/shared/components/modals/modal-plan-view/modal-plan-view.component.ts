@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
 import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, menu_lists } from '../../../../core/helpers/arrays';
+import { gsap } from 'gsap';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, m
   templateUrl: './modal-plan-view.component.html',
   styleUrl: './modal-plan-view.component.scss'
 })
-export class ModalPlanViewComponent implements OnInit, AfterViewInit {
+export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   protected plan: any;
@@ -52,13 +53,19 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   filteredData: any[] = [];
   searchText: string = '';
   originalData: any[] = [];
-
+  protected showOpsMenu: boolean;
+  protected showUtility: boolean;
 
   protected headersQ1: any[]= [];
   protected headersQ2: any[] = [];
   protected headersQ3: any[] = [];
   protected headersQ4: any[] = [];
   protected menu_lists: any[] = [];
+  protected ops_menu_list: any[] = [];
+
+
+  private isFirstShow = true; 
+
 
   protected headers: any[] = [];
   protected headersPrivate: any[] = [];
@@ -66,6 +73,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1; 
     this.idValue = 0;
+
+    this.ops_menu_list= [{id: 1, title: 'Utilidad bruta'}, {id:2, title: 'Cerrar'}];
 
     this.headersQ1 = headersQ1;
     this.headersQ2 = headersQ2;
@@ -75,8 +84,10 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     this.list_menu_views = list_menu_views;
     this.headers = headers;
     this.isLoading = false;
-
+    this.showOpsMenu = false;
+    this.showUtility = false;
     this.typeText = '';
+
     
   }
 
@@ -112,6 +123,67 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
     });
 
   
+
+  }
+
+  ngAfterViewChecked() {
+    if (this.showUtility && this.isFirstShow) {
+      gsap.fromTo(
+        '.utilidad',
+        {
+          opacity: 0,
+          y: -50, 
+        },
+        {
+          opacity: 1,
+          y: 0, 
+          duration: 0.5,
+          ease: 'bounce.out', 
+        }
+      );
+      this.isFirstShow = false; 
+    }
+  }
+
+  showElement() {
+
+      gsap.fromTo(
+        '.utilidad',
+        {
+          opacity: 0,
+          y: -50, 
+        },
+        {
+          opacity: 1,
+          y: 0, 
+          duration: 0.5,
+          ease: 'bounce.out', 
+        }
+      );
+    
+
+  }
+
+
+
+  onOpsMenuClick(option:any){
+    switch(option.id){
+      case 1:
+        this.showUtility = true;
+
+        break;
+      case 2:
+          this.openOpsMenu();
+        break;
+    }
+  } 
+
+  openOpsMenu(){
+    this.showOpsMenu = !this.showOpsMenu;
+  }
+
+
+  openSettingsMenu(){
 
   }
 
