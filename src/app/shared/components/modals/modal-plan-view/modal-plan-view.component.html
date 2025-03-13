@@ -184,6 +184,27 @@
               </div>
             </div>
 
+            <div class="card-container">
+              <!-- Cards superpuestas -->
+              <div
+                *ngFor="let card of cards; let i = index"
+                class="card"
+                [style.z-index]="i"
+                [style.transform]="'translateX(' + i * 20 + 'px)'"
+                [attr.data-card-id]="card"
+              >
+                Card {{ card }}
+              </div>
+            
+              <!-- Botón para mover la card superior al fondo -->
+              <button
+                class="card-icon"
+                (click)="moveCardToBottom()"
+              >
+                M
+              </button>
+            </div>
+         
         <div class="utilidad" *ngIf="showUtility">
           <div class="left">
             <span class="u-title">

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -29,6 +29,15 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected ogData: any;
   protected plans_list:any[] = [];
 
+
+  @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>; // Referencia a las cards
+
+  cards: number[] = []; // Array para almacenar las cards
+  nextCardId = 1; // Contador para el ID de las cards
+  private animateNextCard = false; // Bandera para animar la próxima card
+  private movedCardId: number | null = null; // ID de la card movida
+
+
   
   protected list_menu_views: any[] = []
 
@@ -36,6 +45,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   displayedColumns: string[] = [];
 
   dataSource = new MatTableDataSource<any>();  
+
 
   limits: number;
   protected showMenu: boolean = false;
@@ -143,7 +153,67 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
       );
       this.isFirstShow = false; 
     }
+
+
+    if (this.animateNextCard) {
+      // Anima la última card agregada
+      const lastIndex = this.cards.length - 1;
+      const cardElement = this.cardElements.toArray()[lastIndex]?.nativeElement;
+      if (cardElement) {
+        gsap.from(cardElement, {
+          opacity: 0,
+          y: -50,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+      this.animateNextCard = false; // Desactiva la bandera
+    }
+
+    if (this.movedCardId !== null) {
+      // Anima la card movida
+      const cardElement = this.cardElements.toArray().find(
+        (el) => el.nativeElement.getAttribute('data-card-id') === this.movedCardId?.toString()
+      )?.nativeElement;
+
+      if (cardElement) {
+        gsap.to(cardElement, {
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+      this.movedCardId = null; // Reinicia el ID de la card movida
+    }
   }
+
+  addCard() {
+    this.cards.push(this.nextCardId);
+    this.nextCardId++;
+    this.animateNextCard = true; // Activa la animación para la nueva card
+    console.log('Nueva card agregada:', this.cards); // Depuración
+  }
+
+  // Mueve la card superior al fondo
+  moveCardToBottom() {
+    if (this.cards.length === 0) {
+      console.warn('No hay cards para mover.'); // Depuración
+      return;
+    }
+
+    // Mueve la última card al principio del array
+    const movedCard = this.cards.pop(); // Elimina la última card
+    if (movedCard !== undefined) {
+      this.cards.unshift(movedCard); // Agrega la card al principio del array
+      this.movedCardId = movedCard; // Guarda el ID de la card movida
+      console.log('Card movida al fondo:', this.cards); // Depuración
+    }
+  }
+
+
+
+
+
 
   showElement() {
 
@@ -169,8 +239,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   onOpsMenuClick(option:any){
     switch(option.id){
       case 1:
-        this.showUtility = true;
-
+        //this.showUtility = true;
+        this.addCard();
+        this.openOpsMenu();
         break;
       case 2:
           this.openOpsMenu();
