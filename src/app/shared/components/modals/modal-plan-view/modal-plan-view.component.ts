@@ -30,12 +30,12 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected plans_list:any[] = [];
 
 
-  @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>; // Referencia a las cards
+  @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>; 
 
-  cards: number[] = []; // Array para almacenar las cards
-  nextCardId = 1; // Contador para el ID de las cards
-  private animateNextCard = false; // Bandera para animar la próxima card
-  private movedCardId: number | null = null; // ID de la card movida
+  cards: number[] = []; 
+  nextCardId = 1; 
+  private animateNextCard = false; 
+  private movedCardId: number | null = null; 
 
 
   
@@ -65,6 +65,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   originalData: any[] = [];
   protected showOpsMenu: boolean;
   protected showUtility: boolean;
+  protected showUtilityDetails: boolean;
 
   protected headersQ1: any[]= [];
   protected headersQ2: any[] = [];
@@ -73,8 +74,16 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected menu_lists: any[] = [];
   protected ops_menu_list: any[] = [];
 
+  protected data_list: any[] = [
+    {id: 1, text:'$ total de ventas: ', value:'$ 30,000'},
+    {id: 2, text:'$ total de unidades vendidas: ', value:'$ 60,000'},
+    {id: 3, text:'$ total de costos: ', value:'$ 40,000'},
+
+  ];
+
 
   private isFirstShow = true; 
+  private isDeatilsFirstShow = true;
 
 
   protected headers: any[] = [];
@@ -96,6 +105,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.isLoading = false;
     this.showOpsMenu = false;
     this.showUtility = false;
+    this.showUtilityDetails = false;
     this.typeText = '';
 
     
@@ -153,10 +163,37 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
       );
       this.isFirstShow = false; 
     }
+    if (this.showUtilityDetails && this.isDeatilsFirstShow) {
+      gsap.fromTo(
+        '.utilidad-details',
+        {
+          opacity: 0,
+          y: -100
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'bounce.out',
+        }
+      );
+      this.isDeatilsFirstShow = false;
+    }
+    
+    if (!this.showUtilityDetails && !this.isDeatilsFirstShow) {
+      gsap.to('.utilidad-details', {
+        opacity: 0,
+        y: -100,
+        duration: 0.4,
+        ease: 'power2.in',
+        onComplete: () => {
+        },
+      });
+      this.isDeatilsFirstShow = true; 
+    }
 
 
     if (this.animateNextCard) {
-      // Anima la última card agregada
       const lastIndex = this.cards.length - 1;
       const cardElement = this.cardElements.toArray()[lastIndex]?.nativeElement;
       if (cardElement) {
@@ -167,11 +204,10 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
           ease: 'power2.out',
         });
       }
-      this.animateNextCard = false; // Desactiva la bandera
+      this.animateNextCard = false; 
     }
 
     if (this.movedCardId !== null) {
-      // Anima la card movida
       const cardElement = this.cardElements.toArray().find(
         (el) => el.nativeElement.getAttribute('data-card-id') === this.movedCardId?.toString()
       )?.nativeElement;
@@ -183,7 +219,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
           ease: 'power2.out',
         });
       }
-      this.movedCardId = null; // Reinicia el ID de la card movida
+      this.movedCardId = null; 
     }
   }
 
@@ -194,7 +230,6 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     console.log('Nueva card agregada:', this.cards); // Depuración
   }
 
-  // Mueve la card superior al fondo
   moveCardToBottom() {
     if (this.cards.length === 0) {
       console.warn('No hay cards para mover.'); // Depuración
@@ -239,15 +274,22 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   onOpsMenuClick(option:any){
     switch(option.id){
       case 1:
-        //this.showUtility = true;
-        this.addCard();
+        this.showUtility = true;
         this.openOpsMenu();
+        //this.addCard();
+        //this.openOpsMenu();
         break;
       case 2:
           this.openOpsMenu();
         break;
     }
   } 
+
+  openUtilityDetails(){
+    this.showUtilityDetails = !this.showUtilityDetails;
+
+   
+  }
 
   openOpsMenu(){
     this.showOpsMenu = !this.showOpsMenu;

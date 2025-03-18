@@ -205,7 +205,8 @@
               </button>
             </div>
          
-        <div class="utilidad" *ngIf="showUtility">
+        <div class="utilidad" *ngIf="showUtility"
+         (click)="openUtilityDetails()">
           <div class="left">
             <span class="u-title">
               Utilidad bruta
@@ -218,6 +219,35 @@
             <span class="r-title">
               $50,000 MXN
             </span>
+          </div>
+        </div>
+
+        <div class="utilidad-details" *ngIf="showUtilityDetails">
+          <div class="header">
+            <i class="bi bi-x-lg u-icon" (click)="openUtilityDetails()"></i>
+          </div>
+          <div class="bodys">
+            <span class="ud-sub">Calculada a partir de las siguientes variables:</span>
+            <div class="data-container">
+              <div class="data" *ngFor="let data of data_list">
+                <span class="ud-text">{{data.text}}</span>
+                <span class="ud-value">{{data.value}}</span>
+
+              </div>
+            </div>
+
+            <div class="sides">
+              <div class="left">
+                <span class="ud-text">Con un valor total de: </span>
+                <span class="ud-value">$ 50,000.00</span>
+              </div>
+              <div class="right">
+                <span class="ud-text">Con un porcentaje total de: </span>
+                <span class="ud-value">30%</span>
+              </div>
+            </div>
+
+            <button class="u-btn">Ver detalles</button>
           </div>
         </div>
     </div>

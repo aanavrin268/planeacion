@@ -410,6 +410,12 @@
           background: rgb(121,9,32);
           background: linear-gradient(55deg, rgba(121,9,32,1) 0%, rgba(121,9,32,1) 41%, rgba(255,0,0,0.8239670868347339) 94%);
 
+          &:hover{
+            cursor: pointer;
+            background: linear-gradient(55deg, rgb(92, 7, 24) 0%, rgb(83, 7, 22) 41%, rgba(187, 14, 14, 0.824) 94%);
+  
+          }
+
           .left{
             display: flex;
             flex-direction: column;
@@ -444,21 +450,177 @@
           }
         }
 
+
+        
+        .utilidad-details{
+          width: 40%;
+          height: 57vh;
+          display: flex;
+          flex-direction: column;
+          border-radius: 16px;
+          padding: 0.7rem;
+          position: absolute;
+          bottom: 16%;
+          left: 0%;
+          background: rgb(121, 9, 32);
+          background: linear-gradient(
+            55deg,
+            rgb(121, 9, 32) 0%,
+            rgb(121, 9, 32) 41%,
+            rgba(255, 0, 0, 0.8239670868) 94%);
+          box-shadow: 0px 6px 10px #000000b3;
+
+          .header{
+            display: flex;
+            width: 100%;
+            height: 10%;
+            position: relative;
+
+            .u-icon{
+              width: 30px;
+              height: 30px;
+              color: white;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 50%;
+              position: absolute;
+              right: -2%;
+              top: -23%;
+              transition: all 0.2s ease-in-out;
+              font-size: 18px;
+              z-index: 1;
+  
+              &:hover{
+                cursor: pointer;
+                background-color: #4242423f;
+              }
+            }
+            
+          }
+
+          .bodys{
+            display: flex;
+            width: 100%;
+            height: 90%;
+            position: relative;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .ud-sub{
+              line-height: 1.1;
+              color:white;
+              font-size: 16px;
+              font-weight: 700;
+
+            }
+
+            .data-container{
+              display:flex;
+              width: 100%;
+              flex-direction: column;
+              margin-top: 1.5rem;
+
+              .data{
+                display: flex;
+                flex-direction: column;
+                gap:.25rem;
+                margin-bottom: .4rem;
+
+                .ud-text{
+                  line-height: 1.1;
+                  color:rgb(197, 196, 196);
+                  font-size: 14px;
+                  font-weight: 600;
+                }
+
+                .ud-value{
+                  line-height: 1.1;
+                  color:rgb(117, 117, 117);
+                  font-size: 14px;
+                  font-weight: 600;
+                }
+              }
+            }
+
+            .sides{
+              margin-top: 1.5rem;
+              width: 100%;
+              display: flex;
+
+              .ud-text{
+                line-height: 1.1;
+                color:rgb(197, 196, 196);
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: .3rem;
+              }
+
+              .ud-value{
+                line-height: 1.1;
+                color: white;
+                font-size: 19px;
+                font-weight: 700;
+              }
+
+              .left{
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+              }
+
+              .right{
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+              }
+            }
+
+
+            .u-btn{
+              width: 80%;
+              padding: .5rem .8rem;
+              background-color: white;
+              outline: none;
+              border: none;
+              border-radius: 12px;
+              color: black;
+              font-weight: 630;
+              font-size: 16px;
+              margin-top: 1.5rem;
+              transition: all 0.3s ease-in-out;
+
+              &:hover{
+                cursor: pointer;
+                background-color: rgb(184, 182, 182);
+
+              }
+            }
+          
+          }
+       
+
+        
+        }
+
+
+        
+
     }
 }
 
 
 
-// Añade esto a tu archivo SCSS del componente
 ::ng-deep .mat-mdc-paginator-page-size-select {
-    z-index: 1100 !important; // Mayor que el z-index del modal de Bootstrap
+    z-index: 110000000 !important; 
   }
   
   ::ng-deep .mat-mdc-select-panel {
-    z-index: 1100 !important;
+    z-index: 110000000 !important;
   }
   
-  // Y asegúrate de que el modal tenga la configuración de overflow adecuada
   ::ng-deep .modal-body {
     overflow: visible !important;
   }
@@ -472,11 +634,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px; /* Ajusta la altura según sea necesario */
+    height: 200px; 
   }
   
   mat-spinner {
-    margin: 0 auto; /* Centra el spinner */
+    margin: 0 auto; 
   }
 
 
@@ -485,26 +647,35 @@
     position: absolute;
     width: 40%;
     height: auto;
-    padding: 0.6rem;
-    background-color: aqua;
+    //padding: 0.6rem;
+    //background-color: aqua;
     left: -.8%;
     bottom: 14%;
     display: flex;
   }
   
   .card {
-    position: absolute;
-    width: 60%;
-    height: 10vh;
-    background: rgb(121,9,32);
-    background: linear-gradient(55deg, rgba(121,9,32,1) 0%, rgba(121,9,32,1) 41%, rgba(255,0,0,0.8239670868347339) 94%);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    padding: .7rem;
-    cursor: pointer;
-    color: white;
+    
+ position: absolute;
+ width: 70%;
+ height: 13vh;
+ background: rgb(121, 9, 32);
+ background: linear-gradient(
+   55deg,
+   rgb(121, 9, 32) 0%,
+   rgb(121, 9, 32) 41%,
+   rgba(255, 0, 0, 0.8239670868) 94%);
+ border-radius: 12px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ display: flex;
+ padding: 0.7rem;
+ cursor: pointer;
+ color: white;
+ top: 40%;
+ left: 5%;
   }
+
+
 
   .card.selected {
     border: 2px solid blue; 
@@ -518,7 +689,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: relative;
     right: 19%;
     top: 75%;
     box-shadow: 0px 4px 10px #000000b3;
