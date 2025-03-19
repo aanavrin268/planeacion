@@ -16,6 +16,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getAllProductoss():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllProducts`);
+  }
+
+
   getPlanSelectedPrivateByName(name:string):Observable<any>{
     const payload = {p_name: name}
 

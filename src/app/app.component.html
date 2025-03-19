@@ -32,15 +32,23 @@
               [submenuItems]="planSubmenuItems">
               </app-submenu>
             </div>
-          
           </div>
-        
-  
+
 
           <div class="h-container" routerLinkActive="active-link">
             <i class="bi bi-capsule"></i>
-            <a class="list-group-item list-group-item-action a-item" [routerLink]="'/dashProducts'">Productos</a>
+            <div class="v-container">
+              <a class="list-group-item list-group-item-action a-item"
+              (click)="toggleSubmenu('productos')"
+              >Productos</a>
+               <app-submenu *ngIf="showSubmenu === 'productos'" 
+              [submenuItems]="productSubmenuItems">
+              </app-submenu>
+            </div>
+
           </div>
+        
+  
 
           <div class="h-container" routerLinkActive="active-link">
             <i class="bi bi-file-earmark-bar-graph"></i>

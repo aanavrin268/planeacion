@@ -26,11 +26,15 @@ export class AppComponent implements OnInit{
 
   showSubmenu: string | null = null;
 
-
+  
 
   planSubmenuItems = [
     { label: 'Plan de ventas', link: '/dashPlan' },
     { label: 'Scroll telling', link: '/planTelling' },
+  ];
+
+  productSubmenuItems = [
+    { label: 'Todos los productos', link: '/dashProductoss' },
   ];
 
 

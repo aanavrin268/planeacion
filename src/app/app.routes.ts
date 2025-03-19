@@ -17,6 +17,8 @@ import { ExampleComponent } from './plan/example/example.component';
 import { ComparativaComponent } from './plan/comparativa/comparativa.component';
 import { SettingsComponent } from './settings/settings/settings.component';
 import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
+import { TodosProductosComponent } from './productoss/todos-productos/todos-productos.component';
+import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
 
 
 
@@ -34,6 +36,11 @@ export const routes: Routes = [
 {path: 'planTelling', component: PlanTellingComponent},
 
 {path: 'stPlan', component: ExampleComponent},
+
+{path: 'todosProductos', component: TodosProductosComponent},
+{path: 'dashProductoss', component: DashProductossComponent},
+
+
 
 
 {
