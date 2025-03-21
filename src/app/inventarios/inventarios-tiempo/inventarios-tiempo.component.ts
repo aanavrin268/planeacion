@@ -13,6 +13,9 @@ export class InventariosTiempoComponent implements OnInit {
   protected isPlanChoosed: boolean;
   protected choosedProviders: any[] = [];
 
+  activeTab: string = 'home';
+
+
 
   constructor(private modalService: NgbModal){
     this.isPlanChoosed = false;
