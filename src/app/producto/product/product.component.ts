@@ -42,6 +42,7 @@ export class ProductComponent implements OnInit {
 
 
   protected products: any[] = [];
+
 constructor(private service: ApiService, private modalService: NgbModal) {
 
 }

@@ -6,8 +6,12 @@
                     <span class="title">Comparativa de planes</span>
 
                     <div class="badge-container" *ngIf="isPlanSelected">
-                        <span class="p-text-selected">Plan público version 1</span>
+                         <span class="p-text-actual">Plan actual</span>
+                         <span class="p-text-v">Vs.</span>
+                        <span class="p-text-selected">{{selectedPlan.name}}</span>
                         <span class="badge" (click)="closeSelected()">X</span>
+                        
+                        <span class="b-text">{{difference_text}}</span>
                     </div>
                 </div>
               
@@ -15,8 +19,16 @@
                     <i class="bi bi-gear-wide-connected btn-c-black"
                         (click)="openSettingsMenu()"></i>
 
+                      
+
                     <div class="settings-menu" *ngIf="showSettingsMenu">
-                        <span>Cerrar</span>
+                        <div class="settings-menu-container">
+                            <div class="settings-item" *ngFor="let item of settings_list_menu">
+                                <span (click)="onSettingsSelected(item)">
+                                    {{item.title}}
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -27,12 +39,12 @@
 
             </div>
             <div class="body" *ngIf="!isPlanSelected">
-                <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                <span>Selecciona la versión del plan que deseas comparar.</span>
                 <div class="plan-container">
                     <div class="plan" *ngFor="let plan of plan_list">
                         <i class="bi bi-clock-history plan-icon"></i>
                         <span class="p-title">{{ plan.name }}</span>
-                        <span class="p-sub">{{ plan.date }}</span>
+                        <span class="p-sub">{{ plan.date_save }}</span>
                         <button class="p-button" (click)="selectPlan(plan)">Seleccionar</button>
                     </div>
                 </div>
@@ -45,35 +57,46 @@
                     <span class="title">Plan actual</span>
                 </div>
                 <div class="body">
-                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
+                    <span class="sub">Datos tomados del plan de ventas privado principal.</span>
+            
                     <table mat-table [dataSource]="dataSource">
                         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
                             <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
                             <td mat-cell *matCellDef="let element; let i = index"
-                                [class.highlight]="isDifferent(element, dataSource2[i], column)">
+                            [class.highlight]="isDifferent(element, dataSourceC.data[i], column)">
                                 {{ element[column] }}
                             </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                     </table>
+            
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                        [pageSize]="5"
+                        [length]="dataSource.data.length"></mat-paginator>
                 </div>
             </section>
 
             <section class="main-plan-seleccionado">
                 <div class="header">
-                    <span class="title">Plan público version 1</span>
+                    <span class="title">{{selectedPlan.name}}</span>
                 </div>
                 <div class="body">
-                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
-                    <table mat-table [dataSource]="dataSource2">
-                        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                    <span class="sub">Datos de el plan de ventas privado seleccionado a comparar.</span>
+                    <table mat-table [dataSource]="dataSourceC">
+                        <ng-container *ngFor="let column of displayedColumnsC" [matColumnDef]="column">
                             <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-                            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                {{ element[column] }}
+                            </td>
                         </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsC"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsC"></tr>
                     </table>
+            
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                        [pageSize]="5"
+                        [length]="dataSourceC.data.length"></mat-paginator>
                 </div>
             </section>
 
@@ -82,10 +105,62 @@
                     <span class="title">Resumen de cambios</span>
                 </div>
                 <div class="body">
-                    <span>Para comenzar selecciona la versión del plan que deseas comparar con el actual.</span>
-                  
+                    <div class="no-differences" *ngIf="differencesArray.length === 0">
+                        <span class="title">No existen diferencias entre los planes.</span>
+                        <button class="btn btn-primary">Cerrar</button>
+                    </div>
+
+                    <div class="with-differences" *ngIf="differencesArray.length > 0">
+                        <span class="sub">Listado de todas las diferencias encontradas al comparar ambos planes. Adicionalmente se muestras las múltiples
+                            divergencias que estas mismas podrían contener.
+                        </span>
+
+                        <div class="diff-container">
+                            <div class="diff" *ngFor="let diff of differencesArray; let i = index">
+                                <div class="left">
+                                    <span class="d-title">Diferencia # {{i + 1}}</span>
+                                    <span class="d-sub">{{diff.producto}}</span>
+                                    <span class="d-sub-sub">Con un total de {{diff.diferencias.length}} divirgencias</span>
+                                </div>
+                                <div class="right">
+                                    <span class="r-text">
+                                        Listado de divergencias
+                                    </span>
+                                    <div class="differences-in">
+                                        <div class="diff-in" *ngFor="let din of diff.diferencias">
+
+                                            <mat-accordion>
+                                                <mat-expansion-panel>
+                                                    <mat-expansion-panel-header>
+                                                        <span>{{din.campo === 'enero' ? 'CMP  ' + din.campo : din.campo}}</span>
+
+                                                    </mat-expansion-panel-header>
+
+                                                    
+                                                    <div class="flex-diff">
+                                                        <span class="rt-left">Valor actual: {{din.valor2}}</span>
+                                                        <span class="rt-right">Valor guardado: {{din.valor1}}</span>
+
+                                                    </div>
+                                                    
+                                                </mat-expansion-panel>
+                                            </mat-accordion>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
+
+        
         </div>
     </div>
 </div>

@@ -1,0 +1,16 @@
+<div class="modal-main">
+    <header>
+        <span class="title">
+            Seleccionar plan
+        </span>
+    </header>
+    <main>
+        <div class="plan-container">
+            <div class="plan" *ngFor="let plan of plan_list"
+                (click)="selectPlan(plan)">
+                <span>{{plan.title}}</span>
+            </div>  
+        </div>
+    </main>
+    <footer></footer>
+</div>

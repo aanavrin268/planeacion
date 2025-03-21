@@ -1,0 +1,66 @@
+<div class="background">
+    <div class="body">
+        <section class="main">
+            <div class="header">
+                <span class="title">Inventarios en el tiempo</span>
+               
+            </div>
+
+            <div class="body">
+
+                <div class="plan-container" *ngIf="!isPlanChoosed">
+                    <span class="pc-text">
+                        Escoge un plan sobre el cuál se obtendran todos los registros.</span>
+
+            <!-----
+                          <div class="image-container">
+                        <img src="fondo1.png" alt="">
+                    </div>
+            
+            -->
+                  
+
+                   <button class="p-btn" (click)="openChosse()">Seleccionar un plan</button>
+                </div>
+
+                <div class="choosed-container" *ngIf="isPlanChoosed">
+
+                    <div class="choosed" *ngFor="let choosed of choosedProviders">
+                       <span>{{choosed.Proveedor}}</span> 
+                    </div>
+                </div>
+            
+            </div>
+
+        </section>
+
+        <div class="divider"></div>
+
+
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <button class="nav-link" [class.active]="activeTab === 'home'" (click)="activeTab = 'home'">
+                Inicio
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" [class.active]="activeTab === 'profile'" (click)="activeTab = 'profile'">
+                Perfil
+              </button>
+            </li>
+          </ul>
+          
+          <div *ngIf="activeTab === 'home'">
+            <h3>Contenido de Inicio</h3>
+            <p>Este es el contenido de la pestaña de inicio.</p>
+          </div>
+          
+          <div *ngIf="activeTab === 'profile'">
+            <h3>Contenido de Perfil</h3>
+            <p>Este es el contenido de la pestaña de perfil.</p>
+          </div>
+
+       
+    </div>
+</div>

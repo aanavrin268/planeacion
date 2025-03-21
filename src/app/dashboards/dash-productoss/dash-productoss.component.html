@@ -1,0 +1,112 @@
+<div class="background">
+    <div class="body">
+        <section class="main">
+            <div class="header">
+                <span class="title">Todos los productos</span>
+                <div class="add-container">
+                 
+                    <i class="bi bi-gear-wide-connected btn-c-black"></i>
+
+                </div>
+            </div>
+
+            <div class="body">
+                <span>Selecciona una categoría para mostrar los resultados.</span>
+
+                <div class="options-container">
+                    <div class="option" *ngFor="let option of options_list">
+                        <div class="pic-container">
+                            <img src="{{option.image}}" alt="">
+
+                        </div>
+                        <span>{{option.cuantity}} disponibles</span>
+                        <span class="opt-text">{{option.title}}</span>
+                    </div>
+                </div>
+               
+            </div>
+
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="search-body">
+            <div class="header">
+                <span class="s-text">6 de 30 resultados</span>
+                <div class="sort-container">
+                    <span>Ordenar por</span>
+                    <select name="" id="">
+                        <option value="" selected disabled>Selecciona uno</option>
+                    </select>
+
+                    <div class="icon-container">
+                        <i class="bi bi-list-task"></i>
+                        <i class="bi bi-view-list"></i>
+                    </div>
+                </div>
+            </div>
+
+         
+            <div class="body">
+                <div class="left">
+                    <div class="accordion" id="filtersAccordion">
+                        <div class="accordion-item" *ngFor="let filter of filters; let i = index">
+                        <h2 class="accordion-header" id="heading{{ i }}">
+                            <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + i"
+                            aria-expanded="true"
+                            [attr.aria-controls]="'collapse' + i"
+                            >
+                            {{ filter.name }}
+                            </button>
+                        </h2>
+                        <div
+                            [id]="'collapse' + i"
+                            class="accordion-collapse collapse"
+                            [attr.aria-labelledby]="'heading' + i"
+                            data-bs-parent="#filtersAccordion"
+                        >
+                            <div class="accordion-body">
+                            <ul class="list-group">
+                                <li
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let option of filter.options"
+                                (click)="toggleSelection(filter, option)"
+                                >
+                                {{ option }}
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [checked]="isSelected(filter, option)"
+                                    (click)="$event.stopPropagation()"
+                                />
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="choose-container">
+                        <span>Limpiar filtros</span>
+                    </div>
+
+                    <div class="items-container">
+                        <div class="item" *ngFor="let product of products">
+                            <span>{{product.clave}}</span>
+                            <span>{{product.descripcion}}</span>
+                            <img src="{{product.image_path}}" alt="">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>

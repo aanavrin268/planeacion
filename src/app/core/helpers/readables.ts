@@ -3875,3 +3875,60 @@ export const detallePlanJs: any[] = [
 ]
 
 
+
+
+export const public_providers_data = {
+    "message": "registros traidos con exito",
+    "result": [
+      {
+        "Proveedor": "0"
+      },
+      {
+        "Proveedor": "AQVida"
+      },
+      {
+        "Proveedor": "BIOCON"
+      },
+      {
+        "Proveedor": "CHIA TAI"
+      },
+      {
+        "Proveedor": "EMS"
+      },
+      {
+        "Proveedor": "Generic Pharma"
+      },
+      {
+        "Proveedor": "Germed"
+      },
+      {
+        "Proveedor": "Interno"
+      },
+      {
+        "Proveedor": "JS Jorinis"
+      },
+      {
+        "Proveedor": "JSJorinis"
+      },
+      {
+        "Proveedor": "Meulliere"
+      },
+      {
+        "Proveedor": "Pharmaplast"
+      },
+      {
+        "Proveedor": "Pharmaten"
+      },
+      {
+        "Proveedor": "Q. Ariston"
+      },
+      {
+        "Proveedor": "Richet"
+      },
+      {
+        "Proveedor": "Varifarma"
+      }
+    ]
+  }
+
+

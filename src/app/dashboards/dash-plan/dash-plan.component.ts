@@ -6,10 +6,14 @@ import { ModalPlanViewComponent } from '../../shared/components/modals/modal-pla
 import { ApiService } from '../../api.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BehaviorSubject } from 'rxjs';
+import { BehaviorsService } from '../../core/services/behaviors.service';
+
 
 @Component({
   selector: 'app-dash-plan',
-  imports: [CommonModule],
+  imports: [CommonModule, MatProgressSpinnerModule],
   templateUrl: './dash-plan.component.html',
   styleUrl: './dash-plan.component.scss'
 })
@@ -21,8 +25,11 @@ export class DashPlanComponent implements OnInit {
   protected keyPublicAmount: number;
   protected keyPublicText: string;
 
+  valuees: any;
 
-  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router){
+
+
+  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router, private behaviors: BehaviorsService){
     this.plan_list = [
       {id:1, name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
       {id: 2, name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
@@ -30,23 +37,26 @@ export class DashPlanComponent implements OnInit {
     ];
 
     this.plan_version_list = [
-      {id:1, name: 'Plan público', versions:'1 versión disponible'},
-      {id:2, name: 'Plan privado', versions:'1 versión disponible'},
+      {id:1, name: 'Plan público', versions:''},
+      {id:2, name: 'Plan privado', versions:''},
 
     ];
 
     this.keyPublicAmount = 0;
     this.keyPublicText = "";
+
   }
 
   ngOnInit(): void {
 
-    this.plan_version_list[1].versions='Sin versiones';
 
+    /*
+    this.plan_version_list[1].versions='Sin versiones';
     this.apiService.getPlanPublicoKeys().subscribe({
-      next:(response:any[]) => {
+      next:(response:any) => {
         console.log("keys public", response);
-        this.keyPublicAmount = response.length;
+
+        this.keyPublicAmount = response.result[0].total;
         console.log("key amlunt", this.keyPublicAmount);
 
         switch(this.keyPublicAmount){
@@ -56,8 +66,9 @@ export class DashPlanComponent implements OnInit {
             case 1:
               this.keyPublicText = '1 versión disponible';
               break;
-            case 2:
+            default:
               this.keyPublicText = this.keyPublicAmount + ' versiones disponibles';
+              break;
         }
 
         this.plan_version_list[0].versions= this.keyPublicText;
@@ -65,19 +76,49 @@ export class DashPlanComponent implements OnInit {
 
       }
     });
+    */
+ 
+    this.loadListData();
+
+
+  }
+
+  loadListData(){
+    this.behaviors.loadAllPlanhistoricUnion();
+    this.behaviors.planHistoric$.subscribe(
+      (data:any[]) => {
+        if(data.length === 0) this.plan_version_list[0].versions = 'Sin versiones';
+        else if(data.length === 1) this.plan_version_list[0].versions = '1 versión';
+        else if(data.length > 0)  this.plan_version_list[0].versions = data.length +' versiones';
+      }
+    );
+
+    this.behaviors.loadAllPlanPrivateUnion();
+    this.behaviors.planPrivateHistoric$.subscribe(
+      (data: any[]) => {
+        if(data.length === 0) this.plan_version_list[1].versions = 'Sin versiones';
+        else if(data.length === 1) this.plan_version_list[1].versions = '1 versión';
+        else if(data.length > 0)  this.plan_version_list[1].versions = data.length +' versiones';
+      }
+    );
+
+
 
   }
 
 
+
+
+
   openComparative(plan: any){
     console.log("es", plan);
+    const id = plan.id;
 
-    if(plan.id === 2){
-      this.showAlert();
-    }else {
-      this.router.navigate(['/comparativa']);
+    if(plan.versions === 'Sin versiones')  this.showAlert();
+    else{
+      this.router.navigate(['/comparativa', id]);
 
-    }
+    } 
 
   }
 
@@ -115,6 +156,16 @@ export class DashPlanComponent implements OnInit {
     //plan.nombre = ''
 
     modalRef.componentInstance.plan = plan;
+
+    modalRef.result.then(
+      (result) => {
+        this.loadListData();
+      },
+      (reason) => {
+        this.loadListData();
+
+      }
+    )
   }
 
 }

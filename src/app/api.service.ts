@@ -16,14 +16,94 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getAllPublicProviders(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPublicProviders`);
+  }
 
-  getPlanPublicoKeys():Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/api/getPlanPublicoKeys`);
+
+  getAllProductoss():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllProducts`);
+  }
+
+
+  getPlanSelectedPrivateByName(name:string):Observable<any>{
+    const payload = {p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/getSelectedPlanPrivateByName`, 
+      payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
+
+  insertPlanHistoricoPrivado(table_name: string, json_data: any):Observable<any>{
+    const payload = {
+      table: table_name,
+      json: json_data
+    }
+
+    return this.http.post(`${this.apiUrl}/api/insertHistoricoPrivado`, payload,
+      {headers: new HttpHeaders({'Content-Type':'application/json'})}
+    );
   }
 
 
 
+  getAllPlanPrivadoHistoric(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllPlanUnionPrivate`);
+  }
 
+  getPlanPrivadoKeys():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPlanPrivadoKeys`);
+  }
+
+  deletePlanHistoricByName(name:string):Observable<any>{
+    const payload ={p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/deletePlanByName`, payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
+  getPlanSelectedByName(name:string):Observable<any>{
+    const payload = {p_name: name}
+
+    return this.http.post(`${this.apiUrl}/api/getSelectedPlanByName`, 
+      payload,
+      { headers: new HttpHeaders ({'Content-Type': 'application/json'})}
+    )
+  }
+
+
+  getAllPlanHistoricUnion():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getAllPlanesHistoric`);
+  }
+
+
+  insertPlanHistoicUnion(name:string, type:string):Observable<any>{
+    const payload={
+      p_name:name,
+      p_type: type
+    }
+
+    return this.http.post(`${this.apiUrl}/api/insertPlanUnion`, 
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+  }
+
+  getLastIdNumber(type: string):Observable<any>{
+    const payload = {
+      p_type: type
+    }
+    return this.http.post(`${this.apiUrl}/api/getLastId`,
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+
+  }
+
+  getPlanPublicoKeys():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPlanPublicoKeys`);
+  }
   insertHistoricoPublico(table: string, _json: any): Observable<any>{
     const payload = {
       table: table,

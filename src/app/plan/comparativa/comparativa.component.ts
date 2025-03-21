@@ -1,213 +1,61 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../api.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
+import { BehaviorsService } from '../../core/services/behaviors.service';
+import { ActivatedRoute } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @Component({
   selector: 'app-comparativa',
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule, MatExpansionModule],
   templateUrl: './comparativa.component.html',
   styleUrl: './comparativa.component.scss'
 })
-export class ComparativaComponent implements OnInit {
+export class ComparativaComponent implements OnInit, AfterViewChecked {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorC!: MatPaginator;
 
   protected isPlanSelected: boolean;
   protected showSettingsMenu: boolean;
   protected showLoading: boolean;
+  protected selectedPlan: any;
 
-  protected plan_list: any[] = [
-    {id:1, name:'público version 1', date:'03/03/2025', icon: 'history'},
-    {id:2, name:'público version 2', date:'04/03/2025', icon: 'history'}
-  ];
+  protected id: any;
+  protected difference_text: string;
 
-  dataSource = [
-    {
-        clave: '010.000.4229.00',
-        proveedor: 'JS jorinis',
-        descripcion: 'L-Asparaginasa',
-        conjuntos: 'IMPORTADO',
-        enero: 7500,
-        febrero: 7500,
-        marzo: 7500,
-        totalTrimestre: 22500,
-        eneroM: 15667500,
-        febreroM: 15667500,
-        marzoM: 15667500,
-        totalMontoVentaTrimestre: 47002500,
-        piezasDisponibles: '3030',
-    },
-    
-    {
-      "clave": "010.000.5084.00",
-      "proveedor": "BIOCON",
-      "descripcion": "Tacro 1-50",
-      "conjuntos": "IMPORTADO",
-      "enero": 135000,
-      "febrero": 135000,
-      "marzo": 135000,
-      "abril": 0,
-      "mayo": 0,
-      "junio": 0,
-      "julio": 0,
-      "agosto": 0,
-      "septiembre": 0,
-      "octubre": 0,
-      "noviembre": 0,
-      "diciembre": 0,
-      "totalTrimestre": 357000,
-      "eneroM": 14703000,
-      "febreroM": 22815000,
-      "marzoM": 22815000,
-      "totalMontoVentaTrimestre": 60333000,
-      "piezasDisponibles": "15212"
-  },
-  {
-      "clave": "010.000.3461.00",
-      "proveedor": "Germed",
-      "descripcion": "Azatioprina",
-      "conjuntos": "IMPORTADO",
-      "enero": 30000,
-      "febrero": 40000,
-      "marzo": 40000,
-      "abril": 0,
-      "mayo": 0,
-      "junio": 0,
-      "julio": 0,
-      "agosto": 0,
-      "septiembre": 0,
-      "octubre": 0,
-      "noviembre": 0,
-      "diciembre": 0,
-      "totalTrimestre": 110000,
-      "eneroM": 5070000,
-      "febreroM": 6760000,
-      "marzoM": 6760000,
-      "totalMontoVentaTrimestre": 18590000,
-      "piezasDisponibles": "30945"
-  },
-  {
-      "clave": "010.000.1774.00",
-      "proveedor": "AQVida",
-      "descripcion": "Epirubicina 1-50mg",
-      "conjuntos": "IMPORTADO",
-      "enero": 0,
-      "febrero": 25000,
-      "marzo": 25000,
-      "abril": null,
-      "mayo": null,
-      "junio": null,
-      "julio": null,
-      "agosto": null,
-      "septiembre": null,
-      "octubre": null,
-      "noviembre": null,
-      "diciembre": null,
-      "totalTrimestre": 50000,
-      "eneroM": 0,
-      "febreroM": 11000000,
-      "marzoM": 11000000,
-      "totalMontoVentaTrimestre": 22000000,
-      "piezasDisponibles": "27544"
-  },
-];
+  protected plan_list: any[] = [];
+  protected differencesArray: any[] = [];
+  originalData: any[] = [];
+  protected originalDataC: any[] = [];
+  protected settings_list_menu: any[] = [];
+  protected filteredData: any[] = [];
 
 
-dataSource2 = [
-  {
-      clave: '010.000.4229.00',
-      proveedor: 'JS jorinis',
-      descripcion: 'L-Asparaginasa',
-      conjuntos: 'IMPORTADO',
-      enero: 500,
-      febrero: 7500,
-      marzo: 500,
-      totalTrimestre: 22500,
-      eneroM: 15667500,
-      febreroM: 15667500,
-      marzoM: 15667500,
-      totalMontoVentaTrimestre: 47002500,
-      piezasDisponibles: '3030',
-  },
-  
-  {
-    "clave": "010.000.5084.00",
-    "proveedor": "BIOCON",
-    "descripcion": "Tacro 1-50",
-    "conjuntos": "IMPORTADO",
-    "enero": 13000,
-    "febrero": 1000,
-    "marzo": 135000,
-    "abril": 0,
-    "mayo": 0,
-    "junio": 0,
-    "julio": 0,
-    "agosto": 0,
-    "septiembre": 0,
-    "octubre": 0,
-    "noviembre": 0,
-    "diciembre": 0,
-    "totalTrimestre": 357000,
-    "eneroM": 14703000,
-    "febreroM": 22815000,
-    "marzoM": 22815000,
-    "totalMontoVentaTrimestre": 60333000,
-    "piezasDisponibles": "15212"
-},
-{
-    "clave": "010.000.3461.00",
-    "proveedor": "Germed",
-    "descripcion": "Azatioprina",
-    "conjuntos": "IMPORTADO",
-    "enero": 30000,
-    "febrero": 40000,
-    "marzo": 40000,
-    "abril": 0,
-    "mayo": 0,
-    "junio": 0,
-    "julio": 0,
-    "agosto": 0,
-    "septiembre": 0,
-    "octubre": 0,
-    "noviembre": 0,
-    "diciembre": 0,
-    "totalTrimestre": 110000,
-    "eneroM": 5070000,
-    "febreroM": 6760000,
-    "marzoM": 6760000,
-    "totalMontoVentaTrimestre": 18590000,
-    "piezasDisponibles": "30945"
-},
-{
-    "clave": "010.000.1774.00",
-    "proveedor": "AQVida",
-    "descripcion": "Epirubicina 1-50mg",
-    "conjuntos": "IMPORTADO",
-    "enero": 0,
-    "febrero": 25000,
-    "marzo": 25000,
-    "abril": null,
-    "mayo": null,
-    "junio": null,
-    "julio": null,
-    "agosto": null,
-    "septiembre": null,
-    "octubre": null,
-    "noviembre": null,
-    "diciembre": null,
-    "totalTrimestre": 50000,
-    "eneroM": 0,
-    "febreroM": 11000000,
-    "marzoM": 11000000,
-    "totalMontoVentaTrimestre": 22000000,
-    "piezasDisponibles": "27544"
-},
-];
+
+  dataSource = new MatTableDataSource<any>();  
+  protected dataSourceC = new MatTableDataSource<any>();
+
 
 displayedColumns: string[] = [];
+  protected displayedColumnsC: string[] = [];
 
 
-  constructor(){
+
+  constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService,
+    private route: ActivatedRoute
+  ){
+
+    this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
+    this.difference_text = '';
 
     this.showLoading = false;
     this.isPlanSelected = false;
@@ -215,9 +63,186 @@ displayedColumns: string[] = [];
   }
 
   ngOnInit(): void {
-   
-    this.displayedColumns = ['clave', 'proveedor', 'descripcion', 'conjuntos', 'enero', 'febrero', 'marzo'];
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      console.log('el id es:', this.id);
+
+    });
+
+
+
+    this.getPlaListData();
+
+
+  }
+
+
+  ngAfterViewChecked(): void {
+    if (this.isPlanSelected && this.dataSource && !this.dataSource.paginator && !this.dataSourceC.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSourceC.paginator = this.paginatorC;
+      this.cdr.detectChanges(); 
+    }
+
+
+  }
+
+
+  getDifferences(dataSource1: any[], dataSource2: any[]): any[] {
+    const differences: any[] = [];
   
+    // Verificamos que ambos arrays tengan la misma longitud
+    if (dataSource1.length !== dataSource2.length) {
+      console.error("Los dataSource no tienen la misma longitud.");
+      return differences;
+    }
+  
+    dataSource1.forEach((row1, index) => {
+      const row2 = dataSource2[index];
+  
+      const rowDifferences: any[] = [];
+  
+      Object.keys(row1).forEach(key => {
+        if (row2.hasOwnProperty(key)) {
+          const value1 = String(row1[key]);
+          const value2 = String(row2[key]);
+  
+          if (value1 !== value2) {
+            rowDifferences.push({
+              campo: key, 
+              valor1: row1[key],
+              valor2: row2[key]  
+            });
+          }
+        }
+      });
+  
+      if (rowDifferences.length > 0) {
+        differences.push({
+          producto: row1.producto, 
+          diferencias: rowDifferences 
+        });
+      }
+    });
+  
+    return differences;
+  }
+
+  async getDifferencesPromise(data1: any[], data2: any[]){
+    return new Promise((resolve, reject) => {
+      try{
+        const dif = this.getDifferences(data1, data2);
+        resolve(dif);
+      }catch(err){
+        reject(err);
+      }
+
+
+    })
+  }
+
+  
+  getPlaListData(){
+    if(this.id == 1){
+      
+    this.displayedColumns = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
+
+      this.behaviorService.loadAllPlanhistoricUnion();
+      this.behaviorService.planHistoric$.subscribe(
+        (data) => {
+          this.plan_list = data;
+        }
+      );
+
+    }else if(this.id == 2){
+      
+    this.displayedColumns = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
+    this.displayedColumnsC = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
+
+      this.behaviorService.loadAllPlanPrivateUnion();
+      this.behaviorService.planPrivateHistoric$.subscribe(
+        (data) => {
+          this.plan_list = data;
+        }
+      );
+    }
+
+ 
+  }
+
+  afterModalClosed(result:any){
+
+    this.service.getAllPlanHistoricUnion().subscribe({
+      next:(response)=> {
+        console.log("historic", response);
+        this.plan_list = response.result;
+      }
+    });
+  }
+
+  openEditList(){
+    this.openSettingsMenu();
+
+    const modalRef = this.modal.open(EditPlanListModalComponent, {
+      size:'md', 
+      centered: true,
+      windowClass: 'redondo'
+    });
+
+    modalRef.componentInstance.id = this.id;
+
+    modalRef.result.then(
+      (result) => {
+
+      },
+      (reason) => {
+
+      }
+    );
+  }
+
+
+  onSettingsSelected(item:any){
+    switch(item.id){
+      case 1:
+        this.openEditList();
+        break;
+      case 2:
+          this.openSettingsMenu();
+        break;
+    }
+  } 
+
+
+  
+  formatData(response: any[]): any[] {
+    return response.map(item => {
+      return {
+        clave: item['clave institucional'],
+        proveedor: item['Proveedor'],
+        descripcion: item['Descripción'],
+        conjuntos: item['CONJUNTOS'],
+        enero: item['Enero F'],
+        febrero: item['Febrero F'],
+        marzo: item['Marzo F'],
+        abril: item['Abril F'],
+        mayo: item['Mayo F'],
+        junio: item['Junio F'],
+        julio: item['Julio F'],
+        agosto: item['Agosto F'],
+        septiembre: item['Septiembre F'],
+        octubre: item['Octubre F'],
+        noviembre: item['Noviembre F'],
+        diciembre: item['Diciembre F'],
+        totalTrimestre: item['Total Trimestre'],
+        eneroM: item['Enero M'],
+        febreroM: item['Febrero M'],
+        marzoM: item['Marzo M'],
+        totalMontoVentaTrimestre: item['Total Monto en Venta Trimestre'],
+        piezasDisponibles: item['TOTAL Piezas Disponibles'],
+      };
+    });
   }
 
   openSettingsMenu(){
@@ -238,6 +263,9 @@ displayedColumns: string[] = [];
     }).then((result) => {
       if(result.isConfirmed){
         this.isPlanSelected = false;
+
+        this.dataSourceC.data = [];
+
       }else if(result.isDismissed){
 
       }
@@ -248,17 +276,170 @@ displayedColumns: string[] = [];
     return row1[column] !== row2[column];
 }
 
-  selectPlan(plan: any){
-    this.showLoading = true;
+async selectPlan(plan: any) {
+  this.selectedPlan = plan;
+  this.showLoading = true;
 
-    setTimeout(() => {
+
+
+  console.log("plan seleccionado", plan);
+
+  Swal.fire({
+      title: 'Cargando...',
+      text: 'Por favor, espera un momento.',
+      allowOutsideClick: false,
+      didOpen: async () => {
+          Swal.showLoading(); 
+          //cargar los datos de la actual table
+
+        if(this.id == 1){
+
+          const getDetallesPlanPublicPromise = new Promise((resolve, reject) => {
+            this.service.getDetallesPlan().subscribe({
+              next:(response) => {
+                console.log("plan actual", response);
+                //const formattedData = this.formatData(response);
+                //console.log("data to pdf", formattedData);
+          
+                this.originalData = [...response];
+                this.dataSource.data = response;
+                resolve(true);
+              },
+              error:(err) => {
+                reject(err);
+              }
+            });
+          });
+
+          const getPlanSelectedByNamePublicPromise = new Promise((resolve, reject) => {
+            this.service.getPlanSelectedByName(plan.name).subscribe({
+              next:(response) => {
+                console.log("selected plan data from api is", response.result[0]);
+      
+                //const formattedData = this.formatData(response.result[0]);
+                //console.log("data to pdf", formattedData);
+          
+                this.originalDataC = [...response.result[0]];
+                this.dataSourceC.data = response.result[0];
+                resolve(true);
+              },
+              error:(err) => {
+                reject(err);
+              }
+            });
+          });
+     
+
+          Promise.all([getDetallesPlanPublicPromise, getPlanSelectedByNamePublicPromise])
+            .then(() => {
+              this.differencesArray = this.getDifferences(this.originalDataC, this.originalData);
+              console.log("diferencias ", this.differencesArray);
+
+              if(this.differencesArray.length === 0){
+                this.difference_text = '(0 diferencias encontradas)';
+              }else if(this.differencesArray.length === 1){
+                this.difference_text = '(1 diferencia encontrada)';
+
+              }else{
+                this.difference_text = '(' +  this.differencesArray.length  +'diferencias encontradas)';
+
+              }
+            })
+            .catch((error) => {
+              console.log("error al obtener todos los datos publicos de losplanes", error);
+            })
+
+          
+  
+          
+          
+
+        } 
+
+        else if (this.id == 2) {
+          const getDetallesPlanPrivatePromise = new Promise((resolve, reject) => {
+            this.service.getDetallesPlanPrivate().subscribe({
+              next: (response) => {
+                const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+                  const newItem: { [key: string]: any } = {};
+                  for (const key in item) {
+                    if (item.hasOwnProperty(key)) {
+                      const newKey = key.toLowerCase().replace(/ /g, '');
+                      newItem[newKey] = item[key];
+                    }
+                  }
+                  newItem['seleccionar'] = false;
+                  return newItem;
+                });
+        
+                this.originalData = [...formattedData];
+                console.log('private data', this.originalData);
+                this.dataSource.data = this.originalData;
+                this.filteredData = [...this.dataSource.data];
+                resolve(true); 
+              },
+              error: (err) => {
+                reject(err); 
+              }
+            });
+          });
+        
+          const getPlanSelectedPrivateByNamePromise = new Promise((resolve, reject) => {
+            this.service.getPlanSelectedPrivateByName(plan.name).subscribe({
+              next: (response) => {
+                console.log("selected plan data from api is", response.result[0]);
+        
+                this.originalDataC = [...response.result[0]];
+                this.dataSourceC.data = response.result[0];
+                resolve(true); 
+              },
+              error: (err) => {
+                reject(err); 
+              }
+            });
+          });
+        
+          Promise.all([getDetallesPlanPrivatePromise, getPlanSelectedPrivateByNamePromise])
+            .then(() => {
+               this.differencesArray = this.getDifferences(this.originalDataC, this.originalData);
+              console.log("diferencias ", this.differencesArray);
+
+              if(this.differencesArray.length === 0){
+                this.difference_text = '(0 diferencias encontradas)';
+              }else if(this.differencesArray.length === 1){
+                this.difference_text = '(1 diferencia encontrada)';
+
+              }else{
+                this.difference_text = '(' +  this.differencesArray.length  +'diferencias encontradas)';
+
+              }
+
+            })
+            .catch((err) => {
+              console.error("Error al obtener los datos:", err);
+            });
+        }
+        
+        
+      
+    
+   
+
+
+
+
+          //cargar los datos del seleccionado
+      }
+  });
+
+  setTimeout(() => {
+      Swal.close();
 
       this.isPlanSelected = true;
+      
 
-    }, 2000);
-
-    this.showLoading = false;
-
-  }
+      this.showLoading = false;
+  }, 600); 
+}
 
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -11,6 +11,8 @@ import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
+import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, menu_lists } from '../../../../core/helpers/arrays';
+import { gsap } from 'gsap';
 
 
 @Component({
@@ -19,39 +21,36 @@ import Swal from 'sweetalert2';
   templateUrl: './modal-plan-view.component.html',
   styleUrl: './modal-plan-view.component.scss'
 })
-export class ModalPlanViewComponent implements OnInit, AfterViewInit {
+export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   protected plan: any;
   protected isLoading: boolean;
-
   protected ogData: any;
+  protected plans_list:any[] = [];
 
-  protected plans_list:any[] = [
-    {}
-  ];
+
+  @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>; 
+
+  cards: number[] = []; 
+  nextCardId = 1; 
+  private animateNextCard = false; 
+  private movedCardId: number | null = null; 
+
 
   
-  protected first_quarter: string[] = ['Enero', 'Febrero', 'Marzo'];
-  protected second_quarter: string[] = ['Abril', 'Mayo', 'Junio'];
-  protected third_quarter: string[] = ['Julio', 'Agosto', 'Septiembre'];
-  protected fourth_quarter: string[] = ['Octubre', 'Noviembre', 'Diciembre'];
-
-  protected list_menu_views: any[] = [
-    {id: 1, title: 'General'},     {id: 2, title: 'Scroll telling'},
-    {id: 3, title: 'Múltiples tablas'},  {id: 4, title: 'Cerrar'},
-
-  ]
+  protected list_menu_views: any[] = []
 
   protected selectedRow : any;
   displayedColumns: string[] = [];
 
   dataSource = new MatTableDataSource<any>();  
 
+
   limits: number;
   protected showMenu: boolean = false;
   protected showViewsMenu: boolean = false;
-
+  protected typeText: string;
 
   public data: any[] = [];  
 
@@ -59,57 +58,57 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   menuTop: number = 0;
   menuLeft: number = 0;
-
+  protected idValue: number;
   
   filteredData: any[] = [];
   searchText: string = '';
   originalData: any[] = [];
+  protected showOpsMenu: boolean;
+  protected showUtility: boolean;
+  protected showUtilityDetails: boolean;
 
+  protected headersQ1: any[]= [];
+  protected headersQ2: any[] = [];
+  protected headersQ3: any[] = [];
+  protected headersQ4: any[] = [];
+  protected menu_lists: any[] = [];
+  protected ops_menu_list: any[] = [];
 
-  protected headersQ1 = [
-    {id: 1, title: 'enero'},   
-    {id: 2, title: 'febrero'},
-    {id: 3, title: 'marzo'},
+  protected data_list: any[] = [
+    {id: 1, text:'$ total de ventas: ', value:'$ 30,000'},
+    {id: 2, text:'$ total de unidades vendidas: ', value:'$ 60,000'},
+    {id: 3, text:'$ total de costos: ', value:'$ 40,000'},
+
   ];
 
-  protected headersQ2 = [
-    {id: 1, title: 'abril'},   
-    {id: 2, title: 'mayo'},
-    {id: 3, title: 'junio'},
-  ];
 
-  protected headersQ3 = [
-    {id: 1, title: 'julio'},   
-    {id: 2, title: 'agosto'},
-    {id: 3, title: 'septiembre'}
-  ];
+  private isFirstShow = true; 
+  private isDeatilsFirstShow = true;
 
-  protected headersQ4 = [
-    {id: 1, title: 'octubre'},   
-    {id: 2, title: 'noviembre'},
-    {id: 3, title: 'diciembre'}
-  ];
 
-  protected menu_lists: any[] = [
-    {id:1, title:'Ver producto'},
-    {id:2, title:'Editar información'},
-    {id:3, title:'Cancelar'},
-
-  ]
-
-  protected headers = [
-    {id: 1, title: 'seleccionar'},   
-    {id: 2, title: 'clave'},   
-    {id: 3, title: 'Proveedor'},
-    {id: 4, title: 'descripcion'}, 
-    {id: 5, title: 'conjuntos'},
-  ];
-
+  protected headers: any[] = [];
+  protected headersPrivate: any[] = [];
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
-    this.limits = 1;
+    this.limits = 1; 
+    this.idValue = 0;
 
+    this.ops_menu_list= [{id: 1, title: 'Utilidad bruta'}, {id:2, title: 'Cerrar'}];
+
+    this.headersQ1 = headersQ1;
+    this.headersQ2 = headersQ2;
+    this.headersQ3 = headersQ3;
+    this.headersQ4 = headersQ4;
+    this.menu_lists = menu_lists;
+    this.list_menu_views = list_menu_views;
+    this.headers = headers;
     this.isLoading = false;
+    this.showOpsMenu = false;
+    this.showUtility = false;
+    this.showUtilityDetails = false;
+    this.typeText = '';
+
+    
   }
 
 
@@ -123,106 +122,421 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
       }
     }, 100);
   }
+
+
+  
   ngOnInit(): void {
 
     if(this.plan.id === 1){
       this.showDRows();
-
+      this.typeText = 'publico';
     }else if(this.plan.id === 2){
+      this.typeText = 'privado';
         this.showPrivateRows();
     }
+
+    this.service.getLastIdNumber(this.typeText).subscribe({
+      next:(response) => {
+        console.log('valor ', this.typeText,  ' ', response.result);
+        this.idValue = response.result;
+      }
+    });
+
+  
+
+  }
+
+  ngAfterViewChecked() {
+    if (this.showUtility && this.isFirstShow) {
+      gsap.fromTo(
+        '.utilidad',
+        {
+          opacity: 0,
+          y: -50, 
+        },
+        {
+          opacity: 1,
+          y: 0, 
+          duration: 0.5,
+          ease: 'bounce.out', 
+        }
+      );
+      this.isFirstShow = false; 
+    }
+    if (this.showUtilityDetails && this.isDeatilsFirstShow) {
+      gsap.fromTo(
+        '.utilidad-details',
+        {
+          opacity: 0,
+          y: -100
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'bounce.out',
+        }
+      );
+      this.isDeatilsFirstShow = false;
+    }
+    
+    if (!this.showUtilityDetails && !this.isDeatilsFirstShow) {
+      gsap.to('.utilidad-details', {
+        opacity: 0,
+        y: -100,
+        duration: 0.4,
+        ease: 'power2.in',
+        onComplete: () => {
+        },
+      });
+      this.isDeatilsFirstShow = true; 
+    }
+
+
+    if (this.animateNextCard) {
+      const lastIndex = this.cards.length - 1;
+      const cardElement = this.cardElements.toArray()[lastIndex]?.nativeElement;
+      if (cardElement) {
+        gsap.from(cardElement, {
+          opacity: 0,
+          y: -50,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+      this.animateNextCard = false; 
+    }
+
+    if (this.movedCardId !== null) {
+      const cardElement = this.cardElements.toArray().find(
+        (el) => el.nativeElement.getAttribute('data-card-id') === this.movedCardId?.toString()
+      )?.nativeElement;
+
+      if (cardElement) {
+        gsap.to(cardElement, {
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+      this.movedCardId = null; 
+    }
+  }
+
+  addCard() {
+    this.cards.push(this.nextCardId);
+    this.nextCardId++;
+    this.animateNextCard = true; // Activa la animación para la nueva card
+    console.log('Nueva card agregada:', this.cards); // Depuración
+  }
+
+  moveCardToBottom() {
+    if (this.cards.length === 0) {
+      console.warn('No hay cards para mover.'); // Depuración
+      return;
+    }
+
+    // Mueve la última card al principio del array
+    const movedCard = this.cards.pop(); // Elimina la última card
+    if (movedCard !== undefined) {
+      this.cards.unshift(movedCard); // Agrega la card al principio del array
+      this.movedCardId = movedCard; // Guarda el ID de la card movida
+      console.log('Card movida al fondo:', this.cards); // Depuración
+    }
+  }
+
+
+
+
+
+
+  showElement() {
+
+      gsap.fromTo(
+        '.utilidad',
+        {
+          opacity: 0,
+          y: -50, 
+        },
+        {
+          opacity: 1,
+          y: 0, 
+          duration: 0.5,
+          ease: 'bounce.out', 
+        }
+      );
+    
+
+  }
+
+
+
+  onOpsMenuClick(option:any){
+    switch(option.id){
+      case 1:
+        this.showUtility = true;
+        this.openOpsMenu();
+        //this.addCard();
+        //this.openOpsMenu();
+        break;
+      case 2:
+          this.openOpsMenu();
+        break;
+    }
+  } 
+
+  openUtilityDetails(){
+    this.showUtilityDetails = !this.showUtilityDetails;
+
+   
+  }
+
+  openOpsMenu(){
+    this.showOpsMenu = !this.showOpsMenu;
+  }
+
+
+  openSettingsMenu(){
+
+  }
+
+
+  async savePublicPlan(pName: string, pType: string){
+
+    const replaceNullWithZero = (obj: { [x: string]: number }) => {
+      for (let key in obj) {
+          if (obj[key] === null) {
+              obj[key] = 0;
+          }
+      }
+      return obj;
+  };
+
+  const jsonFixed = this.originalData.map(replaceNullWithZero);
+
+  const jsonFixedWithPlan = jsonFixed.map((item) => {
+    return {
+        ...item, 
+        nombre_plan: pName
+    };
+});
+
+  
+
+Swal.fire({
+  title: 'Guardando...',
+  text: 'Por favor, espera un momento.',
+  allowOutsideClick: false,
+  didOpen: () => {
+      Swal.showLoading(); 
+  }
+});
+
+
+const filtered_private_data = this.originalData.map(item => ({
+  clave: item.clave,
+  descripcion: item.descripcion !== null ? item.descripcion : 0,
+  enero: item.enero !== null ? item.enero: 0,
+  febrero: item.febrero !== null ? item.febrero: 0,
+  marzo: item.marzo !== null ? item.marzo:0,
+  nombre_plan: pName
+}));
+
+
+try{
+const response1 = await this.insertPlanUnionPromise(pName, pType);
+
+const response2 = await this.insertHistoricoPublicoPromise("historico_dos",filtered_private_data);
+Swal.fire({
+  icon: 'success',
+  title: '¡Guardado exitoso!',
+  text: 'Los datos se han guardado correctamente.',
+  confirmButtonText: 'Aceptar'
+});
+}catch(err){
+console.log("Error:", err);
+
+Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+    confirmButtonText: 'Aceptar'
+});
+}
+
 
 
   }
 
 
-  saveVersion() {
-    const replaceNullWithZero = (obj: { [x: string]: number }) => {
-        for (let key in obj) {
-            if (obj[key] === null) {
-                obj[key] = 0;
-            }
-        }
-        return obj;
-    };
+ async saveVersion() {
 
-    const jsonFixed = this.originalData.map(replaceNullWithZero);
-
-    Swal.fire({
-        title: 'Guardando...',
-        text: 'Por favor, espera un momento.',
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading(); 
-        }
-    });
-
-    this.service.insertHistoricoPublico("plan_historico_publico", jsonFixed).subscribe({
-        next: (response) => {
-            console.log("Respuesta:", response);
-
-            Swal.fire({
-                icon: 'success',
-                title: '¡Guardado exitoso!',
-                text: 'Los datos se han guardado correctamente.',
-                confirmButtonText: 'Aceptar'
-            });
+  const jtest= {
+    "table": "plan_historico_privado",
+    "json": [
+        {
+            "producto": "Acido Ascórbico 1 gr c/ 10 Aurax",
+            "inventario": 0,
+            "enero": 1000,
+            "febrero": 1000,
+            "marzo": 1000
         },
-        error: (error) => {
-            console.log("Error:", error);
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
-                confirmButtonText: 'Aceptar'
-            });
+        {
+            "producto": "Paracetamol 500 mg c/ 10",
+            "inventario": 50,
+            "enero": 2000,
+            "febrero": 1500,
+            "marzo": 1800
+        },
+        {
+            "producto": "Ibuprofeno 400 mg c/ 20",
+            "inventario": 30,
+            "enero": 1200,
+            "febrero": 1300,
+            "marzo": 1400
         }
+    ]
+}
+
+    let pName = '';
+    let pType = '';
+    this.idValue = this.idValue +1;
+
+  if(this.plan.id === 1){
+      pName = 'plan público version' + String(this.idValue);
+      pType  = 'publico';
+
+      await this.savePublicPlan(pName, pType);
+
+    }else if(this.plan.id === 2){
+      pName = 'plan privado version' + String(this.idValue);
+      pType  = 'privado';
+
+
+      const filtered_private_data = this.originalData.map(item => ({
+        producto: item.producto,
+        inventario: item.inventario !== null ? item.inventario : 0,
+        enero: item.enero !== null ? item.enero: 0,
+        febrero: item.febrero !== null ? item.febrero: 0,
+        marzo: item.marzo !== null ? item.marzo:0
+      }));
+
+
+
+      const jsonFixedWithPlan = filtered_private_data.map((item) => {
+        return {
+            ...item, 
+            nombre_plan: pName
+        };
     });
+
+
+
+    
+
+
+
+      console.log("filtered_private", filtered_private_data);
+
+      const response1 = await this.insertPlanUnionPromise(pName, pType);
+      const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
+
+
+    }
+
+    
+
+
+ 
 }
 
 
+  insertPlanHistoricoPrivadoPromise = (table_name: string, data_json: any) => {
+    return new Promise((resolve, reject) => {
+      this.service.insertPlanHistoricoPrivado(table_name, data_json).subscribe({
+        next:(data) => {
+          console.log("registor privado", data);
+          resolve(data);
+        },
+        error:(error) => {
+          reject(error);
+        } 
+      })
+    })
+  }
+ 
+
+  insertPlanUnionPromise = (name:string, type:string) => {
+    return new Promise((resolve, reject) => {
+      
+    this.service.insertPlanHistoicUnion(name, type).subscribe({
+      next:(response) => {
+        console.log('registro:', response);
+        resolve(response);
+      },
+      error: (error) => {
+        console.error('error al insertar', error);
+        reject(error);
+      }
+
+    });
+
+    })
+  }
+
+  insertHistoricoPublicoPromise = (name: string, data: any) => {
+    return new Promise((resolve, reject) => {
+      this.service.insertHistoricoPublico(name, data).subscribe({
+        next: (response) => {
+            console.log("Respuesta:", response);
+          resolve(response);
+        
+        },
+        error: (error) => {
+           reject(error);
+        }
+    });
+    });
+  }
 
 
 
-  showPrivateRows(){
+  showPrivateRows() {
     this.isLoading = true;
+  
+    this.headers = [
+      { id: 1, title: 'seleccionar' }, 
+      { id: 2, title: 'Producto' },
+      { id: 3, title: 'Inventario' },
+      { id: 4, title: 'enero' },
+      { id: 5, title: 'febrero' },
+      { id: 6, title: 'marzo' },
 
-    let newHeaders: any[] = [];
-    if (this.limits === 1) {
-      newHeaders = this.headersQ1;
-    } else if (this.limits === 2) {
-      newHeaders = this.headersQ1.concat(this.headersQ2);
-    } else if (this.limits === 3) {
-      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3);
-    } else if (this.limits === 4) {
-      newHeaders = this.headersQ1.concat(this.headersQ2).concat(this.headersQ3).concat(this.headersQ4);
-    }
-  
-    const allHeaders = this.headers.concat(newHeaders);
-  
-    this.headers = Array.from(
-      new Map(allHeaders.map(header => [header.title, header])).values()
-    );
+    ];
   
     this.displayedColumns = this.headers.map(header => 
-      header.title.toLowerCase().replace(' ', '')
+      header.title.toLowerCase().replace(/ /g, '')
     );
   
     this.service.getDetallesPlanPrivate().subscribe({
       next: (response) => {
-        const formattedData = this.formatData(response);
-        console.log("data to pdf", formattedData);
+        const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+          const newItem: { [key: string]: any } = {};
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              const newKey = key.toLowerCase().replace(/ /g, ''); 
+              newItem[newKey] = item[key];
+            }
+          }
+          newItem['seleccionar'] = false; 
+          return newItem;
+        });
   
         this.originalData = [...formattedData];
-        this.dataSource.data = formattedData;
-  
-        // Asigna el paginador después de cargar los datos
-  
+        console.log('private data', this.originalData);
+        this.dataSource.data = this.originalData;
         this.filteredData = [...this.dataSource.data];
-
-        //this.dataSource.paginator = this.paginator;
-
+  
         this.isLoading = false;
       }
     });
@@ -276,11 +590,12 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         this.ogData = response;
 
 
-        const formattedData = this.formatData(response);
-        console.log("data to pdf", formattedData);
+        //const formattedData = this.formatData(response);
+        //console.log("data to pdf", formattedData);
+        console.log("data publica inicial", response);
   
-        this.originalData = [...formattedData];
-        this.dataSource.data = formattedData;
+        this.originalData = [...response];
+        this.dataSource.data = response;
   
         // Asigna el paginador después de cargar los datos
   
@@ -295,26 +610,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
 
   afterModalClosed(result: any) {
 
-    if(this.plan.id === 1){
-        
-      this.service.getDetallesPlan().subscribe(
-        {
-          next: (response) => {
-            console.log('Response:', response); 
-            this.data = response; 
-  
-            this.dataSource.data = this.formatData(response);  
-          }
-        });
-    }else if(this.plan.id === 2){
-      this.service.getDetallesPlanPrivate().subscribe({
-          next: (response) => {
-            console.log('respoinse private', response);
-            this.data = response;
-
-            this.dataSource.data = this.formatData(response);
-          }
-      })
+    if(this.plan.id === 1){ this.showDRows();
+    }else if(this.plan.id === 2){ this.showPrivateRows();
     }
 
   }
@@ -332,6 +629,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit {
         size: 'lg',
         windowClass:'redondo'
       });
+
+
+
       modalRef.componentInstance.row = row;
   
   

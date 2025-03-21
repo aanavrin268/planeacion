@@ -1,0 +1,16 @@
+<div class="card-container">
+    <!-- Botón para agregar una nueva card -->
+    <button (click)="addCard()">Agregar Card</button>
+  
+    <!-- Cards superpuestas -->
+    <div
+      *ngFor="let card of cards; let i = index"
+      class="card"
+      [style.z-index]="i"
+      [style.transform]="'translateX(' + i * 20 + 'px)'"
+      [attr.data-card-id]="card"
+      (click)="moveCardToBottom(card)"
+    >
+      Card {{ card }}
+    </div>
+  </div>
