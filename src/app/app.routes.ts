@@ -19,6 +19,8 @@ import { SettingsComponent } from './settings/settings/settings.component';
 import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
 import { TodosProductosComponent } from './productoss/todos-productos/todos-productos.component';
 import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
+import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
+import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
 
 
 
@@ -34,6 +36,10 @@ export const routes: Routes = [
 {path: 'comparativa/:id', component: ComparativaComponent},
 {path: 'settings', component: SettingsComponent},
 {path: 'planTelling', component: PlanTellingComponent},
+{path: 'dashInventarios', component: DashInventarioComponent},
+{path: 'inventariosTiempo', component: InventariosTiempoComponent},
+
+
 
 {path: 'stPlan', component: ExampleComponent},
 

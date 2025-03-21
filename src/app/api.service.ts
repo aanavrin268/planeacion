@@ -16,6 +16,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getAllPublicProviders(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPublicProviders`);
+  }
+
+
   getAllProductoss():Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/api/getAllProducts`);
   }

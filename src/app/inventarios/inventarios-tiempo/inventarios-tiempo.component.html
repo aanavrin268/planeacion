@@ -1,0 +1,41 @@
+<div class="background">
+    <div class="body">
+        <section class="main">
+            <div class="header">
+                <span class="title">Inventarios en el tiempo</span>
+               
+            </div>
+
+            <div class="body">
+
+                <div class="plan-container" *ngIf="!isPlanChoosed">
+                    <span class="pc-text">
+                        Escoge un plan sobre el cuál se obtendran todos los registros.</span>
+
+            <!-----
+                          <div class="image-container">
+                        <img src="fondo1.png" alt="">
+                    </div>
+            
+            -->
+                  
+
+                   <button class="p-btn" (click)="openChosse()">Seleccionar un plan</button>
+                </div>
+
+                <div class="choosed-container" *ngIf="isPlanChoosed">
+
+                    <div class="choosed" *ngFor="let choosed of choosedProviders">
+                       <span>{{choosed.Proveedor}}</span> 
+                    </div>
+                </div>
+            
+            </div>
+
+        </section>
+
+        <div class="divider"></div>
+
+       
+    </div>
+</div>

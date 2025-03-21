@@ -37,6 +37,10 @@ export class AppComponent implements OnInit{
     { label: 'Todos los productos', link: '/dashProductoss' },
   ];
 
+  inventarySubmenuItems = [
+    { label: 'Inventarios en el tiempo', link: '/inventariosTiempo' },
+  ];
+
 
   constructor(private apiService: ApiService, private router: Router, private planService: PlanService){
     this.showBage = false;
