@@ -21,12 +21,17 @@ export class ProveedorProductsComponent implements OnInit {
 
   protected dataSource = new MatTableDataSource<any>();
   protected dataSourcePlan = new MatTableDataSource<any>();
+  protected dataSourcethird = new MatTableDataSource<any>();
 
   protected displayedColumns: string[] = [];
   protected monthsColumns: string[] = [];
 
   protected displayedColumnsPlan: string[] = [];
   protected monthsColumnsPlan: string[] = [];
+
+  protected thirdJson: any[] = [];
+  protected displayedColumnsThird: string[] = [];
+
 
   protected sendSource: any[] = [];
   protected sendSourcePlan: any[] = [];
@@ -40,12 +45,21 @@ export class ProveedorProductsComponent implements OnInit {
   constructor(private modal: NgbModal){
     this.displayedColumns = ['nombre', 'inventario'];
     this.displayedColumnsPlan = ['nombre', 'inventario']
+    this.displayedColumnsThird= ['nombre', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
     this.isArribosExpanded = false;
 
   }
 
   ngOnInit(): void {
+
+
+    this.thirdJson = this.generateNewJson(pp_data_details);
+
+    console.log('terer', this.thirdJson);
+
+    this.dataSourcethird = new MatTableDataSource(this.thirdJson);
+
   
     pp_data_details.forEach(item => {
       item.arribos[0].months.forEach(month => {
@@ -98,6 +112,53 @@ export class ProveedorProductsComponent implements OnInit {
 
 
 
+    pp_data_details.forEach(item => {
+      item.plan[0].months.forEach(month => {
+        const key = Object.keys(month)[0]; // Obtener el nombre del mes (ej. "enero")
+        if (!this.monthsColumnsPlan.includes(key)) {
+          this.monthsColumnsPlan.push(key); // Agregar el mes a las columnas dinámicas
+        }
+      });
+    
+      // Agregar 'total' a las columnas si no está presente
+      if (!this.monthsColumnsPlan.includes('total')) {
+        this.monthsColumnsPlan.push('total');
+      }
+    });
+    
+    // Actualizar displayedColumns sin duplicados
+    this.displayedColumnsPlan = [
+      ...this.displayedColumnsPlan, // Columnas fijas ('nombre', 'inventario')
+      ...this.monthsColumnsPlan,    // Columnas dinámicas (meses y 'total')
+    ];
+    
+    // Procesar los datos
+    const processedDataPlan = pp_data_details.map(item => {
+      const meses = item.plan[0].months.reduce((acc: any, month: any) => {
+        const key = Object.keys(month)[0]; // Obtener el nombre del mes (ej. "enero")
+        const value = parseInt(month[key], 10); // Convertir el valor a número
+        acc[key] = value; // Agregar el mes al objeto
+        return acc;
+      }, {});
+    
+      // Calcular el total sumando los valores de los meses
+      const total = (Object.values(meses) as number[]).reduce((sum, value) => sum + value, 0);
+    
+      return {
+        ...item, // Mantener las propiedades originales
+        ...meses, // Agregar los meses al objeto
+        total: total, // Agregar el total al objeto
+      };
+    });
+    
+    console.log('Columnas mostradas:', this.displayedColumnsPlan);
+    console.log('Datos procesados:', processedDataPlan);
+
+
+
+
+
+/*
     const processedDataPlan = pp_data_details.map(item => {
       const meses = item.plan[0].months.reduce((acc: any, month: any) => {
         const key = Object.keys(month)[0]; // Obtener el nombre del mes (ej. "enero")
@@ -114,6 +175,9 @@ export class ProveedorProductsComponent implements OnInit {
         ...meses // Agregar los meses al objeto
       };
     });
+*/
+
+
 
     this.sendSource = processedData;
     this.sendSourcePlan = processedDataPlan;
@@ -126,12 +190,66 @@ export class ProveedorProductsComponent implements OnInit {
 
 
 
-    this.displayedColumnsPlan = [...this.displayedColumnsPlan, ...this.monthsColumnsPlan];
+    //this.displayedColumnsPlan = [...this.displayedColumnsPlan, ...this.monthsColumnsPlan];
 
     // Asignar los datos procesados al dataSource
     this.dataSourcePlan = new MatTableDataSource(processedDataPlan);
     this.dataSource = new MatTableDataSource(processedData);
   }
+
+
+   getMonthValue(months: any[], month: string): number {
+    const monthData = months.find((m: any) => Object.keys(m)[0] === month);
+    return parseFloat(monthData?.[month] || 0);
+  }
+
+// Función para generar el nuevo JSON
+ generateNewJson(data: any[]) {
+  return data.map(item => {
+    const nombre = item.nombre;
+
+    // Obtener los valores de "arribos" y "plan"
+    const arribosMonths = item.arribos[0].months;
+    const planMonths = item.plan[0].months;
+
+    // Inicializar el valor de junio (mes anterior a julio)
+    let valorNuevoJsonMesAnterior = 0; // Por defecto, es 0
+    const arribosJunio = this.getMonthValue(arribosMonths, 'junio');
+
+    // Crear el objeto con cada mes como propiedad independiente
+    const newItem: any = {
+      nombre,
+      enero: 0,
+      febrero: 0,
+      marzo: 0,
+      abril: 0,
+      mayo: 0,
+      junio: 0,
+      julio: 0,
+      agosto: 0,
+      septiembre: 0,
+      octubre: 0,
+      noviembre: 0,
+      diciembre: 0
+    };
+
+    // Calcular los valores desde julio hasta diciembre
+    const meses = ['julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    meses.forEach((mes, index) => {
+      const mesAnterior = index === 0 ? 'junio' : meses[index - 1]; // Mes anterior
+      const arribosMesAnterior = this.getMonthValue(arribosMonths, mesAnterior);
+      const planMesActual = this.getMonthValue(planMonths, mes);
+
+      // Aplicar la fórmula
+      newItem[mes] = (valorNuevoJsonMesAnterior + arribosMesAnterior) - planMesActual;
+
+      // Actualizar el valor del mes anterior para la siguiente iteración
+      valorNuevoJsonMesAnterior = newItem[mes];
+    });
+
+    return newItem;
+  });
+}
 
 
   animateCard() {
@@ -167,6 +285,8 @@ export class ProveedorProductsComponent implements OnInit {
     this.editingCell = { row, column };
   }
 
+
+
   stopEditing(event: any, row: any, column: string) {
     const newValue = parseFloat(event.target.value) || 0; // Convertir a número (o usar 0 si no es válido)
     row[column] = newValue; // Actualizar el valor en el dataSource
@@ -190,6 +310,9 @@ updateTotal(row: any) {
   });
   row['total'] = total; // Actualizar el total
 }
+
+
+
 
 
 

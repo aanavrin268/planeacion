@@ -25,18 +25,9 @@ html, body{
         gap: 1rem;
         position: relative;
 
-        .title{
-            line-height: 1.1;
-            font-weight: 710;
-            font-size: 20px;
-        }
+       
 
-        .sub{
-            line-height: 1.1;
-            font-weight: 600;
-            font-size: 16px;
-            color: #424242;
-        }
+      
 
         .s-icon{
             font-size: 17px;
@@ -129,24 +120,36 @@ html, body{
 
         .upper{
             width: 100%;
-            height: calc(50% - 16px);
+            height: 100%;
             display: flex;
             flex-direction: column;
             background-color: white;
             border-radius: 16px;
             box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.433);
+            padding: 1rem;
+
+            .sub{
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
         }
 
-        .downer{
-            width: 100%;
-            height: calc(50% - 16px);
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.433);
-        }
+     
 
 
     }
+}
+
+
+.title{
+    line-height: 1.1;
+    font-weight: 710;
+    font-size: 20px;
+}
+
+.sub{
+    line-height: 1.1;
+    font-weight: 600;
+    font-size: 16px;
+    color: #424242;
 }

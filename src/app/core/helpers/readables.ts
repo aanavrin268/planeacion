@@ -3932,6 +3932,8 @@ export const public_providers_data = {
   }
 
 
+
+
   export const pp_data_details= [
 
     {
@@ -3959,11 +3961,74 @@ export const public_providers_data = {
                 
         ],
         "plan": [
-            {months: [
+            { months: [
                 {"enero": "19721"},
                 {"febrero": "32064"},
                 {"marzo": "2205"},
-            ]},
+                {"abril": "25459"},
+                {"mayo": "12887"},
+                {"junio": "13335"},
+                {"julio": "45800"},
+                {"agosto": "45800"},
+                {"septiembre": "45800"},
+                {"octubre": "45800"},
+                {"noviembre": "45800"},
+                {"diciembre": "45800"},
+            ],
+            "total": "0",
+            },
+        ],
+        "desplazamiento": [
+            { months: []},
+        ],
+        "desplazamiento_meses": [
+            {"months": []}
+        ]
+    
+        
+    },
+
+     {
+        "proveedor": "Germed",
+        "clave": "010.000.2156.00",
+        "nombre": "Espironolactona",
+        "inventario": "0",
+        "arribos":[
+                { "months": [
+                    {"enero": "0"},
+                    {"febrero": "0"},
+                    {"marzo": "0"},
+                    {"abril": "0"},
+                    {"mayo": "0"},
+                    {"junio": "24000"},
+                    {"julio": "0"},
+                    {"agosto": "0"},
+                    {"septiembre": "0"},
+                    {"octubre": "0"},
+                    {"noviembre": "0"},
+                    {"diciembre": "0"},
+                ],
+                "total": "0"
+            },
+                
+        ],
+        "plan": [
+            {months: [
+                {"enero": "0"},
+                {"febrero": "0"},
+                {"marzo": "0"},
+                {"abril": "0"},
+                {"mayo": "0"},
+                {"junio": "0"},
+                {"julio": "4030"},
+                {"agosto": "4030"},
+                {"septiembre": "4030"},
+                {"octubre": "4030"},
+                {"noviembre": "4030"},
+                {"diciembre": "4030"},
+            ],
+            "total": "0",
+            },
         ],
         "desplazamiento": [
             { months: []},
@@ -3976,4 +4041,5 @@ export const public_providers_data = {
     }
     
     ]
+
 
