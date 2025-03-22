@@ -3932,3 +3932,36 @@ export const public_providers_data = {
   }
 
 
+  export const pp_data_details= [
+
+    {
+        "proveedor": "Germed",
+        "clave": "010.000.3461.00",
+        "nombre": "Azatioprina",
+        "inventario": "0",
+        "arribos":[
+                { "months": [
+                    {"enero": "58936"},
+                    {"febrero": "0"},
+                    {"marzo": "40000"},
+                ]}
+        ],
+        "plan": [
+            {months: [
+                {"enero": "19721"},
+                {"febrero": "32064"},
+                {"marzo": "2205"},
+            ]},
+        ],
+        "desplazamiento": [
+            { months: []},
+        ],
+        "desplazamiento_meses": [
+            {"months": []}
+        ]
+    
+        
+    }
+    
+    ]
+

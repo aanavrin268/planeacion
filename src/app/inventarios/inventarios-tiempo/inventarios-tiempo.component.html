@@ -38,7 +38,33 @@
 
 
 
+
+
+
+        
         <ul class="nav nav-tabs">
+          <li class="nav-item" *ngFor="let option of choosedProviders">
+            <button class="nav-link" [class.active]="activeTab === '{{option.Proveedor}}'" 
+            (click)="setNavsValue(option.Proveedor)">
+              {{option.Proveedor}}
+            </button>
+          </li>
+          
+        </ul>
+
+        <div *ngIf="activeTab === anotherSelect">
+          <h3>Contenido de Inicio</h3>
+          <p>Este es el contenido de la pestaña de {{anotherSelect}}.</p>
+          <div class="component-container">
+              <app-proveedor-products></app-proveedor-products>
+          </div>
+        </div>
+        
+      
+
+
+<!------
+           <ul class="nav nav-tabs">
             <li class="nav-item">
               <button class="nav-link" [class.active]="activeTab === 'home'" (click)="activeTab = 'home'">
                 Inicio
@@ -60,6 +86,9 @@
             <h3>Contenido de Perfil</h3>
             <p>Este es el contenido de la pestaña de perfil.</p>
           </div>
+
+-->
+     
 
        
     </div>
