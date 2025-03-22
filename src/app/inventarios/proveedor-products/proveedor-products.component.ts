@@ -198,13 +198,104 @@ export class ProveedorProductsComponent implements OnInit {
   }
 
 
-   getMonthValue(months: any[], month: string): number {
-    const monthData = months.find((m: any) => Object.keys(m)[0] === month);
-    return parseFloat(monthData?.[month] || 0);
+
+
+
+
+
+
+
+
+  animateCard() {
+    const cardElement = this.cardL.nativeElement;
+
+    if (this.isArribosExpanded) {
+      // Animación para expandir
+      gsap.to(cardElement, {
+        width: '104%', // Ancho expandido
+        duration: 0.5, // Duración de la animación (en segundos)
+        ease: 'power2.out', // Efecto de easing (suave)
+      });
+    } else {
+      // Animación para contraer
+      gsap.to(cardElement, {
+        width: 'calc(50% - 16px)', // Ancho original
+        duration: 0.5, // Duración de la animación (en segundos)
+        ease: 'power2.out', // Efecto de easing (suave)
+      });
+    }
   }
 
-// Función para generar el nuevo JSON
- generateNewJson(data: any[]) {
+
+  setExpandOn(){
+    this.isArribosExpanded = !this.isArribosExpanded;
+    this.animateCard();
+
+    console.log(this.isArribosExpanded);
+  }
+
+
+
+
+  startEditing(row: any, column: string) {
+    this.editingCell = { row, column };
+  }
+
+  stopEditing(event: any, row: any, column: string) {
+    const newValue = parseFloat(event.target.value) || 0; // Convertir a número (o usar 0 si no es válido)
+  
+    // Actualizar el valor en el JSON original (pp_data_details)
+    const originalItem = pp_data_details.find(item => item.nombre === row.nombre);
+    if (originalItem) {
+      const monthIndex = originalItem.arribos[0].months.findIndex((m: any) => Object.keys(m)[0] === column);
+      if (monthIndex !== -1) {
+        // Hacer una doble conversión para evitar errores de tipo
+        const monthObject = originalItem.arribos[0].months[monthIndex] as unknown as { [key: string]: string };
+        monthObject[column] = newValue.toString(); // Actualizar el valor en el JSON original
+      }
+    }
+  
+    // Actualizar el valor en la fila de la tabla de arribos
+    row[column] = newValue;
+  
+    // Si la columna editada es un mes, recalcular el total
+    if (this.monthsColumns.includes(column)) {
+      this.updateTotal(row);
+    }
+  
+    // Recalcular thirdJson y actualizar la fuente de datos
+    this.updateThirdJson();
+  
+    this.editingCell = null; // Salir del modo de edición
+  }
+
+
+
+
+
+
+// Método para recalcular el total
+updateTotal(row: any) {
+  row['total'] = 0;
+  let total = 0;
+  this.monthsColumns.forEach(month => {
+    const value = parseFloat(row[month]) || 0; // Convertir a número (o usar 0 si no es válido)
+    total += value;
+  });
+  row['total'] = total; // Actualizar el total
+}
+
+// Método para recalcular thirdJson
+updateThirdJson() {
+  // Regenerar thirdJson basado en el JSON original actualizado (pp_data_details)
+  this.thirdJson = this.generateNewJson(pp_data_details);
+
+  // Actualizar la fuente de datos de la tabla de desplazamiento
+  this.dataSourcethird.data = this.thirdJson;
+}
+
+// Método para generar el nuevo JSON (thirdJson)
+generateNewJson(data: any[]) {
   return data.map(item => {
     const nombre = item.nombre;
 
@@ -251,67 +342,11 @@ export class ProveedorProductsComponent implements OnInit {
   });
 }
 
-
-  animateCard() {
-    const cardElement = this.cardL.nativeElement;
-
-    if (this.isArribosExpanded) {
-      // Animación para expandir
-      gsap.to(cardElement, {
-        width: '104%', // Ancho expandido
-        duration: 0.5, // Duración de la animación (en segundos)
-        ease: 'power2.out', // Efecto de easing (suave)
-      });
-    } else {
-      // Animación para contraer
-      gsap.to(cardElement, {
-        width: 'calc(50% - 16px)', // Ancho original
-        duration: 0.5, // Duración de la animación (en segundos)
-        ease: 'power2.out', // Efecto de easing (suave)
-      });
-    }
-  }
-
-
-  setExpandOn(){
-    this.isArribosExpanded = !this.isArribosExpanded;
-    this.animateCard();
-
-    console.log(this.isArribosExpanded);
-  }
-
-
-  startEditing(row: any, column: string) {
-    this.editingCell = { row, column };
-  }
-
-
-
-  stopEditing(event: any, row: any, column: string) {
-    const newValue = parseFloat(event.target.value) || 0; // Convertir a número (o usar 0 si no es válido)
-    row[column] = newValue; // Actualizar el valor en el dataSource
-  
-    // Si la columna editada es un mes, recalcular el total
-    if (this.monthsColumns.includes(column)) {
-      this.updateTotal(row);
-    }
-  
-    this.editingCell = null; // Salir del modo de edición
-  }
-
-
-// Método para recalcular el total
-updateTotal(row: any) {
-  row['total'] = 0;
-  let total = 0;
-  this.monthsColumns.forEach(month => {
-    const value = parseFloat(row[month]) || 0; // Convertir a número (o usar 0 si no es válido)
-    total += value;
-  });
-  row['total'] = total; // Actualizar el total
+// Función para obtener el valor de un mes específico
+getMonthValue(months: any[], month: string): number {
+  const monthData = months.find((m: any) => Object.keys(m)[0] === month);
+  return parseFloat(monthData?.[month] || 0);
 }
-
-
 
 
 
