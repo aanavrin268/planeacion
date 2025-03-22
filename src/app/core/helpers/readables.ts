@@ -3944,7 +3944,19 @@ export const public_providers_data = {
                     {"enero": "58936"},
                     {"febrero": "0"},
                     {"marzo": "40000"},
-                ]}
+                    {"abril": "61735"},
+                    {"mayo": "0"},
+                    {"junio": "86500"},
+                    {"julio": "40000"},
+                    {"agosto": "50000"},
+                    {"septiembre": "50000"},
+                    {"octubre": "50000"},
+                    {"noviembre": "0"},
+                    {"diciembre": "0"},
+                ],
+                "total": "0"
+            },
+                
         ],
         "plan": [
             {months: [

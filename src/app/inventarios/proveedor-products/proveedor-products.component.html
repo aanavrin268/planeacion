@@ -1,12 +1,17 @@
 <div class="background">
     <div class="top">
-        <div class="left">
+        <div #cardLefts [ngClass]="{'left': !isArribosExpanded, 'left-expanded': isArribosExpanded}">
             <span class="title">Arribos</span>
             <div class="s-container">
                 <span class="sub">Cantidad de piezas arribadas.</span>
                 <div class="badges-container">
                     <i class="bi bi-zoom-in s-icon"
-                        (click)="openZoom(1)"></i>                    
+                        (click)="openZoom(1)"></i>    
+                        
+                    <i class="bi bi-arrows-angle-expand s-icon"
+                  
+                    (click)="setExpandOn()"></i>
+
                     <i class="bi bi-view-stacked s-icon"
                     (click)="openStacked(1)"></i>                  
 

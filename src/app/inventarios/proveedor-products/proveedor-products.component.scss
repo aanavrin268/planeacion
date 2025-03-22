@@ -23,6 +23,7 @@ html, body{
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
+        position: relative;
 
         .title{
             line-height: 1.1;
@@ -58,6 +59,8 @@ html, body{
 
         .table-container{
             margin-top: 1.8rem;
+            overflow-x: auto;
+
         }
 
         .s-container{
@@ -83,11 +86,21 @@ html, body{
             flex-direction: column;
             box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.433);
             padding: 1rem;
-            overflow-x: auto;
+      
+        }
 
-          
-
-          
+        .left-expanded{
+            position: absolute;
+            width: 104%;
+            height: 90%;
+            background-color: white;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.433);
+            padding: 1rem;
+        
+      
         }
 
         .right{
