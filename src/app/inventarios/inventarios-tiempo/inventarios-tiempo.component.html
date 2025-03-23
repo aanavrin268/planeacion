@@ -8,6 +8,8 @@
 
             <div class="body">
 
+              <span class="sub">Obtenen una visión más clara de los inventarios de los productos. Además genera escenarios de desplazamiento para unidades y dinero.</span>
+
                 <div class="plan-container" *ngIf="!isPlanChoosed">
                     <span class="pc-text">
                         Escoge un plan sobre el cuál se obtendran todos los registros.</span>
@@ -23,12 +25,14 @@
                    <button class="p-btn" (click)="openChosse()">Seleccionar un plan</button>
                 </div>
 
-                <div class="choosed-container" *ngIf="isPlanChoosed">
-
-                    <div class="choosed" *ngFor="let choosed of choosedProviders">
-                       <span>{{choosed.Proveedor}}</span> 
-                    </div>
+                <div class="selected-container" *ngIf="isPlanChoosed">
+                  <span class="p-title">Proveedores</span>
+                  <span class="p-highlight">Plan público</span>
                 </div>
+
+                <span class="p-sub">Selecciona el proveedor del cuál deseas consultar información.</span>
+
+           
             
             </div>
 
@@ -40,26 +44,28 @@
 
 
 
+        <section class="provideers-section" *ngIf="isPlanChoosed">
+              
+          <ul class="nav nav-tabs nav-cont">
+            <li class="nav-item" *ngFor="let option of choosedProviders">
+              <button class="nav-link" [class.active]="activeTab === '{{option.Proveedor}}'" 
+              (click)="setNavsValue(option.Proveedor)">
+                {{option.Proveedor}}
+              </button>
+            </li>
+            
+          </ul>
 
-        
-        <ul class="nav nav-tabs">
-          <li class="nav-item" *ngFor="let option of choosedProviders">
-            <button class="nav-link" [class.active]="activeTab === '{{option.Proveedor}}'" 
-            (click)="setNavsValue(option.Proveedor)">
-              {{option.Proveedor}}
-            </button>
-          </li>
-          
-        </ul>
-
-        <div *ngIf="activeTab === anotherSelect">
-          <h3>Contenido de Inicio</h3>
-          <p>Este es el contenido de la pestaña de {{anotherSelect}}.</p>
-          <div class="component-container">
-              <app-proveedor-products></app-proveedor-products>
+          <div *ngIf="activeTab === anotherSelect">
+            <span class="p-txts">Inventario de {{anotherSelect}}</span>
+            <p>Este es el contenido de la pestaña de {{anotherSelect}}.</p>
+            <div class="component-container">
+                <app-proveedor-products></app-proveedor-products>
+            </div>
           </div>
-        </div>
         
+        </section>
+      
       
 
 

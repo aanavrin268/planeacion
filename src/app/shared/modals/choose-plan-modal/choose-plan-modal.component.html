@@ -8,9 +8,30 @@
         <div class="plan-container">
             <div class="plan" *ngFor="let plan of plan_list"
                 (click)="selectPlan(plan)">
-                <span>{{plan.title}}</span>
+                <div class="image-container">
+                    <img src="{{plan.image_path}}" alt="">
+                </div>
+
+                <div class="text-container">
+                    <span class="t-title">{{plan.title}}</span>
+
+                    <div class="info-container">
+                        <span class="subs">{{plan.text}}</span>
+                        <span class="lists" *ngFor="let option of plan.options">
+                            {{option}}
+                        </span>
+                    </div>
+
+                </div>
+
+
+
+
             </div>  
         </div>
     </main>
-    <footer></footer>
+    <footer>
+        <button class="btn btn-light" (click)="close()"
+        >Cancelar</button>
+    </footer>
 </div>

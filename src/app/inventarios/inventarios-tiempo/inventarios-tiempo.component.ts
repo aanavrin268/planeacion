@@ -28,7 +28,7 @@ export class InventariosTiempoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.choosedProviders = public_providers_data.result;
+    //this.choosedProviders = public_providers_data.result;
 
 
   }
@@ -55,7 +55,7 @@ export class InventariosTiempoComponent implements OnInit {
   openChosse(){
     const modalRef = this.modalService.open(ChoosePlanModalComponent, {
       centered:true,
-      size: 'md',
+      size: 'lg',
       windowClass: 'redondo'
     });
 
@@ -68,6 +68,8 @@ export class InventariosTiempoComponent implements OnInit {
         console.log('datos recibidos', data);
 
         this.choosedProviders = public_providers_data.result;
+        this.choosedProviders = public_providers_data.result;
+
 
       }
     });

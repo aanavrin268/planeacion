@@ -9,6 +9,12 @@
         width: 100%;
         height: 10%;
         display: flex;
+
+        .title{
+            line-height: 1.1;
+            font-weight: 720;
+            font-size: 23px;
+        }
     }
 
     main{
@@ -29,12 +35,106 @@
             .plan{
                 width: calc(50% - 16px);
                 display: flex;
-                height: 80%;
+                height: 90%;
                 flex-direction: column;
                 background-color: white;
                 border-radius: 16px;
                 box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.301);
-                padding: 1rem;
+                //padding: 1rem;
+                overflow: hidden;
+                transition: all 0.2s ease-in-out;
+                position: relative;
+               
+
+                &:hover{
+                    cursor: pointer;
+                    transform: scale(1.015);
+                }
+
+                .image-container{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    overflow: hidden;
+
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        filter: brightness(.7);
+                        transition: all 0.2s ease-in-out;
+
+                        &:hover{
+                            filter: brightness(.4);
+
+                        }
+
+                    }
+                }
+
+                .text-container{
+                    
+                    position: absolute;
+                    z-index: 10;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 1rem;
+                    width: 100%;
+                    pointer-events: none;
+
+                    .t-title{
+                        line-height: 1.1;
+                        color: white;
+                        font-weight: 700;
+                        font-size: 20px;
+                        margin-top: 1rem;
+                    }
+
+                    .info-container{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        width: 100%;
+                        /* border: 1px dotted white; */
+                        padding: 1.5rem 1rem;
+                        border-radius: 12px;
+                        transform: translateY(138%);
+
+                        .subs{
+                            line-height: 1.1;
+                            color: rgb(220, 215, 215);
+                            font-weight: 500;
+                            font-size: 14px;
+                            margin-bottom: .8rem;
+                        }
+
+                        .lists{
+                            margin-left: .6rem;
+                            line-height: 1.1;
+                            color: rgb(220, 215, 215);
+                            font-weight: 500;
+                            font-size: 13px;
+                            margin-bottom: .4rem;
+                            position: relative;
+                            padding-left: 1rem;
+
+                            &::before{
+                                content: "";
+                                width: 6px;
+                                height: 6px;
+                                border-radius: 50%;
+                                background-color: rgb(220, 215, 215);
+                                position: absolute;
+                                left: 0%;
+                                top: 36%;
+                            }
+                       
+                        }
+                    }
+
+                    
+                }
             }
         }
     }
@@ -44,6 +144,8 @@
         width: 100%;
         height: 10%;
         display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
 
