@@ -587,15 +587,15 @@ Swal.fire({
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
-        this.ogData = response;
+        this.ogData = response.result;
 
 
         //const formattedData = this.formatData(response);
         //console.log("data to pdf", formattedData);
-        console.log("data publica inicial", response);
+        console.log("data publica inicial", response.result);
   
-        this.originalData = [...response];
-        this.dataSource.data = response;
+        this.originalData = [...response.result];
+        this.dataSource.data = response.result;
   
         // Asigna el paginador después de cargar los datos
   
