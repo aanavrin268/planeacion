@@ -1,3 +1,126 @@
 <div class="modal-main">
+    <header>
+        <span class="title">Stacked View</span>
+    </header>
+    <main>
+
+        <section class="sections">
+            <section class="one">
+                <span>Arribos</span>
+                <div class="table-container">
+                    <table mat-table [dataSource]="dataSource">
+                        <!-- Columnas estáticas -->
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="editingCell?.row === element && editingCell?.column === 'nombre'; else showNombre">
+                                    <input
+                                        [value]="element.nombre"
+                                        (blur)="stopEditing($event, element, 'nombre')"
+                                        (keyup.enter)="stopEditing($event, element, 'nombre')"
+                                        (keyup.esc)="stopEditing($event, element, 'nombre')"
+    
+                                        autofocus
+                                    />
+                                </ng-container>
+                                <ng-template #showNombre>
+                                    <span (click)="startEditing(element, 'nombre')">{{ element.nombre }}</span>
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="inventario">
+                            <th mat-header-cell *matHeaderCellDef> Inventario </th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="editingCell?.row === element && editingCell?.column === 'inventario'; else showInventario">
+                                    <input
+                                        [value]="element.inventario"
+                                        (blur)="stopEditing($event, element, 'inventario')"
+                                        (keyup.enter)="stopEditing($event, element, 'inventario')"
+                                        autofocus
+                                    />
+                                </ng-container>
+                                <ng-template #showInventario>
+                                    <span (click)="startEditing(element, 'inventario')">{{ element.inventario }}</span>
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                
+                        <!-- Columnas dinámicas (meses) -->
+                        <ng-container *ngFor="let month of monthsColumns" [matColumnDef]="month">
+                            <th mat-header-cell *matHeaderCellDef> {{ month }} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="editingCell?.row === element && editingCell?.column === month; else showMonth">
+                                    <input
+                                        [value]="element[month]"
+                                        (blur)="stopEditing($event, element, month)"
+                                        (keyup.enter)="stopEditing($event, element, month)"
+                                        autofocus
+                                    />
+                                </ng-container>
+                                <ng-template #showMonth>
+                                    <span (click)="startEditing(element, month)">{{ element[month] }}</span>
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                
+                        <!-- Filas -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                </div>
+
+
+            </section>
+            <section class="two">
+                <span>Plan</span>
+                <div class="table-container">
+                    <table mat-table [dataSource]="dataSourcePlan">
+                        <!-- Columnas estáticas -->
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.nombre }} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="inventario">
+                            <th mat-header-cell *matHeaderCellDef> Inventario </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.inventario }} </td>
+                        </ng-container>
+        
+                        <!-- Columnas dinámicas (meses) -->
+                        <ng-container *ngFor="let month of monthsColumnsPlan" [matColumnDef]="month">
+                            <th mat-header-cell *matHeaderCellDef> {{ month }} </th>
+                            <td mat-cell *matCellDef="let element"> {{ element[month] }} </td>
+                        </ng-container>
+        
+                        <!-- Filas -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPlan"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPlan"></tr>
+                    </table>
+                </div>
+            </section>
+            <section class="three">
+                <span>Desplazamientos</span>
+
+                <div class="table-container">
+                    <table mat-table [dataSource]="dataSourcethird">
+                        <ng-container *ngFor="let column of displayedColumnsThird"
+                            [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column}}
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                {{ element[column]}}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsThird"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsThird"></tr>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+    </main>
+ 
 
 </div>

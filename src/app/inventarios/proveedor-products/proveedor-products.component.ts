@@ -294,7 +294,6 @@ updateThirdJson() {
   this.dataSourcethird.data = this.thirdJson;
 }
 
-// Método para generar el nuevo JSON (thirdJson)
 generateNewJson(data: any[]) {
   return data.map(item => {
     const nombre = item.nombre;
@@ -342,11 +341,15 @@ generateNewJson(data: any[]) {
   });
 }
 
-// Función para obtener el valor de un mes específico
 getMonthValue(months: any[], month: string): number {
   const monthData = months.find((m: any) => Object.keys(m)[0] === month);
   return parseFloat(monthData?.[month] || 0);
 }
+
+
+
+
+
 
 
 

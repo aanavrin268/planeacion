@@ -1,6 +1,66 @@
 .modal-main{
     width: 100%;
-    height: 92vh;
+    height: 100vh;
     display: flex;
     padding: 1rem;
+    flex-direction: column;
+
+    header{
+        width: 100%;
+        height: 10%;
+        display: flex;
+    }
+
+    main{
+        width: 100%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+
+       
+    }
+
+ 
 }
+
+
+main  .sections{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    //padding: 1rem;
+    //background-color: rgb(199, 245, 245);
+
+    .one{
+        width: 100%;
+        height: 33%;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(105, 155, 40);
+
+    }
+
+
+    .two{
+        width: 100%;
+        height: 33%;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(53, 158, 207);
+
+    }
+
+
+    .three{
+        width: 100%;
+        height: 33%;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(155, 82, 40);
+
+    }
+
+}
+
