@@ -10,7 +10,24 @@
 
     <div class="body">
         <div class="options-container">
-            <span class="sub">Vista general</span>
+            <div class="qs-container">
+                <span class="sub">{{monthText}}</span>
+                <span class="q-text">{{monthQ}}</span>
+            </div>
+
+            <div class="qs-icon-container">
+                <i class="bi bi-pie-chart q-icons"></i>
+
+                <i class="bi bi-calculator q-icons"
+                data-tooltip="Operaciones" (click)="openOpsMenu()"></i>
+
+                <div class="op-menu" *ngIf="showOpsMenu">
+                  <div class="op-menu-container" *ngFor="let option of ops_menu_list">
+                    <span (click)="onOpsMenuClick(option)">{{option.title}}</span>
+                  </div>
+                </div>
+            </div>
+
 
             <div class="icon-container">
                 <i class="bi bi-shuffle circle-icon" data-tooltip="Cambiar vista"
@@ -19,14 +36,9 @@
                   <i class="bi bi-floppy circle-icon green"(click)="saveVersion()"
                     data-tooltip="Guardar"></i>
 
-                  <i class="bi bi-calculator circle-icon red"
-                    data-tooltip="Operaciones" (click)="openOpsMenu()"></i>
+               
 
-                    <div class="op-menu" *ngIf="showOpsMenu">
-                      <div class="op-menu-container" *ngFor="let option of ops_menu_list">
-                        <span (click)="onOpsMenuClick(option)">{{option.title}}</span>
-                      </div>
-                    </div>
+                  
 
             </div>
 

@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
 import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, menu_lists } from '../../../../core/helpers/arrays';
 import { gsap } from 'gsap';
+import { plan_public_all_data } from '../../../../core/helpers/readables';
 
 
 @Component({
@@ -89,6 +90,11 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected headers: any[] = [];
   protected headersPrivate: any[] = [];
 
+
+  protected currentMonth!: number;
+  protected monthText: string;
+  protected monthQ: string;
+
   constructor(private modal: NgbModal, private service: ApiService, private router: Router){
     this.limits = 1; 
     this.idValue = 0;
@@ -108,12 +114,17 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.showUtilityDetails = false;
     this.typeText = '';
 
+    this.monthText = '';
+    this.monthQ = '';
+
     
   }
 
 
 
   ngAfterViewInit(): void {
+
+
     setTimeout(() => {
       if (this.paginator) {
         this.dataSource.paginator = this.paginator;
@@ -126,6 +137,14 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   
   ngOnInit(): void {
+
+  
+    console.log("el mes actual es:  ", this.currentMonth);
+
+    this.getMonthlyData()
+
+    
+
 
     if(this.plan.id === 1){
       this.showDRows();
@@ -144,6 +163,54 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   
 
+  }
+
+  getMonthlyData(){
+
+    const current_date = new Date();
+    this.currentMonth = current_date.getMonth() +10;
+
+    let newHeaders: any[] = [];
+    let allHeaders: any[] = [];
+
+
+    if(this.currentMonth >= 1 && this.currentMonth <=3){
+      this.monthText = 'Vista actual'
+      this.monthQ = 'Q1';
+
+      newHeaders = this.headersQ1;
+
+    } else if(this.currentMonth > 3  && this.currentMonth <=6){
+      this.monthText = 'Vista actual'
+      this.monthQ = 'Q2';
+
+      newHeaders = this.headersQ2;
+
+    } else if(this.currentMonth > 7  && this.currentMonth <=9){
+      this.monthText = 'Vista actual'
+      this.monthQ = 'Q3';
+
+      newHeaders = this.headersQ3;
+    } else if(this.currentMonth > 9  && this.currentMonth <=12){
+      this.monthText = 'Vista actual'
+      this.monthQ = 'Q4';
+
+      newHeaders = this.headersQ4;
+    }
+
+
+    
+    allHeaders = this.headers.concat(newHeaders);
+  
+    this.headers = Array.from(
+      new Map(allHeaders.map(header => [header.title, header])).values()
+    );
+  
+    this.displayedColumns = this.headers.map(header => 
+      header.title.toLowerCase().replace(' ', '')
+    );
+
+    
   }
 
   ngAfterViewChecked() {
@@ -561,8 +628,8 @@ Swal.fire({
   }
 
   showDRows() {
-    this.isLoading = true;
-
+    //this.isLoading = true;
+/*
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -583,7 +650,26 @@ Swal.fire({
     this.displayedColumns = this.headers.map(header => 
       header.title.toLowerCase().replace(' ', '')
     );
+
+*/
+
+    this.ogData = plan_public_all_data;
+
+
+    //const formattedData = this.formatData(response);
+    //console.log("data to pdf", formattedData);
+
+    this.originalData = [...plan_public_all_data];
+    this.dataSource.data =plan_public_all_data;
+
+
+    this.filteredData = [...this.dataSource.data];
+
+    this.isLoading = false;
   
+
+
+    /*
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
@@ -597,14 +683,14 @@ Swal.fire({
         this.originalData = [...response.result];
         this.dataSource.data = response.result;
   
-        // Asigna el paginador después de cargar los datos
   
         this.filteredData = [...this.dataSource.data];
 
-        //this.dataSource.paginator = this.paginator;
         this.isLoading = false;
       }
     });
+
+    */
   }
 
 

@@ -148,7 +148,7 @@ export class DashPlanComponent implements OnInit {
       { 
         size:'xl',
         centered:true,
-        windowClass: 'redondo'
+        windowClass: 'custom-modal-width-medium'
       }
     );
 
