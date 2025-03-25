@@ -1,0 +1,26 @@
+<div class="main-modal">
+    <header>
+        <span class="title">Selección de columnas</span>
+    </header>
+
+    <main>
+        <span class="sub">Escoge los trimestres Qs que deseas ver.</span>
+        <ul>
+            <li *ngFor="let q of qs_list">
+                <input type="checkbox" id="q{{q.id}}" name="q{{q.id}}" 
+                    value="{{q.title}}" [(ngModel)]="q.checked"
+                    (change)="updateSelectedQs()">
+                <label for="q{{q.id}}">Q{{q.id}}</label>
+            </li>
+        </ul>
+    </main>
+
+    <footer>
+        <button class="btn btn-light" (click)="close()">
+            Cancelar
+        </button>
+        <button class="btn btn-success" (click)="close()">
+            Guardar
+        </button>
+    </footer>
+</div>

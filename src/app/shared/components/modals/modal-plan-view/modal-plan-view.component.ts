@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, menu_lists } from '../../../../core/helpers/arrays';
 import { gsap } from 'gsap';
 import { plan_public_all_data } from '../../../../core/helpers/readables';
+import { ColumnSelecterModalComponent } from '../../../modals/column-selecter-modal/column-selecter-modal.component';
 
 
 @Component({
@@ -162,6 +163,73 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     });
 
   
+
+  }
+
+
+  selectColumnsNumber(){
+    const qObject = {
+      currentMont: this.currentMonth,
+    };
+
+    const modalRef = this.modal.open(ColumnSelecterModalComponent, {
+      centered: true,
+      windowClass:'redondo',
+      size:'md'
+    });
+
+    modalRef.componentInstance.qObject = qObject;
+
+    modalRef.result
+      .then((result) => {
+          console.log("data traidos", result);
+
+          const newQtext = result.join(',');
+
+          this.monthQ = newQtext;
+
+
+                
+          let newHeaders: any[] = [];
+          let allHeaders: any[] = [];
+
+
+                  
+            if (result.includes('Q1')) {
+              newHeaders = headersQ1;
+            }
+
+            if (result.includes('Q2')) {
+              newHeaders = newHeaders.concat(headersQ2); 
+            }
+
+            if (result.includes('Q3')) {
+              newHeaders = newHeaders.concat(headersQ3); 
+            }
+
+            if (result.includes('Q4')) {
+              newHeaders = newHeaders.concat(headersQ4); 
+            }
+
+
+          
+          allHeaders = this.headers.concat(newHeaders);
+        
+          this.headers = Array.from(
+            new Map(allHeaders.map(header => [header.title, header])).values()
+          );
+        
+          this.displayedColumns = this.headers.map(header => 
+            header.title.toLowerCase().replace(' ', '')
+          );
+
+
+      },
+      (reason) => {
+        console.log("razon", reason);
+      }
+    
+    )
 
   }
 
