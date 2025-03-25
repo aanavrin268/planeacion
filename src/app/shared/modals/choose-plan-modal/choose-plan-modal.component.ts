@@ -46,7 +46,7 @@ export class ChoosePlanModalComponent implements OnInit{
 
   getPublicRecords(){
 
-    /*
+    
     this.apiService.getAllPublicProviders().subscribe(
       {
         next:(data) => {
@@ -56,9 +56,9 @@ export class ChoosePlanModalComponent implements OnInit{
 
         }
       }
-    )¨
+    )
 
-    */
+    
 
   this.choosed_list.set(public_providers_data.result);
     this.sendDataToParent();

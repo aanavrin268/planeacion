@@ -6,13 +6,28 @@
 
         <i class="bi bi-three-dots-vertical circle-icon"
         (click)="openSettingsMenu()"></i>
+
+
+        <div class="settings-menu" *ngIf="showSettingsMenu">
+          <div class="settings-options-container">
+            <div class="settings-options" *ngFor="let option of settings_options_list"
+              (click)="onSettingsMenuSelect(option)">
+              <span>{{option.title}}</span>
+            </div>
+          </div>
+        </div>
     </div>
+
+    
+
 
     <div class="body">
         <div class="options-container">
             <div class="qs-container">
                 <span class="sub">{{monthText}}</span>
                 <span class="q-text">{{monthQ}}</span>
+                <i class="bi bi-x-square red" *ngIf="qs_array.length > 1"
+                (click)="restAllColumns()"></i>
             </div>
 
             <div class="qs-icon-container">
@@ -29,35 +44,10 @@
                 </div>
             </div>
 
-
-            <div class="icon-container">
-                <i class="bi bi-shuffle circle-icon" data-tooltip="Cambiar vista"
-                  (click)="openExample()"></i>
-
-                  <i class="bi bi-floppy circle-icon green"(click)="saveVersion()"
-                    data-tooltip="Guardar"></i>
-
-               
-
-                  
-
-            </div>
-
-      
-
           <div class="input-container">
             <i class="bi bi-search icons"></i>
             <input type="text" placeholder="Ingresa algo para buscar">
           </div>
-
-
-            <div class="views-menu" *ngIf="showViewsMenu">
-                <span class="menu-option" *ngFor="let optio of list_menu_views"
-                  (click)="onMenuSelect(optio)">
-                  {{optio.title}}
-                </span>
-            </div>
-
         
         </div>
 

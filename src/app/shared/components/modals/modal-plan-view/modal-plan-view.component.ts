@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -38,7 +38,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   nextCardId = 1; 
   private animateNextCard = false; 
   private movedCardId: number | null = null; 
-
+  protected showSettingsMenu: boolean;
 
   
   protected list_menu_views: any[] = []
@@ -69,6 +69,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected showUtility: boolean;
   protected showUtilityDetails: boolean;
 
+
+  protected settings_options_list:any[] = [];
+
   protected headersQ1: any[]= [];
   protected headersQ2: any[] = [];
   protected headersQ3: any[] = [];
@@ -90,13 +93,18 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   protected headers: any[] = [];
   protected headersPrivate: any[] = [];
+  protected basicHeaders: any[] = [];
 
 
   protected currentMonth!: number;
   protected monthText: string;
   protected monthQ: string;
 
-  constructor(private modal: NgbModal, private service: ApiService, private router: Router){
+  protected qs_array:any[] = [];
+
+  constructor(private modal: NgbModal, private service: ApiService, private router: Router, 
+    private cdRef: ChangeDetectorRef
+  ){
     this.limits = 1; 
     this.idValue = 0;
 
@@ -117,7 +125,12 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
     this.monthText = '';
     this.monthQ = '';
+    this.showSettingsMenu = false;
 
+    this.settings_options_list = [
+      {id:1, title:'Generar backup'},  {id:2, title:'Cerrar'},
+
+    ];
     
   }
 
@@ -139,13 +152,27 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   
   ngOnInit(): void {
 
-  
-    console.log("el mes actual es:  ", this.currentMonth);
-
     this.getMonthlyData()
+    this.loadRowsData();
+  }
 
+
+
+
+  async restAllColumns() {
+    this.qs_array = [];
+    this.headers = [];
+    this.headers = headers;
+    this.currentMonth = new Date().getMonth() + 1;
     
+    await this.getMonthlyData();
+    await this.loadRowsData();
+    
+    //this.dataSource = new MatTableDataSource([...this.ogData]);
+    this.cdRef.detectChanges();
+  }
 
+  loadRowsData(){
 
     if(this.plan.id === 1){
       this.showDRows();
@@ -162,8 +189,21 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
       }
     });
 
-  
 
+  }
+
+
+  onSettingsMenuSelect(option:any){
+    switch(option.id){
+      case 1:
+          this.saveVersion();
+  
+      break;
+
+      case 2:
+          this.openSettingsMenu();
+          break;
+    }
   }
 
 
@@ -183,6 +223,17 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     modalRef.result
       .then((result) => {
           console.log("data traidos", result);
+          this.qs_array = result;
+
+         
+          console.log("headers antes: ", this.headers)
+          this.headers = [];
+          this.headers = headers;
+
+
+          console.log("headers despues: ", this.headers)
+
+
 
           const newQtext = result.join(',');
 
@@ -236,7 +287,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   getMonthlyData(){
 
     const current_date = new Date();
-    this.currentMonth = current_date.getMonth() +10;
+    this.currentMonth = current_date.getMonth() +1;
 
     let newHeaders: any[] = [];
     let allHeaders: any[] = [];
@@ -277,6 +328,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.displayedColumns = this.headers.map(header => 
       header.title.toLowerCase().replace(' ', '')
     );
+
+
+    console.log("dipslay columnas curent: ", this.displayedColumns);
 
     
   }
@@ -432,7 +486,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
 
   openSettingsMenu(){
-
+    this.showSettingsMenu  = !this.showSettingsMenu;
   }
 
 
@@ -641,8 +695,7 @@ Swal.fire({
   
     this.headers = [
       { id: 1, title: 'seleccionar' }, 
-      { id: 2, title: 'Producto' },
-      { id: 3, title: 'Inventario' },
+      { id: 3, title: 'descripcion' },
       { id: 4, title: 'enero' },
       { id: 5, title: 'febrero' },
       { id: 6, title: 'marzo' },

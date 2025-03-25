@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,9 @@ import { gsap } from 'gsap';
 })
 export class ProveedorProductsComponent implements OnInit {
   @ViewChild('cardLefts', { static: true}) cardL!: ElementRef;
+
+  @Input() productsData:any[] = [];
+
 
   protected dataSource = new MatTableDataSource<any>();
   protected dataSourcePlan = new MatTableDataSource<any>();
@@ -53,6 +56,7 @@ export class ProveedorProductsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log("data recibida desde padre", this.productsData);
 
     this.thirdJson = this.generateNewJson(pp_data_details);
 
@@ -111,7 +115,7 @@ export class ProveedorProductsComponent implements OnInit {
 
 
 
-
+/*
     pp_data_details.forEach(item => {
       item.plan[0].months.forEach(month => {
         const key = Object.keys(month)[0]; // Obtener el nombre del mes (ej. "enero")
@@ -150,9 +154,12 @@ export class ProveedorProductsComponent implements OnInit {
         total: total, // Agregar el total al objeto
       };
     });
+
+*/
+
     
-    console.log('Columnas mostradas:', this.displayedColumnsPlan);
-    console.log('Datos procesados:', processedDataPlan);
+    //console.log('Columnas mostradas:', this.displayedColumnsPlan);
+    //console.log('Datos procesados:', processedDataPlan);
 
 
 
@@ -180,7 +187,7 @@ export class ProveedorProductsComponent implements OnInit {
 
 
     this.sendSource = processedData;
-    this.sendSourcePlan = processedDataPlan;
+    //this.sendSourcePlan = processedDataPlan;
 
     // Actualizar las columnas mostradas
     //this.displayedColumns = [...this.displayedColumns, ...this.monthsColumns];
@@ -193,7 +200,7 @@ export class ProveedorProductsComponent implements OnInit {
     //this.displayedColumnsPlan = [...this.displayedColumnsPlan, ...this.monthsColumnsPlan];
 
     // Asignar los datos procesados al dataSource
-    this.dataSourcePlan = new MatTableDataSource(processedDataPlan);
+    //this.dataSourcePlan = new MatTableDataSource(processedDataPlan);
     this.dataSource = new MatTableDataSource(processedData);
   }
 

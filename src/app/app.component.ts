@@ -30,6 +30,7 @@ export class AppComponent implements OnInit{
 
   planSubmenuItems = [
     { label: 'Plan de ventas', link: '/dashPlan' },
+    { label: 'Proyección en el tiempo', link: '/inventariosTiempo' },
     { label: 'Scroll telling', link: '/planTelling' },
   ];
 
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit{
   ];
 
   inventarySubmenuItems = [
-    { label: 'Inventarios en el tiempo', link: '/inventariosTiempo' },
+    { label: '', link: '' },
   ];
 
 
