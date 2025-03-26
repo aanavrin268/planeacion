@@ -5,6 +5,7 @@ import { ChoosePlanModalComponent } from '../../shared/modals/choose-plan-modal/
 import { pp_data_details, public_providers_data } from '../../core/helpers/readables';
 import { ProveedorProductsComponent } from '../proveedor-products/proveedor-products.component';
 import { ApiService } from '../../api.service';
+import { BehaviorsService } from '../../core/services/behaviors.service';
 
 @Component({
   selector: 'app-inventarios-tiempo',
@@ -13,6 +14,9 @@ import { ApiService } from '../../api.service';
   styleUrl: './inventarios-tiempo.component.scss'
 })
 export class InventariosTiempoComponent implements OnInit {
+
+
+
 
   protected isPlanChoosed: boolean;
   protected choosedProviders: any[] = [];
@@ -25,10 +29,12 @@ export class InventariosTiempoComponent implements OnInit {
   anotherSelect: string = '';
 
 
-  constructor(private modalService: NgbModal, private apiService: ApiService){
+  constructor(private modalService: NgbModal, private apiService: ApiService, private behaviourService: BehaviorsService){
     this.isPlanChoosed = false;
 
   }
+
+
 
   ngOnInit(): void {
     //this.choosedProviders = public_providers_data.result;
@@ -45,6 +51,16 @@ export class InventariosTiempoComponent implements OnInit {
       .find(item => item.proveedor === provider);
 
 
+
+
+      this.behaviourService.loadPublicPlanItemsByProvider(this.anotherSelect);
+
+
+
+
+
+
+/*
       this.apiService.getPlanPublicItemsByProvider(this.anotherSelect).subscribe(
         {
           next:(data) => {
@@ -53,7 +69,7 @@ export class InventariosTiempoComponent implements OnInit {
           }
         }
       )
-
+*/
 
      
 
