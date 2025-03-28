@@ -16,6 +16,20 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  getPlanPrivateItemsByProvider(provider_name: string):Observable<any>{
+    const payload = {p_provider: provider_name};
+
+    return this.http.post(`${this.apiUrl}/api/getPlanPrivateItemsByProvider`,
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+  }
+
+
+  getAllProvidersPrivatePlan():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPrivateProviders`);
+  }
+
+
   getPlanPublicItemsByProvider(provider_name: string):Observable<any>{
     const payload = {p_provider: provider_name};
 

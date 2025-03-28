@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -21,7 +21,9 @@ import { ColumnSelecterModalComponent } from '../../../modals/column-selecter-mo
   selector: 'app-modal-plan-view',
   imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule,   MatProgressSpinnerModule],
   templateUrl: './modal-plan-view.component.html',
-  styleUrl: './modal-plan-view.component.scss'
+  styleUrl: './modal-plan-view.component.scss',
+  encapsulation: ViewEncapsulation.None // <-- Desactiva la encapsulación
+
 })
 export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -155,6 +157,11 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.getMonthlyData()
     this.loadRowsData();
   }
+
+
+isNumeric(value: any): boolean {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+}
 
 
 
@@ -695,10 +702,12 @@ Swal.fire({
   
     this.headers = [
       { id: 1, title: 'seleccionar' }, 
-      { id: 3, title: 'descripcion' },
+      { id: 2, title: 'nombre' },
+      { id: 3, title: 'inventario' },
       { id: 4, title: 'enero' },
       { id: 5, title: 'febrero' },
-      { id: 6, title: 'marzo' },
+      { id: 5, title: 'marzo' },
+
 
     ];
   
@@ -708,26 +717,40 @@ Swal.fire({
   
     this.service.getDetallesPlanPrivate().subscribe({
       next: (response) => {
-        const formattedData = response.map((item: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+        const formattedData = response.map((item: any) => {
           const newItem: { [key: string]: any } = {};
+          
           for (const key in item) {
             if (item.hasOwnProperty(key)) {
-              const newKey = key.toLowerCase().replace(/ /g, ''); 
-              newItem[newKey] = item[key];
+              const newKey = key.toLowerCase().replace(/ /g, '');
+              
+              // Formatear solo los valores numéricos (excepto 'clave' y 'seleccionar')
+              if (key !== 'clave' && key !== 'seleccionar' && key !== 'proveedor' && key !== 'nombre' && 
+                  typeof item[key] === 'number') {
+                // Formatear con separadores de miles y sin decimales
+                newItem[newKey] = new Intl.NumberFormat('en-US', {
+                  maximumFractionDigits: 0
+                }).format(item[key]);
+              } else {
+                newItem[newKey] = item[key];
+              }
             }
           }
-          newItem['seleccionar'] = false; 
+          
+          newItem['seleccionar'] = false;
           return newItem;
         });
-  
+    
         this.originalData = [...formattedData];
         console.log('private data', this.originalData);
         this.dataSource.data = this.originalData;
         this.filteredData = [...this.dataSource.data];
-  
         this.isLoading = false;
       }
     });
+
+
+
   }
 
 
@@ -749,7 +772,7 @@ Swal.fire({
   }
 
   showDRows() {
-    //this.isLoading = true;
+    this.isLoading = true;
 /*
     let newHeaders: any[] = [];
     if (this.limits === 1) {
@@ -774,44 +797,70 @@ Swal.fire({
 
 */
 
-    this.ogData = plan_public_all_data;
+    //this.ogData = plan_public_all_data;
 
 
     //const formattedData = this.formatData(response);
     //console.log("data to pdf", formattedData);
 
-    this.originalData = [...plan_public_all_data];
-    this.dataSource.data =plan_public_all_data;
+    //this.originalData = [...plan_public_all_data];
+    //this.dataSource.data =plan_public_all_data;
 
 
-    this.filteredData = [...this.dataSource.data];
+    //this.filteredData = [...this.dataSource.data];
 
-    this.isLoading = false;
+    //this.isLoading = false;
   
 
 
-    /*
+    
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
-        this.ogData = response.result;
-
-
-        //const formattedData = this.formatData(response);
-        //console.log("data to pdf", formattedData);
-        console.log("data publica inicial", response.result);
-  
-        this.originalData = [...response.result];
-        this.dataSource.data = response.result;
-  
-  
-        this.filteredData = [...this.dataSource.data];
-
+        
+        // Formatear los datos numéricos
+        const formattedData = response.result.map((item: any) => {
+          const newItem: { [key: string]: any } = {};
+          
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              // Mantener el nombre original de la key (sin lowercase/replace si no es necesario)
+              const newKey = key;
+              
+              // Formatear solo los valores numéricos (excluyendo campos específicos)
+              if (key !== 'clave' && key !== 'seleccionar' && key !== 'proveedor' && key !== 'nombre' && 
+                  typeof item[key] === 'number') {
+                // Formatear con separadores de miles y 2 decimales (ajusta según necesites)
+                newItem[newKey] = new Intl.NumberFormat('en-US', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2
+                }).format(item[key]);
+              } else {
+                newItem[newKey] = item[key];
+              }
+            }
+          }
+          
+          // Asegurar que el campo 'seleccionar' existe
+          newItem['seleccionar'] = item.seleccionar || false;
+          return newItem;
+        });
+    
+        this.ogData = formattedData;
+        this.originalData = [...formattedData];
+        this.dataSource.data = formattedData;
+        this.filteredData = [...formattedData];
+    
+        console.log('Datos formateados:', formattedData);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al obtener datos:', err);
         this.isLoading = false;
       }
     });
 
-    */
+    
   }
 
 

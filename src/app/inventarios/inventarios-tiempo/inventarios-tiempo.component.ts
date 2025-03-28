@@ -20,10 +20,11 @@ export class InventariosTiempoComponent implements OnInit {
 
   protected isPlanChoosed: boolean;
   protected choosedProviders: any[] = [];
-  protected productsToSend: any[] = [];
+  protected productsToSend: any;
 
   protected allProvidersDetails: any[] = [];
   protected selectedProviderData: any;
+  protected planType: any;
 
   activeTab: string = 'home';
   anotherSelect: string = '';
@@ -50,10 +51,15 @@ export class InventariosTiempoComponent implements OnInit {
     const foundProvider = pp_data_details
       .find(item => item.proveedor === provider);
 
+      if(this.planType === 'Plan público'){
+        this.behaviourService.loadPublicPlanItemsByProvider(this.anotherSelect);
+        this.productsToSend = 1;
 
+      }else if(this.planType === 'Plan privado'){
+        this.behaviourService.loadPrivatePlanItemsByProvider(this.anotherSelect);
+        this.productsToSend = 2;
 
-
-      this.behaviourService.loadPublicPlanItemsByProvider(this.anotherSelect);
+      }
 
 
 
@@ -98,12 +104,18 @@ export class InventariosTiempoComponent implements OnInit {
     });
 
 
-    modalRef.closed.subscribe((data: any[]) => {
+    modalRef.closed.subscribe((data) => {
       if(data)
       {
-        this.choosedProviders = data;
+        this.choosedProviders = data.result;
+        if(data.tipo ===  2){
+          this.planType = 'Plan privado'
+        }else{
+          this.planType = 'Plan público'
+
+        }
         this.isPlanChoosed = true;
-        console.log('datos recibidos', data);
+        console.log('datos recibidos desde chooser modal', data);
 
         //this.choosedProviders = public_providers_data.result;
         //this.choosedProviders = public_providers_data.result;

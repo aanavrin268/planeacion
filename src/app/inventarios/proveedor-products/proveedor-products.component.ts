@@ -20,7 +20,7 @@ import { BehaviorsService } from '../../core/services/behaviors.service';
 export class ProveedorProductsComponent implements OnInit {
   @ViewChild('cardLefts', { static: true}) cardL!: ElementRef;
 
-  @Input() productsData:any[] = [];
+  @Input() productsData:any;
 
 
   protected dataSource = new MatTableDataSource<any>();
@@ -77,7 +77,11 @@ export class ProveedorProductsComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
     this.showLoadSpinner = true;
+
+    console.log("el tipo es:", this.productsData);
 
     this.monthsColumns = [];
     this.displayedColumns = ['nombre', 'disponibles'];
@@ -86,7 +90,125 @@ export class ProveedorProductsComponent implements OnInit {
     this.nextMonth = this.currentMonth + 1;
 
     console.log("mes actual:", this.currentMonth, "  y el prox: ", this.nextMonth);
+
+    if(this.productsData === 1){
+      this.getPublicData();
+    }else if(this.productsData === 2){
+      this.getPrivateData();
+    }
     
+   
+    
+   
+
+  }
+
+  getPrivateData(){
+    this.behaviourService.itemsPribatePlan$.subscribe({
+      next: (data) => {
+        console.log("Datos recibidos desde behaviourService", data);
+        
+        if (!data || data.length === 0) {
+          console.warn('Los datos recibidos están vacíos');
+          return;
+        }
+        
+        this.arribosData = data;
+
+        console.log("datos de arribos:", data);
+        
+        const sampleItem = data[0];
+
+
+        
+        this.thirdJson = data?.map((item: { nombre: string }) => ({ nombre: item.nombre })) || [];
+
+     
+
+
+         this.formattedThirdJson = this.thirdJson.map(item => ({
+          ...item,        
+          abril: item.abril || 0,  
+          mayo: item.mayo || 0,
+          junio: item.junio || 0,
+          julio: item.junio || 0,
+          agosto: item.junio || 0,
+          septiembre: item.junio || 0,
+          octubre: item.junio || 0,
+          noviembre: item.junio || 0,
+          diciembre: item.junio || 0,
+
+
+        }));
+
+        console.log("arreglo con puros nombres de peroducos", this.thirdJson);
+        console.log('formattes 3 json: ', this.formattedThirdJson);
+
+         //this.thirdJson = this.generateNewJson(pp_data_details);
+    this.dataSourcethird = new MatTableDataSource(this.formattedThirdJson);
+        
+        if (sampleItem.arribos?.length > 0 && sampleItem.arribos[0].months) {
+          sampleItem.arribos[0].months.forEach((month: any) => {
+            const key = Object.keys(month)[0];
+            if (key && !this.monthsColumns.includes(key)) {
+              this.monthsColumns.push(key);
+            }
+          });
+        }
+        
+        if (!this.monthsColumns.includes('total')) {
+          this.monthsColumns.push('total');
+        }
+        
+        this.displayedColumns = [
+          'nombre', 
+          'disponibles',
+          ...this.monthsColumns
+        ];
+        
+        this.processedData = data.map(item => {
+          const rowData: any = {
+            nombre: item.nombre || '',
+            disponibles: item.disponibles || 0,
+            proveedor: item.proveedor || '',
+            clave: item.clave || ''
+          };
+          
+          let total = 0;
+          if (item.arribos?.length > 0 && item.arribos[0].months) {
+            item.arribos[0].months.forEach((month: any) => {
+              const key = Object.keys(month)[0];
+              const value = parseInt(month[key], 10) || 0;
+              rowData[key] = value;
+              total += value;
+            });
+          }
+          
+          rowData.total = total;
+          return rowData;
+        });
+        
+        console.log('Columnas mostradas:', this.displayedColumns);
+        console.log('Datos procesados:', this.processedData);
+        
+        this.dataSource = new MatTableDataSource(this.processedData);
+        this.dataSourcePlan = new MatTableDataSource(data);
+        
+
+        this.calcularDesplazamientos();
+
+        this.changeDetectorRef.detectChanges();
+        this.showLoadSpinner = false;
+      },
+      error: (err) => {
+        console.error('Error al recibir datos:', err);
+        this.showLoadSpinner = false;
+
+      }
+    });
+  }
+
+  getPublicData(){
     this.behaviourService.itemsPublicPlan$.subscribe({
       next: (data) => {
         console.log("Datos recibidos desde behaviourService", data);
@@ -189,9 +311,6 @@ export class ProveedorProductsComponent implements OnInit {
 
       }
     });
-    
-   
-
   }
 
 

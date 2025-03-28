@@ -10,15 +10,27 @@ export class BehaviorsService {
   private planPrivateSubject = new BehaviorSubject<any[]>([]);
 
   private itemsPublicPlanSubject = new BehaviorSubject<any[]>([]);
-
+  private itemsPrivatePlanSubject = new BehaviorSubject<any[]>([]);
 
   public planHistoric$: Observable<any[]> = this.planHistoricSubject.asObservable();
   public planPrivateHistoric$: Observable<any[]> = this.planPrivateSubject.asObservable();
   public itemsPublicPlan$: Observable<any[]> = this.itemsPublicPlanSubject.asObservable();
+  public itemsPribatePlan$: Observable<any[]> = this.itemsPrivatePlanSubject.asObservable();
 
 
   constructor(private apiService: ApiService) { }
 
+  loadPrivatePlanItemsByProvider(provider_name: string):void{
+    this.apiService.getPlanPrivateItemsByProvider(provider_name).pipe(
+      tap((response) => {
+        this.itemsPrivatePlanSubject.next(response.result);
+      })
+    ).subscribe();
+  }
+
+  getCurrentItemsPlanPrivate(): any[]{
+    return this.itemsPrivatePlanSubject.getValue();
+  }
 
 
   loadPublicPlanItemsByProvider(provider_name:string):void{

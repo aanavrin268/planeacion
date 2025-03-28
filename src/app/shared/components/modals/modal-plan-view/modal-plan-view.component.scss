@@ -232,8 +232,10 @@
             width: 100%;
             flex-direction: column;
             display: flex;
-            padding: 0px 1rem;
+            //padding: 0px 1rem;
             //background-color: #4643434d;
+            border-radius: 32px;
+            overflow: hidden;
 
             
             .left{
@@ -289,12 +291,12 @@
 
 
                   th.mat-header-cell {
-                    color: red;
+                    //color: red;
                     background-color: black;
                   }
 
                     .mat-mdc-row:hover {
-                        background-color: rgb(224, 220, 220);
+                        //background-color: rgb(228, 20, 20);
                         cursor: pointer;
                       }
 
@@ -310,6 +312,8 @@
 
                     mat-row {
                         cursor: pointer;
+                        //background-color: #bb1e1e !important;
+
                       }
                       
                       /* Efecto hover sobre las filas */
@@ -681,3 +685,60 @@
     }
 
   }
+
+
+
+
+
+
+
+
+  .mat-mdc-header-row {
+    background-color: #3f51b5;  /* Color primario (puedes usar cualquier HEX, RGB o variable de tema) */
+    color: white;               /* Color del texto */
+    font-weight: bold;         /* Opcional: negrita */
+  }
+  
+  /* Cambia el color de las celdas del header */
+  .mat-mdc-header-cell {
+    //color: white;              /* Texto blanco para contraste */
+  }
+
+
+.mat-mdc-row:nth-child(odd) {
+  //background-color: #f86c6c;
+  background-color: white;
+}
+
+.mat-mdc-row:nth-child(even) {
+  //background-color: #3f66e6;
+  background-color: white;
+
+}
+
+.mat-mdc-row:hover{
+  //background-color: #0c2d3a !important;
+  background-color: #c2c2c2;
+
+}
+
+
+/* Quita los bordes inferiores de todas las filas y celdas */
+.mat-mdc-table .mat-mdc-row, 
+.mat-mdc-table .mat-mdc-cell {
+  border-bottom: none !important;
+  //background-color: #3f51b5;  /* Color primario (puedes usar cualquier HEX, RGB o variable de tema) */
+
+}
+
+
+
+
+.mat-mdc-header-row {
+  background-color: #3f51b5 !important;  /* Color primario (puedes usar cualquier HEX, RGB o variable de tema) */
+  color: white !important;               /* Color del texto */
+  font-weight: bold !important;       
+    border-bottom: none !important;
+  /* Opcional: negrita */
+  font-size: 18px !important;
+}

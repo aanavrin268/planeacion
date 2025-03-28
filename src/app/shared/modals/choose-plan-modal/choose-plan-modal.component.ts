@@ -35,6 +35,22 @@ export class ChoosePlanModalComponent implements OnInit{
 
   }
 
+  getPrivateRecords(){
+    this.apiService.getAllProvidersPrivatePlan().subscribe({
+        next:(data) => {
+          console.log("private providers ", data);
+          data.tipo = 2;
+          this.choosed_list.set(data);
+         
+          this.sendDataToParent();
+
+        }
+    }
+  )
+
+  //this.choosed_list.set(public_providers_data.result);
+  }
+
 
   close(){
     this.activeModal.close();
@@ -51,7 +67,11 @@ export class ChoosePlanModalComponent implements OnInit{
       {
         next:(data) => {
           console.log("pubñic data", data);
-          this.choosed_list.set(data.result);
+          //this.choosed_list.set(data.result);
+          data.tipo = 1;
+          this.choosed_list.set(data);
+         
+          this.sendDataToParent();
 
 
         }
@@ -60,8 +80,8 @@ export class ChoosePlanModalComponent implements OnInit{
 
     
 
-  this.choosed_list.set(public_providers_data.result);
-    this.sendDataToParent();
+  //this.choosed_list.set(public_providers_data.result);
+    //this.sendDataToParent();
 
   }
 
@@ -71,6 +91,9 @@ export class ChoosePlanModalComponent implements OnInit{
     switch(plan.id){
       case 1:
         this.getPublicRecords();
+        break;
+      case 2:
+        this.getPrivateRecords();
         break;
     }
   }
