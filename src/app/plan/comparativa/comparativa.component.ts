@@ -145,8 +145,12 @@ displayedColumns: string[] = [];
   getPlaListData(){
     if(this.id == 1){
       
-    this.displayedColumns = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
-    this.displayedColumnsC = ['clave', 'descripcion', 'enero', 'febrero', 'marzo'];
+    this.displayedColumns = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    this.displayedColumnsC = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
 
       this.behaviorService.loadAllPlanhistoricUnion();
       this.behaviorService.planHistoric$.subscribe(
@@ -300,12 +304,12 @@ async selectPlan(plan: any) {
           const getDetallesPlanPublicPromise = new Promise((resolve, reject) => {
             this.service.getDetallesPlan().subscribe({
               next:(response) => {
-                console.log("plan actual", response);
+                console.log("plan actual publico", response);
                 //const formattedData = this.formatData(response);
                 //console.log("data to pdf", formattedData);
           
-                this.originalData = [...response];
-                this.dataSource.data = response;
+                this.originalData = [...response.result];
+                this.dataSource.data = response.result;
                 resolve(true);
               },
               error:(err) => {

@@ -63,7 +63,7 @@ export class EditModalComponent implements OnInit {
     const descripcion = this.row.id_plan === 1 ? this.row.descripcion : this.row.producto;
     const proveedor = this.row.id_plan === 1 ? this.row.proveedor : ''
 
-    console.log("recived data", this.row);
+    console.log("recived data from father", this.row);
     this.editForm.patchValue({
       clave: this.row.clave,
       proveedor: proveedor,
@@ -113,28 +113,42 @@ export class EditModalComponent implements OnInit {
 
 
   actualizarDetalle() {
-
+    const convertNumber = (value: any): number => {
+      if (value === null || value === undefined) return 0;
+      if (typeof value === 'number') return value;
+      const numStr = String(value).replace(/,/g, '');
+      return parseInt(numStr, 10) || 0;
+    };
     
 
     const table = 'DetallePlan';
     const condition = 'clave institucional';
+
+    //const table =  'vw_final_plan_public';
+    //const condition = 'clave';
     const condition_value = this.editForm.get('clave')?.value;
+
+
+    
+
     
     const months = {
-        "Enero F": this.editForm.get('enero')?.value,
-        "Febrero F": this.editForm.get('febrero')?.value,
-        "Marzo F": this.editForm.get('marzo')?.value,
-        "Abril F": this.editForm.get('abril')?.value,
-        "Mayo F": this.editForm.get('mayo')?.value,
-        "Junio F": this.editForm.get('junio')?.value,
-        "Julio F": this.editForm.get('julio')?.value,
-        "Agosto F": this.editForm.get('agosto')?.value,
-        "Septiembre F": this.editForm.get('septiembre')?.value,
-        "Octubre F": this.editForm.get('octubre')?.value,
-        "Noviembre F": this.editForm.get('noviembre')?.value,
-        "Diciembre F": this.editForm.get('diciembre')?.value,
+        "Enero F": convertNumber(this.editForm.get('enero')?.value),
+        "Febrero F": convertNumber(this.editForm.get('febrero')?.value),
+        "Marzo F": convertNumber(this.editForm.get('marzo')?.value),
+        "Abril F": convertNumber(this.editForm.get('abril')?.value),
+        "Mayo F": convertNumber(this.editForm.get('mayo')?.value),
+        "Junio F": convertNumber(this.editForm.get('junio')?.value),
+        "Julio F": convertNumber(this.editForm.get('julio')?.value),
+        "Agosto F": convertNumber(this.editForm.get('agosto')?.value),
+        "Septiembre F": convertNumber(this.editForm.get('septiembre')?.value),
+        "Octubre F": convertNumber(this.editForm.get('octubre')?.value),
+        "Noviembre F": convertNumber(this.editForm.get('noviembre')?.value),
+        "Diciembre F": convertNumber(this.editForm.get('diciembre')?.value),
 
     };
+
+    
 
     const monthsJson = JSON.stringify(months);
 
@@ -174,17 +188,24 @@ export class EditModalComponent implements OnInit {
 
 
 actualizarDetallePrivado() {
+  const convertNumber = (value: any): number => {
+    if (value === null || value === undefined) return 0;
+    if (typeof value === 'number') return value;
+    const numStr = String(value).replace(/,/g, '');
+    return parseInt(numStr, 10) || 0;
+  };
+  
 
     
 
-  const table = 'detalles_privado';
-  const condition = 'producto';
-  const condition_value = this.editForm.get('descripcion')?.value;
+  const table = 'plan_privado_25';
+  const condition = 'ID_SISTEMA';
+  const condition_value = this.editForm.get('clave')?.value;
   
   const months = {
-      "enero": this.editForm.get('enero')?.value,
-      "febrero": this.editForm.get('febrero')?.value,
-      "marzo": this.editForm.get('marzo')?.value,
+      "ene": convertNumber(this.editForm.get('enero')?.value),
+      "feb": convertNumber(this.editForm.get('febrero')?.value),
+      "mar":convertNumber(this.editForm.get('marzo')?.value),
       
 
   };
@@ -197,6 +218,8 @@ actualizarDetallePrivado() {
   this.service.actualizarDetallePlanPrivado(table, condition, condition_value, monthsJson)
     .subscribe(
       response => {
+
+        console.log("update data:", response);
         this.active.close();
 
 
