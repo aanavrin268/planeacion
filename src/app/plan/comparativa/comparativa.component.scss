@@ -359,6 +359,15 @@ $white-20: rgba(255, 255, 255, 0.2);
                         font-weight: 630;
                         margin-bottom: 1rem;
                     }
+
+                    .table-container{
+                        width: 100%;
+                        display: flex;
+                        //padding: 2rem;
+                        overflow-x: auto;
+                        //background-color: #0d193a;
+                        flex-direction: column;
+                    }
     
                    
                 }
@@ -398,6 +407,16 @@ $white-20: rgba(255, 255, 255, 0.2);
                         font-style: 15px;
                         font-weight: 630;
                         margin-bottom: 1rem;
+                    }
+
+
+                    .table-container{
+                        width: 100%;
+                        display: flex;
+                        //padding: 2rem;
+                        overflow-x: auto;
+                        //background-color: #0d193a;
+                        flex-direction: column;
                     }
     
                    
@@ -601,6 +620,7 @@ $white-20: rgba(255, 255, 255, 0.2);
 
 table {
     width: 100%;
+    overflow-x: auto;
 }
 
 th, td {

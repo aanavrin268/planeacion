@@ -119,7 +119,7 @@ displayedColumns: string[] = [];
   
       if (rowDifferences.length > 0) {
         differences.push({
-          producto: row1.producto, 
+          nombre: row1.nombre, 
           diferencias: rowDifferences 
         });
       }
@@ -157,9 +157,12 @@ displayedColumns: string[] = [];
 
     }else if(this.id == 2){
       
-    this.displayedColumns = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
-    this.displayedColumnsC = ['producto', 'inventario', 'enero', 'febrero', 'marzo'];
-
+    this.displayedColumns = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    this.displayedColumnsC = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
       this.behaviorService.loadAllPlanPrivateUnion();
       this.behaviorService.planPrivateHistoric$.subscribe(
         (data) => {
@@ -221,7 +224,7 @@ displayedColumns: string[] = [];
       return {
         clave: item['clave institucional'],
         proveedor: item['Proveedor'],
-        descripcion: item['Descripción'],
+        nombre: item['nombre'],
         conjuntos: item['CONJUNTOS'],
         enero: item['Enero F'],
         febrero: item['Febrero F'],
@@ -357,6 +360,21 @@ async selectPlan(plan: any) {
         } 
 
         else if (this.id == 2) {
+
+          // Función optimizada para manejar números con decimales
+          const convertNumber = (value: any): number => {
+            if (value === null || value === undefined) return 0;
+            if (typeof value === 'number') return Math.round(value); // Redondea si ya es número
+            
+            // Elimina comas y convierte a número
+            const numStr = String(value).replace(/,/g, '');
+            const num = parseFloat(numStr);
+            
+            // Redondea y verifica que sea un número válido
+            return isNaN(num) ? 0 : Math.round(num);
+          };
+
+
           const getDetallesPlanPrivatePromise = new Promise((resolve, reject) => {
             this.service.getDetallesPlanPrivate().subscribe({
               next: (response) => {
@@ -373,8 +391,40 @@ async selectPlan(plan: any) {
                 });
         
                 this.originalData = [...formattedData];
+
+
+
+
+                const roundedData = this.originalData.map(item => ({
+                  clave: item.clave,
+                  proveedor: item.proveedor,
+                  nombre: item.nombre,
+                  inventario: convertNumber(item.inventario),
+                  enero: convertNumber(item.enero),
+                  febrero: convertNumber(item.febrero),
+                  marzo: convertNumber(item.marzo),
+                  abril: convertNumber(item.abril),
+                  mayo: convertNumber(item.mayo),
+                  junio: convertNumber(item.junio),
+                  julio: convertNumber(item.julio),
+                  agosto: convertNumber(item.agosto),
+                  septiembre: convertNumber(item.septiembre),
+                  octubre: convertNumber(item.octubre),
+                  noviembre: convertNumber(item.noviembre),
+                  diciembre: convertNumber(item.diciembre),
+                  seleccionar: item.seleccionar || false
+                }));
+
+
+
                 console.log('private data', this.originalData);
-                this.dataSource.data = this.originalData;
+                console.log('private data rounden', roundedData);
+
+                this.originalData = roundedData;
+
+                //this.dataSource.data = this.originalData;
+                  this.dataSource.data = this.originalData;
+
                 this.filteredData = [...this.dataSource.data];
                 resolve(true); 
               },

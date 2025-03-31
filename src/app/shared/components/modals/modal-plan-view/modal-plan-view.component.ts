@@ -568,30 +568,95 @@ Swal.fire({
  async saveVersion() {
 
   const jtest= {
-    "table": "plan_historico_privado",
+    //"table": "plan_historico_privado",
+    "table": "dbo.tb_200_historic_privado",
     "json": [
         {
-            "producto": "Acido Ascórbico 1 gr c/ 10 Aurax",
+            "clave":"000.100.234.21",
+            "proveedor": "Biocon",
+            "nombre": "Acido Ascórbico 1 gr c/ 10 Aurax",
             "inventario": 0,
             "enero": 1000,
             "febrero": 1000,
-            "marzo": 1000
+            "marzo": 1000,
+            "abril": 1000,
+            "mayo": 1000,
+            "junio": 1000,
+            "julio": 1000,
+            "agosto": 1000,
+            "septiembre": 1000,
+            "octubre": 1000,
+            "noviembre": 1000,
+            "diciembre": 1000
+
         },
         {
-            "producto": "Paracetamol 500 mg c/ 10",
+          "clave":"000.100.234.21",
+          "proveedor": "Biocon",
+            "nombre": "Paracetamol 500 mg c/ 10",
             "inventario": 50,
             "enero": 2000,
             "febrero": 1500,
-            "marzo": 1800
+            "marzo": 1800,
+            "abril": 1000,
+            "mayo": 1000,
+            "junio": 1000,
+            "julio": 1000,
+            "agosto": 1000,
+            "septiembre": 1000,
+            "octubre": 1000,
+            "noviembre": 1000,
+            "diciembre": 1000
+
         },
         {
-            "producto": "Ibuprofeno 400 mg c/ 20",
+          "clave":"000.100.234.21",
+          "proveedor": "Biocon",
+            "nombre": "Ibuprofeno 400 mg c/ 20",
             "inventario": 30,
             "enero": 1200,
             "febrero": 1300,
-            "marzo": 1400
+            "marzo": 1400,
+            "abril": 1000,
+            "mayo": 1000,
+            "junio": 1000,
+            "julio": 1000,
+            "agosto": 1000,
+            "septiembre": 1000,
+            "octubre": 1000,
+            "noviembre": 1000,
+            "diciembre": 1000
+
         }
     ]
+}
+
+const jTest2 =
+{
+  "table": "dbo.tb_200_historic_privado",
+  "json": [
+      {
+          "clave": "01PT1001",
+          "proveedor": "planta",
+          "nombre": "Acido Ascorbico (1g/10comp eferv)",
+          "inventario": 0,
+          "enero": 21300,
+          "febrero": 18500,
+          "marzo": 15200,
+          "abril": 13350,
+          "mayo": 11400,
+          "junio": 9250,
+          "julio": 10800,
+          "agosto": 12550,
+          "septiembre": 14500,
+          "octubre": 16850,
+          "noviembre": 20500,
+          "diciembre": 27300,
+          "nombre_plan": "plan privado version21"
+      },
+
+      ]
+
 }
 
     let pName = '';
@@ -606,37 +671,44 @@ Swal.fire({
 
     }else if(this.plan.id === 2){
       pName = 'plan privado version' + String(this.idValue);
-      pType  = 'privado';
-
-
-      const filtered_private_data = this.originalData.map(item => ({
-        producto: item.producto,
-        inventario: item.inventario !== null ? item.inventario : 0,
-        enero: item.enero !== null ? item.enero: 0,
-        febrero: item.febrero !== null ? item.febrero: 0,
-        marzo: item.marzo !== null ? item.marzo:0
-      }));
-
-
-
-      const jsonFixedWithPlan = filtered_private_data.map((item) => {
-        return {
-            ...item, 
-            nombre_plan: pName
-        };
-    });
-
-
-
+      pType = 'privado';
     
-
-
-
-      console.log("filtered_private", filtered_private_data);
-
+      // Función para convertir valores numéricos
+      const convertNumber = (value: any): number => {
+        if (value === null || value === undefined) return 0;
+        if (typeof value === 'number') return value;
+        const numStr = String(value).replace(/,/g, '');
+        return parseInt(numStr, 10) || 0;
+      };
+    
+      const filtered_private_data = this.originalData.map(item => ({
+        clave: item.clave,
+        proveedor: item.proveedor,
+        nombre: item.nombre,
+        inventario: convertNumber(item.inventario),
+        enero: convertNumber(item.enero),
+        febrero: convertNumber(item.febrero),
+        marzo: convertNumber(item.marzo),
+        abril: convertNumber(item.abril),
+        mayo: convertNumber(item.mayo),
+        junio: convertNumber(item.junio),
+        julio: convertNumber(item.julio),
+        agosto: convertNumber(item.agosto),
+        septiembre: convertNumber(item.septiembre),
+        octubre: convertNumber(item.octubre),
+        noviembre: convertNumber(item.noviembre),
+        diciembre: convertNumber(item.diciembre)
+      }));
+    
+      const jsonFixedWithPlan = filtered_private_data.map((item) => ({
+        ...item, 
+        nombre_plan: pName
+      }));
+    
+      console.log("Datos transformados:", jsonFixedWithPlan);
+    
       const response1 = await this.insertPlanUnionPromise(pName, pType);
       const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
-
 
     }
 
