@@ -499,6 +499,47 @@ isNumeric(value: any): boolean {
 
   async savePublicPlan(pName: string, pType: string){
 
+        
+    const jTest2 =
+    {
+      "table": "dbo.tb_200_historic_public",
+      "json": [
+          {
+              "clave": "01PT1001",
+              "proveedor": "planta",
+              "nombre": "Acido Ascorbico (1g/10comp eferv)",
+              "inventario": 0,
+              "enero": 21300,
+              "febrero": 18500,
+              "marzo": 15200,
+              "abril": 13350,
+              "mayo": 11400,
+              "junio": 9250,
+              "julio": 10800,
+              "agosto": 12550,
+              "septiembre": 14500,
+              "octubre": 16850,
+              "noviembre": 20500,
+              "diciembre": 27300,
+              "nombre_plan": "plan privado version21"
+          },
+
+          ]
+
+    }
+
+    const convertNumber = (value: any): number => {
+      if (value === null || value === undefined) return 0;
+      if (typeof value === 'number') return value;
+      const numStr = String(value).replace(/,/g, '');
+      return parseInt(numStr, 10) || 0;
+    };
+  
+   
+  
+
+
+
     const replaceNullWithZero = (obj: { [x: string]: number }) => {
       for (let key in obj) {
           if (obj[key] === null) {
@@ -529,6 +570,7 @@ Swal.fire({
 });
 
 
+/*
 const filtered_private_data = this.originalData.map(item => ({
   clave: item.clave,
   descripcion: item.descripcion !== null ? item.descripcion : 0,
@@ -538,11 +580,38 @@ const filtered_private_data = this.originalData.map(item => ({
   nombre_plan: pName
 }));
 
+*/
+
+const filtered_private_data = this.originalData.map(item => ({
+  clave: item.clave,
+  proveedor: item.proveedor,
+  nombre: item.nombre,
+  inventario: convertNumber(item.inventario),
+  enero: convertNumber(item.enero),
+  febrero: convertNumber(item.febrero),
+  marzo: convertNumber(item.marzo),
+  abril: convertNumber(item.abril),
+  mayo: convertNumber(item.mayo),
+  junio: convertNumber(item.junio),
+  julio: convertNumber(item.julio),
+  agosto: convertNumber(item.agosto),
+  septiembre: convertNumber(item.septiembre),
+  octubre: convertNumber(item.octubre),
+  noviembre: convertNumber(item.noviembre),
+  diciembre: convertNumber(item.diciembre),
+  nombre_plan: pName
+
+}));
+
 
 try{
 const response1 = await this.insertPlanUnionPromise(pName, pType);
 
-const response2 = await this.insertHistoricoPublicoPromise("historico_dos",filtered_private_data);
+//const response2 = await this.insertHistoricoPublicoPromise("historico_dos",filtered_private_data);
+const response2 = await this.insertHistoricoPublicoPromise('dbo.tb_200_historic_publico', filtered_private_data);
+
+
+
 Swal.fire({
   icon: 'success',
   title: '¡Guardado exitoso!',
@@ -563,6 +632,20 @@ Swal.fire({
 
 
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  async saveVersion() {
@@ -664,10 +747,16 @@ const jTest2 =
     this.idValue = this.idValue +1;
 
   if(this.plan.id === 1){
-      pName = 'plan público version' + String(this.idValue);
+
+
+      pName = 'plan públicoss version' + String(this.idValue);
       pType  = 'publico';
 
       await this.savePublicPlan(pName, pType);
+
+
+
+
 
     }else if(this.plan.id === 2){
       pName = 'plan privado version' + String(this.idValue);
@@ -752,8 +841,11 @@ const jTest2 =
     })
   }
 
+
+
   insertHistoricoPublicoPromise = (name: string, data: any) => {
     return new Promise((resolve, reject) => {
+
       this.service.insertHistoricoPublico(name, data).subscribe({
         next: (response) => {
             console.log("Respuesta:", response);
