@@ -55,6 +55,8 @@ export class ColumnSelecterModalComponent implements OnInit {
   }
 
   close(){
+    if(this.selectedQs.selectedQs.length === 0) return;
+    else 
     this.active.close(this.selectedQs.selectedQs);
   }
 
@@ -63,6 +65,10 @@ export class ColumnSelecterModalComponent implements OnInit {
     this.selectedQs.selectedQs = this.qs_list
       .filter(q => q.checked)
       .map(q => `Q${q.id}`);
+
+
+      console.log("lista es:", this.selectedQs.selectedQs);  
+      console.log("tamalo de selecteQs", this.selectedQs.selectedQs.length);
   }
 
 }
