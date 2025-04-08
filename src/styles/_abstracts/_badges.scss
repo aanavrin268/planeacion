@@ -1,0 +1,21 @@
+@use './colors' as c;
+@use './variables' as v;
+
+/*
+        Variables de Badges
+
+*/
+
+$badge-size: 35px;
+$badge-size-sm: 30px;
+$badge-size-lg: 40px;
+
+$badge-primary-bg: c.$primary-color;
+$badge-primary-hover: c.$primary-dark;
+$badge-primary-text: white;
+
+$badge-secondary-bg: c.$secondary-color;
+$badge-secondary-hover: c.$secondary-dark;
+$badge-secondary-text: white;
+
+$badge-shadow: 2px 4px 6px rgba(0, 0, 0, 0.336);

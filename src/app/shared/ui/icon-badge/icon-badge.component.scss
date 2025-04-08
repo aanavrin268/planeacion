@@ -1,0 +1,65 @@
+@use '../../../../styles/_abstracts/badges' as b;
+@use '../../../../styles/_abstracts/variables' as v;
+@use '../../../../styles/_abstracts/mixins' as m;
+
+.badge {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: b.$badge-shadow;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.02);
+    }
+
+    /* VARIANTES DE COLOR */
+    &--primary {
+        background-color: b.$badge-primary-bg;
+        color: b.$badge-primary-text;
+        &:hover {
+            background-color: b.$badge-primary-hover;
+        }
+    }
+
+    &--secondary {
+        background-color: b.$badge-secondary-bg;
+        color: b.$badge-secondary-text;
+        &:hover {
+            background-color: b.$badge-secondary-hover;
+        }
+    }
+
+    &--custom {
+        background-color: var(--color);
+        color: var(--textColor);
+        &:hover {
+            background-color: var(--customHoverColor);
+        }
+    }
+
+    /* TAMAÑOS */
+    &--sm {
+        width: b.$badge-size-sm;
+        height: b.$badge-size-sm;
+        font-size: 0.8rem;
+    }
+
+    &--md {
+        width: b.$badge-size;
+        height: b.$badge-size;
+    }
+
+    &--lg {
+        width: b.$badge-size-lg;
+        height: b.$badge-size-lg;
+        font-size: 1.2rem;
+    }
+
+    &--custom-size {
+        width: var(--customSize);
+        height: var(--customSize);
+    }
+}

@@ -9,11 +9,12 @@ import Swal from 'sweetalert2';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BehaviorSubject } from 'rxjs';
 import { BehaviorsService } from '../../core/services/behaviors.service';
+import { IconBadgeComponent } from '../../shared/ui/icon-badge/icon-badge.component';
 
 
 @Component({
   selector: 'app-dash-plan',
-  imports: [CommonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatProgressSpinnerModule, IconBadgeComponent],
   templateUrl: './dash-plan.component.html',
   styleUrl: './dash-plan.component.scss'
 })
