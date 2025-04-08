@@ -651,6 +651,7 @@ Swal.fire({
 
  async saveVersion() {
 
+    this.showSettingsMenu = false;
   const jtest= {
     //"table": "plan_historico_privado",
     "table": "dbo.tb_200_historic_privado",
@@ -762,6 +763,15 @@ const jTest2 =
     }else if(this.plan.id === 2){
       pName = 'plan privado version' + String(this.idValue);
       pType = 'privado';
+
+      Swal.fire({
+        title: 'Guardando...',
+        text: 'Por favor, espera un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading(); 
+        }
+      });
     
       // Función para convertir valores numéricos
       const convertNumber = (value: any): number => {
@@ -797,8 +807,29 @@ const jTest2 =
     
       console.log("Datos transformados para send:", jsonFixedWithPlan);
     
-      const response1 = await this.insertPlanUnionPromise(pName, pType);
-      const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
+      try {
+        const response1 = await this.insertPlanUnionPromise(pName, pType);
+        const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
+
+    
+        Swal.fire({
+          icon: 'success',
+          title: '¡Guardado exitoso!',
+          text: 'Los datos se han guardado correctamente.',
+          confirmButtonText: 'Aceptar'
+        });
+      }catch(err){
+        console.log("Error:", err);
+
+Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Ocurrió un error al guardar los datos. Por favor, inténtalo de nuevo.',
+    confirmButtonText: 'Aceptar'
+});
+
+      }
+      
 
     }
 
