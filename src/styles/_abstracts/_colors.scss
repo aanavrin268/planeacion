@@ -1,0 +1,48 @@
+@use "sass:color";
+
+
+/*
+    --------------------------------------------------------------------
+    PALETA PRINCIAPAL
+    --------------------------------------------------------------------
+*/
+
+
+/// @color #298dcb
+$primary-color: #298dcb;
+$primary-light:#41a0d9;
+$primary-lighter: #27b9c8;
+$primary-dark: #234187;
+$primary-darker:#253365;
+
+
+$secondary-color:#f08013;
+$secondary-light: color.scale($secondary-color, $lightness: 15%);
+$secondary-dark: color.scale($secondary-color, $lightness: -15%);
+
+
+$tertiary-color:#888b8c;
+$tertiary-light: color.scale($tertiary-color, $lightness: 15%);
+$tertiary-dark: color.scale($tertiary-color, $lightness: -15%);
+
+
+
+
+/*
+    --------------------------------------------------------------------
+    COLORES DE TEXTO
+    --------------------------------------------------------------------
+*/
+
+/// @color #424242
+$grey-600: #424242;
+
+/// @color #4d4d4d
+$grey-500: #4d4d4d;
+
+/// @color #333333
+$grey-700: #333333;
+
+
+
+

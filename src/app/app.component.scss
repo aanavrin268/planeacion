@@ -291,10 +291,9 @@
 }
 
 .end{
-  position: absolute;
-  /* background-color: rgba(168, 168, 168, 0.3647058824); */
-  /* border: 1px solid white; */
-  bottom: -87%;
+  position: fixed;
+  bottom: 1%;
+  z-index: 1000;
 
   
 }
@@ -316,4 +315,65 @@
     color: blue; 
     font-weight: bold; 
   }
+}
+
+
+
+.menu-t{
+    /* background-color: #c9c3c3; */
+    position: absolute;
+    right: 13%;
+    top: 2.4%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  &:hover{
+    cursor:pointer;
+    background-color: #7775754d;
+  }
+}
+
+
+.m-container{
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+
+    
+.logo-container{
+  display: flex;
+  width: 120px;
+  height: 120px;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  /* background-color: rgba(129, 127, 127, 0.31); */
+  left: 4%;
+  bottom: 8%;
+  mix-blend-mode:screen;
+  filter: brightness(0) invert(1) drop-shadow(0px 4px 6px rgba(255, 255, 255, 0.274));
+  opacity: 0.5;
+  transition: all 0.1s ease-in-out;
+
+
+  img{
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    filter: brightness(0) invert(1) drop-shadow(0px 4px 6px rgba(255, 255, 255, 0.274));
+    opacity: 0.19;
+    mix-blend-mode:screen;
+    transition: all 0.1s ease-in-out;
+
+    
+  }
+}
+
+
 }

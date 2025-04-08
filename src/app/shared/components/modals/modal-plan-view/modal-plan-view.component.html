@@ -39,7 +39,9 @@
 
                 <div class="op-menu" *ngIf="showOpsMenu">
                   <div class="op-menu-container" *ngFor="let option of ops_menu_list">
-                    <span (click)="onOpsMenuClick(option)">{{option.title}}</span>
+                    <span (click)="onOpsMenuClick(option)"
+                     class="op-menu-item"
+                    >{{option.title}}</span>
                   </div>
                 </div>
             </div>

@@ -1,0 +1,14 @@
+
+
+@use './colors' as c;
+
+
+
+/*
+        VARIABLES DE TEXTO
+*/
+
+
+$text-body: c.$grey-700;
+$text-body-light: c.$grey-600;
+$text-title-primary: c.$primary-color;

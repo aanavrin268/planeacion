@@ -194,7 +194,34 @@
 
               .op-menu{
                 width: 200px;
-                position:absolute;
+                position: absolute;
+                z-index: 1000;
+                padding: 1rem;
+                border-radius: 12px;
+                box-shadow: 0px 4px 6px black;
+                top: 100%;
+                border: 1px solid #8080806b;
+                background-color: white;
+                left: 100%;
+                transition: all 0.2s ease-in-out;
+
+                .op-menu-container{
+                  display: flex;
+                  flex-direction: column;
+
+                  .op-menu-item{
+                    line-height: 1.1;
+                    font-size: 16px;
+                    font-weight: 600;
+                    padding: .2rem .4rem;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover{
+                      cursor: pointer;
+                      background-color: rgba(128, 128, 128, 0.219);
+                    }
+                  }
+                }
               }
             }
 
@@ -741,4 +768,9 @@
     border-bottom: none !important;
   /* Opcional: negrita */
   font-size: 18px !important;
+}
+
+
+:host ::ng-deep .mat-cell.highlight {
+  background-color: #85c1ffba !important;
 }

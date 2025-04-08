@@ -13,7 +13,7 @@
 
             </div>
             <div class="body">
-                <span>Selecciona un plan ya guardado o genera uno nuevo para continuar</span>
+                <span class="b-text">Selecciona un plan ya guardado o genera uno nuevo para continuar</span>
                 <div class="plan-container">
                     <div class="plan" *ngFor="let plan of plan_list"
                         (click)="openPlan(plan)">
@@ -36,12 +36,12 @@
                 <span class="title">Comparativa</span>
                 <div class="add-container">
                     <i class="bi bi-gear-wide-connected btn-c-black"></i>
-
+   
                 </div>
 
             </div>
             <div class="body">
-                <span>Elige un plan y comparalo con las diferentes versiones guardadas.</span>
+                <span class="b-text">Elige un plan y comparalo con las diferentes versiones guardadas.</span>
                 <div class="plan-container">
                     <div class="plan" *ngFor="let plan of plan_version_list"
                         (click)="openComparative(plan)">

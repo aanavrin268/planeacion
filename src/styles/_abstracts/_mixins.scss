@@ -1,0 +1,33 @@
+@use './variables' as v;
+
+
+
+/*
+         MIXINS DE TEXTOS
+*/
+
+@mixin mx-text-title-lg{
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 720;
+}
+
+@mixin mx-text-body{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.1;
+        color: v.$text-body;
+}
+
+@mixin mx-card-title{
+    line-height: 1.1;
+    font-weight: 650;
+    font-size: 20px;
+}
+
+@mixin mx-card-text{
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: v.$text-body-light;
+}

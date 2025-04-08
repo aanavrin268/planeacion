@@ -6,9 +6,10 @@ export const fourth_quarter: string[] = ['Octubre', 'Noviembre', 'Diciembre'];
 
 
   export const headersQ1 = [
-    {id: 1, title: 'enero'},   
-    {id: 2, title: 'febrero'},
-    {id: 3, title: 'marzo'},
+    {id: 1, title: 'enero'},  {id: 2, title: 'fac_enero'},   
+    {id: 3, title: 'febrero'}, {id: 4, title: 'fac_febrero'},
+    {id: 5, title: 'marzo'},    {id: 6, title: 'fac_marzo'},
+
   ];
 
   export const headersQ2 = [

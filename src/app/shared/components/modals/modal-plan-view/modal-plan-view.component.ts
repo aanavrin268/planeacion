@@ -139,6 +139,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
 
   ngAfterViewInit(): void {
+    this.cdRef.detectChanges();
 
 
     setTimeout(() => {

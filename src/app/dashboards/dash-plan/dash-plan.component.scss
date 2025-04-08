@@ -1,16 +1,12 @@
+@use './../../../styles/_abstracts/index' as a;
+
+
 body, html{
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
-
-$blue-900: #1e3a8a;
-$blue-700: #1d4ed8;
-$blue-500: #3b82f6;
-$white-10: rgba(255, 255, 255, 0.1);
-$white-15: rgba(255, 255, 255, 0.15);
-$white-20: rgba(255, 255, 255, 0.2);
 
 .background{
     min-height: 100vh;
@@ -22,6 +18,15 @@ $white-20: rgba(255, 255, 255, 0.2);
     justify-content: center;
     background: #DFDFDF;
     background: linear-gradient(135deg, #DFDFDF, #FFFAF8);
+
+    .b-text{
+        @include a.mx-text-body;
+    }
+
+    .p-sub{
+        @include a.mx-card-text;
+    }
+
 
     .body{
         display: flex;
@@ -111,6 +116,7 @@ $white-20: rgba(255, 255, 255, 0.2);
                 flex-direction: column;
                 margin-top: 1.5rem;
 
+              
                 .plan-container{
                     width: 100%;
                     display: flex;
@@ -138,17 +144,10 @@ $white-20: rgba(255, 255, 255, 0.2);
                         }
 
                         .p-title{
-                            line-height: 1.1;
-                            font-weight: 600;
-                            font-size: 20px;
+                          @include a.mx-card-title;
                         }
 
-                        .p-sub{
-                            line-height: 1.1;
-                            font-weight: 600;
-                            font-size: 15px;
-                            color: #4d4d4d;
-                        }
+                      
 
                         .filters-container{
                             display: flex;
@@ -194,9 +193,7 @@ $white-20: rgba(255, 255, 255, 0.2);
                 justify-content: space-between;
 
                 .title{
-                    line-height: 1.1;
-                    font-weight: 700;
-                    font-size: 28px;
+                    @include a.mx-text-title-lg;
                 }
 
                 .add-container{
@@ -296,11 +293,6 @@ $white-20: rgba(255, 255, 255, 0.2);
                         }
 
                         .p-sub{
-                            line-height: 1.1;
-                            font-weight: 600;
-                            font-size: 15px;
-                            color: #4d4d4d;
-                            /* background-color: red; */
                             transform: translateY(-184%);
                             width: 100%;
                             text-align: end;

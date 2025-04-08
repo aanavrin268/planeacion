@@ -1,6 +1,11 @@
+@use '_abstracts' as abs;
+
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
 
 
 
@@ -53,6 +58,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .modal-content{
  
             border-radius: 24px;
+            //background-color: abs.$primary-color;
+            //background-color: green;
     }
 }
 
