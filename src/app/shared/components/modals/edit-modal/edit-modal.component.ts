@@ -206,6 +206,15 @@ actualizarDetallePrivado() {
       "ene": convertNumber(this.editForm.get('enero')?.value),
       "feb": convertNumber(this.editForm.get('febrero')?.value),
       "mar":convertNumber(this.editForm.get('marzo')?.value),
+      "abr":convertNumber(this.editForm.get('abril')?.value),
+      "may":convertNumber(this.editForm.get('mayo')?.value),
+      "jun":convertNumber(this.editForm.get('junio')?.value),
+      "jul":convertNumber(this.editForm.get('julio')?.value),
+      "ago":convertNumber(this.editForm.get('agosto')?.value),
+      "sep":convertNumber(this.editForm.get('septiembre')?.value),
+      "oct":convertNumber(this.editForm.get('octubre')?.value),
+      "nov":convertNumber(this.editForm.get('noviembre')?.value),
+      "dic":convertNumber(this.editForm.get('diciembre')?.value)
       
 
   };
