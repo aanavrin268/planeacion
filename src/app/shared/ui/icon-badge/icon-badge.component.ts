@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -17,10 +17,15 @@ export class IconBadgeComponent {
   @Input() customSize: string;
   @Input() customHoverColor: string;
 
+
+  @HostBinding('style.--color') get cssColor(){
+    return this.variant === 'custom' ? this.color : null;
+  }
+
   constructor(){
     this.iconClass = 'bi-gear-wide-connected';
-    this.color = '';
-    this.textColor = '';
+    this.color = 'green';
+    this.textColor = 'red';
     this.customSize = '';
     this.customHoverColor = '';
   }

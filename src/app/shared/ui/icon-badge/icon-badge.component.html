@@ -1,1 +1,3 @@
-<i class="bi" [ngClass]="[iconClass, getBadgeClasess()]"></i>
+<i class="bi" [ngClass]="[iconClass, getBadgeClasess()]"
+[style.--color]="variant === 'custom' ? color : null"
+></i>

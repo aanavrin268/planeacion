@@ -795,7 +795,7 @@ const jTest2 =
         nombre_plan: pName
       }));
     
-      console.log("Datos transformados:", jsonFixedWithPlan);
+      console.log("Datos transformados para send:", jsonFixedWithPlan);
     
       const response1 = await this.insertPlanUnionPromise(pName, pType);
       const response2 = await this.insertPlanHistoricoPrivadoPromise(jtest.table, jsonFixedWithPlan);
@@ -864,7 +864,7 @@ const jTest2 =
 
   showPrivateRows() {
     this.isLoading = true;
-  
+  /*
     this.headers = [
       { id: 1, title: 'seleccionar' }, 
       { id: 2, title: 'nombre' },
@@ -879,6 +879,8 @@ const jTest2 =
     this.displayedColumns = this.headers.map(header => 
       header.title.toLowerCase().replace(/ /g, '')
     );
+
+    */
   
     this.service.getDetallesPlanPrivate().subscribe({
       next: (response) => {
@@ -976,9 +978,6 @@ const jTest2 =
 
     //this.isLoading = false;
   
-
-
-    
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
