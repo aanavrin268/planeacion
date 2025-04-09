@@ -1,0 +1,22 @@
+<div class="main-modal">
+    <section class="header">
+        <span class="title">
+            Nuevo histórico 
+        </span>
+    </section>
+    <section class="body">
+        <span class="sub-title">
+            Ingresa un nombre para el nuevo archivo histórico.
+        </span>
+        <input type="text" class="form-control" placeholder="Ej. historico_2025_2"
+            #nameInput>
+
+    </section>
+    <section class="footer">
+        <button class="btn btn-light"
+            (click)="closeModal()">Cancelar</button>
+        <button class="btn btn-success"
+            (click)="saveNewPlan()">Guardar</button>
+
+    </section>
+</div>

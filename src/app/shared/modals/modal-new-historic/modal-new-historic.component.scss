@@ -1,0 +1,36 @@
+@use '../../../../styles/_abstracts/mixins' as m;
+
+.main-modal{
+   @include m.mx-modal-sm;
+
+    .header{
+      @include m.mx-header-basic;
+
+        .title{
+            @include m.mx-text-title-lg;
+            font-size: 22px;
+        }
+    }
+
+    .body{
+      @include m.mx-body-basic;
+      justify-content: flex-start;
+      gap: 1rem;
+
+      .sub-title{
+        @include m.mx-text-body;
+        text-align: left;
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      input{
+        margin-top: 3rem;
+      }
+
+    }
+
+    .footer{
+      @include m.mx-footer-basic;
+    }
+}

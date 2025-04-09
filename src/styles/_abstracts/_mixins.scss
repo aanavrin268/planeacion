@@ -1,6 +1,53 @@
 @use './variables' as v;
 
 
+/*
+        MIXINS DE MODALES
+
+*/
+
+@mixin mx-modal-sm{
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+
+
+/*
+        MIXINS DE LAYOUTS
+
+*/
+
+@mixin mx-body-basic{
+    width: 100%;
+    height: 80%;
+    display: flex;  
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+@mixin mx-header-basic{
+    width: 100%;
+    height: 10%;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin mx-footer-basic{
+    width: 100%;
+    height: 10%;
+    display: flex;  
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+
 
 /*
          MIXINS DE TEXTOS

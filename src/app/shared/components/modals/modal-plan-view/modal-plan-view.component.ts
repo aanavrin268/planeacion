@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation, HostListener  } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -17,6 +17,8 @@ import { plan_public_all_data } from '../../../../core/helpers/readables';
 import { ColumnSelecterModalComponent } from '../../../modals/column-selecter-modal/column-selecter-modal.component';
 import { ModalMultiEditssComponent } from '../../../modals/modal-multi-editss/modal-multi-editss.component';
 import { ModoPivoteComponent } from '../../../../plan/modo-pivote/modo-pivote.component';
+import { ModalNewHistoricComponent } from '../../../modals/modal-new-historic/modal-new-historic.component';
+import { ChooseHistoricsComponent } from '../../../modals/choose-historics/choose-historics.component';
 
 
 @Component({
@@ -45,6 +47,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   private animateNextCard = false; 
   private movedCardId: number | null = null; 
   protected showSettingsMenu: boolean;
+  protected isHovered: boolean;
+
 
   
   protected list_menu_views: any[] = []
@@ -73,6 +77,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected showOpsMenu: boolean;
   protected showUtility: boolean;
   protected showUtilityDetails: boolean;
+
+  protected hoveredOptionId: number | null =  null;
 
 
   protected settings_options_list:any[] = [];
@@ -106,10 +112,12 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected monthQ: string;
 
   protected qs_array:any[] = [];
+  protected subMenuList: any[] = [];
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router, 
     private cdRef: ChangeDetectorRef, private active: NgbActiveModal
   ){
+    this.isHovered = false;
     this.limits = 1; 
     this.idValue = 0;
 
@@ -132,11 +140,17 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.monthQ = '';
     this.showSettingsMenu = false;
 
+
+
     this.settings_options_list = [
-      {id:1, title:'Generar backup'}, {id:3, title:'Modo pivote'},  {id:2, title:'Cerrar'},
+      {id:1, title:'Generar backup', icon:'bi bi-caret-left-fill'}, {id:3, title:'Modo pivote', icon:''},  
+      {id:2, title:'Cerrar', icon:''},
       
+    ];
 
-
+    this.subMenuList = [
+      {id:1, title: 'Nueva versión'}, {id:2, title:'Seleccionar existente'},
+      {id:3, title: 'Cancelar'}
     ];
     
   }
@@ -163,6 +177,81 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.getMonthlyData()
     this.loadRowsData();
   }
+
+  chooseHistoricOverwrite(){
+    const modalRef = this.modal.open(ChooseHistoricsComponent, {
+      centered: true, 
+      size: 'md',
+      windowClass: 'redondo'
+    });
+
+  }
+
+
+  addNewHistoric(){
+    const dataSend = {
+      idValue: this.idValue,
+      idPlan: this.plan.id,
+      ogData: this.originalData,
+    }
+
+    const modalRef = this.modal.open(ModalNewHistoricComponent, {
+      centered: true, 
+      size: 'md',
+      windowClass: 'redondo'
+    });
+
+
+    modalRef.componentInstance.data = dataSend;
+
+
+  }
+
+
+  onSubMenuSelect(item:any){
+    switch(item.id){
+      case 1:
+          this.showSubMenu();
+          this.openSettingsMenu();
+          this.addNewHistoric();
+          break;
+      case 2:
+        this.showSubMenu();
+          this.openSettingsMenu();
+          this.chooseHistoricOverwrite();
+          break;
+      case 3:
+          this.showSubMenu();
+          break;
+    }
+  }
+
+
+
+
+  /*
+  @HostListener('mouseenter', ['$event.target'])
+  onMouseEnter(target: HTMLElement) {
+    console.log('Mouse ENTER event triggered', target);
+    const optionElement = target.closest('.settings-options');
+    console.log('Closest .settings-options element:', optionElement);
+    
+    if(optionElement) {
+      const optionId = optionElement.getAttribute('data-id');
+      console.log('Option ID found:', optionId);
+      this.hoveredOptionId = optionId ? parseInt(optionId) : null;
+    }
+    console.log('Current hoveredOptionId:', this.hoveredOptionId);
+  }
+  
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    console.log('Mouse LEAVE event triggered');
+    this.hoveredOptionId = null;
+  }
+
+  */
+
 
 
   openMultiEdit(){
@@ -251,19 +340,27 @@ isNumeric(value: any): boolean {
   onSettingsMenuSelect(option:any){
     switch(option.id){
       case 1:
-          this.saveVersion();
+          //this.saveVersion();
+          this.showSubMenu();
   
       break;
 
       case 2:
           this.openSettingsMenu();
+          this.showSubMenu();
+
           break;
       case 3:
           this.openSettingsMenu();
+          this.showSubMenu();
           this.active.close();
           this.goToPivot();
           break;
     } 
+  }
+
+  showSubMenu(){
+    this.isHovered = !this.isHovered;
   }
 
 
@@ -588,9 +685,6 @@ isNumeric(value: any): boolean {
       return parseInt(numStr, 10) || 0;
     };
   
-   
-  
-
 
 
     const replaceNullWithZero = (obj: { [x: string]: number }) => {
@@ -907,6 +1001,7 @@ Swal.fire({
   }
  
 
+  
   insertPlanUnionPromise = (name:string, type:string) => {
     return new Promise((resolve, reject) => {
       

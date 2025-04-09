@@ -11,11 +11,24 @@
         <div class="settings-menu" *ngIf="showSettingsMenu">
           <div class="settings-options-container">
             <div class="settings-options" *ngFor="let option of settings_options_list"
+            [attr.data-id]="option.id"
               (click)="onSettingsMenuSelect(option)">
+              <i class="bi {{option.icon}}"></i>
               <span>{{option.title}}</span>
             </div>
           </div>
+
+          <div class="first-sub-menu" *ngIf="isHovered">
+            <div class="fs-container">
+              <span class="fs-item" *ngFor="let item of subMenuList"
+               (click)="onSubMenuSelect(item)">
+                {{item.title}}
+              </span>
+            </div>
+          </div>
         </div>
+
+       
     </div>
 
     
