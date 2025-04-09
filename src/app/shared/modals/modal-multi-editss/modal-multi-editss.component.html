@@ -1,1 +1,146 @@
-<p>modal-multi-editss works!</p>
+<div class="main">
+    <div class="header">
+        <span class="title">Edición múltiple</span>
+    </div>
+
+    <div class="body">
+        <div class="left">
+            <span class="sub-title">Llenado absoluto</span>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="toggleExample" [(ngModel)]="isToggled">
+              </div>
+
+            <div class="absolute-container" *ngIf="isToggled">
+                <input type="number" placeholder="ej. 100" class="l-inp" 
+                 #absolute>
+                <button class="r-btn" (click)="setAbsoluteValue()">Aplicar</button>
+                <button class="r-btn" (click)="resetOgValues()">
+                    <i class="bi bi-x-square"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="right">
+            <div class="row-container">
+                <div class="mul-card" *ngFor="let row of rows; let i = index">
+                    <span>{{row.nombre}}</span>
+                    <div class="grid-container">
+                        <form [formGroup]="formGroups[i]">
+                            <div class="form-container">
+                               
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Enero</mat-label>
+                                <input matInput formControlName="enero">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Febrero</mat-label>
+                                <input matInput formControlName="febrero">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Marzo</mat-label>
+                                <input matInput formControlName="marzo">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Abril</mat-label>
+                                <input matInput formControlName="abril">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Mayo</mat-label>
+                                <input matInput formControlName="mayo">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Junio</mat-label>
+                                <input matInput formControlName="junio">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Julio</mat-label>
+                                <input matInput formControlName="julio">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Agosto</mat-label>
+                                <input matInput formControlName="agosto">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Septiembre</mat-label>
+                                <input matInput formControlName="septiembre">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Octubre</mat-label>
+                                <input matInput formControlName="octubre">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Noviembre</mat-label>
+                                <input matInput formControlName="noviembre">
+                               
+                              </mat-form-field>
+                        </div>
+    
+                        <div class="o-input">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Diciembre</mat-label>
+                                <input matInput formControlName="diciembre">
+                               
+                              </mat-form-field>
+                        </div>
+                                  
+                                  
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+     
+    </div>
+
+    <div class="footer">
+        <button class="btn btn-light" (click)="close()">Cancelar</button>
+        <button class="btn btn-success" (click)="save()">Continuar</button>
+    </div>
+</div>

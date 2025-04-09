@@ -172,12 +172,22 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
       const modalRef = this.modal.open(ModalMultiEditssComponent, {
         centered: true,
         size: 'lg',
-        windowClass: 'redondo'
+        windowClass: 'custom-modal-width-medium'
       });
   
       modalRef.componentInstance.rows = this.selected_rows;
 
-      this.cleanAllRows();      
+      this.cleanAllRows();    
+      
+      modalRef.result.then(
+        (result) => {
+          this.afterModalClosed(result);
+        },
+        (reason) => {
+          this.afterModalClosed(reason);
+        }
+      );
+  
 
   
     }else {
