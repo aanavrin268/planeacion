@@ -31,7 +31,7 @@ export const fourth_quarter: string[] = ['Octubre', 'Noviembre', 'Diciembre'];
   ];
 
   export const menu_lists: any[] = [
-    {id:1, title:'Ver producto'},
+    //{id:1, title:'Ver producto'},
     {id:2, title:'Editar información'},
     {id:3, title:'Cancelar'},
 

@@ -4,14 +4,53 @@
     </div>
 
     <div class="body">
+        <div class="chooser-container">
+          <div class="left">
+            <span class="sub-title">Llenado absoluto</span>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="toggleExample" [(ngModel)]="isToggled">
+              <label class="form-check-label sub-title-m" for="toggleExample">
+                {{ isToggled ? 'Activado' : 'Desactivado' }}
+              </label>
+            </div>
+  
+  
+          </div>
+         
+          <div class="right" *ngIf="isToggled">
+            <input type="number" placeholder="Valor a planchar, ej. 2000"
+              #inputAllValues class="r-input">
+            <app-icon-badge 
+              iconClass="bi-check"
+              textColor="white"
+              variant="custom"
+              color="green"
+              size="md" (click)="planchAllVlaues()"
+              ></app-icon-badge>
+
+            <app-icon-badge 
+              iconClass="bi-x-square"
+              textColor="white"
+              variant="custom"
+              color="red"
+              size="md" (click)="resetAllValues()">
+            </app-icon-badge>
+          </div>
+
+        </div>
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <div class="sub-container">
                   <span class="sub-title">Edita la cantidad de unidades disponibles al mes.</span>
 
                     <div class="info-edit">
-                      <span class="item">{{item + ', ' + proveedor }}</span>
-                      <i class="bi bi-info-circle border" (click)="allowEdit()"></i>
+                      <span class="item">{{item}}</span>
+                      <span class="item-provider">{{proveedor}}</span>
+
+                      <!----  
+                                              <i class="bi bi-info-circle border" (click)="allowEdit()"></i>
+
+                      -->
 
                     </div>
 
@@ -70,8 +109,11 @@
                 <div class="datos">
 
                       <div class="all-inputs">
+
                         <div class="input-container11">
                           <label for="ener">Enero</label>
+                          <span class="materi" *ngIf="enero_disabled"
+                            >Materializado</span>
                           <input type="text" placeholder=" " id="ener"
                             formControlName="enero">
                          </div>
@@ -79,6 +121,8 @@
 
                          <div class="input-container11">
                           <label for="feb">Febrero</label>
+                          <span class="materi" *ngIf="enero_disabled"
+                          >Materializado</span>
                           <input type="text" placeholder=" " id="feb"
                             formControlName="febrero">
                          </div>
@@ -86,6 +130,8 @@
 
                          <div class="input-container11">
                           <label for="marz">Marzo</label>
+                          <span class="materi" *ngIf="enero_disabled"
+                          >Materializado</span>
                           <input type="text" placeholder=" " id="marz"
                             formControlName="marzo">
                          </div>

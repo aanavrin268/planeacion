@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditManyModalsComponent } from '../edit-many-modals/edit-many-modals.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,8 @@ import { headers, headersQ1, headersQ2, headersQ3, headersQ4, list_menu_views, m
 import { gsap } from 'gsap';
 import { plan_public_all_data } from '../../../../core/helpers/readables';
 import { ColumnSelecterModalComponent } from '../../../modals/column-selecter-modal/column-selecter-modal.component';
+import { ModalMultiEditssComponent } from '../../../modals/modal-multi-editss/modal-multi-editss.component';
+import { ModoPivoteComponent } from '../../../../plan/modo-pivote/modo-pivote.component';
 
 
 @Component({
@@ -32,6 +34,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected isLoading: boolean;
   protected ogData: any;
   protected plans_list:any[] = [];
+
+  protected selected_rows: any[] =[];
 
 
   @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>; 
@@ -58,7 +62,6 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   public data: any[] = [];  
 
-  protected selected_rows: any[] = [];
 
   menuTop: number = 0;
   menuLeft: number = 0;
@@ -105,7 +108,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected qs_array:any[] = [];
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router, 
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef, private active: NgbActiveModal
   ){
     this.limits = 1; 
     this.idValue = 0;
@@ -130,7 +133,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.showSettingsMenu = false;
 
     this.settings_options_list = [
-      {id:1, title:'Generar backup'},  {id:2, title:'Cerrar'},
+      {id:1, title:'Generar backup'}, {id:3, title:'Modo pivote'},  {id:2, title:'Cerrar'},
+      
+
 
     ];
     
@@ -157,6 +162,34 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
     this.getMonthlyData()
     this.loadRowsData();
+  }
+
+
+  openMultiEdit(){
+    if(this.selected_rows.length > 1){
+
+
+      const modalRef = this.modal.open(ModalMultiEditssComponent, {
+        centered: true,
+        size: 'lg',
+        windowClass: 'redondo'
+      });
+  
+      modalRef.componentInstance.rows = this.selected_rows;
+
+      this.cleanAllRows();      
+
+  
+    }else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Selecciona más de una fila',
+        text: 'Debes seleccionar al menos dos filas para editar.',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+
+   
   }
 
 
@@ -200,6 +233,10 @@ isNumeric(value: any): boolean {
 
   }
 
+  goToPivot(){
+   this.router.navigate(['/modo-pivote']);
+  }
+
 
   onSettingsMenuSelect(option:any){
     switch(option.id){
@@ -211,7 +248,12 @@ isNumeric(value: any): boolean {
       case 2:
           this.openSettingsMenu();
           break;
-    }
+      case 3:
+          this.openSettingsMenu();
+          this.active.close();
+          this.goToPivot();
+          break;
+    } 
   }
 
 
@@ -302,24 +344,24 @@ isNumeric(value: any): boolean {
 
 
     if(this.currentMonth >= 1 && this.currentMonth <=3){
-      this.monthText = 'Vista actual'
+      this.monthText = ' por piezas'
       this.monthQ = 'Q1';
 
       newHeaders = this.headersQ1;
 
     } else if(this.currentMonth > 3  && this.currentMonth <=6){
-      this.monthText = 'Vista actual'
+      this.monthText = ' por piezas'
       this.monthQ = 'Q2';
 
       newHeaders = this.headersQ2;
 
     } else if(this.currentMonth > 7  && this.currentMonth <=9){
-      this.monthText = 'Vista actual'
+      this.monthText = ' por piezas'
       this.monthQ = 'Q3';
 
       newHeaders = this.headersQ3;
     } else if(this.currentMonth > 9  && this.currentMonth <=12){
-      this.monthText = 'Vista actual'
+      this.monthText = ' por piezas'
       this.monthQ = 'Q4';
 
       newHeaders = this.headersQ4;
@@ -1191,24 +1233,34 @@ Swal.fire({
     });
   }
 
+  cleanAllRows(): void {
+    this.selected_rows = [];
+
+    if (this.dataSource && this.dataSource.data) {
+        this.dataSource.data.forEach(item => {
+            item.selected = false;
+        });
+    }
+
+    this.dataSource.data = [...this.dataSource.data];
+}
 
 
   onCheckboxChange(element: any): void {
-    //console.log('Checkbox state changed for element:', element);
+    console.log('Checkbox state changed for element:', element);
 
-    
     if (element.selected) {
-      //console.log('Elemento seleccionado:', element);
-      this.selected_rows.push(element);
-
-
+        console.log('Elemento seleccionado:', element);
+        if (!this.selected_rows.some(item => item === element)) {
+            this.selected_rows.push(element);
+        }
     } else {
-      //console.log('Elemento deseleccionado:', element);
+        console.log('Elemento deseleccionado:', element);
+        this.selected_rows = this.selected_rows.filter(item => item !== element);
     }
 
-  }
-
-
+    console.log('selected rows:', this.selected_rows);
+}
 
 
 

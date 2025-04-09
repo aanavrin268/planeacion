@@ -1,7 +1,7 @@
 <div class="main-modal">
     <div class="header">
         <span class="title">
-            {{plan.name}}
+            Vista actual
         </span>
 
         <i class="bi bi-three-dots-vertical circle-icon"
@@ -24,18 +24,25 @@
     <div class="body">
         <div class="options-container">
             <div class="qs-container">
-                <span class="sub">{{monthText}}</span>
-                <span class="q-text">{{monthQ}}</span>
+                <span class="sub">{{plan.name + monthText}}</span>
+                <span class="q-text"
+                (click)="selectColumnsNumber()">{{monthQ}}</span>
                 <i class="bi bi-x-square red" *ngIf="qs_array.length > 1"
                 (click)="restAllColumns()"></i>
             </div>
 
             <div class="qs-icon-container">
+
+            <!------
+            
                 <i class="bi bi-pie-chart q-icons"
                 (click)="selectColumnsNumber()"></i>
 
                 <i class="bi bi-calculator q-icons"
                 data-tooltip="Operaciones" (click)="openOpsMenu()"></i>
+            
+            -->
+              
 
                 <div class="op-menu" *ngIf="showOpsMenu">
                   <div class="op-menu-container" *ngFor="let option of ops_menu_list">
@@ -86,7 +93,8 @@
                 
                     <ng-container *ngIf="header.title === 'seleccionar'">
                       <td mat-cell *matCellDef="let element">
-                        <input type="checkbox" [(ngModel)]="element.selected" (click)="$event.stopPropagation()" (change)="onCheckboxChange(element)">
+                        <input type="checkbox" [(ngModel)]="element.selected" (click)="$event.stopPropagation()" 
+                        (change)="onCheckboxChange(element)">
                       </td>
                     </ng-container>
                 
@@ -106,12 +114,16 @@
               </div>
              
 
-                        <mat-paginator 
+              <!-------     
+                 <mat-paginator 
             [pageSizeOptions]="[5, 10, 25, 100]" 
             [pageSize]="5"
             showFirstLastButtons
             [length]="dataSource.data.length"
             ></mat-paginator>
+              -->
+
+                       
 
             <div class="l-menu" *ngIf="showMenu" [ngStyle]="{'top.px': menuTop, 'left.px': menuLeft}">
               <span class="menu-list" *ngFor="let option of menu_lists"
@@ -190,6 +202,20 @@
               </div>
             </div>
 
+            <div class="multi-select-container" *ngIf="selected_rows.length > 0">
+              @if(selected_rows.length === 1){
+                <span class="ms-text">1 producto seleccionado</span>
+              }@else if(selected_rows.length > 1){
+                <span class="ms-text">{{selected_rows.length }} productos seleccionados</span>
+              }
+
+              <div class="ms-icons-container">
+                <i class="bi bi-pencil-square ms-icon" (click)="openMultiEdit()"></i>
+                <i class="bi bi-x-lg ms-icon" (click)="cleanAllRows()"></i>
+              </div>
+
+            </div>
+
             <div class="card-container">
               <!-- Cards superpuestas -->
               <div
@@ -211,50 +237,50 @@
               </button>
             </div>
          
-        <div class="utilidad" *ngIf="showUtility"
-         (click)="openUtilityDetails()">
-          <div class="left">
-            <span class="u-title">
-              Utilidad bruta
-            </span>
-            <span class="u-sub">
-              Del plan actual: 
-            </span>
-          </div>
-          <div class="right">
-            <span class="r-title">
-              $50,000 MXN
-            </span>
-          </div>
-        </div>
-
-        <div class="utilidad-details" *ngIf="showUtilityDetails">
-          <div class="header">
-            <i class="bi bi-x-lg u-icon" (click)="openUtilityDetails()"></i>
-          </div>
-          <div class="bodys">
-            <span class="ud-sub">Calculada a partir de las siguientes variables:</span>
-            <div class="data-container">
-              <div class="data" *ngFor="let data of data_list">
-                <span class="ud-text">{{data.text}}</span>
-                <span class="ud-value">{{data.value}}</span>
-
-              </div>
-            </div>
-
-            <div class="sides">
+            <div class="utilidad" *ngIf="showUtility"
+            (click)="openUtilityDetails()">
               <div class="left">
-                <span class="ud-text">Con un valor total de: </span>
-                <span class="ud-value">$ 50,000.00</span>
+                <span class="u-title">
+                  Utilidad bruta
+                </span>
+                <span class="u-sub">
+                  Del plan actual: 
+                </span>
               </div>
               <div class="right">
-                <span class="ud-text">Con un porcentaje total de: </span>
-                <span class="ud-value">30%</span>
+                <span class="r-title">
+                  $50,000 MXN
+                </span>
               </div>
             </div>
 
-            <button class="u-btn">Ver detalles</button>
-          </div>
-        </div>
+            <div class="utilidad-details" *ngIf="showUtilityDetails">
+              <div class="header">
+                <i class="bi bi-x-lg u-icon" (click)="openUtilityDetails()"></i>
+              </div>
+              <div class="bodys">
+                <span class="ud-sub">Calculada a partir de las siguientes variables:</span>
+                <div class="data-container">
+                  <div class="data" *ngFor="let data of data_list">
+                    <span class="ud-text">{{data.text}}</span>
+                    <span class="ud-value">{{data.value}}</span>
+
+                  </div>
+                </div>
+
+                <div class="sides">
+                  <div class="left">
+                    <span class="ud-text">Con un valor total de: </span>
+                    <span class="ud-value">$ 50,000.00</span>
+                  </div>
+                  <div class="right">
+                    <span class="ud-text">Con un porcentaje total de: </span>
+                    <span class="ud-value">30%</span>
+                  </div>
+                </div>
+
+                <button class="u-btn">Ver detalles</button>
+              </div>
+            </div>
     </div>
 </div>

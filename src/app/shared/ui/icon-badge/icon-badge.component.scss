@@ -1,6 +1,7 @@
 @use '../../../../styles/_abstracts/badges' as b;
 @use '../../../../styles/_abstracts/variables' as v;
 @use '../../../../styles/_abstracts/mixins' as m;
+@use 'sass:color';
 
 .badge {
     border-radius: 50%;
@@ -36,7 +37,7 @@
         background-color: var(--color);
         color: var(--textColor);
         &:hover {
-            background-color: var(--customHoverColor);
+            background-color: color.adjust(green, $lightness: -20%);
         }
     }
 
@@ -62,5 +63,7 @@
     &--custom-size {
         width: var(--customSize);
         height: var(--customSize);
+        font-size: 24px;
+
     }
 }

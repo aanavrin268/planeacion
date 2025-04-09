@@ -22,6 +22,11 @@ export class IconBadgeComponent {
     return this.variant === 'custom' ? this.color : null;
   }
 
+  @HostBinding('style.--textColor') get cssTextColor(){
+    return this.variant === 'custom' ? this.textColor: null;
+  }
+
+
   constructor(){
     this.iconClass = 'bi-gear-wide-connected';
     this.color = 'green';

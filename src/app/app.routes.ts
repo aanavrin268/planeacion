@@ -21,6 +21,7 @@ import { TodosProductosComponent } from './productoss/todos-productos/todos-prod
 import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
 import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
+import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
 
 
 
@@ -38,6 +39,7 @@ export const routes: Routes = [
 {path: 'planTelling', component: PlanTellingComponent},
 {path: 'dashInventarios', component: DashInventarioComponent},
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
+{path: 'modo-pivote', component: ModoPivoteComponent},
 
 
 
