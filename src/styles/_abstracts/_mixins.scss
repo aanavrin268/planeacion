@@ -6,6 +6,14 @@
 
 */
 
+@mixin mx-modal-md{
+    width: 100%;
+    height: 91vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
 @mixin mx-modal-sm{
     width: 100%;
     height: 60vh;

@@ -1,0 +1,45 @@
+@use '../../../../styles/_abstracts/mixins' as m;
+
+.main-modal{
+    @include m.mx-modal-md;
+
+    .header{
+        @include m.mx-header-basic;
+
+        .title{
+            @include m.mx-text-title-lg;
+        }
+    }
+
+    .body{
+        @include m.mx-body-basic;
+        justify-content: flex-start;
+        gap: 1rem;
+
+        .sub-title{
+            @include m.mx-text-body;
+            margin-top: 1rem;
+        }
+
+        .list-container{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .list-item{
+                width: 32%;
+                display:flex;
+                flex-direction: column;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.301);
+                padding: 1rem;
+            }
+        }
+    }
+
+    .footer{
+        @include m.mx-footer-basic;
+    }
+}

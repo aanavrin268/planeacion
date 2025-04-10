@@ -179,11 +179,17 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   chooseHistoricOverwrite(){
+    const bundle  = {
+      idPlan: this.plan.id,
+    };
+
     const modalRef = this.modal.open(ChooseHistoricsComponent, {
       centered: true, 
-      size: 'md',
+      size: 'lg',
       windowClass: 'redondo'
     });
+
+    modalRef.componentInstance.dataBundle = bundle;
 
   }
 
@@ -1001,7 +1007,7 @@ Swal.fire({
   }
  
 
-  
+
   insertPlanUnionPromise = (name:string, type:string) => {
     return new Promise((resolve, reject) => {
       
