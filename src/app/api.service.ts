@@ -15,6 +15,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  deleteHistoricPublic(plan_name: string): Observable<any>{
+    const payload = {p_name: plan_name};
+
+    return this.http.post(`${this.apiUrl}/api/deleteHistoric`,
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    );
+  }
+
 
   getPlanPrivateItemsByProvider(provider_name: string):Observable<any>{
     const payload = {p_provider: provider_name};

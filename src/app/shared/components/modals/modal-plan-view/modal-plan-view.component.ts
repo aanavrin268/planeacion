@@ -181,6 +181,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   chooseHistoricOverwrite(){
     const bundle  = {
       idPlan: this.plan.id,
+      idValue: this.idValue,
+      ogData: this.originalData,
     };
 
     const modalRef = this.modal.open(ChooseHistoricsComponent, {

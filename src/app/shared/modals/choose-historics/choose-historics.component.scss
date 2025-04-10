@@ -18,7 +18,9 @@
 
         .sub-title{
             @include m.mx-text-body;
-            margin-top: 1rem;
+            margin-top: .6rem;
+            width:100%;
+            text-align: left;
         }
 
         .list-container{
@@ -26,15 +28,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            padding: 1rem;
+            gap: 1rem;;
 
             .list-item{
-                width: 32%;
+                width: calc(30% - 16px);
+                height: 120px;
                 display:flex;
                 flex-direction: column;
                 background-color: white;
                 border-radius: 12px;
                 box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.301);
                 padding: 1rem;
+                transition: all 0.2s ease-in-out;
+
+                &:hover{
+                    cursor: pointer;
+                    transform: scale(1.014);
+                    background-color: rgb(201, 201, 201);
+                }
+            }
+
+            .selected{
+                border: 2px solid green;
             }
         }
     }
