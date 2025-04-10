@@ -29,12 +29,65 @@
 
 */
 
+@mixin mx-layout-background{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    align-items: flex-start;
+    justify-content: center;
+    background: #DFDFDF;
+    background: linear-gradient(135deg, #DFDFDF, #FFFAF8);
+
+}
+
+@mixin mx-section-main-custom($mt){
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    margin-top: $mt;
+}
+
+@mixin mx-layout-body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+@mixin mx-layout-basic{
+    display: flex;
+    flex-direction: column;
+    width: 73vw;
+    height: 100%;
+    margin-top: 1.5rem;
+}
+
+
+
+@mixin mx-section-main-basic{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
 @mixin mx-body-basic{
     width: 100%;
     height: 80%;
     display: flex;  
     flex-direction: column;
     overflow-y: auto;
+}
+
+@mixin mx-header-custom($height, $justify-content){
+    width: 100%;
+    height: $height;
+    display: flex;  
+    justify-content: $justify-content;
+    align-items: center;
 }
 
 @mixin mx-header-basic{
