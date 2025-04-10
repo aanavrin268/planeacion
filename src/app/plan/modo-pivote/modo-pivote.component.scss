@@ -1,0 +1,142 @@
+
+.pivot-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    min-width: 150px;
+  }
+  
+  .swap-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+  
+  .swap-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  
+  .pivot-table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+  }
+  
+  .pivot-table th,
+  .pivot-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .pivot-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .pivot-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .pivot-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .total-row {
+    font-weight: bold;
+    background-color: #e8f4f8 !important;
+  }
+  
+  .total-cell {
+    background-color: #e8f4f8;
+    font-weight: bold;
+  }
+  
+  .editable-cell {
+    cursor: cell;
+    position: relative;
+  }
+  
+  .editable-cell:hover {
+    background-color: #f0f7ff;
+  }
+  
+  .cell-input {
+    width: 80%;
+    padding: 5px;
+    border: 2px solid #4CAF50;
+    border-radius: 3px;
+    text-align: center;
+  }
+  
+  .instructions {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+  }
+  
+  .instructions ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+  }
+  
+  .data-preview {
+    margin-top: 30px;
+  }
+  
+  .raw-data {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .raw-data th,
+  .raw-data td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .raw-data th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .raw-data tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }

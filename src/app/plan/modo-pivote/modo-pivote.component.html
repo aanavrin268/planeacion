@@ -1,1 +1,100 @@
-<p>modo-pivote works!</p>
+<!-- pivot-table.component.html -->
+<div class="pivot-container">
+    <h2>Tabla Pivotante Editable</h2>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="rowField">Campo para Filas:</label>
+        <select id="rowField" [(ngModel)]="rowField" (change)="updatePivotTable()">
+          <option *ngFor="let field of availableFields" [value]="field">{{ field }}</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="columnField">Campo para Columnas:</label>
+        <select id="columnField" [(ngModel)]="columnField" (change)="updatePivotTable()">
+          <option *ngFor="let field of availableFields" [value]="field">{{ field }}</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="valueField">Campo para Valores:</label>
+        <select id="valueField" [(ngModel)]="valueField" (change)="updatePivotTable()">
+          <option value="sales">Ventas</option>
+        </select>
+      </div>
+      
+      <button (click)="swapRowsAndColumns()" class="swap-btn">Intercambiar Filas/Columnas</button>
+    </div>
+    
+    <div class="table-wrapper">
+      <table class="pivot-table">
+        <thead>
+          <tr>
+            <th>{{ rowField | titlecase }}</th>
+            <th *ngFor="let col of uniqueColumnValues">{{ col }}</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pivotData; let rowIndex = index" [class.total-row]="rowIndex === pivotData.length - 1">
+            <td [class.total-cell]="rowIndex === pivotData.length - 1">{{ row[rowField] }}</td>
+            <td *ngFor="let col of uniqueColumnValues" 
+                [class.total-cell]="rowIndex === pivotData.length - 1"
+                [class.editable-cell]="rowIndex !== pivotData.length - 1"
+                (dblclick)="startEditing(rowIndex, col, row[col])">
+                
+              <ng-container *ngIf="!isEditing(rowIndex, col); else editTemplate">
+                {{ row[col] }}
+              </ng-container>
+              
+              <ng-template #editTemplate>
+                <input type="number" 
+                       [(ngModel)]="editingValue" 
+                       (keydown)="handleKeyDown($event)"
+                       (blur)="finishEditing()"
+                       (click)="$event.stopPropagation()"
+                       class="cell-input"
+                       autoFocus>
+              </ng-template>
+            </td>
+            <td [class.total-cell]="true">{{ row['Total'] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="instructions">
+      <p><strong>Instrucciones para editar:</strong></p>
+      <ul>
+        <li>Haz doble clic en una celda para comenzar a editar</li>
+        <li>Presiona Enter para guardar los cambios</li>
+        <li>Presiona Escape para cancelar</li>
+        <li>Las celdas de totales no son editables</li>
+      </ul>
+    </div>
+    
+    <div class="data-preview">
+      <h3>Datos originales</h3>
+      <table class="raw-data">
+        <thead>
+          <tr>
+            <th>Región</th>
+            <th>Producto</th>
+            <th>Año</th>
+            <th>Trimestre</th>
+            <th>Ventas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of originalData">
+            <td>{{ item.region }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.year }}</td>
+            <td>{{ item.quarter }}</td>
+            <td>{{ item.sales | number:'1.0-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
