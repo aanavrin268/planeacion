@@ -387,6 +387,30 @@
                 position: relative;
                 //box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.336);
 
+                .td-container{
+                  display:flex;
+                  gap:1rem;
+                  justify-content: flex-start;
+                  align-items: center;
+
+                  .t-icon{
+                      width: 35px;
+                      height: 35px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      border-radius: 50%;
+                      transition: all 0.3s ease-in-out;
+                      font-size: 18px;
+                      
+                      &:hover{
+                        cursor:pointer;
+                        background-color: rgba(0, 0, 0, 0.226);
+                      }
+
+                  }
+                }
+
               
                 .float-selected{
                   position: fixed;
@@ -434,12 +458,12 @@
 
                     .mat-mdc-row:hover {
                         //background-color: rgb(228, 20, 20);
-                        cursor: pointer;
+                        //cursor: pointer;
                       }
 
                                             
                     tr.mat-row {
-                        cursor: pointer;
+                        //cursor: pointer;
                     }
                     
                     tr.mat-row:hover {
@@ -448,7 +472,7 @@
 
 
                     mat-row {
-                        cursor: pointer;
+                        //cursor: pointer;
                         //background-color: #bb1e1e !important;
 
                       }
