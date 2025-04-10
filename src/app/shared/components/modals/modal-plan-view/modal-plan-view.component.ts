@@ -178,6 +178,21 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.loadRowsData();
   }
 
+
+  filterData(): void {
+    if (this.searchText.trim()) {
+      this.filteredData = this.originalData.filter(item => {
+        return Object.values(item).some(val =>
+          String(val).toLowerCase().includes(this.searchText.toLowerCase())
+        );
+      });
+    } else {
+      this.filteredData = [...this.originalData];
+    }
+  
+    this.dataSource.data = this.filteredData;
+  }
+
   chooseHistoricOverwrite(){
     const bundle  = {
       idPlan: this.plan.id,

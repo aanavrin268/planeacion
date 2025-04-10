@@ -68,7 +68,10 @@
 
           <div class="input-container">
             <i class="bi bi-search icons"></i>
-            <input type="text" placeholder="Ingresa algo para buscar">
+            <input type="text" placeholder="Ingresa algo para buscar"
+              [(ngModel)]="searchText"
+              (input)="filterData()"
+            >
           </div>
         
         </div>
