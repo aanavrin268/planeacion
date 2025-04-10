@@ -44,7 +44,10 @@
                     <div class="plan" *ngFor="let plan of plan_list">
                         <i class="bi bi-clock-history plan-icon"></i>
                         <span class="p-title">{{ plan.name }}</span>
-                        <span class="p-sub">{{ plan.date_save }}</span>
+                        <span class="p-sub"> {{ plan.date_save | date:'dd-MM-yyyy' }}</span>
+
+                       
+
                         <button class="p-button" (click)="selectPlan(plan)">Seleccionar</button>
                     </div>
                 </div>

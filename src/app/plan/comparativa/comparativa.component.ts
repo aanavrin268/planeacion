@@ -156,6 +156,7 @@ displayedColumns: string[] = [];
       this.behaviorService.planHistoric$.subscribe(
         (data) => {
           this.plan_list = data;
+          console.log("list", this.plan_list);
         }
       );
 

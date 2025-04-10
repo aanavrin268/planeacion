@@ -114,6 +114,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   protected qs_array:any[] = [];
   protected subMenuList: any[] = [];
 
+  protected isFirstOpen: boolean;
+
+
   constructor(private modal: NgbModal, private service: ApiService, private router: Router, 
     private cdRef: ChangeDetectorRef, private active: NgbActiveModal
   ){
@@ -139,6 +142,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.monthText = '';
     this.monthQ = '';
     this.showSettingsMenu = false;
+
+    this.isFirstOpen = true;
+
 
 
 
@@ -174,8 +180,34 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   
   ngOnInit(): void {
 
-    this.getMonthlyData()
-    this.loadRowsData();
+    if(!this.isFirstOpen){
+      this.getMonthlyData()
+      this.loadRowsData();
+
+    }else {
+      
+    let newHeaders: any[] = [];
+    let allHeaders: any[] = [];
+
+    newHeaders = this.headersQ1;
+    newHeaders = newHeaders.concat(this.headersQ2).concat(this.headersQ3).concat(this.headersQ4);
+    
+    allHeaders = this.headers.concat(newHeaders);
+  
+    this.headers = Array.from(
+      new Map(allHeaders.map(header => [header.title, header])).values()
+    );
+  
+    this.displayedColumns = this.headers.map(header => 
+      header.title.toLowerCase().replace(' ', '')
+    );
+
+    this.monthQ = 'All Qs';
+
+      this.loadRowsData();
+    }
+    
+    
   }
 
 
@@ -532,6 +564,8 @@ isNumeric(value: any): boolean {
       );
       this.isFirstShow = false; 
     }
+
+
     if (this.showUtilityDetails && this.isDeatilsFirstShow) {
       gsap.fromTo(
         '.utilidad-details',
@@ -543,7 +577,7 @@ isNumeric(value: any): boolean {
           opacity: 1,
           y: 0,
           duration: 0.6,
-          ease: 'bounce.out',
+          ease: 'power2.out',
         }
       );
       this.isDeatilsFirstShow = false;
@@ -560,6 +594,8 @@ isNumeric(value: any): boolean {
       });
       this.isDeatilsFirstShow = true; 
     }
+
+
 
 
     if (this.animateNextCard) {
