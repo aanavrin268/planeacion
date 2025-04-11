@@ -32,8 +32,8 @@ export class DashPlanComponent implements OnInit {
 
   constructor(private modal: NgbModal, private apiService: ApiService, private router: Router, private behaviors: BehaviorsService){
     this.plan_list = [
-      {id:1, name: 'Plan público', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
-      {id: 2, name: 'Plan privado', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
+      {id:1, name: 'PLAN VENTA PÚBLICO', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
+      {id: 2, name: 'PLAN VENTA PRIVADO', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
 
     ];
 

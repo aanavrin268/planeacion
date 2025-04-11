@@ -1,8 +1,28 @@
 <div class="main-modal">
     <div class="header">
         <span class="title">
-            Vista actual
+        
         </span>
+
+        <div class="v-container">
+          <div class="h-container">
+            <span class="sub">{{plan.name}}</span>
+            <div class="qs-container">
+               
+              
+              <span class="q-text"
+              (click)="selectColumnsNumber()">{{monthQ}}</span>
+              <i class="bi bi-x-square red" *ngIf="qs_array.length > 1"
+              (click)="restAllColumns()"></i>
+          </div>
+
+          </div>
+          <span class="title">nombre_versión</span>
+
+        
+
+
+        </div>
 
         <i class="bi bi-three-dots-vertical circle-icon"
         (click)="openSettingsMenu()"></i>
@@ -36,13 +56,7 @@
 
     <div class="body">
         <div class="options-container">
-            <div class="qs-container">
-                <span class="sub">{{plan.name + monthText}}</span>
-                <span class="q-text"
-                (click)="selectColumnsNumber()">{{monthQ}}</span>
-                <i class="bi bi-x-square red" *ngIf="qs_array.length > 1"
-                (click)="restAllColumns()"></i>
-            </div>
+          
 
             <div class="qs-icon-container">
 
