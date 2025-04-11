@@ -41,13 +41,30 @@
             <div class="body" *ngIf="!isPlanSelected">
                 <span>Selecciona la versión del plan que deseas comparar.</span>
                 <div class="plan-container">
-                    <div class="plan" *ngFor="let plan of plan_list">
+                    <div class="plan" *ngFor="let plan of plan_list; let i = index;"
+                        (click)="selectManyPlans(plan)" 
+                        [ngClass]="{'selected-item': plan.selected}">
                         <i class="bi bi-clock-history plan-icon"></i>
                         <span class="p-title">{{ plan.name }}</span>
                         <span class="p-sub">{{ plan.date_save }}</span>
                         <button class="p-button" (click)="selectPlan(plan)">Seleccionar</button>
                     </div>
                 </div>
+
+                <div class="selected-cotainer">
+                    @if(selected_plan_list.length === 1){
+                        <span class="ms-text">1 producto seleccionado</span>
+                      }@else if(selected_plan_list.length > 1){
+                        <span class="ms-text">{{selected_plan_list.length }} productos seleccionados</span>
+                      }
+        
+                      <div class="ms-icons-container">
+                        <i class="bi bi-pencil-square ms-icon" (click)="openMultiEdit()"></i>
+                        <i class="bi bi-x-lg ms-icon" (click)="cleanAllRows()"></i>
+                      </div>
+
+                </div>
+
             </div>
         </section>
 

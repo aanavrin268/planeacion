@@ -115,6 +115,8 @@ export class DashPlanComponent implements OnInit {
     console.log("es", plan);
     const id = plan.id;
 
+    plan.versions = 4;
+
     if(plan.versions === 'Sin versiones')  this.showAlert();
     else{
       this.router.navigate(['/comparativa', id]);

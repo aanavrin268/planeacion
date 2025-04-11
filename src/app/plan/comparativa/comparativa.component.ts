@@ -39,6 +39,14 @@ export class ComparativaComponent implements OnInit, AfterViewChecked {
   protected settings_list_menu: any[] = [];
   protected filteredData: any[] = [];
 
+  protected selected_plan_list: any[] = [];
+
+
+  protected dummy_list: any[] = [
+    {id:1, name: 'plan_version1', selected: false, data:[]},    {id:2, name: 'plan_version2', selected: false, data:[]},
+    {id:3, name: 'plan_version3', selected: false, data:[]},    {id:4, name: 'plan_version4', selected: false, data:[]},
+  ];
+
 
 
   dataSource = new MatTableDataSource<any>();  
@@ -69,11 +77,43 @@ displayedColumns: string[] = [];
 
     });
 
+    this.plan_list = this.dummy_list;
 
 
-    this.getPlaListData();
+
+    //this.getPlaListData();
 
 
+  }
+
+  showError(){
+    Swal.fire('Error, limite alcanzado', 'El máximo de archivos a seleccionar es de 3', 'error');
+  }
+
+
+
+
+  selectManyPlans(plan:any){
+
+    if(this.selected_plan_list.length === 3){
+        this.showError();
+    }else{
+      plan.selected = !plan.selected;
+      this.selected_plan_list.push(plan);
+
+    }
+
+
+    console.log("list;", this.selected_plan_list);
+
+  }
+
+  cleanAllRows(){
+
+  }
+
+
+  openMultiEdit(){
   }
 
 
@@ -143,6 +183,9 @@ displayedColumns: string[] = [];
 
   
   getPlaListData(){
+
+    this.plan_list = this.dummy_list
+
     if(this.id == 1){
       
     this.displayedColumns = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
@@ -179,13 +222,18 @@ displayedColumns: string[] = [];
   }
 
   afterModalClosed(result:any){
-
+/*
     this.service.getAllPlanHistoricUnion().subscribe({
       next:(response)=> {
         console.log("historic", response);
         this.plan_list = response.result;
+        
       }
     });
+
+    */
+
+
   }
 
   openEditList(){
