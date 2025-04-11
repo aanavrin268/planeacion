@@ -23,6 +23,7 @@ import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inven
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
 import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
 import { PruebaTablaComponent } from './pruebas/prueba-tabla/prueba-tabla.component';
+import { MultiComparativaComponent } from './plan/multi-comparativa/multi-comparativa.component';
 
 
 
@@ -41,6 +42,7 @@ export const routes: Routes = [
 {path: 'dashInventarios', component: DashInventarioComponent},
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
+{path: 'multi-comparativa', component: MultiComparativaComponent},
 
 {path: 'pruebaaa', component: PruebaTablaComponent},
 

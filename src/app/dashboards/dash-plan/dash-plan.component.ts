@@ -51,7 +51,7 @@ export class DashPlanComponent implements OnInit {
   ngOnInit(): void {
 
 
-    /*
+    
     this.plan_version_list[1].versions='Sin versiones';
     this.apiService.getPlanPublicoKeys().subscribe({
       next:(response:any) => {
@@ -77,7 +77,7 @@ export class DashPlanComponent implements OnInit {
 
       }
     });
-    */
+    
  
     this.loadListData();
 
@@ -114,6 +114,8 @@ export class DashPlanComponent implements OnInit {
   openComparative(plan: any){
     console.log("es", plan);
     const id = plan.id;
+
+    //plan.versions = 4;
 
     if(plan.versions === 'Sin versiones')  this.showAlert();
     else{

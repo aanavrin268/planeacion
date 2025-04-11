@@ -10,7 +10,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
 import { BehaviorsService } from '../../core/services/behaviors.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 
@@ -39,6 +39,14 @@ export class ComparativaComponent implements OnInit, AfterViewChecked {
   protected settings_list_menu: any[] = [];
   protected filteredData: any[] = [];
 
+  protected selected_plan_list: any[] = [];
+
+
+  protected dummy_list: any[] = [
+    {id:1, name: 'plan_version1', selected: false, data:[]},    {id:2, name: 'plan_version2', selected: false, data:[]},
+    {id:3, name: 'plan_version3', selected: false, data:[]},    {id:4, name: 'plan_version4', selected: false, data:[]},
+  ];
+
 
 
   dataSource = new MatTableDataSource<any>();  
@@ -51,7 +59,7 @@ displayedColumns: string[] = [];
 
 
   constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, private router: Router
   ){
 
     this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
@@ -69,11 +77,79 @@ displayedColumns: string[] = [];
 
     });
 
+    //this.plan_list = this.dummy_list;
+
 
 
     this.getPlaListData();
 
 
+  }
+
+  goToCompare(){
+    if(this.selected_plan_list.length === 1){
+      this.showError("Error, faltan datos","Seleccina al menos 2 planes para la comparativa");
+    }else {
+      this.router.navigate(['multi-comparativa'], { queryParams: 
+        { selected_data: JSON.stringify(this.selected_plan_list) } });
+    }
+  }
+
+  cleanAllRows(){
+    this.selected_plan_list = [];
+
+    this.plan_list.forEach((plan) => {
+      plan.selected = false;
+    });
+  }
+
+
+
+
+  showError(title:string, message: string){
+    Swal.fire(title, message, 'error');
+  }
+
+
+
+
+  selectManyPlans(plan:any){
+
+    if(this.selected_plan_list.length === 3){
+        this.showError("Error, limite alcanzado", "Solo puedes seleccionar 3 planes para la comparativa");
+    }else{
+      plan.selected = !plan.selected;
+      this.selected_plan_list.push(plan);
+
+    }
+
+
+    console.log("list;", this.selected_plan_list);
+
+  }
+
+  cleanOneRow(planToRemove: any) {
+
+    this.plan_list.forEach((plan) => {
+      planToRemove.selected = false;
+    });
+
+    this.selected_plan_list = this.selected_plan_list.filter(
+      plan => plan.id_ph !== planToRemove.id_ph
+    );
+
+
+
+    
+  
+
+
+    console.log("Lista actualizada:", this.selected_plan_list);
+  }
+
+
+
+  openMultiEdit(){
   }
 
 
@@ -143,6 +219,9 @@ displayedColumns: string[] = [];
 
   
   getPlaListData(){
+
+    this.plan_list = this.dummy_list
+
     if(this.id == 1){
       
     this.displayedColumns = ['nombre', 'inventario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
@@ -180,13 +259,18 @@ displayedColumns: string[] = [];
   }
 
   afterModalClosed(result:any){
-
+/*
     this.service.getAllPlanHistoricUnion().subscribe({
       next:(response)=> {
         console.log("historic", response);
         this.plan_list = response.result;
+        
       }
     });
+
+    */
+
+
   }
 
   openEditList(){

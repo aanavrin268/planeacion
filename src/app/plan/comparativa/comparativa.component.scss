@@ -224,6 +224,7 @@ $white-20: rgba(255, 255, 255, 0.2);
                 display: flex;
                 flex-direction: column;
                 margin-top: 1.5rem;
+                position: relative;
 
                 .plan-container{
                     width: 100%;
@@ -253,6 +254,8 @@ $white-20: rgba(255, 255, 255, 0.2);
                             border: 1px solid green;
                         }
 
+
+                    
                         .plan-icon{
                             position: absolute;
                             top: 2%;
@@ -312,6 +315,111 @@ $white-20: rgba(255, 255, 255, 0.2);
                                 font-size: 14px;
                             }
                         }
+                    }
+
+                    .selected-item{
+                        border: 3px solid green;
+                        filter: contrast(0.3);
+                    }
+                }
+
+                .selected-cotainer{
+                    width: 70%;
+                    height: 20vh;
+                    background-color: rgb(36, 36, 36);
+                    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.315);
+                    position: absolute;
+                    z-index: 10;
+                    border-radius: 8px;
+                    padding: 1rem 3rem;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    bottom: 20%;
+                    right: 26%;
+
+                    .t-container{
+                        display:flex;
+                        flex-direction: column;
+
+                        .hh-container{
+                            display:flex;
+                            margin-top: .8rem;
+                            gap: .8rem;
+
+                            .hh-item{
+                                display:flex;
+                                gap: .2rem;
+
+                                .hh-text{
+                                    color: white;
+                                    font-size:12px;
+                                }
+
+                                .ms-icon{
+                                    color: white;
+                                    font-size:18px;
+                                    &:hover{
+                                        cursor:pointer;
+                                    }
+                                }
+                            }
+
+                            
+                        }
+
+                    }
+          
+          
+                    .ms-icons-container{
+                      width: 35%;
+                      display:flex;
+                      gap:1rem;
+                      align-items: center;
+                      justify-content: flex-end;
+
+                      .ms-btn{
+                        color:white;
+                        padding: .3rem .6rem;
+                        font-size: 15px;
+                        transition: all 0.2s ease-in-out;
+                        outline: none;
+                        background-color: rgb(68, 68, 68);
+                        border:none
+
+                        &:hover{
+                            cursor:pointer;
+                            background-color: rgba(59, 58, 58, 0.301);
+                        }
+                      }
+          
+          
+                      .ms-icon{
+                        color: white;
+                        transition: all 0.2s ease-in-out;
+                        width: 30px;
+                        height: 30px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        
+                        &:hover{
+                          cursor:pointer;
+                          transform: scale(1.02);
+                          background-color: rgba(128, 128, 128, 0.301);
+                        }
+                      }
+                    }
+          
+                   
+          
+                    .ms-text{
+                      width:65%;
+                      line-height: 1.1;
+                      font-size:16px;
+                      color: white;
+                      font-weight: 600;
                     }
                 }
             }
