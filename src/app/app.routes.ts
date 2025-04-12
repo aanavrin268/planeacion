@@ -75,7 +75,7 @@ export const routes: Routes = [
 
 
 {path: 'test', component:TestComponent},
-{path: '', component: HomeComponent, pathMatch: 'full'}
+{path: '', component: CanicasComponent, pathMatch: 'full'}
 
 
 
