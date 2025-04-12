@@ -15,6 +15,16 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+
+
+  getSpecificHistoricDataPlan(id_plan: number, plan_name:string): Observable<any>{
+    const payload = {p_id_plan: id_plan, p_plan_name: plan_name};
+
+    return this.http.post(`${this.apiUrl}/api/getSpeHistoric`,
+      payload, { headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    )
+  }
+
   deleteHistoricPublic(plan_name: string): Observable<any>{
     const payload = {p_name: plan_name};
 
