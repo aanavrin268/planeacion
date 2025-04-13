@@ -22,6 +22,7 @@ import { DashProductossComponent } from './dashboards/dash-productoss/dash-produ
 import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
 import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
+import { MainComparativaComponent } from './plan/main-comparativa/main-comparativa.component';
 
 
 
@@ -41,6 +42,7 @@ export const routes: Routes = [
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
 
+{path: 'main-comparativa', component: MainComparativaComponent},
 
 
 {path: 'stPlan', component: ExampleComponent},
@@ -75,7 +77,7 @@ export const routes: Routes = [
 
 
 {path: 'test', component:TestComponent},
-{path: '', component: CanicasComponent, pathMatch: 'full'}
+{path: '', component: MainComparativaComponent, pathMatch: 'full'}
 
 
 
