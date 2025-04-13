@@ -120,6 +120,13 @@
     font-weight: 720;
 }
 
+@mixin mx-text-sub-title{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: v.$text-body;
+}
+
 @mixin mx-text-body{
         font-size: 16px;
         font-weight: 600;

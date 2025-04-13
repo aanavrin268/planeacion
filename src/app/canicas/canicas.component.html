@@ -1,6 +1,10 @@
 <div class="main-container">
     <section class="header">
-      <div class="header-container">
+
+      <i class="bi bi-x c-icons"
+        (click)="close()"></i>
+
+      <div class="header-container"  *ngIf="showEdits">
         <span class="title">Comparación de planes</span>
         <span class="sub">Modifica el orden de los planes para obtener diferentes resultados.</span>
 
@@ -55,6 +59,8 @@
             (click)="finalCheck()">Aplicar cambios</button>
 
         </div>
+
+
       </div>
     </section>
     <section class="body">

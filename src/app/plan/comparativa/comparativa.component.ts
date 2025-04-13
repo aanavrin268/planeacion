@@ -204,6 +204,9 @@ displayedColumns: string[] = [];
     return differences;
   }
 
+
+  
+
   async getDifferencesPromise(data1: any[], data2: any[]){
     return new Promise((resolve, reject) => {
       try{

@@ -3,7 +3,6 @@ import { QuatriComponent } from './quatri/quatri.component';
 import { TestComponent } from './test/test.component';
 import { FichaTecnicaComponent } from './producto/ficha-tecnica/ficha-tecnica.component';
 import { DraggableComponent } from './producto/draggable/draggable.component';
-import { PruebaComponent } from './prueba/prueba.component';
 import { CanicasComponent } from './canicas/canicas.component';
 import { DashComponent } from './producto/dash/dash.component';
 import { ProductComponent } from './producto/product/product.component';
@@ -22,8 +21,8 @@ import { DashProductossComponent } from './dashboards/dash-productoss/dash-produ
 import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
 import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
-import { PruebaTablaComponent } from './pruebas/prueba-tabla/prueba-tabla.component';
 import { MultiComparativaComponent } from './plan/multi-comparativa/multi-comparativa.component';
+import { MainComparativaComponent } from './plan/main-comparativa/main-comparativa.component';
 
 
 
@@ -44,7 +43,6 @@ export const routes: Routes = [
 {path: 'modo-pivote', component: ModoPivoteComponent},
 {path: 'multi-comparativa', component: MultiComparativaComponent},
 
-{path: 'pruebaaa', component: PruebaTablaComponent},
 
 
 {path: 'stPlan', component: ExampleComponent},
@@ -63,10 +61,7 @@ export const routes: Routes = [
     path: 'drag',
     component: DraggableComponent
 },
-{
-    path: 'prueba',
-    component: PruebaComponent
-},
+
 {
     path: 'dash',
     component: DashComponent
@@ -79,7 +74,7 @@ export const routes: Routes = [
 
 
 {path: 'test', component:TestComponent},
-{path: '', component: PruebaTablaComponent, pathMatch: 'full'}
+{path: '', component: MainComparativaComponent, pathMatch: 'full'}
 
 
 

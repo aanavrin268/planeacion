@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface PLANFULL {
   nombre: string;
@@ -50,6 +51,8 @@ export class CanicasComponent implements OnInit {
   data2: PLAN[] = [];
   data3: PLAN[] = [];
 
+  showEdits: boolean = false;
+
   showResume: boolean = false;
   jsonDiff: any[] = [];
   plan_list: any[] = [];
@@ -62,7 +65,7 @@ export class CanicasComponent implements OnInit {
   costsResult: { plan1: { cost: number; details: string; name: string; percentage: number }; plan2: { cost: number; details: string; name: string; percentage: number }; plan3: { cost: number; details: string; name: string; percentage: number } } | null = null;
   efficiencyResult: { plan: string; efficiency: number; difference: number } = { plan: '', efficiency: 0, difference: 0 };
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private active: NgbActiveModal) {
     this.data1 = [
       {clave: "100.00.10", nombre: "propofol", inventario: "100", enero: "10", facturacion_enero: "1000", febrero: "10", facturacion_febrero: "10000", marzo: "10", facturacion_marzo: "1000", abril: "10", mayo: "10", junio:"11"},
       {clave: "100.00.12", nombre: "captodril", inventario: "1", enero: "1", facturacion_enero: "100", febrero: "1", facturacion_febrero: "10000", marzo: "1", facturacion_marzo: "1200", abril: "1", mayo: "1", junio:"23"},
@@ -97,6 +100,11 @@ export class CanicasComponent implements OnInit {
     this.selectedPlanC = this.plan_list[2];
 
     this.getAllData(this.data1, this.data2, this.data3);
+  }
+
+
+  close(){
+    this.active.close();
   }
 
   finalCheck() {
