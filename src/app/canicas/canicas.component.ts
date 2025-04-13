@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
+  interface PLANFULL {
+    nombre: string;
+    tipo: string;
+    data: PLAN[];
+  }
 
   interface PLAN{
     clave: string;
@@ -18,13 +24,30 @@ import { Component, OnInit } from '@angular/core';
 
   }
 
+  type PlanResult = {
+    nombre: string;
+    data: any[];
+  };
+
+
+  type ResultType = {
+    planA: PlanResult;
+    planB: PlanResult;
+    planC: PlanResult;
+  };
+
 @Component({
   selector: 'app-canicas',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './canicas.component.html',
   styleUrl: './canicas.component.scss'
 })
 export class CanicasComponent implements OnInit {
+
+  planA: PLANFULL;
+  planB: PLANFULL;
+  planC: PLANFULL;
+
 
   data1: PLAN[] = [];
   data2: PLAN[] = [];
@@ -34,6 +57,11 @@ export class CanicasComponent implements OnInit {
 
 
   jsonDiff: any[] = [];
+
+  plan_list: any[] = [];
+  selectedPlanA: any;
+  selectedPlanB: any;
+  selectedPlanC: any;
 
  
 
@@ -87,11 +115,125 @@ export class CanicasComponent implements OnInit {
 
 
     ]
+
+    this.planA = {
+      nombre: 'plan_conservadir', tipo: "1", data: []
+    }
+
+    
+    this.planB = {
+      nombre: 'plan_normal', tipo: "1", data: []
+    }
+
+    
+    this.planC = {
+      nombre: 'plan_magico', tipo: "1", data: []
+    }
+
+
   }
+
+
   ngOnInit(): void {
 
-    this.compareData(this.data1, this.data2);
-    this.compareData(this.data1, this.data3);
+    this.planA.data = this.data1;
+    this.planB.data = this.data2;
+    this.planC.data = this.data3;
+
+
+    this. plan_list = [this.planA.nombre, this.planB.nombre, 
+      this.planC.nombre
+    ]
+
+
+    this.selectedPlanA = this.plan_list[0];
+    this.selectedPlanB = this.plan_list[1];
+    this.selectedPlanC = this.plan_list[2];
+
+
+
+    console.log("Planes", this.plan_list);
+
+    this.getAllData(this.data1, this.data2, this.data3);
+
+    
+
+  }
+
+
+    finalCheck(){
+      const finas = this.checkData();
+
+      console.log("resultado ", finas);
+
+      this.getAllData(finas.planA.data, finas.planB.data, finas.planC.data);
+
+
+    }
+
+  checkData() {
+    try {
+      const result = this.changeData();
+      console.log("previa", result);
+  
+      const plansMap = {
+        [this.planA.nombre]: this.planA,
+        [this.planB.nombre]: this.planB,
+        [this.planC.nombre]: this.planC
+      };
+  
+      // Definimos las claves como tipo literal
+      const planKeys: Array<keyof ResultType> = ['planA', 'planB', 'planC'];
+      
+      // Creamos objeto de resultado con el tipo correcto
+      const typedResult: ResultType = {} as ResultType;
+  
+      planKeys.forEach(key => {
+        typedResult[key] = {
+          nombre: result[key],
+          data: plansMap[result[key]]?.data || []
+        };
+      });
+  
+      return typedResult;
+  
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
+  changeData() {
+    // 1. Crear el objeto con las selecciones actuales
+    const newPlanList = {
+      planA: this.selectedPlanA,
+      planB: this.selectedPlanB,
+      planC: this.selectedPlanC
+    };
+  
+    // 2. Validar duplicados
+    const selectedValues = Object.values(newPlanList);
+    const uniqueValues = new Set(selectedValues);
+    
+    if (selectedValues.length !== uniqueValues.size) {
+      throw new Error('No se permiten planes duplicados');
+    }
+  
+    // 3. Si pasa la validación, continuar
+    console.log("order:", newPlanList);
+    return newPlanList;
+  }
+
+
+
+
+
+  getAllData(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]){
+    //this.compareData(this.data1, this.data2);
+    //this.compareData(this.data1, this.data3);
+    this.compareData(dataS1, dataS2);
+    this.compareData(dataS1, dataS3);
 
 
     // Análisis de precisión
@@ -111,6 +253,7 @@ export class CanicasComponent implements OnInit {
   console.log('Eficiencia de inventario:', efficiency);
 
   }
+
 
   openResumen(){
     this.showResume = !this.showResume;
@@ -178,17 +321,33 @@ export class CanicasComponent implements OnInit {
     console.log('Diferencias encontradas:', this.jsonDiff);
   }
 
+
+
+
+
   /**
  * Calcula qué plan tuvo una planeación más cercana a la realidad (ventas fijas)
  */
+// Método actualizado para comparar los 3 planes
 calculateMostAccuratePlan(): { plan: string, accuracy: number } {
+  const accuracy1 = this.calculatePlanningAccuracy(this.data1);
   const accuracy2 = this.calculatePlanningAccuracy(this.data2);
   const accuracy3 = this.calculatePlanningAccuracy(this.data3);
   
-  return accuracy2 > accuracy3 
-    ? { plan: 'data2', accuracy: accuracy2 }
-    : { plan: 'data3', accuracy: accuracy3 };
+  // Encontrar el plan con mayor precisión
+  const plans = [
+    { plan: 'data1', accuracy: accuracy1 },
+    { plan: 'data2', accuracy: accuracy2 },
+    { plan: 'data3', accuracy: accuracy3 }
+  ];
+  
+  return plans.reduce((prev, current) => 
+    (prev.accuracy > current.accuracy) ? prev : current
+  );
 }
+
+
+
 
 private calculatePlanningAccuracy(data: PLAN[]): number {
   let totalAccuracy = 0;
@@ -212,13 +371,23 @@ private calculatePlanningAccuracy(data: PLAN[]): number {
  * Evalúa qué plan tuvo mejor manejo de inventario (planeado vs vendido)
  */
 calculateInventoryEfficiency(): { plan: string, efficiency: number } {
+  const efficiency1 = this.calculateInventoryScore(this.data1);
   const efficiency2 = this.calculateInventoryScore(this.data2);
   const efficiency3 = this.calculateInventoryScore(this.data3);
   
-  return efficiency2 > efficiency3 
-    ? { plan: 'data2', efficiency: efficiency2 }
-    : { plan: 'data3', efficiency: efficiency3 };
+  const plans = [
+    { plan: 'data1', efficiency: efficiency1 },
+    { plan: 'data2', efficiency: efficiency2 },
+    { plan: 'data3', efficiency: efficiency3 }
+  ];
+  
+  return plans.reduce((prev, current) => 
+    (prev.efficiency > current.efficiency) ? prev : current
+  );
 }
+
+
+
 
 private calculateInventoryScore(data: PLAN[]): number {
   return data.reduce((score, item) => {
@@ -235,17 +404,22 @@ private calculateInventoryScore(data: PLAN[]): number {
  * Identifica qué plan fue más conservador/agresivo en sus proyecciones
  */
 calculatePlanningStyle(): { 
+  plan1: { style: string, score: number },
   plan2: { style: string, score: number }, 
   plan3: { style: string, score: number } 
 } {
-  const style2 = this.determinePlanningStyle(this.data2);
-  const style3 = this.determinePlanningStyle(this.data3);
-  
   return {
-    plan2: style2,
-    plan3: style3
+    plan1: this.determinePlanningStyle(this.data1),
+    plan2: this.determinePlanningStyle(this.data2),
+    plan3: this.determinePlanningStyle(this.data3)
   };
 }
+
+
+
+
+
+
 
 private determinePlanningStyle(data: PLAN[]): { style: string, score: number } {
   let overPlan = 0;
@@ -275,17 +449,18 @@ private determinePlanningStyle(data: PLAN[]): { style: string, score: number } {
  * Calcula el costo de oportunidad de cada plan
  */
 calculateOpportunityCost(): { 
+  plan1: { cost: number, details: string },
   plan2: { cost: number, details: string }, 
   plan3: { cost: number, details: string } 
 } {
-  const cost2 = this.computeOpportunityCost(this.data2);
-  const cost3 = this.computeOpportunityCost(this.data3);
-  
   return {
-    plan2: cost2,
-    plan3: cost3
+    plan1: this.computeOpportunityCost(this.data1),
+    plan2: this.computeOpportunityCost(this.data2),
+    plan3: this.computeOpportunityCost(this.data3)
   };
 }
+
+
 
 private computeOpportunityCost(data: PLAN[]): { cost: number, details: string } {
   let lostSales = 0;

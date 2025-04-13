@@ -1,87 +1,181 @@
-<button class="btn btn-primary" (click)="openResumen()">
-    {{ showResume ? 'Ocultar resumen' : 'Mostrar resumen' }}
-  </button>
+<div class="main-container">
+    <section class="header">
+      <div class="header-container">
+        <span class="title">Comparación de planes</span>
+        <span class="sub">Modifica el orden de los planes para obtener diferentes resultados.</span>
+
+        <div class="select-container">
+
+          <div class="c-container">
+            <label for="">Plan de referencia (A)</label>
+            <select name="" id="" class="form-control" 
+              
+              [(ngModel)]="selectedPlanA">
+              <option value="" disabled>
+                selecciona uno
+              </option>
+              <option *ngFor="let plan of plan_list"
+                [value]="plan">
+                {{plan}}
+              </option>
+            </select>
+          </div>
+
+          <div class="c-container">
+            <label for="">Plan a comparar (B)</label>
+            <select name="" id="" class="form-control"
+              [(ngModel)]="selectedPlanB">
+              <option value=""  disabled>
+                selecciona uno
+              </option>
+              <option *ngFor="let plan of plan_list"
+                [value]="plan">
+                {{plan}}
+              </option>
+            </select>
+          </div>
+          <div class="c-container">
+            <label for="">Plan a comparar (C)</label>
+            <select name="" id="" class="form-control"
+              [(ngModel)]="selectedPlanC">
+              <option value=""  disabled>
+                selecciona uno
+              </option>
+              <option *ngFor="let plan of plan_list"
+                [value]="plan">
+                {{plan}}
+              </option>
+            </select>
+          </div>
+
+
+          
+
+          <button class="btn btn-primary"
+            (click)="finalCheck()">Aplicar cambios</button>
+
+        </div>
+      </div>
+    </section>
+    <section class="body">
+
+
+      <div class="executive-summary-container">
+  <h2 class="summary-title">Resumen Ejecutivo de Planes</h2>
   
-  <div class="executive-summary-container" *ngIf="showResume">
-    <h2 class="summary-title">Resumen Ejecutivo de Planes</h2>
-    
-    <div class="summary-grid">
-      <!-- Precisión -->
-      <div class="summary-card accuracy-card">
-        <h3>Precisión de Planeación</h3>
-        <div class="metric-value">
-          <span class="data-label">Plan más preciso:</span>
-          <span class="data-value">data3</span>
-        </div>
-        <div class="metric-value">
-          <span class="data-label">Nivel de precisión:</span>
-          <span class="data-value warning">3.67/100</span>
-        </div>
-        <div class="metric-comment">
-          <p>⚠️ Ambos planes tienen baja precisión, con data3 siendo marginalmente mejor.</p>
-        </div>
+  <div class="summary-grid">
+    <!-- Precisión -->
+    <div class="summary-card accuracy-card">
+      <h3>Precisión de Planeación</h3>
+      <div class="metric-value">
+        <span class="data-label">Plan de referencia:</span>
+        <span class="data-value">data1</span>
       </div>
-      
-      <!-- Estilos -->
-      <div class="summary-card styles-card">
-        <h3>Estilos de Planeación</h3>
-        <div class="comparison-container">
-          <div class="comparison-item">
-            <span class="plan-label">Plan2:</span>
-            <span class="plan-style aggressive">Agresivo (100%)</span>
-          </div>
-          <div class="comparison-item">
-            <span class="plan-label">Plan3:</span>
-            <span class="plan-style aggressive">Agresivo (100%)</span>
-          </div>
-        </div>
-        <div class="metric-comment">
-          <p>🔴 Ambos planes subestiman consistentemente las ventas reales.</p>
-        </div>
+      <div class="metric-value">
+        <span class="data-label">Plan más preciso:</span>
+        <span class="data-value">data3</span>
       </div>
-      
-      <!-- Costo -->
-      <div class="summary-card cost-card">
-        <h3>Costo de Oportunidad</h3>
-        <div class="comparison-container">
-          <div class="comparison-item">
-            <span class="plan-label">Plan2:</span>
-            <span class="cost-value">$1,270,278</span>
-          </div>
-          <div class="comparison-item">
-            <span class="plan-label">Plan3:</span>
-            <span class="cost-value positive">$1,464</span>
-          </div>
-        </div>
-        <div class="metric-comment">
-          <p>💰 Plan3 reduce el costo de oportunidad en un 99.9% comparado con Plan2.</p>
-        </div>
+      <div class="metric-value">
+        <span class="data-label">Mejora vs referencia:</span>
+        <span class="data-value positive">+15%</span>
       </div>
-      
-      <!-- Eficiencia -->
-      <div class="summary-card efficiency-card">
-        <h3>Eficiencia de Inventario</h3>
-        <div class="metric-value">
-          <span class="data-label">Plan más eficiente:</span>
-          <span class="data-value">data3</span>
-        </div>
-        <div class="metric-value">
-          <span class="data-label">Nivel de eficiencia:</span>
-          <span class="data-value critical">-900</span>
-        </div>
-        <div class="metric-comment">
-          <p>📉 Inventarios insuficientes en ambos planes, con faltantes críticos.</p>
-        </div>
+      <div class="metric-comment">
+        <p>📊 data3 supera al plan de referencia (data1) en precisión.</p>
       </div>
     </div>
     
-    <div class="conclusions-card">
-      <h3>Conclusiones y Recomendaciones</h3>
-      <ul>
-        <li>✅ <strong>Priorizar Plan3</strong> - Es significativamente mejor que Plan2</li>
-        <li>📊 <strong>Ajustar pronósticos al alza</strong> - Los planes subestiman la demanda real</li>
-        <li>🔄 <strong>Implementar revisión mensual</strong> - Comparar pronósticos vs realidad</li>
-        <li>📦 <strong>Aumentar inventarios clave</strong> - Evitar pérdidas por faltantes</li>
-      </ul>
+    <!-- Estilos -->
+    <div class="summary-card styles-card">
+      <h3>Estilos de Planeación</h3>
+      <div class="comparison-container">
+        <div class="comparison-item">
+          <span class="plan-label">Referencia (data1):</span>
+          <span class="plan-style balanced">Balanceado</span>
+        </div>
+        <div class="comparison-item">
+          <span class="plan-label">Plan2:</span>
+          <span class="plan-style aggressive">Agresivo (100%)</span>
+        </div>
+        <div class="comparison-item">
+          <span class="plan-label">Plan3:</span>
+          <span class="plan-style conservative">Conservador (75%)</span>
+        </div>
+      </div>
+      <div class="metric-comment">
+        <p>🔍 data1 muestra equilibrio, mientras que los otros planes tienen sesgos marcados.</p>
+      </div>
+    </div>
+    
+    <!-- Costo -->
+    <div class="summary-card cost-card">
+      <h3>Costo de Oportunidad</h3>
+      <div class="comparison-container">
+        <div class="comparison-item">
+          <span class="plan-label">Referencia (data1):</span>
+          <span class="cost-value">$850,000</span>
+        </div>
+        <div class="comparison-item">
+          <span class="plan-label">Plan2:</span>
+          <span class="cost-value negative">$1,270,278 (+49%)</span>
+        </div>
+        <div class="comparison-item">
+          <span class="plan-label">Plan3:</span>
+          <span class="cost-value positive">$1,464 (-99.8%)</span>
+        </div>
+      </div>
+      <div class="metric-comment">
+        <p>💰 Plan3 reduce costos significativamente vs referencia.</p>
+      </div>
+    </div>
+    
+    <!-- Eficiencia -->
+    <div class="summary-card efficiency-card">
+      <h3>Eficiencia de Inventario</h3>
+      <div class="metric-value">
+        <span class="data-label">Referencia (data1):</span>
+        <span class="data-value">-650</span>
+      </div>
+      <div class="metric-value">
+        <span class="data-label">Plan más eficiente:</span>
+        <span class="data-value">data3 (-900)</span>
+      </div>
+      <div class="metric-value">
+        <span class="data-label">Diferencia vs referencia:</span>
+        <span class="data-value negative">+38% más negativo</span>
+      </div>
+      <div class="metric-comment">
+        <p>⚠️ Todos los planes muestran ineficiencias vs objetivo.</p>
+      </div>
     </div>
   </div>
+  
+  <div class="conclusions-card">
+    <h3>Conclusiones y Recomendaciones</h3>
+    <ul>
+      <li>✅ <strong>Plan3 es el mejor alternativo</strong> - Supera a data1 en precisión y costos</li>
+      <li>📌 <strong>Data1 como base</strong> - Mantener como referencia para comparaciones</li>
+      <li>📈 <strong>Mejorar eficiencia</strong> - Ningún plan alcanza los objetivos de inventario</li>
+      <li>🔄 <strong>Refinar Plan2</strong> - Presenta los peores resultados en costos</li>
+      <li>🧮 <strong>Nuevos modelos</strong> - Desarrollar planes que combinen lo mejor de data1 y data3</li>
+    </ul>
+  </div>
+</div>
+
+    </section>
+</div>
+
+
+
+
+
+
+
+<!----
+
+    <button class="btn btn-primary" (click)="openResumen()">
+    {{ showResume ? 'Ocultar resumen' : 'Mostrar resumen' }}
+  </button>
+-->
+
+  
+  
