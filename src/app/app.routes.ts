@@ -79,7 +79,7 @@ export const routes: Routes = [
 
 
 {path: 'test', component:TestComponent},
-{path: '', component: PruebaTablaComponent, pathMatch: 'full'}
+{path: '', component: CanicasComponent, pathMatch: 'full'}
 
 
 

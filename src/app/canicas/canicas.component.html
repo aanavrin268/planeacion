@@ -1,34 +1,87 @@
-
-
-
-  <div class="container">
-
-
-    <div class="ball"
-        id="draggable-item"    
-        draggable="true"
-        (dragstart)="onDragStart($event)"
-        (dragover)="onDragOver($event)"
-        (drop)="onDrop($event)"
-    >   
-
-    </div>
-
-    <div class="frasco"
-        data-id="dropzone1"
-        (dragover)="onDragOver($event)"
-        (drop)="onDrop($event)"
-    >
-        
-
-        <div class="jar">
-            <div class="jar-lid"></div>
-            <div class="jar-content">
-              <div class="water"></div>
-            </div>
+<button class="btn btn-primary" (click)="openResumen()">
+    {{ showResume ? 'Ocultar resumen' : 'Mostrar resumen' }}
+  </button>
+  
+  <div class="executive-summary-container" *ngIf="showResume">
+    <h2 class="summary-title">Resumen Ejecutivo de Planes</h2>
+    
+    <div class="summary-grid">
+      <!-- Precisión -->
+      <div class="summary-card accuracy-card">
+        <h3>Precisión de Planeación</h3>
+        <div class="metric-value">
+          <span class="data-label">Plan más preciso:</span>
+          <span class="data-value">data3</span>
+        </div>
+        <div class="metric-value">
+          <span class="data-label">Nivel de precisión:</span>
+          <span class="data-value warning">3.67/100</span>
+        </div>
+        <div class="metric-comment">
+          <p>⚠️ Ambos planes tienen baja precisión, con data3 siendo marginalmente mejor.</p>
+        </div>
+      </div>
+      
+      <!-- Estilos -->
+      <div class="summary-card styles-card">
+        <h3>Estilos de Planeación</h3>
+        <div class="comparison-container">
+          <div class="comparison-item">
+            <span class="plan-label">Plan2:</span>
+            <span class="plan-style aggressive">Agresivo (100%)</span>
           </div>
-        
-          
+          <div class="comparison-item">
+            <span class="plan-label">Plan3:</span>
+            <span class="plan-style aggressive">Agresivo (100%)</span>
+          </div>
+        </div>
+        <div class="metric-comment">
+          <p>🔴 Ambos planes subestiman consistentemente las ventas reales.</p>
+        </div>
+      </div>
+      
+      <!-- Costo -->
+      <div class="summary-card cost-card">
+        <h3>Costo de Oportunidad</h3>
+        <div class="comparison-container">
+          <div class="comparison-item">
+            <span class="plan-label">Plan2:</span>
+            <span class="cost-value">$1,270,278</span>
+          </div>
+          <div class="comparison-item">
+            <span class="plan-label">Plan3:</span>
+            <span class="cost-value positive">$1,464</span>
+          </div>
+        </div>
+        <div class="metric-comment">
+          <p>💰 Plan3 reduce el costo de oportunidad en un 99.9% comparado con Plan2.</p>
+        </div>
+      </div>
+      
+      <!-- Eficiencia -->
+      <div class="summary-card efficiency-card">
+        <h3>Eficiencia de Inventario</h3>
+        <div class="metric-value">
+          <span class="data-label">Plan más eficiente:</span>
+          <span class="data-value">data3</span>
+        </div>
+        <div class="metric-value">
+          <span class="data-label">Nivel de eficiencia:</span>
+          <span class="data-value critical">-900</span>
+        </div>
+        <div class="metric-comment">
+          <p>📉 Inventarios insuficientes en ambos planes, con faltantes críticos.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="conclusions-card">
+      <h3>Conclusiones y Recomendaciones</h3>
+      <ul>
+        <li>✅ <strong>Priorizar Plan3</strong> - Es significativamente mejor que Plan2</li>
+        <li>📊 <strong>Ajustar pronósticos al alza</strong> - Los planes subestiman la demanda real</li>
+        <li>🔄 <strong>Implementar revisión mensual</strong> - Comparar pronósticos vs realidad</li>
+        <li>📦 <strong>Aumentar inventarios clave</strong> - Evitar pérdidas por faltantes</li>
+      </ul>
     </div>
   </div>
-
