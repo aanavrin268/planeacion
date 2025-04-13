@@ -11,9 +11,7 @@ import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.com
 import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 import { ExampleComponent } from './plan/example/example.component';
 import { ComparativaComponent } from './plan/comparativa/comparativa.component';
-import { SettingsComponent } from './settings/settings/settings.component';
 import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
-import { TodosProductosComponent } from './productoss/todos-productos/todos-productos.component';
 import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
 import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
@@ -31,7 +29,6 @@ export const routes: Routes = [
 {path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
 {path: 'comparativa/:id', component: ComparativaComponent},
-{path: 'settings', component: SettingsComponent},
 {path: 'planTelling', component: PlanTellingComponent},
 {path: 'dashInventarios', component: DashInventarioComponent},
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
@@ -42,7 +39,6 @@ export const routes: Routes = [
 
 {path: 'stPlan', component: ExampleComponent},
 
-{path: 'todosProductos', component: TodosProductosComponent},
 {path: 'dashProductoss', component: DashProductossComponent},
 
 
