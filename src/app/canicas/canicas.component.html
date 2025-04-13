@@ -60,136 +60,123 @@
     <section class="body">
 
 
-<div class="executive-summary-container">
-  <h2 class="summary-title">Resumen Ejecutivo de Planes</h2>
-  
-  <div class="summary-grid">
-    <!-- Precisión -->
-    <div class="summary-card accuracy-card">
-      <h3>Precisión de Planeación</h3>
-      <div class="metric-value">
-        <span class="data-label">Plan de referencia:</span>
-        <span class="data-value">{{ planA.nombre }}</span>
-      </div>
-      <div class="metric-value">
-        <span class="data-label">Plan más preciso:</span>
-        <span class="data-value">{{ accuracyResult.plan }}</span>
-      </div>
-      <div class="metric-value">
-        <span class="data-label">Mejora vs referencia:</span>
-        <div class="metric-value">
-          <span class="data-label">Mejora vs referencia:</span>
-          <span *ngIf="accuracyResult.improvement !== undefined" class="data-value" [ngClass]="accuracyResult.improvement >= 0 ? 'positive' : 'negative'">
-            {{ accuracyResult.improvement | number:'1.0-2' }}%
-          </span>
-          <span *ngIf="accuracyResult.improvement === undefined" class="data-value">
-            N/A
-          </span>
+      <div class="executive-summary-container">
+        <h2 class="summary-title">Resumen Ejecutivo de Planes</h2>
+        
+        <div class="summary-grid">
+          <!-- Precisión -->
+          <div class="summary-card accuracy-card">
+            <h3>Precisión de Planeación</h3>
+            <div class="metric-value">
+              <span class="data-label">Plan de referencia:</span>
+              <span class="data-value">{{ planA.nombre }}</span>
+            </div>
+            <div class="metric-value">
+              <span class="data-label">Plan más preciso:</span>
+              <span class="data-value">{{ accuracyResult.plan }}</span>
+            </div>
+            <div class="metric-value">
+              <span class="data-label">Mejora vs referencia:</span>
+              <span class="data-value" [ngClass]="(accuracyResult.improvement || 0) >= 0 ? 'positive' : 'negative'">
+                {{ accuracyResult.improvement || 0 | number:'1.0-2' }}%
+              </span>
+            </div>
+            <div class="metric-comment">
+              <p>📊 {{ accuracyResult.plan }} supera al plan de referencia ({{ planA.nombre }}) en precisión.</p>
+            </div>
+          </div>
+          
+          <!-- Estilos -->
+          <div class="summary-card styles-card">
+            <h3>Estilos de Planeación</h3>
+            <div class="comparison-container">
+              <div class="comparison-item">
+                <span class="plan-label">Referencia ({{ planA.nombre }}):</span>
+                <span class="plan-style" [ngClass]="(stylesResult?.plan1?.style || 'balanceado').toLowerCase()">
+                  {{ stylesResult?.plan1?.style || 'Balanceado' }}
+                </span>
+              </div>
+              <div class="comparison-item">
+                <span class="plan-label">{{ planB.nombre }}:</span>
+                <span class="plan-style" [ngClass]="(stylesResult?.plan2?.style || 'balanceado').toLowerCase()">
+                  {{ stylesResult?.plan2?.style || 'Balanceado' }} ({{ stylesResult?.plan2?.score || 0 | number:'1.0-2' }}%)
+                </span>
+              </div>
+              <div class="comparison-item">
+                <span class="plan-label">{{ planC.nombre }}:</span>
+                <span class="plan-style" [ngClass]="(stylesResult?.plan3?.style || 'balanceado').toLowerCase()">
+                  {{ stylesResult?.plan3?.style || 'Balanceado' }} ({{ stylesResult?.plan3?.score || 0 | number:'1.0-2' }}%)
+                </span>
+              </div>
+            </div>
+            <div class="metric-comment">
+              <p>🔍 {{ planA.nombre }} muestra equilibrio, mientras que los otros planes tienen sesgos marcados.</p>
+            </div>
+          </div>
+          
+          <!-- Costo -->
+          <div class="summary-card cost-card">
+            <h3>Costo de Oportunidad</h3>
+            <div class="comparison-container">
+              <div class="comparison-item">
+                <span class="plan-label">Referencia ({{ planA.nombre }}):</span>
+                <span class="cost-value">${{ costsResult?.plan1?.cost || 0 | number:'1.0-2' }}</span>
+              </div>
+              <div class="comparison-item">
+                <span class="plan-label">{{ planB.nombre }}:</span>
+                <span class="cost-value" [ngClass]="(costsResult?.plan2?.percentage || 0) >= 0 ? 'negative' : 'positive'">
+                  ${{ costsResult?.plan2?.cost || 0 | number:'1.0-2' }} ({{ costsResult?.plan2?.percentage || 0 | number:'1.0-2' }}%)
+                </span>
+              </div>
+              <div class="comparison-item">
+                <span class="plan-label">{{ planC.nombre }}:</span>
+                <span class="cost-value" [ngClass]="(costsResult?.plan3?.percentage || 0) >= 0 ? 'negative' : 'positive'">
+                  ${{ costsResult?.plan3?.cost || 0 | number:'1.0-2' }} ({{ costsResult?.plan3?.percentage || 0 | number:'1.0-2' }}%)
+                </span>
+              </div>
+            </div>
+            <div class="metric-comment">
+              <p>💰 {{ costsResult?.plan3?.name || planC.nombre }} reduce costos significativamente vs referencia.</p>
+            </div>
+          </div>
+          
+          <!-- Eficiencia -->
+          <div class="summary-card efficiency-card">
+            <h3>Eficiencia de Inventario</h3>
+            <div class="metric-value">
+              <span class="data-label">Referencia ({{ planA.nombre }}):</span>
+              <span class="data-value">{{ costsResult?.plan1?.cost || 0 | number:'1.0-2' }}</span>
+            </div>
+            <div class="metric-value">
+              <span class="data-label">Plan más eficiente:</span>
+              <span class="data-value">{{ efficiencyResult.plan }} ({{ efficiencyResult.efficiency | number:'1.0-2' }})</span>
+            </div>
+            <div class="metric-value">
+              <span class="data-label">Diferencia vs referencia:</span>
+              <span class="data-value" [ngClass]="(efficiencyResult.difference || 0) >= 0 ? 'positive' : 'negative'">
+                {{ efficiencyResult.difference || 0 | number:'1.0-2' }}%
+              </span>
+            </div>
+            <div class="metric-comment">
+              <p>⚠️ Todos los planes muestran ineficiencias vs objetivo.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="conclusions-card">
+          <h3>Conclusiones y Recomendaciones</h3>
+          <ul>
+            <li>✅ <strong>{{ accuracyResult.plan }} es el mejor alternativo</strong> - Supera a {{ planA.nombre }} en precisión y costos</li>
+            <li>📌 <strong>{{ planA.nombre }} como base</strong> - Mantener como referencia para comparaciones</li>
+            <li>📈 <strong>Mejorar eficiencia</strong> - Ningún plan alcanza los objetivos de inventario</li>
+            <li>🔄 <strong>Refinar {{ planB.nombre }}</strong> - Presenta los peores resultados en costos</li>
+            <li>🧮 <strong>Nuevos modelos</strong> - Desarrollar planes que combinen lo mejor de {{ planA.nombre }} y {{ accuracyResult.plan }}</li>
+          </ul>
         </div>
       </div>
-      <div class="metric-comment">
-        <p>📊 {{ accuracyResult.plan }} supera al plan de referencia ({{ planA.nombre }}) en precisión.</p>
-      </div>
-    </div>
-    
-    <!-- Estilos -->
-    <div class="summary-card styles-card">
-      <h3>Estilos de Planeación</h3>
-      <div class="comparison-container">
-
-        <div class="comparison-item">
-          <span class="plan-label">Referencia ({{ planA.nombre }}):</span>
-          <span class="plan-style" [ngClass]="(stylesResult?.plan1?.style || 'balanceado').toLowerCase()">
-            {{ stylesResult?.plan1?.style || 'Balanceado' }}
-          </span>
-        </div>
-
-        <div class="comparison-item">
-          <span class="plan-label">{{ planB.nombre }}:</span>
-          <span class="plan-style" [ngClass]="(stylesResult?.plan2?.style || 'balanceado').toLowerCase()">
-            {{ stylesResult?.plan2?.style || 'Balanceado' }} ({{ stylesResult?.plan2?.score || 0 | number:'1.0-2' }}%)
-          </span>
-        </div>
-        <div class="comparison-item">
-          <span class="plan-label">{{ planC.nombre }}:</span>
-          <span class="plan-style" [ngClass]="(stylesResult?.plan3?.style || 'balanceado').toLowerCase()">
-            {{ stylesResult?.plan3?.style || 'Balanceado' }} ({{ stylesResult?.plan3?.score || 0 | number:'1.0-2' }}%)
-          </span>
-        </div>
-
-      </div>
-      <div class="metric-comment">
-        <p>🔍 {{ planA.nombre }} muestra equilibrio, mientras que los otros planes tienen sesgos marcados.</p>
-      </div>
-    </div>
-    
-    <!-- Costo -->
-    <div class="summary-card cost-card">
-      <h3>Costo de Oportunidad</h3>
-
-      
-      <div class="comparison-container">
-        <div class="comparison-item">
-          <span class="plan-label">Referencia ({{ planA.nombre }}):</span>
-          <span class="cost-value">${{ costsResult?.plan1?.cost || 0 | number:'1.0-2' }}</span>
-        </div>
-        <div class="comparison-item">
-          <span class="plan-label">{{ planB.nombre }}:</span>
-          <span class="cost-value" [ngClass]="(costsResult?.plan2?.percentage || 0) >= 0 ? 'negative' : 'positive'">
-            ${{ costsResult?.plan2?.cost || 0 | number:'1.0-2' }} ({{ costsResult?.plan2?.percentage || 0 | number:'1.0-2' }}%)
-          </span>
-        </div>
-        <div class="comparison-item">
-          <span class="plan-label">{{ planC.nombre }}:</span>
-          <span class="cost-value" [ngClass]="(costsResult?.plan3?.percentage || 0) >= 0 ? 'negative' : 'positive'">
-            ${{ costsResult?.plan3?.cost || 0 | number:'1.0-2' }} ({{ costsResult?.plan3?.percentage || 0 | number:'1.0-2' }}%)
-          </span>
-        </div>
-
-      </div>
 
 
 
-
-      <div class="metric-comment">
-        <p>💰 {{ costsResult?.plan3?.name || planC.nombre }} reduce costos significativamente vs referencia.</p>
-      </div>
-    </div>
-    
-    <!-- Eficiencia -->
-    <div class="summary-card efficiency-card">
-      <h3>Eficiencia de Inventario</h3>
-      <div class="metric-value">
-        <span class="data-label">Referencia ({{ planA.nombre }}):</span>
-        <span class="data-value">{{ costsResult?.plan1?.cost | number:'1.0-2' }}</span>
-      </div>
-      <div class="metric-value">
-        <span class="data-label">Plan más eficiente:</span>
-        <span class="data-value">{{ efficiencyResult.plan }} ({{ efficiencyResult.efficiency | number:'1.0-2' }})</span>
-      </div>
-      <div class="metric-value">
-        <span class="data-label">Diferencia vs referencia:</span>
-        <span class="data-value" [ngClass]="(efficiencyResult.difference || 0) >= 0 ? 'positive' : 'negative'">
-          {{ efficiencyResult.difference || 0 | number:'1.0-2' }}%
-        </span>
-      </div>
-      <div class="metric-comment">
-        <p>⚠️ Todos los planes muestran ineficiencias vs objetivo.</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="conclusions-card">
-    <h3>Conclusiones y Recomendaciones</h3>
-    <ul>
-      <li>✅ <strong>{{ accuracyResult.plan }} es el mejor alternativo</strong> - Supera a {{ planA.nombre }} en precisión y costos</li>
-      <li>📌 <strong>{{ planA.nombre }} como base</strong> - Mantener como referencia para comparaciones</li>
-      <li>📈 <strong>Mejorar eficiencia</strong> - Ningún plan alcanza los objetivos de inventario</li>
-      <li>🔄 <strong>Refinar {{ planB.nombre }}</strong> - Presenta los peores resultados en costos</li>
-      <li>🧮 <strong>Nuevos modelos</strong> - Desarrollar planes que combinen lo mejor de {{ planA.nombre }} y {{ accuracyResult.plan }}</li>
-    </ul>
-  </div>
-</div>
 
     </section>
 </div>

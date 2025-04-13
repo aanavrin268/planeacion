@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 interface PLANFULL {
@@ -57,14 +57,12 @@ export class CanicasComponent implements OnInit {
   selectedPlanB: any;
   selectedPlanC: any;
 
-  // Nuevas propiedades para almacenar resultados dinámicos
-  accuracyResult: { plan: string; accuracy: number; improvement?: number } = { plan: '', accuracy: 0 };
-  stylesResult: { plan1: { style: string; score: number }; plan2: { style: string; score: number }; plan3: { style: string; score: number } } | null = null;
-  costsResult: { plan1: { cost: number; details: string; name:string; percentage: any }; plan2: { cost: number; details: string ; name:string; percentage: any}; plan3: { cost: number; details: string; name:string; percentage: any } } | null = null;
-  efficiencyResult: { plan: string; efficiency: number; difference?: number } = { plan: '', efficiency: 0 };
+  accuracyResult: { plan: string; accuracy: number; improvement: number } = { plan: '', accuracy: 0, improvement: 0 };
+  stylesResult: { plan1: { style: string; score: number; name: string }; plan2: { style: string; score: number; name: string }; plan3: { style: string; score: number; name: string } } | null = null;
+  costsResult: { plan1: { cost: number; details: string; name: string; percentage: number }; plan2: { cost: number; details: string; name: string; percentage: number }; plan3: { cost: number; details: string; name: string; percentage: number } } | null = null;
+  efficiencyResult: { plan: string; efficiency: number; difference: number } = { plan: '', efficiency: 0, difference: 0 };
 
-  constructor() {
-    // ... (tu código existente de inicialización de data1, data2, data3, planA, planB, planC)
+  constructor(private cdr: ChangeDetectorRef) {
     this.data1 = [
       {clave: "100.00.10", nombre: "propofol", inventario: "100", enero: "10", facturacion_enero: "1000", febrero: "10", facturacion_febrero: "10000", marzo: "10", facturacion_marzo: "1000", abril: "10", mayo: "10", junio:"11"},
       {clave: "100.00.12", nombre: "captodril", inventario: "1", enero: "1", facturacion_enero: "100", febrero: "1", facturacion_febrero: "10000", marzo: "1", facturacion_marzo: "1200", abril: "1", mayo: "1", junio:"23"},
@@ -101,13 +99,18 @@ export class CanicasComponent implements OnInit {
     this.getAllData(this.data1, this.data2, this.data3);
   }
 
-  
-
   finalCheck() {
     const finas = this.checkData();
+    console.log('finalCheck finas:', finas);
+  
+    // Actualizar planA, planB, y planC con los nombres y datos seleccionados
+    this.planA = { nombre: finas.planA.nombre, tipo: "1", data: finas.planA.data };
+    this.planB = { nombre: finas.planB.nombre, tipo: "1", data: finas.planB.data };
+    this.planC = { nombre: finas.planC.nombre, tipo: "1", data: finas.planC.data };
+  
+    // Recalcular los resultados con los datos actualizados
     this.getAllData(finas.planA.data, finas.planB.data, finas.planC.data);
   }
-
   checkData() {
     try {
       const result = this.changeData();
@@ -127,6 +130,7 @@ export class CanicasComponent implements OnInit {
         };
       });
 
+      console.log('checkData result:', typedResult);
       return typedResult;
     } catch (error) {
       console.error(error);
@@ -152,14 +156,23 @@ export class CanicasComponent implements OnInit {
   }
 
   getAllData(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]) {
+    console.log('getAllData inputs:', { dataS1, dataS2, dataS3 });
     this.compareData(dataS1, dataS2);
     this.compareData(dataS1, dataS3);
 
-    // Almacenar resultados en propiedades
-    this.accuracyResult = this.calculateMostAccuratePlan();
-    this.stylesResult = this.calculatePlanningStyle();
-    this.costsResult = this.calculateOpportunityCost();
-    this.efficiencyResult = this.calculateInventoryEfficiency();
+    this.accuracyResult = this.calculateMostAccuratePlan(dataS1, dataS2, dataS3);
+    this.stylesResult = this.calculatePlanningStyle(dataS1, dataS2, dataS3);
+    this.costsResult = this.calculateOpportunityCost(dataS1, dataS2, dataS3);
+    this.efficiencyResult = this.calculateInventoryEfficiency(dataS1, dataS2, dataS3);
+
+    console.log('Updated results:', {
+      accuracyResult: this.accuracyResult,
+      stylesResult: this.stylesResult,
+      costsResult: this.costsResult,
+      efficiencyResult: this.efficiencyResult
+    });
+
+    this.cdr.detectChanges();
   }
 
   openResumen() {
@@ -199,10 +212,10 @@ export class CanicasComponent implements OnInit {
     });
   }
 
-  calculateMostAccuratePlan(): { plan: string; accuracy: number; improvement?: number } {
-    const accuracy1 = this.calculatePlanningAccuracy(this.data1);
-    const accuracy2 = this.calculatePlanningAccuracy(this.data2);
-    const accuracy3 = this.calculatePlanningAccuracy(this.data3);
+  calculateMostAccuratePlan(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]): { plan: string; accuracy: number; improvement: number } {
+    const accuracy1 = this.calculatePlanningAccuracy(dataS1);
+    const accuracy2 = this.calculatePlanningAccuracy(dataS2);
+    const accuracy3 = this.calculatePlanningAccuracy(dataS3);
 
     const plans = [
       { plan: this.planA.nombre, accuracy: accuracy1 },
@@ -233,10 +246,10 @@ export class CanicasComponent implements OnInit {
     return totalAccuracy / (data.length * 3);
   }
 
-  calculateInventoryEfficiency(): { plan: string; efficiency: number; difference?: number } {
-    const efficiency1 = this.calculateInventoryScore(this.data1);
-    const efficiency2 = this.calculateInventoryScore(this.data2);
-    const efficiency3 = this.calculateInventoryScore(this.data3);
+  calculateInventoryEfficiency(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]): { plan: string; efficiency: number; difference: number } {
+    const efficiency1 = this.calculateInventoryScore(dataS1);
+    const efficiency2 = this.calculateInventoryScore(dataS2);
+    const efficiency3 = this.calculateInventoryScore(dataS3);
 
     const plans = [
       { plan: this.planA.nombre, efficiency: efficiency1 },
@@ -258,11 +271,11 @@ export class CanicasComponent implements OnInit {
     }, 0);
   }
 
-  calculatePlanningStyle() {
+  calculatePlanningStyle(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]): { plan1: { style: string; score: number; name: string }; plan2: { style: string; score: number; name: string }; plan3: { style: string; score: number; name: string } } {
     return {
-      plan1: { ...this.determinePlanningStyle(this.data1), name: this.planA.nombre },
-      plan2: { ...this.determinePlanningStyle(this.data2), name: this.planB.nombre },
-      plan3: { ...this.determinePlanningStyle(this.data3), name: this.planC.nombre }
+      plan1: { ...this.determinePlanningStyle(dataS1), name: this.planA.nombre },
+      plan2: { ...this.determinePlanningStyle(dataS2), name: this.planB.nombre },
+      plan3: { ...this.determinePlanningStyle(dataS3), name: this.planC.nombre }
     };
   }
 
@@ -287,10 +300,10 @@ export class CanicasComponent implements OnInit {
     return { style: 'Balanceado', score: 50 };
   }
 
-  calculateOpportunityCost() {
-    const cost1 = this.computeOpportunityCost(this.data1);
-    const cost2 = this.computeOpportunityCost(this.data2);
-    const cost3 = this.computeOpportunityCost(this.data3);
+  calculateOpportunityCost(dataS1: PLAN[], dataS2: PLAN[], dataS3: PLAN[]): { plan1: { cost: number; details: string; name: string; percentage: number }; plan2: { cost: number; details: string; name: string; percentage: number }; plan3: { cost: number; details: string; name: string; percentage: number } } {
+    const cost1 = this.computeOpportunityCost(dataS1);
+    const cost2 = this.computeOpportunityCost(dataS2);
+    const cost3 = this.computeOpportunityCost(dataS3);
 
     const referenceCost = cost1.cost;
     return {
