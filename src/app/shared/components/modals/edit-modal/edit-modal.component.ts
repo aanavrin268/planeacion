@@ -87,8 +87,15 @@ export class EditModalComponent implements OnInit {
     this.getMonthlyData();
 
 
-    const descripcion = this.row.id_plan === 1 ? this.row.nombre : '';
-    const proveedor = this.row.id_plan === 1 ? this.row.proveedor : ''
+    //const descripcion = this.row.id_plan === 1 ? this.row.nombre : '';
+    //const proveedor = this.row.id_plan === 1 ? this.row.proveedor : ''
+
+    
+    const descripcion = this.row.nombre;
+    const proveedor = this.row.proveedor;
+
+    this.item = descripcion;
+    this.proveedor = proveedor;
 
     console.log("recived data from father", this.row);
     this.editForm.patchValue({

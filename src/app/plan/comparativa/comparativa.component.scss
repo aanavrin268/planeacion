@@ -254,6 +254,8 @@ $white-20: rgba(255, 255, 255, 0.2);
                             border: 1px solid green;
                         }
 
+
+                    
                         .plan-icon{
                             position: absolute;
                             top: 2%;
@@ -322,8 +324,8 @@ $white-20: rgba(255, 255, 255, 0.2);
                 }
 
                 .selected-cotainer{
-                    width: 50%;
-                    height: 9vh;
+                    width: 70%;
+                    height: 20vh;
                     background-color: rgb(36, 36, 36);
                     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.315);
                     position: absolute;
@@ -333,8 +335,40 @@ $white-20: rgba(255, 255, 255, 0.2);
                     display: flex;
                     justify-content: space-around;
                     align-items: center;
-                    bottom: -35%;
+                    bottom: 20%;
                     right: 26%;
+
+                    .t-container{
+                        display:flex;
+                        flex-direction: column;
+
+                        .hh-container{
+                            display:flex;
+                            margin-top: .8rem;
+                            gap: .8rem;
+
+                            .hh-item{
+                                display:flex;
+                                gap: .2rem;
+
+                                .hh-text{
+                                    color: white;
+                                    font-size:12px;
+                                }
+
+                                .ms-icon{
+                                    color: white;
+                                    font-size:18px;
+                                    &:hover{
+                                        cursor:pointer;
+                                    }
+                                }
+                            }
+
+                            
+                        }
+
+                    }
           
           
                     .ms-icons-container{
@@ -343,6 +377,21 @@ $white-20: rgba(255, 255, 255, 0.2);
                       gap:1rem;
                       align-items: center;
                       justify-content: flex-end;
+
+                      .ms-btn{
+                        color:white;
+                        padding: .3rem .6rem;
+                        font-size: 15px;
+                        transition: all 0.2s ease-in-out;
+                        outline: none;
+                        background-color: rgb(68, 68, 68);
+                        border:none
+
+                        &:hover{
+                            cursor:pointer;
+                            background-color: rgba(59, 58, 58, 0.301);
+                        }
+                      }
           
           
                       .ms-icon{

@@ -15,6 +15,87 @@
         align-items: center;
         position: relative;
 
+
+        .v-container{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 12%;
+
+          .sub{
+            line-height: 1.1;
+            font-size: 30px;
+            font-weight: 700;
+            color: rgb(24, 24, 185);
+          }
+
+          .title{
+            line-height: 1.1;
+            font-size: 18px;
+            font-weight: 630;
+        }
+
+          .h-container{
+            display:flex;
+            gap:1rem;
+
+            .qs-container{
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              gap: 1rem;
+             
+              
+              .q-text{
+                background-color: rgb(24, 24, 185);
+                color: white;
+                border-radius: 6px;
+                padding: 0.2rem 0.6rem;
+                font-size: 16px;
+                font-weight: 700;
+                transition: all 0.3s ease-in-out;
+    
+                &:hover{
+                  cursor:pointer;
+                  background-color: color.adjust(rgb(24, 24, 185), $lightness: -20%);
+                }
+              }
+    
+    
+           
+    
+              .red{
+                font-size: 18px;
+                color: red;
+                font-weight: 700;
+                width: 36px;
+                height: 36px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                transition: all 0.3s ease-in-out;
+    
+                &:hover{
+                  cursor: pointer;
+                  background-color: rgba(255, 0, 0, 0.384);
+                  color: rgb(105, 5, 5);
+                }
+              }
+    
+            
+            }
+    
+          }
+
+         
+
+     
+
+
+        }
+
         .settings-menu{
           width: 180px;
           height: 200px;
@@ -107,7 +188,7 @@
 
         .title{
             line-height: 1.1;
-            font-size: 28px;
+            font-size: 18px;
             font-weight: 630;
         }
 
@@ -227,55 +308,20 @@
             position: relative;
             //background-color: #f7afaf;
 
+            .title{
+              line-height: 1.1;
+              font-size: 18px;
+              font-weight: 630;
+          }
+
             .sub{
                 line-height: 1.1;
-                font-size: 22px;
-                font-weight: 580;
+                font-size: 30px;
+                font-weight: 700;
                 color: rgb(24, 24, 185);
               }
 
-              .q-text{
-                background-color: rgb(24, 24, 185);
-                color: white;
-                border-radius: 6px;
-                padding: 0.2rem 0.6rem;
-                font-size: 16px;
-                font-weight: 700;
-                transition: all 0.3s ease-in-out;
-
-                &:hover{
-                  cursor:pointer;
-                  background-color: color.adjust(rgb(24, 24, 185), $lightness: -20%);
-                }
-              }
-
-            .qs-container{
-              display: flex;
-              justify-content: flex-start;
-              align-items: center;
-              gap: 1rem;
-
-              .red{
-                font-size: 18px;
-                color: red;
-                font-weight: 700;
-                width: 36px;
-                height: 36px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-radius: 50%;
-                transition: all 0.3s ease-in-out;
-
-                &:hover{
-                  cursor: pointer;
-                  background-color: rgba(255, 0, 0, 0.384);
-                  color: rgb(105, 5, 5);
-                }
-              }
-
-            
-            }
+          
 
             .qs-icon-container{
 
@@ -387,6 +433,30 @@
                 position: relative;
                 //box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.336);
 
+                .td-container{
+                  display:flex;
+                  gap:1rem;
+                  justify-content: flex-start;
+                  align-items: center;
+
+                  .t-icon{
+                      width: 35px;
+                      height: 35px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      border-radius: 50%;
+                      transition: all 0.3s ease-in-out;
+                      font-size: 18px;
+                      
+                      &:hover{
+                        cursor:pointer;
+                        background-color: rgba(0, 0, 0, 0.226);
+                      }
+
+                  }
+                }
+
               
                 .float-selected{
                   position: fixed;
@@ -434,12 +504,12 @@
 
                     .mat-mdc-row:hover {
                         //background-color: rgb(228, 20, 20);
-                        cursor: pointer;
+                        //cursor: pointer;
                       }
 
                                             
                     tr.mat-row {
-                        cursor: pointer;
+                        //cursor: pointer;
                     }
                     
                     tr.mat-row:hover {
@@ -448,7 +518,7 @@
 
 
                     mat-row {
-                        cursor: pointer;
+                        //cursor: pointer;
                         //background-color: #bb1e1e !important;
 
                       }

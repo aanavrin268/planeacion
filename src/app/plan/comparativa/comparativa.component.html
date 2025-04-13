@@ -40,26 +40,39 @@
             </div>
             <div class="body" *ngIf="!isPlanSelected">
                 <span>Selecciona la versión del plan que deseas comparar.</span>
+<!---Plan container-->
                 <div class="plan-container">
                     <div class="plan" *ngFor="let plan of plan_list; let i = index;"
                         (click)="selectManyPlans(plan)" 
                         [ngClass]="{'selected-item': plan.selected}">
+
+                   
+
                         <i class="bi bi-clock-history plan-icon"></i>
                         <span class="p-title">{{ plan.name }}</span>
-                        <span class="p-sub">{{ plan.date_save }}</span>
-                        <button class="p-button" (click)="selectPlan(plan)">Seleccionar</button>
+                        <span class="p-sub"> {{ plan.date_save | date:'dd-MM-yyyy' }}</span>
+
                     </div>
                 </div>
+<!----black container-->
+                <div class="selected-cotainer" *ngIf="selected_plan_list.length > 0">
+                    <div class="t-container">
+                        <span class="ms-text">Planes seleccioandos:</span>
+                        <div class="hh-container">
+                            <div class="hh-item"  *ngFor="let plan of selected_plan_list">
+                                <span class="hh-text" >
+                                {{plan.name}}
+                            </span>
+                            <i class="bi bi-x-lg ms-icon" (click)="cleanOneRow(plan)"></i>
+                            </div>
+                           
 
-                <div class="selected-cotainer">
-                    @if(selected_plan_list.length === 1){
-                        <span class="ms-text">1 producto seleccionado</span>
-                      }@else if(selected_plan_list.length > 1){
-                        <span class="ms-text">{{selected_plan_list.length }} productos seleccionados</span>
-                      }
-        
+                        </div>
+                       
+                    </div>
+                    
                       <div class="ms-icons-container">
-                        <i class="bi bi-pencil-square ms-icon" (click)="openMultiEdit()"></i>
+                        <button class="ms-btn" (click)="goToCompare()">Comparar</button>
                         <i class="bi bi-x-lg ms-icon" (click)="cleanAllRows()"></i>
                       </div>
 

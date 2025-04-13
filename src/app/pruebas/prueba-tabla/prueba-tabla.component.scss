@@ -1,0 +1,28 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+    .toolbar {
+      padding: 10px;
+      background: #f5f5f5;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      
+      dx-check-box, dx-select-box {
+        margin-right: 15px;
+      }
+    }
+    
+    #dataGrid, #pivotGrid {
+      flex: 1;
+      height: calc(100% - 50px);
+      
+      ::ng-deep .dx-datagrid-group-panel {
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+    }
+  }

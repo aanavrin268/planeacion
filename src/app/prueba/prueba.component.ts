@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DxButtonModule } from 'devextreme-angular';
+
+
 @Component({
   selector: 'app-prueba',
   templateUrl: './prueba.component.html',

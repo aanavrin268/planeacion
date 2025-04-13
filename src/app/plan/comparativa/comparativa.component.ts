@@ -10,7 +10,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
 import { BehaviorsService } from '../../core/services/behaviors.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 
@@ -59,7 +59,7 @@ displayedColumns: string[] = [];
 
 
   constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, private router: Router
   ){
 
     this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
@@ -77,17 +77,37 @@ displayedColumns: string[] = [];
 
     });
 
-    this.plan_list = this.dummy_list;
+    //this.plan_list = this.dummy_list;
 
 
 
-    //this.getPlaListData();
+    this.getPlaListData();
 
 
   }
 
-  showError(){
-    Swal.fire('Error, limite alcanzado', 'El máximo de archivos a seleccionar es de 3', 'error');
+  goToCompare(){
+    if(this.selected_plan_list.length === 1){
+      this.showError("Error, faltan datos","Seleccina al menos 2 planes para la comparativa");
+    }else {
+      this.router.navigate(['multi-comparativa'], { queryParams: 
+        { selected_data: JSON.stringify(this.selected_plan_list) } });
+    }
+  }
+
+  cleanAllRows(){
+    this.selected_plan_list = [];
+
+    this.plan_list.forEach((plan) => {
+      plan.selected = false;
+    });
+  }
+
+
+
+
+  showError(title:string, message: string){
+    Swal.fire(title, message, 'error');
   }
 
 
@@ -96,7 +116,7 @@ displayedColumns: string[] = [];
   selectManyPlans(plan:any){
 
     if(this.selected_plan_list.length === 3){
-        this.showError();
+        this.showError("Error, limite alcanzado", "Solo puedes seleccionar 3 planes para la comparativa");
     }else{
       plan.selected = !plan.selected;
       this.selected_plan_list.push(plan);
@@ -108,9 +128,25 @@ displayedColumns: string[] = [];
 
   }
 
-  cleanAllRows(){
+  cleanOneRow(planToRemove: any) {
 
+    this.plan_list.forEach((plan) => {
+      planToRemove.selected = false;
+    });
+
+    this.selected_plan_list = this.selected_plan_list.filter(
+      plan => plan.id_ph !== planToRemove.id_ph
+    );
+
+
+
+    
+  
+
+
+    console.log("Lista actualizada:", this.selected_plan_list);
   }
+
 
 
   openMultiEdit(){
@@ -199,6 +235,7 @@ displayedColumns: string[] = [];
       this.behaviorService.planHistoric$.subscribe(
         (data) => {
           this.plan_list = data;
+          console.log("list", this.plan_list);
         }
       );
 
