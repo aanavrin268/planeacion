@@ -109,70 +109,54 @@ export class MultiComparativaComponent implements OnInit {
   }
 
 
+
+
+
+
   getDifferences(dataSource1: any[], dataSource2: any[]): any[] {
     const results: any[] = [];
-
-    // Asumimos que ambos arrays tienen la misma estructura y length
-    for (let i = 0; i < dataSource1.length; i++) {
-        const med1 = dataSource1[i];
-        const med2 = dataSource2[i];
-
-        // Verificar que sean objetos válidos
-        if (!med1 || typeof med1 !== 'object' || !med2 || typeof med2 !== 'object') {
-            continue;
-        }
-
-        const differences: any = {};
-        let hasDifferences = false;
-
-        // Comparar todas las propiedades de los medicamentos
-        const allKeys = new Set([...Object.keys(med1), ...Object.keys(med2)]);
-        
-        for (const key of allKeys) {
-            const val1 = med1[key];
-            const val2 = med2[key];
-
-            // Si es un objeto (como los datos de inventario/meses)
-            if (val1 && typeof val1 === 'object' && val2 && typeof val2 === 'object') {
-                const internalDifferences: any = {};
-                
-                // Comparar propiedades internas
-                const internalKeys = new Set([...Object.keys(val1), ...Object.keys(val2)]);
-                for (const internalKey of internalKeys) {
-                    if (val1[internalKey] !== val2[internalKey]) {
-                        internalDifferences[internalKey] = {
-                            valor1: val1[internalKey],
-                            valor2: val2[internalKey]
-                        };
-                        hasDifferences = true;
-                    }
-                }
-
-                if (Object.keys(internalDifferences).length > 0) {
-                    differences[key] = internalDifferences;
-                }
-            }
-            // Para propiedades no-objeto
-            else if (val1 !== val2) {
-                differences[key] = {
-                    valor1: val1,
-                    valor2: val2
-                };
-                hasDifferences = true;
-            }
-        }
-
-        if (hasDifferences) {
-            results.push({
-                nombre: med1.nombre || `Medicamento ${i}`,
-                diferencias: differences
-            });
-        }
+    
+    // Verifica que ambos arrays sean válidos
+    if (!Array.isArray(dataSource1) || !Array.isArray(dataSource2)) {
+      console.error('Las fuentes de datos deben ser arrays');
+      return [];
     }
-
+  
+    // Para cada medicamento en el primer array
+    for (let i = 0; i < dataSource1.length; i++) {
+      const med1 = dataSource1[i];
+      // Busca el medicamento correspondiente en el segundo array
+      const med2 = dataSource2.find(m => m.clave === med1.clave);
+      
+      // Si no se encuentra el medicamento en el segundo array, continúa
+      if (!med2) continue;
+      
+      const diferencias: any = {};
+      let hasDifferences = false;
+      
+      // Compara todas las propiedades
+      for (const key of Object.keys(med1)) {
+        // Solo compara valores si la propiedad existe en ambos objetos
+        if (key in med2 && med1[key] !== med2[key]) {
+          diferencias[key] = {
+            valor1: med1[key],
+            valor2: med2[key]
+          };
+          hasDifferences = true;
+        }
+      }
+      
+      // Si hay diferencias, agrega este medicamento al resultado
+      if (hasDifferences) {
+        results.push({
+          nombre: med1.nombre,
+          diferencias: diferencias
+        });
+      }
+    }
+    
     return results;
-}
-
+  }
 
 
 
