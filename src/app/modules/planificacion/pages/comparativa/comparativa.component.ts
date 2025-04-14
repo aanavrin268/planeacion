@@ -94,7 +94,7 @@ displayedColumns: string[] = [];
         //{ selected_data: JSON.stringify(this.selected_plan_list) } });
 
         this.router.navigate(['main-comparativa'], { queryParams:
-          { selected_data: JSON.stringify(this.selected_plan_list)}
+          { selected_data: JSON.stringify(this.selected_plan_list), id:this.id}
         })
     }
   }

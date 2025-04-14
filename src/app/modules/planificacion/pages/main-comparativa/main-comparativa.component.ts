@@ -54,6 +54,8 @@ export class MainComparativaComponent implements OnInit {
   planB: PLANFULL = { nombre: '', tipo: '1', data: [[]] };
   planC: PLANFULL = { nombre: '', tipo: '1', data: [[]] };
 
+  protected id_plan: any;
+
   plan_list: string[] = [];
   selectedPlanA: string = '';
   selectedPlanB: string = '';
@@ -92,6 +94,9 @@ export class MainComparativaComponent implements OnInit {
       try {
         const data_list = JSON.parse(params['selected_data'] || '[]');
         console.log('params_data:', data_list);
+        this.id_plan = params['id'] || null;
+
+        console.log("el id es: ", this.id_plan);
 
         if (data_list.length >= 3) {
           this.planA.nombre = data_list[0].name || '';
@@ -258,12 +263,25 @@ export class MainComparativaComponent implements OnInit {
       */
 
       // Descomentar para usar datos reales del servicio
+
+      if(this.id_plan === '1'){
+        console.log("fetching public plan data....");
+        await Promise.all([
+          this.getPlanDataPromise(this.planA.nombre),
+          this.getPlanDataPromise(this.planB.nombre),
+          this.getPlanDataPromise(this.planC.nombre),
+        ]);
+      }else if (this.id_plan === '2'){
+        console.log("fetching private plan data....");
+
+        await Promise.all([
+          this.getPlanPrivateDataPromise(this.planA.nombre),
+          this.getPlanPrivateDataPromise(this.planB.nombre),
+          this.getPlanPrivateDataPromise(this.planC.nombre),
+        ]);
+      }
       
-      await Promise.all([
-        this.getPlanDataPromise(this.planA.nombre),
-        this.getPlanDataPromise(this.planB.nombre),
-        this.getPlanDataPromise(this.planC.nombre),
-      ]);
+    
       
 
       console.log(" plan a data sin [] es ", this.planA.data);
@@ -309,6 +327,42 @@ export class MainComparativaComponent implements OnInit {
     }
   }
 
+
+  getPlanPrivateDataPromise(plan_name: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (!plan_name) {
+        console.warn(`Nombre del plan vacío: ${plan_name}`);
+        resolve(false);
+        return;
+      }
+
+      this.service.getPlanSelectedPrivateByName(plan_name).subscribe({
+        next: (response) => {
+          console.log(`Datos del plan ${plan_name}:`, response);
+          const data = response.result; // Asegurarse de que data sea un arreglo
+
+          if (plan_name === this.planA.nombre) {
+            this.planA.data = data;
+            console.log("1 data", response);
+            console.log("1 data again ", data);
+
+          } else if (plan_name === this.planB.nombre) {
+            this.planB.data = data;
+          } else if (plan_name === this.planC.nombre) {
+            this.planC.data = data;
+          }
+
+          resolve(true);
+        },
+        error: (err) => {
+          console.error(`Error al cargar el plan ${plan_name}:`, err);
+          reject(err);
+        },
+      });
+      
+    });
+  }
+
   getPlanDataPromise(plan_name: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       if (!plan_name) {
@@ -340,6 +394,7 @@ export class MainComparativaComponent implements OnInit {
           reject(err);
         },
       });
+
     });
   }
 
