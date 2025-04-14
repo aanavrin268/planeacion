@@ -41,7 +41,7 @@ export class MultiComparativaComponent implements OnInit {
   async fetchAllData() {
     try {
       await Promise.all([
-        this.getHistoricData(1, this.planA.name),
+       this.getHistoricData(1, this.planA.name),
         this.getHistoricData(1, this.planB.name),
         this.getHistoricData(1, this.planC.name)
       ]);

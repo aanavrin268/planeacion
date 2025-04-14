@@ -47,6 +47,8 @@ export class CanicasComponent implements OnInit {
   planB: PLANFULL;
   planC: PLANFULL;
 
+  protected bundle: any;
+
   data1: PLAN[] = [];
   data2: PLAN[] = [];
   data3: PLAN[] = [];
@@ -90,6 +92,9 @@ export class CanicasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("data bundle received", this.bundle);
+
     this.planA.data = this.data1;
     this.planB.data = this.data2;
     this.planC.data = this.data3;

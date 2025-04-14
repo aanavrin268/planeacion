@@ -344,12 +344,21 @@ export class MainComparativaComponent implements OnInit {
   }
 
   openSummary() {
-    this.modal.open(CanicasComponent, {
+    const dataBundle = {
+      plan: 1,
+      plan_list: [this.planA, this.planB, this.planC]
+    }
+
+   const modalRef =  this.modal.open(CanicasComponent, {
       centered: true,
       size: 'xl',
       windowClass: 'redondo',
     });
+
+    modalRef.componentInstance.bundle = dataBundle;
+
   }
+
 
   getDifferences(dataSource1: PLAN[], dataSource2: PLAN[]): any[] {
     const differences: any[] = [];
