@@ -123,23 +123,23 @@ export class ModalMultiEditssComponent implements OnInit {
 
 
       const updatePromises = data.map(item => {
-        const table = 'DetallePlan';
-        const condition = 'clave institucional';
+        const table = 'PlanPublico2025_back';
+        const condition = 'clave';
         const condition_value = item.clave;
         
         const months = {
-          "Enero F": convertNumber(item.enero),
-          "Febrero F": convertNumber(item.febrero),
-          "Marzo F": convertNumber(item.marzo),
-          "Abril F": convertNumber(item.abril),
-          "Mayo F": convertNumber(item.mayo),
-          "Junio F": convertNumber(item.junio),
-          "Julio F": convertNumber(item.julio),
-          "Agosto F": convertNumber(item.agosto),
-          "Septiembre F": convertNumber(item.septiembre),
-          "Octubre F": convertNumber(item.octubre),
-          "Noviembre F": convertNumber(item.noviembre),
-          "Diciembre F": convertNumber(item.diciembre)
+          "enero": convertNumber(item.enero),
+          "febrero": convertNumber(item.febrero),
+          "marzo": convertNumber(item.marzo),
+          "abril": convertNumber(item.abril),
+          "mayo": convertNumber(item.mayo),
+          "junio": convertNumber(item.junio),
+          "julio": convertNumber(item.julio),
+          "agosto": convertNumber(item.agosto),
+          "septiembre": convertNumber(item.septiembre),
+          "octubre": convertNumber(item.octubre),
+          "noviembre": convertNumber(item.noviembre),
+          "diciembre": convertNumber(item.diciembre)
         };
     
         const monthsJson = JSON.stringify(months);

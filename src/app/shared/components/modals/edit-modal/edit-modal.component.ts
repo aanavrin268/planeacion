@@ -252,8 +252,9 @@ export class EditModalComponent implements OnInit {
     };
     
 
-    const table = 'DetallePlan';
-    const condition = 'clave institucional';
+    //const table = 'DetallePlan';
+    const table = 'PlanPublico2025_back';
+    const condition = 'clave';
 
     //const table =  'vw_final_plan_public';
     //const condition = 'clave';
@@ -264,18 +265,18 @@ export class EditModalComponent implements OnInit {
 
     
     const months = {
-        "Enero F": convertNumber(this.editForm.get('enero')?.value),
-        "Febrero F": convertNumber(this.editForm.get('febrero')?.value),
-        "Marzo F": convertNumber(this.editForm.get('marzo')?.value),
-        "Abril F": convertNumber(this.editForm.get('abril')?.value),
-        "Mayo F": convertNumber(this.editForm.get('mayo')?.value),
-        "Junio F": convertNumber(this.editForm.get('junio')?.value),
-        "Julio F": convertNumber(this.editForm.get('julio')?.value),
-        "Agosto F": convertNumber(this.editForm.get('agosto')?.value),
-        "Septiembre F": convertNumber(this.editForm.get('septiembre')?.value),
-        "Octubre F": convertNumber(this.editForm.get('octubre')?.value),
-        "Noviembre F": convertNumber(this.editForm.get('noviembre')?.value),
-        "Diciembre F": convertNumber(this.editForm.get('diciembre')?.value),
+        "enero": convertNumber(this.editForm.get('enero')?.value),
+        "febrero": convertNumber(this.editForm.get('febrero')?.value),
+        "marzo": convertNumber(this.editForm.get('marzo')?.value),
+        "abril": convertNumber(this.editForm.get('abril')?.value),
+        "mayo": convertNumber(this.editForm.get('mayo')?.value),
+        "junio": convertNumber(this.editForm.get('junio')?.value),
+        "julio": convertNumber(this.editForm.get('julio')?.value),
+        "agosto": convertNumber(this.editForm.get('agosto')?.value),
+        "septiembre": convertNumber(this.editForm.get('septiembre')?.value),
+        "octubre": convertNumber(this.editForm.get('octubre')?.value),
+        "noviembre": convertNumber(this.editForm.get('noviembre')?.value),
+        "diciembre": convertNumber(this.editForm.get('diciembre')?.value),
 
     };
 
@@ -329,17 +330,25 @@ actualizarDetallePrivado() {
 
     
 
-  const table = 'plan_privado_25';
-  const condition = 'ID_SISTEMA';
+  const table = 'PlanPrivado2025_back';
+  const condition = 'clave';
   const condition_value = this.editForm.get('clave')?.value;
   
   const months = {
-      "ene": convertNumber(this.editForm.get('enero')?.value),
-      "feb": convertNumber(this.editForm.get('febrero')?.value),
-      "mar":convertNumber(this.editForm.get('marzo')?.value),
-      
+    "enero": convertNumber(this.editForm.get('enero')?.value),
+    "febrero": convertNumber(this.editForm.get('febrero')?.value),
+    "marzo": convertNumber(this.editForm.get('marzo')?.value),
+    "abril": convertNumber(this.editForm.get('abril')?.value),
+    "mayo": convertNumber(this.editForm.get('mayo')?.value),
+    "junio": convertNumber(this.editForm.get('junio')?.value),
+    "julio": convertNumber(this.editForm.get('julio')?.value),
+    "agosto": convertNumber(this.editForm.get('agosto')?.value),
+    "septiembre": convertNumber(this.editForm.get('septiembre')?.value),
+    "octubre": convertNumber(this.editForm.get('octubre')?.value),
+    "noviembre": convertNumber(this.editForm.get('noviembre')?.value),
+    "diciembre": convertNumber(this.editForm.get('diciembre')?.value),
 
-  };
+};
 
   const monthsJson = JSON.stringify(months);
 
