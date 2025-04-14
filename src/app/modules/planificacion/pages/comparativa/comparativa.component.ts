@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import Swal from 'sweetalert2';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../../../api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditPlanListModalComponent } from '../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
-import { BehaviorsService } from '../../core/services/behaviors.service';
+import { EditPlanListModalComponent } from '../../../../shared/components/modals/edit-plan-list-modal/edit-plan-list-modal.component';
+import { BehaviorsService } from '../../../../core/services/behaviors.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 

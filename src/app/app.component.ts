@@ -4,7 +4,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from './api.service';
 import { range } from 'rxjs';
 import { SubmenuComponent } from './shared/components/menus/submenu/submenu.component';
-import { PlanService } from './plan/services/plan.service';
+import { PlanService } from './modules/planificacion/services/plan.service';
 
 
 

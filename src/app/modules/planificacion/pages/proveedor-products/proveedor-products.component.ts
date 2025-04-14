@@ -3,12 +3,12 @@ import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } fr
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
-import { pp_data_details } from '../../core/helpers/readables';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableInventariosModalComponent } from '../../shared/modals/table-inventarios-modal/table-inventarios-modal.component';
-import { StackedViewModalComponent } from '../../shared/modals/stacked-view-modal/stacked-view-modal.component';
 import { gsap } from 'gsap';
-import { BehaviorsService } from '../../core/services/behaviors.service';
+import { pp_data_details } from '../../../../core/helpers/readables';
+import { TableInventariosModalComponent } from '../../../../shared/modals/table-inventarios-modal/table-inventarios-modal.component';
+import { BehaviorsService } from '../../../../core/services/behaviors.service';
+import { StackedViewModalComponent } from '../../../../shared/modals/stacked-view-modal/stacked-view-modal.component';
 
 
 @Component({

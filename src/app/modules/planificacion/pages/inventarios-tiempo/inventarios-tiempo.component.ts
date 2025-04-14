@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ChoosePlanModalComponent } from '../../shared/modals/choose-plan-modal/choose-plan-modal.component';
-import { pp_data_details, public_providers_data } from '../../core/helpers/readables';
+import { ChoosePlanModalComponent } from '../../../../shared/modals/choose-plan-modal/choose-plan-modal.component';
+import { pp_data_details, public_providers_data } from '../../../../core/helpers/readables';
+import { ApiService } from '../../../../api.service';
+import { BehaviorsService } from '../../../../core/services/behaviors.service';
 import { ProveedorProductsComponent } from '../proveedor-products/proveedor-products.component';
-import { ApiService } from '../../api.service';
-import { BehaviorsService } from '../../core/services/behaviors.service';
 
 @Component({
   selector: 'app-inventarios-tiempo',

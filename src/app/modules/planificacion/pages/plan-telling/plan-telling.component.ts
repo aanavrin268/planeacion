@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { gsap } from 'gsap'; 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'; 
-import { PlanService } from '../services/plan.service';
 import { Router } from '@angular/router';
+import { PlanService } from '../../services/plan.service';
 
 
 
