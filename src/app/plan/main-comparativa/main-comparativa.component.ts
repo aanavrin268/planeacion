@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CanicasComponent } from '../../canicas/canicas.component';
+import { CanicasComponent } from '../../modules/planificacion/components/canicas/canicas.component';
 
 interface PLANFULL {
   nombre: string;
