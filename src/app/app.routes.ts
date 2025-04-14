@@ -11,7 +11,7 @@ import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
 import { ExampleComponent } from './plan/example/example.component';
 import { ComparativaComponent } from './plan/comparativa/comparativa.component';
 import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
-import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
+import { DashProductossComponent } from './modules/productos/pages/dash-productoss/dash-productoss.component';
 import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
 import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
 import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
