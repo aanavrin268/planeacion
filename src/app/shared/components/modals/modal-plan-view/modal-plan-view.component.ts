@@ -116,6 +116,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   protected isFirstOpen: boolean;
 
+  protected currentPlanName: string;
+
 
   constructor(private modal: NgbModal, private service: ApiService, private router: Router, 
     private cdRef: ChangeDetectorRef, private active: NgbActiveModal
@@ -138,6 +140,8 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
     this.showUtility = false;
     this.showUtilityDetails = false;
     this.typeText = '';
+
+    this.currentPlanName = '';
 
     this.monthText = '';
     this.monthQ = '';
@@ -179,6 +183,34 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
   
   ngOnInit(): void {
+
+    if(this.plan.id === 1){
+      this.service.getAllPlanHistoricUnion().subscribe({
+        next:(response) => {
+            console.log('public_plan_nams', response);
+            const getName = response.result[response.result.length-1];
+
+            console.log('try: ', getName);
+
+            this.currentPlanName = getName.name;
+
+        }
+      })
+
+    }else if (this.plan.id === 2){
+        this.service.getAllPlanPrivadoHistoric().subscribe({
+          next:(response) => {
+            console.log('public_plan_nams', response);
+            const getName = response.result[response.result.length-1];
+
+            console.log('try: ', getName);
+
+            this.currentPlanName = getName.name;
+          }
+        })
+      
+    }
+
 
     if(!this.isFirstOpen){
       this.getMonthlyData()

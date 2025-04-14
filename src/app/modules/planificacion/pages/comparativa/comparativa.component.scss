@@ -324,19 +324,19 @@ $white-20: rgba(255, 255, 255, 0.2);
                 }
 
                 .selected-cotainer{
-                    width: 70%;
-                    height: 20vh;
+                    width: 53%;
+                    height: 14vh;
                     background-color: rgb(36, 36, 36);
-                    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.315);
+                    /* box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.315); */
                     position: absolute;
                     z-index: 10;
                     border-radius: 8px;
-                    padding: 1rem 3rem;
+                    padding: 1rem;
                     display: flex;
-                    justify-content: space-around;
+                    justify-content: space-between;
                     align-items: center;
-                    bottom: 20%;
-                    right: 26%;
+                    top: -14%;
+                    right: 5%;
 
                     .t-container{
                         display:flex;
@@ -357,10 +357,24 @@ $white-20: rgba(255, 255, 255, 0.2);
                                 }
 
                                 .ms-icon{
+                                    color: black;
                                     color: white;
-                                    font-size:18px;
+                                    font-size: 11px;
+                                    background: ghostwhite;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    color: black;
+                                    width: 20px;
+                                    height: 20px;
+                                    transition: all 0.2s ease-in-out;
+
                                     &:hover{
                                         cursor:pointer;
+                                        background: rgb(157, 157, 158);
+                                        transform: scale(1.017);
+
                                     }
                                 }
                             }
@@ -379,17 +393,18 @@ $white-20: rgba(255, 255, 255, 0.2);
                       justify-content: flex-end;
 
                       .ms-btn{
-                        color:white;
-                        padding: .3rem .6rem;
+                        color: white;
+                        padding: 0.3rem 0.6rem;
                         font-size: 15px;
                         transition: all 0.2s ease-in-out;
                         outline: none;
-                        background-color: rgb(68, 68, 68);
-                        border:none
+                        border: none;
+                        background-color: transparent;
+                        border-radius: 8px;
 
                         &:hover{
                             cursor:pointer;
-                            background-color: rgba(59, 58, 58, 0.301);
+                            background-color: rgba(77, 76, 76, 0.301);
                         }
                       }
           
@@ -415,11 +430,11 @@ $white-20: rgba(255, 255, 255, 0.2);
                    
           
                     .ms-text{
-                      width:65%;
-                      line-height: 1.1;
-                      font-size:16px;
-                      color: white;
-                      font-weight: 600;
+                        width: 65%;
+                        line-height: 1.1;
+                        font-size: 16px;
+                        color: #e1dede;
+                        font-weight: 600;
                     }
                 }
             }
