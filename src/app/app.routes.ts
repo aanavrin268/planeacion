@@ -1,76 +1,38 @@
 import { Routes } from '@angular/router';
-import { QuatriComponent } from './quatri/quatri.component';
-import { TestComponent } from './test/test.component';
-import { FichaTecnicaComponent } from './producto/ficha-tecnica/ficha-tecnica.component';
-import { DraggableComponent } from './producto/draggable/draggable.component';
-import { PruebaComponent } from './prueba/prueba.component';
-import { CanicasComponent } from './canicas/canicas.component';
-import { DashComponent } from './producto/dash/dash.component';
-import { ProductComponent } from './producto/product/product.component';
-import { RepFincadasComponent } from './reportes/rep-fincadas/rep-fincadas.component';
-import { UFincadasComponent } from './shared/semi/u-fincadas/u-fincadas.component';
-import { HomeComponent } from './dashboards/home/home.component';
-import { DashProductsComponent } from './dashboards/dash-products/dash-products.component';
-import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
-import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
-import { ExampleComponent } from './plan/example/example.component';
-import { ComparativaComponent } from './plan/comparativa/comparativa.component';
-import { SettingsComponent } from './settings/settings/settings.component';
-import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
-import { TodosProductosComponent } from './productoss/todos-productos/todos-productos.component';
-import { DashProductossComponent } from './dashboards/dash-productoss/dash-productoss.component';
-import { DashInventarioComponent } from './dashboards/dash-inventario/dash-inventario.component';
-import { InventariosTiempoComponent } from './inventarios/inventarios-tiempo/inventarios-tiempo.component';
-import { ModoPivoteComponent } from './plan/modo-pivote/modo-pivote.component';
-import { PruebaTablaComponent } from './pruebas/prueba-tabla/prueba-tabla.component';
-import { MultiComparativaComponent } from './plan/multi-comparativa/multi-comparativa.component';
+import { CanicasComponent } from './modules/planificacion/components/canicas/canicas.component';
+import { HomeComponent } from './modules/home/pages/home/home.component';
+import { DashPlanComponent } from './modules/planificacion/pages/dash-plan/dash-plan.component';
+import { ExampleComponent } from './modules/planificacion/pages/example/example.component';
+import { ComparativaComponent } from './modules/planificacion/pages/comparativa/comparativa.component';
+import { DashProductossComponent } from './modules/productos/pages/dash-productoss/dash-productoss.component';
+import { InventariosTiempoComponent } from './modules/planificacion/pages/inventarios-tiempo/inventarios-tiempo.component';
+import { ModoPivoteComponent } from './modules/planificacion/pages/modo-pivote/modo-pivote.component';
+import { MultiComparativaComponent } from './modules/planificacion/pages/multi-comparativa/multi-comparativa.component';
+import { PlanTellingComponent } from './modules/planificacion/pages/plan-telling/plan-telling.component';
+import { MainComparativaComponent } from './modules/planificacion/pages/main-comparativa/main-comparativa.component';
 
 
 
 export const routes: Routes = [
-{path:  'quatri', component: QuatriComponent},
-{path: 'product', component: ProductComponent},
-{path: 'repFincadas', component: RepFincadasComponent},
-{path: 'uFincadas', component: UFincadasComponent},
 {path: 'home', component: HomeComponent},
-{path: 'dashProducts', component: DashProductsComponent},
-{path: 'dashReports', component: DashReportsComponent},
 {path: 'dashPlan', component: DashPlanComponent},
 {path: 'comparativa/:id', component: ComparativaComponent},
-{path: 'settings', component: SettingsComponent},
 {path: 'planTelling', component: PlanTellingComponent},
-{path: 'dashInventarios', component: DashInventarioComponent},
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
 {path: 'multi-comparativa', component: MultiComparativaComponent},
 
-{path: 'pruebaaa', component: PruebaTablaComponent},
 
 
 {path: 'stPlan', component: ExampleComponent},
 
-{path: 'todosProductos', component: TodosProductosComponent},
 {path: 'dashProductoss', component: DashProductossComponent},
 
 
 
 
-{
-    path:'ficha',
-    component: FichaTecnicaComponent
-},
-{
-    path: 'drag',
-    component: DraggableComponent
-},
-{
-    path: 'prueba',
-    component: PruebaComponent
-},
-{
-    path: 'dash',
-    component: DashComponent
-},
+
+
 {
     path: 'canica',
     component: CanicasComponent
@@ -78,8 +40,7 @@ export const routes: Routes = [
 
 
 
-{path: 'test', component:TestComponent},
-{path: '', component: CanicasComponent, pathMatch: 'full'}
+{path: '', component: MainComparativaComponent, pathMatch: 'full'}
 
 
 

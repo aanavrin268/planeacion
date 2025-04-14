@@ -1,0 +1,214 @@
+
+@use '../../../../../styles/_abstracts/index' as a;
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    .title{
+        @include a.mx-text-title-lg;
+    }
+
+    .sub{
+        @include a.mx-text-sub-title;
+        margin-top: .8rem;
+
+    }
+
+    .header{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        padding-left: 4rem;
+
+        
+
+        
+    }
+
+    .body{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 2rem;
+        padding-left: 4rem;
+
+        .c-card{
+            width: 100%;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .top{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+
+                .c-title{
+                    @include a.mx-card-title;
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .down{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .divider{
+                    width: 1px;
+                    background-color: #00000029;
+                    height: 61%;
+                }
+
+                .c-plan{
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+                    margin-right: 4xp solid black;
+                    position: relative;
+                    padding-left: 1.9rem;
+
+                    .c-icon{
+                            /* background-color: red; */
+                    position: absolute;
+                    left: 0%;
+                    font-size: 20px;
+                    top: 10%;
+                    }
+
+                  
+
+                    .c-text{
+                        font-size: 16px;
+                        line-height: 1.1;
+                        color: #5e5757;
+                        font-weight: 600;
+                    }
+
+                    .c-text-2{
+                        font-size: 15px;
+                        line-height: 1.1;
+                        color: #33097a;
+                        font-weight: 650;
+                    }
+                }
+            }
+
+           
+        }
+
+        .first-versus{
+            display: flex;
+            flex-direction: column;
+            margin-top: 3rem;
+
+            .p-title{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+                color: a.$primary-dark;
+            }
+
+            .p-title-2{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .p-title-1{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+                color: a.$secondary-dark;
+            }
+
+            .a-title{
+               width: 100%;
+               font-weight: 620;
+
+            }
+
+
+            .sub{
+                margin-bottom: 2rem;
+            }
+
+
+            .table-container{
+                overflow-y: auto;
+                margin-top: 3rem;
+
+                .sepa{
+                    margin-top: 2rem;
+                }
+            }
+        }
+
+        .second-versus{
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-top: 3rem;
+
+            .p-title{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+                color: a.$primary-dark;
+            }
+
+            .p-title-2{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .p-title-1{
+                margin-bottom: 2rem;
+                font-size: 16px;
+                font-weight: 600;
+                color: a.$secondary-dark;
+            }
+
+            .a-title{
+               width: 100%;
+               font-weight: 620;
+
+            }
+
+            .sub{
+                margin-bottom: 2rem;
+               
+            }
+
+            .sub-1{
+                margin-bottom: 2rem;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+
+            .table-container{
+                overflow-y: auto;
+                margin-top: 3rem;
+
+                .sepa{
+                    margin-top: 2rem;
+                }
+            }
+        }
+    }
+}
+
+.highlight {
+    background-color: #ffcccc; 
+}

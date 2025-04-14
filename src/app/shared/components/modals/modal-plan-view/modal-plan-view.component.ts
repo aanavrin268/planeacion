@@ -16,7 +16,7 @@ import { gsap } from 'gsap';
 import { plan_public_all_data } from '../../../../core/helpers/readables';
 import { ColumnSelecterModalComponent } from '../../../modals/column-selecter-modal/column-selecter-modal.component';
 import { ModalMultiEditssComponent } from '../../../modals/modal-multi-editss/modal-multi-editss.component';
-import { ModoPivoteComponent } from '../../../../plan/modo-pivote/modo-pivote.component';
+import { ModoPivoteComponent } from '../../../../modules/planificacion/pages/modo-pivote/modo-pivote.component';
 import { ModalNewHistoricComponent } from '../../../modals/modal-new-historic/modal-new-historic.component';
 import { ChooseHistoricsComponent } from '../../../modals/choose-historics/choose-historics.component';
 
