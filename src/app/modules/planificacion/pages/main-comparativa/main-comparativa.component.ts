@@ -12,244 +12,413 @@ import { ApiService } from '../../../../api.service';
 interface PLANFULL {
   nombre: string;
   tipo: string;
-  data: PLAN[];
+  data: PLAN[][]; // Ajustado para reflejar la estructura anidada
 }
 
 interface PLAN {
+  id_ph: number;
   clave: string;
+  proveedor: string;
   nombre: string;
-  inventario: string;
-  enero: string;
-  facturacion_enero: string;
-  febrero: string;
-  facturacion_febrero: string;
-  marzo: string;
-  facturacion_marzo: string;
-  abril: string;
-  mayo: string;
-  junio: string;
+  inventario: number;
+  enero: number;
+  febrero: number;
+  marzo: number;
+  abril: number;
+  mayo: number;
+  junio: number;
+  julio: number;
+  agosto: number;
+  septiembre: number;
+  octubre: number;
+  noviembre: number;
+  diciembre: number;
+  id_fecha: string;
+  nombre_plan: string;
 }
 
 @Component({
   selector: 'app-main-comparativa',
-  imports: [CommonModule, FormsModule, MatExpansionModule, MatTableModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatIconModule,
+  ],
   templateUrl: './main-comparativa.component.html',
-  styleUrl: './main-comparativa.component.scss'
+  styleUrls: ['./main-comparativa.component.scss'],
 })
 export class MainComparativaComponent implements OnInit {
-  planA: PLANFULL;
-  planB: PLANFULL;
-  planC: PLANFULL;
+  planA: PLANFULL = { nombre: '', tipo: '1', data: [[]] };
+  planB: PLANFULL = { nombre: '', tipo: '1', data: [[]] };
+  planC: PLANFULL = { nombre: '', tipo: '1', data: [[]] };
 
-  data1: PLAN[] = [];
-  data2: PLAN[] = [];
-  data3: PLAN[] = [];
+  plan_list: string[] = [];
+  selectedPlanA: string = '';
+  selectedPlanB: string = '';
+  selectedPlanC: string = '';
 
-  plan_list: any[] = [];
-
-  selectedPlanA: any;
-  selectedPlanB: any;
-  selectedPlanC: any;
-
-  dataSource = new MatTableDataSource<any>();
-  dataSourceB = new MatTableDataSource<any>();
-  dataSourceC = new MatTableDataSource<any>();
-
+  dataSource = new MatTableDataSource<PLAN>();
+  dataSourceB = new MatTableDataSource<PLAN>();
+  dataSourceC = new MatTableDataSource<PLAN>();
   dataSourceAvB = new MatTableDataSource<any>();
   dataSourceAvC = new MatTableDataSource<any>();
 
+  displayedColumns: string[] = [
+    'clave',
+    'nombre',
+    'proveedor',
+    'inventario',
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+  ];
 
-  displayedColumns: any[] = [];
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
-  protected data_list: any[] = [];
-
-  constructor(private modal: NgbModal, private route: ActivatedRoute, private service: ApiService){
-   
-    this.planA = { nombre: '', tipo: "1", data: [] };
-    this.planB = { nombre: '', tipo: "1", data: [] };
-    this.planC = { nombre: '', tipo: "1", data: [] };
-
-
-    this.displayedColumns = ['clave','nombre', 'inventario', 'enero', 'facturacion_enero',
-      'febrero', 'facturacion_febrero', 'marzo', 'facturacion_marzo'
-    ];
-
-  }
+  constructor(
+    private modal: NgbModal,
+    private route: ActivatedRoute,
+    private service: ApiService
+  ) {}
 
   ngOnInit(): void {
-
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       try {
-        this.data_list = JSON.parse(params['selected_data'] || '[]');
+        const data_list = JSON.parse(params['selected_data'] || '[]');
+        console.log('params_data:', data_list);
 
-        console.log("params_data", this.data_list);
-        this.planA.nombre = this.data_list[0].name;
-        this.planB.nombre = this.data_list[1].name;
-        this.planC.nombre = this.data_list[2].name;
+        if (data_list.length >= 3) {
+          this.planA.nombre = data_list[0].name || '';
+          this.planB.nombre = data_list[1].name || '';
+          this.planC.nombre = data_list[2].name || '';
+          console.log('Nombres de planes asignados:', this.planA.nombre, this.planB.nombre, this.planC.nombre);
+        } else {
+          console.warn('No se proporcionaron suficientes planes en selected_data');
+          this.errorMessage = 'No se proporcionaron suficientes planes para comparar.';
+        }
 
-        //this.planA = this.data_list[0] || {};
-        //this.planB = this.data_list[1] || {};
-        //this.planC = this.data_list[2] || {};
+        this.fetchAllDatas();
       } catch (error) {
         console.error('Error al parsear selected_data:', error);
+        this.errorMessage = 'Error al procesar los datos de comparación.';
+        this.isLoading = false;
       }
     });
-
-    this.fetchAllDatas();
-
-
-
-
-
-    //this.planA.data = this.data1;
-    //this.planB.data = this.data2;
-    //this.planC.data = this.data3;
-
-    this.plan_list = [this.planA.nombre, this.planB.nombre, this.planC.nombre];
-    this.selectedPlanA = this.plan_list[0];
-    this.selectedPlanB = this.plan_list[1];
-    this.selectedPlanC = this.plan_list[2];
-
-    console.log("planes", this.selectedPlanA);
-
-    
-
-   
-
   }
 
   async fetchAllDatas() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
     try {
+      // Datos de prueba basados en el JSON proporcionado
+
+      /*
+      this.planA.data = [[
+        {
+          id_ph: 81,
+          clave: '010.000.6051.00',
+          proveedor: 'RICHET',
+          nombre: 'Alprostadil (500mcg/5amp/1ml)',
+          inventario: 0,
+          enero: 150,
+          febrero: 150,
+          marzo: 150,
+          abril: 300,
+          mayo: 300,
+          junio: 300,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'tres Ascending'
+        },
+        {
+          id_ph: 84,
+          clave: '010.000.3461.00',
+          proveedor: 'GERMED',
+          nombre: 'Azatioprina (50mg/50tabl)',
+          inventario: 0,
+          enero: 30000,
+          febrero: 40000,
+          marzo: 40000,
+          abril: 8500,
+          mayo: 8500,
+          junio: 8500,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'tres',
+        },
+      ]];
+
+      this.planB.data = [[
+        {
+          id_ph: 81,
+          clave: '010.000.6051.00',
+          proveedor: 'RICHET',
+          nombre: 'Alprostadil (500mcg/5amp/1ml)',
+          inventario: 0,
+          enero: 100, // Diferencia en enero
+          febrero: 150,
+          marzo: 150,
+          abril: 200, // Diferencia en abril
+          mayo: 300,
+          junio: 300,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'cuatro',
+        },
+        {
+          id_ph: 84,
+          clave: '010.000.3461.00',
+          proveedor: 'GERMED',
+          nombre: 'Azatioprina (50mg/50tabl)',
+          inventario: 0,
+          enero: 20000, // Diferencia en enero
+          febrero: 40000,
+          marzo: 40000,
+          abril: 9000, // Diferencia en abril
+          mayo: 8500,
+          junio: 8500,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'cuatro',
+        },
+      ]];
+
+      this.planC.data = [[
+        {
+          id_ph: 81,
+          clave: '010.000.6051.00',
+          proveedor: 'RICHET',
+          nombre: 'Alprostadil (500mcg/5amp/1ml)',
+          inventario: 0,
+          enero: 150,
+          febrero: 100, // Diferencia en febrero
+          marzo: 150,
+          abril: 300,
+          mayo: 200, // Diferencia en mayo
+          junio: 300,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'cinco',
+        },
+        {
+          id_ph: 84,
+          clave: '010.000.3461.00',
+          proveedor: 'GERMED',
+          nombre: 'Azatioprina (50mg/50tabl)',
+          inventario: 0,
+          enero: 30000,
+          febrero: 30000, // Diferencia en febrero
+          marzo: 40000,
+          abril: 8500,
+          mayo: 9000, // Diferencia en mayo
+          junio: 8500,
+          julio: 0,
+          agosto: 0,
+          septiembre: 0,
+          octubre: 0,
+          noviembre: 0,
+          diciembre: 0,
+          id_fecha: '2025-04-14T00:00:00.000Z',
+          nombre_plan: 'cinco',
+        },
+      ]];
+
+      */
+
+      // Descomentar para usar datos reales del servicio
+      
       await Promise.all([
         this.getPlanDataPromise(this.planA.nombre),
         this.getPlanDataPromise(this.planB.nombre),
         this.getPlanDataPromise(this.planC.nombre),
       ]);
+      
 
-      this.dataSource = new MatTableDataSource(this.planA.data);
-      this.dataSourceB = new MatTableDataSource(this.planB.data);
-      this.dataSourceC = new MatTableDataSource(this.planC.data);
+      console.log(" plan a data sin [] es ", this.planA.data);
 
-      const avB = this.getDifferences(this.planA.data, this.planB.data);
-      const avC = this.getDifferences(this.planA.data, this.planC.data);
+      // Usar el primer elemento del arreglo data
+      const planAData = this.planA.data[0] || [];
+      const planBData = this.planB.data[0] || [];
+      const planCData = this.planC.data[0] || [];
 
-      console.log('diff avB', avB);
-      console.log('diff avC', avC);
+      console.log('Datos cargados - planA:', planAData);
+      console.log('Datos cargados - planB:', planBData);
+      console.log('Datos cargados - planC:', planCData);
+
+      // Inicializar dataSource
+      this.dataSource = new MatTableDataSource(planAData);
+      this.dataSourceB = new MatTableDataSource(planBData);
+      this.dataSourceC = new MatTableDataSource(planCData);
+
+      // Calcular diferencias
+      const avB = this.getDifferences(planAData, planBData);
+      const avC = this.getDifferences(planAData, planCData);
+
+      console.log('Diferencias A vs B:', avB);
+      console.log('Diferencias A vs C:', avC);
 
       this.dataSourceAvB = new MatTableDataSource(avB);
       this.dataSourceAvC = new MatTableDataSource(avC);
 
-      // Inicializamos la lista de planes y las selecciones
-      this.plan_list = [this.planA.nombre, this.planB.nombre, this.planC.nombre];
+      // Inicializar lista de planes
+      this.plan_list = [this.planA.nombre || 'Plan A', this.planB.nombre || 'Plan B', this.planC.nombre || 'Plan C'];
       this.selectedPlanA = this.plan_list[0];
       this.selectedPlanB = this.plan_list[1];
       this.selectedPlanC = this.plan_list[2];
 
-      console.log('planes seleccionados', this.selectedPlanA, this.selectedPlanB, this.selectedPlanC);
+      if (!planAData.length || !planBData.length || !planCData.length) {
+        this.errorMessage = 'No se encontraron datos para uno o más planes.';
+      }
     } catch (err) {
       console.error('Error al cargar los datos:', err);
+      this.errorMessage = 'No se pudieron cargar los datos. Por favor, intenta de nuevo.';
+    } finally {
+      this.isLoading = false;
     }
   }
 
-  getPlanDataPromise(plan_name: string): Promise<boolean>{
+  getPlanDataPromise(plan_name: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      if (!plan_name) {
+        console.warn(`Nombre del plan vacío: ${plan_name}`);
+        resolve(false);
+        return;
+      }
+
       this.service.getPlanSelectedByName(plan_name).subscribe({
-        next:(response) => {
-            console.log("data del plan: " + plan_name , response);
+        next: (response) => {
+          console.log(`Datos del plan ${plan_name}:`, response);
+          const data = response.result; // Asegurarse de que data sea un arreglo
 
-            if(plan_name === this.planA.nombre){
-              this.planA.data = response.result;
-              console.log("planA feteched", this.planA);
+          if (plan_name === this.planA.nombre) {
+            this.planA.data = data;
+            console.log("1 data", response);
+            console.log("1 data again ", data);
 
+          } else if (plan_name === this.planB.nombre) {
+            this.planB.data = data;
+          } else if (plan_name === this.planC.nombre) {
+            this.planC.data = data;
+          }
 
-            }else if(plan_name === this.planB.nombre){
-              this.planB.data = response.result;
-
-              this.dataSourceB = new MatTableDataSource(this.planB.data);
-
-            }else  if(plan_name === this.planC.nombre){
-              this.planC.data = response.result;
-              console.log("planC feteched", this.planC);
-
-
-            }
-            resolve(true);
+          resolve(true);
         },
-        error:(err) => {
-          console.error("error es", err);
-          reject(false);
-        }
-      })
-    })
-  }
-
-
-  openSummary(){
-    const modalRef = this.modal.open(CanicasComponent, {
-      centered: true,
-      size:'xl',
-      windowClass:'redondo'
+        error: (err) => {
+          console.error(`Error al cargar el plan ${plan_name}:`, err);
+          reject(err);
+        },
+      });
     });
   }
 
+  openSummary() {
+    this.modal.open(CanicasComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo',
+    });
+  }
 
   getDifferences(dataSource1: PLAN[], dataSource2: PLAN[]): any[] {
     const differences: any[] = [];
-  
-    if (dataSource1.length !== dataSource2.length) {
-      console.error('Los dataSource no tienen la misma longitud.');
-      return differences;
-    }
-  
-    // Lista explícita de propiedades de PLAN
     const planKeys: (keyof PLAN)[] = [
-      'clave',
-      'nombre',
       'inventario',
       'enero',
-      'facturacion_enero',
       'febrero',
-      'facturacion_febrero',
       'marzo',
-      'facturacion_marzo',
       'abril',
       'mayo',
-      'junio'
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
     ];
-  
-    dataSource1.forEach((row1, index) => {
-      const row2 = dataSource2[index];
+
+    // Crear un mapa de dataSource2 para buscar por clave
+    const data2Map = new Map<string, PLAN>();
+    dataSource2.forEach((item) => data2Map.set(item.clave, item));
+
+    console.log('Mapa de dataSource2:', Array.from(data2Map.entries()));
+
+    // Iterar sobre dataSource1 y buscar correspondencias por clave
+    dataSource1.forEach((row1, index1) => {
+      const row2 = data2Map.get(row1.clave);
+      if (!row2) {
+        console.warn(`No se encontró elemento con clave ${row1.clave} en dataSource2`);
+        return;
+      }
+
       const rowDifferences: any[] = [];
-  
-      // Iteramos sobre las propiedades conocidas
-      planKeys.forEach(key => {
+
+      planKeys.forEach((key) => {
         const value1 = row1[key];
         const value2 = row2[key];
-  
-        if (value1 !== value2) {
+
+        // Convertir a string para comparación consistente
+        const strValue1 = String(value1);
+        const strValue2 = String(value2);
+
+        if (strValue1 !== strValue2) {
           rowDifferences.push({
             campo: key,
             valor1: value1,
-            valor2: value2
+            valor2: value2,
           });
         }
       });
-  
+
       if (rowDifferences.length > 0) {
         differences.push({
           nombre: row1.nombre,
-          diferencias: rowDifferences
+          clave: row1.clave,
+          diferencias: rowDifferences,
+          index1: index1,
+          index2: dataSource2.findIndex((item) => item.clave === row1.clave),
         });
       }
     });
-  
+
+    console.log('Diferencias calculadas:', differences);
     return differences;
   }
 
   isDifferent(row1: PLAN, row2: PLAN, column: string): boolean {
-    return row1[column as keyof PLAN] !== row2[column as keyof PLAN];
+    if (!row1 || !row2) return false;
+    return String(row1[column as keyof PLAN]) !== String(row2[column as keyof PLAN]);
   }
-
-
-
 }

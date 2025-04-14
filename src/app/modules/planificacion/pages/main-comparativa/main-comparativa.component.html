@@ -1,220 +1,210 @@
 <div class="main-content">
+  <!-- Indicador de carga y error -->
+  <div *ngIf="isLoading" class="loading">Cargando datos...</div>
+  <div *ngIf="errorMessage && !isLoading" class="error">{{ errorMessage }}</div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!isLoading && !errorMessage">
     <section class="header">
-        <span class="title">  
-            Comparativa de planes
-        </span>
-        <span class="sub">Obtenen datos relevantes a partir de la comparación de 
-          los planes.
-        </span>
+      <span class="title">Comparativa de planes</span>
+      <span class="sub">Obtén datos relevantes a partir de la comparación de los planes.</span>
     </section>
+
     <section class="body">
-    
-        <div class="c-card">
-
-          <div class="top">
-            <span class="c-title">Lista de datos</span>
-          </div>
-          <div class="down">
-            <div class="c-plan">
-              <i class="bi bi-file-earmark-ruled c-icon"></i>
-              <span class="c-text">Plan de referencia (A)</span>
-              <span class="c-text-2">{{selectedPlanA}}</span>
-          </div>
-
-            <div class="divider"></div>
-
+      <div class="c-card">
+        <div class="top">
+          <span class="c-title">Lista de datos</span>
+        </div>
+        <div class="down">
           <div class="c-plan">
             <i class="bi bi-file-earmark-ruled c-icon"></i>
-
-              <span class="c-text">Plan de comparacion (B)</span>
-              <span class="c-text-2">{{selectedPlanB}}</span>
+            <span class="c-text">Plan de referencia (A)</span>
+            <span class="c-text-2">{{ selectedPlanA || 'No seleccionado' }}</span>
           </div>
 
           <div class="divider"></div>
 
-
           <div class="c-plan">
             <i class="bi bi-file-earmark-ruled c-icon"></i>
-
-              <span class="c-text">Plan de comparacion (C)</span>
-              <span class="c-text-2">{{selectedPlanC}}</span>
+            <span class="c-text">Plan de comparación (B)</span>
+            <span class="c-text-2">{{ selectedPlanB || 'No seleccionado' }}</span>
           </div>
 
           <div class="divider"></div>
 
+          <div class="c-plan">
+            <i class="bi bi-file-earmark-ruled c-icon"></i>
+            <span class="c-text">Plan de comparación (C)</span>
+            <span class="c-text-2">{{ selectedPlanC || 'No seleccionado' }}</span>
+          </div>
+
+          <div class="divider"></div>
 
           <div class="c-plan">
-             <button class="btn btn-primary"
-              (click)="openSummary()">Resumen ejectivo</button>
-             <button class="btn btn-light">Volver</button>
-          </div>
+            <button class="btn btn-primary" (click)="openSummary()">Resumen ejecutivo</button>
+            <button class="btn btn-light">Volver</button>
           </div>
         </div>
+      </div>
 
-        <div class="first-versus">
-            <span class="title">
-              PLAN A VS PLAN B
-            </span>
+      <!-- Plan A vs Plan B -->
+      <div class="first-versus">
+        <span class="title">PLAN A VS PLAN B</span>
+        <span class="sub">
+          Resultados de la comparación de los planes:
+          <strong>{{ selectedPlanA || 'Plan A' }}</strong> vs
+          <strong>{{ selectedPlanB || 'Plan B' }}</strong>
+        </span>
 
-            <span class="sub">
-              Resultados de la comparación de los planes:   
-              <strong>{{ selectedPlanA }}</strong> vs 
-              <strong> {{ selectedPlanB }}</strong>
-            </span>
-        
-           
-        
-            <mat-accordion>
-              <mat-expansion-panel *ngFor="let item of dataSourceAvB.data; let i = index">
-                <mat-expansion-panel-header>
-                  <mat-panel-title class="a-title">
-                    {{ item.nombre }}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-        
-                <div class="table-container">
-                  <span class="p-title">{{ selectedPlanA }}</span>
-                  <table mat-table [dataSource]="[dataSource.data[i]]" class="mat-elevation-z8">
-                    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-                      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-                      <td
-                        mat-cell
-                        *matCellDef="let element"
-                        [class.highlight]="isDifferent(element, dataSourceB.data[i], column)"
-                      >
-                        {{ element[column] }}
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                  </table>
-                </div>
-        
-                <div class="table-container">
-                  <span class="p-title-1">{{ selectedPlanB }}</span>
-                  <table mat-table [dataSource]="[dataSourceB.data[i]]" class="mat-elevation-z8">
-                    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-                      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-                      <td
-                        mat-cell
-                        *matCellDef="let element"
-                        [class.highlight]="isDifferent(element, dataSource.data[i], column)"
-                      >
-                        {{ element[column] }}
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                  </table>
-                </div>
-        
-                <div class="table-container">
-                  <span class="p-title-2">Diferencias</span>
-                  <table mat-table [dataSource]="item.diferencias" class="mat-elevation-z8">
-                    <ng-container matColumnDef="campo">
-                      <th mat-header-cell *matHeaderCellDef>Campo</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.campo | titlecase }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="valor1">
-                      <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanA }}</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.valor1 }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="valor2">
-                      <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanB }}</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.valor2 }}</td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="['campo', 'valor1', 'valor2']"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['campo', 'valor1', 'valor2']"></tr>
-                  </table>
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let item of dataSourceAvB.data">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="a-title">{{ item.nombre }}</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="table-container">
+              <span class="p-title">{{ selectedPlanA || 'Plan A' }}</span>
+              <table mat-table [dataSource]="[dataSource.data[item.index1]]" class="mat-elevation-z8">
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [class.highlight]="isDifferent(element, dataSourceB.data[item.index2], column)"
+                  >
+                    {{ element[column] }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
+
+            <div class="table-container">
+              <span class="p-title-1">{{ selectedPlanB || 'Plan B' }}</span>
+              <table mat-table [dataSource]="[dataSourceB.data[item.index2]]" class="mat-elevation-z8">
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [class.highlight]="isDifferent(element, dataSource.data[item.index1], column)"
+                  >
+                    {{ element[column] }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
+
+            <div class="table-container">
+              <span class="p-title-2">Diferencias</span>
+              <table mat-table [dataSource]="item.diferencias" class="mat-elevation-z8">
+                <ng-container matColumnDef="campo">
+                  <th mat-header-cell *matHeaderCellDef>Campo</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.campo | titlecase }}</td>
+                </ng-container>
+                <ng-container matColumnDef="valor1">
+                  <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanA || 'Plan A' }}</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.valor1 }}</td>
+                </ng-container>
+                <ng-container matColumnDef="valor2">
+                  <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanB || 'Plan B' }}</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.valor2 }}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['campo', 'valor1', 'valor2']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['campo', 'valor1', 'valor2']"></tr>
+              </table>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Mensaje si no hay diferencias -->
+          <div *ngIf="!dataSourceAvB.data.length" class="no-differences">
+            No se encontraron diferencias entre {{ selectedPlanA || 'Plan A' }} y {{ selectedPlanB || 'Plan B' }}.
           </div>
+        </mat-accordion>
+      </div>
 
+      <!-- Plan A vs Plan C -->
+      <div class="second-versus">
+        <span class="title">PLAN A VS PLAN C</span>
+        <span class="sub">
+          Resultados de la comparación de los planes:
+          <strong>{{ selectedPlanA || 'Plan A' }}</strong> vs
+          <strong>{{ selectedPlanC || 'Plan C' }}</strong>
+        </span>
+        <span class="sub-1">Se enmarcan en rojo las celdas donde se encuentran diferencias.</span>
 
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let item of dataSourceAvC.data">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="a-title">{{ item.nombre }}</mat-panel-title>
+            </mat-expansion-panel-header>
 
-        <div class="second-versus">
-          <span class="title">
-            Plan A VS Plan C
-          </span>
+            <div class="table-container">
+              <span class="p-title">{{ selectedPlanA || 'Plan A' }}</span>
+              <table mat-table [dataSource]="[dataSource.data[item.index1]]" class="mat-elevation-z8">
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [class.highlight]="isDifferent(element, dataSourceC.data[item.index2], column)"
+                  >
+                    {{ element[column] }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
 
-          <span class="sub">
-            Resultados de la comparación de los planes:   
-            <strong>{{ selectedPlanA }}</strong> vs 
-            <strong> {{ selectedPlanC }}</strong>
-          </span>        
-           
-        
-            <mat-accordion>
-              <mat-expansion-panel *ngFor="let item of dataSourceAvC.data; let i = index">
-                <mat-expansion-panel-header>
-                  <mat-panel-title class="a-title">
-                    {{ item.nombre }}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
+            <div class="table-container">
+              <span class="p-title-1">{{ selectedPlanC || 'Plan C' }}</span>
+              <table mat-table [dataSource]="[dataSourceC.data[item.index2]]" class="mat-elevation-z8">
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [class.highlight]="isDifferent(element, dataSource.data[item.index1], column)"
+                  >
+                    {{ element[column] }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
 
-                <span class="sub-1">Se enmarcan en rojo las celdas donde se encuentran diferencias. </span>
-        
-                <div class="table-container">
-                  <span class="p-title">{{ selectedPlanA }}</span>
-                  <table mat-table [dataSource]="[dataSource.data[i]]" class="mat-elevation-z8">
-                    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-                      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-                      <td
-                        mat-cell
-                        *matCellDef="let element"
-                        [class.highlight]="isDifferent(element, dataSourceB.data[i], column)"
-                      >
-                        {{ element[column] }}
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                  </table>
-                </div>
-        
-                <div class="table-container">
-                  <span class="p-title-1">{{ selectedPlanC }}</span>
-                  <table mat-table [dataSource]="[dataSourceC.data[i]]" class="mat-elevation-z8">
-                    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-                      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-                      <td
-                        mat-cell
-                        *matCellDef="let element"
-                        [class.highlight]="isDifferent(element, dataSource.data[i], column)"
-                      >
-                        {{ element[column] }}
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                  </table>
-                </div>
-        
-                <div class="table-container">
-                  <span class="p-title-2">Diferencias</span>
-                  <table mat-table [dataSource]="item.diferencias" class="mat-elevation-z8">
-                    <ng-container matColumnDef="campo">
-                      <th mat-header-cell *matHeaderCellDef>Campo</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.campo | titlecase }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="valor1">
-                      <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanA }}</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.valor1 }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="valor2">
-                      <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanB }}</th>
-                      <td mat-cell *matCellDef="let diff">{{ diff.valor2 }}</td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="['campo', 'valor1', 'valor2']"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['campo', 'valor1', 'valor2']"></tr>
-                  </table>
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
+            <div class="table-container">
+              <span class="p-title-2">Diferencias</span>
+              <table mat-table [dataSource]="item.diferencias" class="mat-elevation-z8">
+                <ng-container matColumnDef="campo">
+                  <th mat-header-cell *matHeaderCellDef>Campo</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.campo | titlecase }}</td>
+                </ng-container>
+                <ng-container matColumnDef="valor1">
+                  <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanA || 'Plan A' }}</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.valor1 }}</td>
+                </ng-container>
+                <ng-container matColumnDef="valor2">
+                  <th mat-header-cell *matHeaderCellDef>Valor {{ selectedPlanC || 'Plan C' }}</th>
+                  <td mat-cell *matCellDef="let diff">{{ diff.valor2 }}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['campo', 'valor1', 'valor2']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['campo', 'valor1', 'valor2']"></tr>
+              </table>
+            </div>
+          </mat-expansion-panel>
 
-
-        </div>
-
+          <!-- Mensaje si no hay diferencias -->
+          <div *ngIf="!dataSourceAvC.data.length" class="no-differences">
+            No se encontraron diferencias entre {{ selectedPlanA || 'Plan A' }} y {{ selectedPlanC || 'Plan C' }}.
+          </div>
+        </mat-accordion>
+      </div>
     </section>
+  </div>
 </div>
