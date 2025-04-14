@@ -21,6 +21,7 @@ export const routes: Routes = [
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
 {path: 'multi-comparativa', component: MultiComparativaComponent},
+{path: 'main-comparativa', component: MainComparativaComponent},
 
 
 
@@ -40,7 +41,7 @@ export const routes: Routes = [
 
 
 
-{path: '', component: MainComparativaComponent, pathMatch: 'full'}
+{path: '', component: HomeComponent, pathMatch: 'full'}
 
 
 

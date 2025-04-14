@@ -35,6 +35,7 @@ export class MultiComparativaComponent implements OnInit {
         console.error('Error al parsear selected_data:', error);
       }
     });
+    
   }
 
   async fetchAllData() {

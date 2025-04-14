@@ -90,8 +90,12 @@ displayedColumns: string[] = [];
     if(this.selected_plan_list.length === 1){
       this.showError("Error, faltan datos","Seleccina al menos 2 planes para la comparativa");
     }else {
-      this.router.navigate(['multi-comparativa'], { queryParams: 
-        { selected_data: JSON.stringify(this.selected_plan_list) } });
+      //this.router.navigate(['multi-comparativa'], { queryParams: 
+        //{ selected_data: JSON.stringify(this.selected_plan_list) } });
+
+        this.router.navigate(['main-comparativa'], { queryParams:
+          { selected_data: JSON.stringify(this.selected_plan_list)}
+        })
     }
   }
 

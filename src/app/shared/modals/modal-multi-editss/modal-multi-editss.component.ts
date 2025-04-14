@@ -17,6 +17,7 @@ import { ApiService } from '../../../api.service';
 export class ModalMultiEditssComponent implements OnInit {
   @ViewChild('absolute') absolute!: ElementRef;
 
+   bundle: any;
    rows: any[] = [];
     formGroups: FormGroup[] = [];
     months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
@@ -31,8 +32,9 @@ export class ModalMultiEditssComponent implements OnInit {
     }
   
     ngOnInit(): void {
-      console.log('many', this.rows);
-      this.rows_og = JSON.parse(JSON.stringify(this.rows));
+      console.log('bundle: ', this.bundle);
+      this.rows = this.bundle.data;
+      this.rows_og = JSON.parse(JSON.stringify(this.bundle.data));
       console.log('Datos originales guardados:', this.rows_og);
       
       
@@ -123,9 +125,19 @@ export class ModalMultiEditssComponent implements OnInit {
 
 
       const updatePromises = data.map(item => {
-        const table = 'PlanPublico2025_back';
-        const condition = 'clave';
+        let table = '';
+        let condition = '';
         const condition_value = item.clave;
+
+
+        if(this.bundle.plan === 1){
+           table = 'PlanPublico2025_back';
+           condition = 'clave';
+        }else if (this.bundle.plan === 2){
+           table = 'PlanPrivado2025_back';
+           condition = 'clave';
+        }
+
         
         const months = {
           "enero": convertNumber(item.enero),

@@ -312,6 +312,11 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   openMultiEdit(){
     if(this.selected_rows.length > 1){
 
+      const dataBundle = {
+        plan: this.plan.id,
+        data: this.selected_rows,
+      }
+
 
       const modalRef = this.modal.open(ModalMultiEditssComponent, {
         centered: true,
@@ -319,7 +324,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
         windowClass: 'custom-modal-width-medium'
       });
   
-      modalRef.componentInstance.rows = this.selected_rows;
+      modalRef.componentInstance.bundle = dataBundle;
 
       this.cleanAllRows();    
       

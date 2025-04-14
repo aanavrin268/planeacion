@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CanicasComponent } from '../../components/canicas/canicas.component';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../../../api.service';
 
 interface PLANFULL {
   nombre: string;
@@ -59,28 +61,13 @@ export class MainComparativaComponent implements OnInit {
 
   displayedColumns: any[] = [];
 
-  constructor(private modal: NgbModal){
-    this.data1 = [
-      {clave: "100.00.10", nombre: "propofol", inventario: "100", enero: "10", facturacion_enero: "1000", febrero: "10", facturacion_febrero: "10000", marzo: "10", facturacion_marzo: "1000", abril: "10", mayo: "10", junio:"11"},
-      {clave: "100.00.12", nombre: "captodril", inventario: "1", enero: "1", facturacion_enero: "100", febrero: "1", facturacion_febrero: "10000", marzo: "1", facturacion_marzo: "1200", abril: "1", mayo: "1", junio:"23"},
-      {clave: "100.00.13", nombre: "busulfan", inventario: "2", enero: "1", facturacion_enero: "100", febrero: "1", facturacion_febrero: "1000", marzo: "1", facturacion_marzo: "10000", abril: "10", mayo: "2", junio:"2"}
-    ];
+  protected data_list: any[] = [];
 
-    this.data2 = [
-      {clave: "100.00.10", nombre: "propofol", inventario: "100", enero: "8", facturacion_enero: "123000", febrero: "8", facturacion_febrero: "123000", marzo: "8", facturacion_marzo: "123000", abril: "7", mayo: "1", junio:"9"},
-      {clave: "100.00.12", nombre: "captodril", inventario: "1", enero: "11", facturacion_enero: "100234", febrero: "11", facturacion_febrero: "100234", marzo: "11", facturacion_marzo: "100234", abril: "12", mayo: "10", junio:"11"},
-      {clave: "100.00.13", nombre: "busulfan", inventario: "2", enero: "1", facturacion_enero: "200212", febrero: "1", facturacion_febrero: "200212", marzo: "1", facturacion_marzo: "200212", abril: "1", mayo: "11", junio:"11"}
-    ];
-
-    this.data3 = [
-      {clave: "100.00.10", nombre: "propofol", inventario: "100", enero: "10", facturacion_enero: "100", febrero: "10", facturacion_febrero: "100", marzo: "10", facturacion_marzo: "100", abril: "10", mayo: "12", junio: "12"},
-      {clave: "100.00.12", nombre: "captodril", inventario: "100", enero: "1", facturacion_enero: "200", febrero: "1", facturacion_febrero: "200", marzo: "1", facturacion_marzo: "200", abril: "1", mayo: "12", junio: "12"},
-      {clave: "100.00.13", nombre: "busulfan", inventario: "100", enero: "1", facturacion_enero: "200", febrero: "1", facturacion_febrero: "200", marzo: "1", facturacion_marzo: "200", abril: "1", mayo: "12", junio: "12"}
-    ];
-
-    this.planA = { nombre: 'plan_conservador', tipo: "1", data: [] };
-    this.planB = { nombre: 'plan_normal', tipo: "1", data: [] };
-    this.planC = { nombre: 'plan_magico', tipo: "1", data: [] };
+  constructor(private modal: NgbModal, private route: ActivatedRoute, private service: ApiService){
+   
+    this.planA = { nombre: '', tipo: "1", data: [] };
+    this.planB = { nombre: '', tipo: "1", data: [] };
+    this.planC = { nombre: '', tipo: "1", data: [] };
 
 
     this.displayedColumns = ['clave','nombre', 'inventario', 'enero', 'facturacion_enero',
@@ -90,9 +77,33 @@ export class MainComparativaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.planA.data = this.data1;
-    this.planB.data = this.data2;
-    this.planC.data = this.data3;
+
+    this.route.queryParams.subscribe(params => {
+      try {
+        this.data_list = JSON.parse(params['selected_data'] || '[]');
+
+        console.log("params_data", this.data_list);
+        this.planA.nombre = this.data_list[0].name;
+        this.planB.nombre = this.data_list[1].name;
+        this.planC.nombre = this.data_list[2].name;
+
+        //this.planA = this.data_list[0] || {};
+        //this.planB = this.data_list[1] || {};
+        //this.planC = this.data_list[2] || {};
+      } catch (error) {
+        console.error('Error al parsear selected_data:', error);
+      }
+    });
+
+    this.fetchAllDatas();
+
+
+
+
+
+    //this.planA.data = this.data1;
+    //this.planB.data = this.data2;
+    //this.planC.data = this.data3;
 
     this.plan_list = [this.planA.nombre, this.planB.nombre, this.planC.nombre];
     this.selectedPlanA = this.plan_list[0];
@@ -101,19 +112,75 @@ export class MainComparativaComponent implements OnInit {
 
     console.log("planes", this.selectedPlanA);
 
-    this.dataSource = new MatTableDataSource(this.planA.data);
-    this.dataSourceB = new MatTableDataSource(this.planB.data);
-    this.dataSourceC = new MatTableDataSource(this.planC.data);
+    
 
-    const avB = this.getDifferences(this.planA.data, this.planB.data);
-    const avC = this.getDifferences(this.planA.data, this.planC.data);
+   
+
+  }
+
+  async fetchAllDatas() {
+    try {
+      await Promise.all([
+        this.getPlanDataPromise(this.planA.nombre),
+        this.getPlanDataPromise(this.planB.nombre),
+        this.getPlanDataPromise(this.planC.nombre),
+      ]);
+
+      this.dataSource = new MatTableDataSource(this.planA.data);
+      this.dataSourceB = new MatTableDataSource(this.planB.data);
+      this.dataSourceC = new MatTableDataSource(this.planC.data);
+
+      const avB = this.getDifferences(this.planA.data, this.planB.data);
+      const avC = this.getDifferences(this.planA.data, this.planC.data);
+
+      console.log('diff avB', avB);
+      console.log('diff avC', avC);
+
+      this.dataSourceAvB = new MatTableDataSource(avB);
+      this.dataSourceAvC = new MatTableDataSource(avC);
+
+      // Inicializamos la lista de planes y las selecciones
+      this.plan_list = [this.planA.nombre, this.planB.nombre, this.planC.nombre];
+      this.selectedPlanA = this.plan_list[0];
+      this.selectedPlanB = this.plan_list[1];
+      this.selectedPlanC = this.plan_list[2];
+
+      console.log('planes seleccionados', this.selectedPlanA, this.selectedPlanB, this.selectedPlanC);
+    } catch (err) {
+      console.error('Error al cargar los datos:', err);
+    }
+  }
+
+  getPlanDataPromise(plan_name: string): Promise<boolean>{
+    return new Promise((resolve, reject) => {
+      this.service.getPlanSelectedByName(plan_name).subscribe({
+        next:(response) => {
+            console.log("data del plan: " + plan_name , response);
+
+            if(plan_name === this.planA.nombre){
+              this.planA.data = response.result;
+              console.log("planA feteched", this.planA);
 
 
-      console.log("diffavb", avB);
+            }else if(plan_name === this.planB.nombre){
+              this.planB.data = response.result;
 
-    this.dataSourceAvB = new MatTableDataSource(avB);
-    this.dataSourceAvC = new MatTableDataSource(avC);
+              this.dataSourceB = new MatTableDataSource(this.planB.data);
 
+            }else  if(plan_name === this.planC.nombre){
+              this.planC.data = response.result;
+              console.log("planC feteched", this.planC);
+
+
+            }
+            resolve(true);
+        },
+        error:(err) => {
+          console.error("error es", err);
+          reject(false);
+        }
+      })
+    })
   }
 
 
