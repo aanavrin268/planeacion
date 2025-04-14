@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DetailsComponent } from '../../producto/details/details.component';
 import { tests } from '../../core/helpers/readables';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -214,14 +213,7 @@ constructor(private service: ApiService, private modalService: NgbModal) {
 
 
     openProduct(product:any){
-      const modalRef = this.modalService.open(DetailsComponent, {
-        size: 'lg',
-        centered:true,
-      windowClass:'redondo'
-      });
-  
-  
-      modalRef.componentInstance.product = product;
+    
     }
 
 

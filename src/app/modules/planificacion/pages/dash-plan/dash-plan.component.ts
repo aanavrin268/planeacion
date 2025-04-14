@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalAddNewPlanComponent } from '../../shared/components/modals/modal-add-new-plan/modal-add-new-plan.component';
-import { ModalPlanViewComponent } from '../../shared/components/modals/modal-plan-view/modal-plan-view.component';
-import { ApiService } from '../../api.service';
+import { ModalAddNewPlanComponent } from '../../../../shared/components/modals/modal-add-new-plan/modal-add-new-plan.component';
+import { ModalPlanViewComponent } from '../../../../shared/components/modals/modal-plan-view/modal-plan-view.component';
+import { ApiService } from '../../../../api.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BehaviorSubject } from 'rxjs';
-import { BehaviorsService } from '../../core/services/behaviors.service';
-import { IconBadgeComponent } from '../../shared/ui/icon-badge/icon-badge.component';
+import { BehaviorsService } from '../../../../core/services/behaviors.service';
+import { IconBadgeComponent } from '../../../../shared/ui/icon-badge/icon-badge.component';
 
 
 @Component({

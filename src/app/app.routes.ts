@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
-import { FichaTecnicaComponent } from './producto/ficha-tecnica/ficha-tecnica.component';
-import { DraggableComponent } from './producto/draggable/draggable.component';
 import { CanicasComponent } from './modules/planificacion/components/canicas/canicas.component';
-import { DashComponent } from './producto/dash/dash.component';
-import { ProductComponent } from './producto/product/product.component';
 import { HomeComponent } from './modules/home/pages/home/home.component';
 import { DashProductsComponent } from './dashboards/dash-products/dash-products.component';
 import { DashReportsComponent } from './dashboards/dash-reports/dash-reports.component';
-import { DashPlanComponent } from './dashboards/dash-plan/dash-plan.component';
+import { DashPlanComponent } from './modules/planificacion/pages/dash-plan/dash-plan.component';
 import { ExampleComponent } from './plan/example/example.component';
 import { ComparativaComponent } from './plan/comparativa/comparativa.component';
 import { PlanTellingComponent } from './plan/plan-telling/plan-telling.component';
@@ -21,7 +17,6 @@ import { MainComparativaComponent } from './plan/main-comparativa/main-comparati
 
 
 export const routes: Routes = [
-{path: 'product', component: ProductComponent},
 {path: 'home', component: HomeComponent},
 {path: 'dashProducts', component: DashProductsComponent},
 {path: 'dashReports', component: DashReportsComponent},
@@ -42,19 +37,8 @@ export const routes: Routes = [
 
 
 
-{
-    path:'ficha',
-    component: FichaTecnicaComponent
-},
-{
-    path: 'drag',
-    component: DraggableComponent
-},
 
-{
-    path: 'dash',
-    component: DashComponent
-},
+
 {
     path: 'canica',
     component: CanicasComponent
