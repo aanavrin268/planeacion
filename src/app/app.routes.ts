@@ -10,11 +10,12 @@ import { ModoPivoteComponent } from './modules/planificacion/pages/modo-pivote/m
 import { MultiComparativaComponent } from './modules/planificacion/pages/multi-comparativa/multi-comparativa.component';
 import { PlanTellingComponent } from './modules/planificacion/pages/plan-telling/plan-telling.component';
 import { MainComparativaComponent } from './modules/planificacion/pages/main-comparativa/main-comparativa.component';
+import { LandingPageComponent } from './modules/home/pages/landing-page/landing-page.component';
 
 
 
 export const routes: Routes = [
-{path: 'home', component: HomeComponent},
+{path: 'home-1', component: HomeComponent},
 {path: 'dashPlan', component: DashPlanComponent},
 {path: 'comparativa/:id', component: ComparativaComponent},
 {path: 'planTelling', component: PlanTellingComponent},
@@ -23,6 +24,7 @@ export const routes: Routes = [
 {path: 'multi-comparativa', component: MultiComparativaComponent},
 {path: 'main-comparativa', component: MainComparativaComponent},
 
+{path: 'home', component: LandingPageComponent},
 
 
 {path: 'stPlan', component: ExampleComponent},
@@ -41,7 +43,7 @@ export const routes: Routes = [
 
 
 
-{path: '', component: HomeComponent, pathMatch: 'full'}
+{path: '', component: LandingPageComponent, pathMatch: 'full'}
 
 
 

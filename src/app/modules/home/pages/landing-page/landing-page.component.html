@@ -1,0 +1,76 @@
+<div class="main-content">
+
+    <div class="image-container-1">
+        <img src="cvvlogo.png" alt="">
+    </div>
+
+    <div class="image-container">
+        <img src="logovan.png" alt="">
+    </div>
+
+  
+
+    <section class="main">
+        <span class="title">Indicadores Clave (Proveedores)</span>
+        <span class="sub">Visualiza puntos clave de múltiples áreas</span>
+
+        <div class="dividers">
+            <div class="left">
+                <div class="indi-container">
+                    <div class="indi" *ngFor="let item of kpi_proveedores">
+                        <span>{{item.title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="util-container">
+                    <div class="util" *ngFor="let item of kp_util_list">
+                        <span>{{item.title}}</span>
+
+                       
+
+                            <ngx-charts-gauge
+                            [view]="[230, 250]"
+                
+                            [results]="item.data"
+                            [scheme]="'flame'"
+                            [angleSpan]="240"
+                            [startAngle]="-120"
+                            [units]="'%'">
+                          </ngx-charts-gauge>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+    </section>
+
+
+    <section class="main-instituciones">
+        <span class="title">Indicadores Clave (instituciones)</span>
+        <span class="sub">Visualiza puntos clave de múltiples áreas</span>
+
+        <div class="dividers">
+            <div class="left">
+                <div class="indi-container">
+                    <div class="indi" *ngFor="let item of kpi_proveedores">
+                        <span>{{item.title}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="util-container">
+                    <div class="util" *ngFor="let item of kpi_proveedores">
+                        <span>{{item.title}}</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+    </section>
+</div>
