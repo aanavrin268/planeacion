@@ -15,6 +15,12 @@
         @include a.mx-text-body;
     }
 
+    .card-title{
+        @include a.mx-card-title;
+        font-size: 17px
+
+    }
+
     .image-container-1{
         width: 250px;
         height: 130px;
@@ -79,12 +85,46 @@
                     gap: 1rem;
         
                     .indi{
-                        width: 50%;
+                        width: calc(50% - 16px);
+                        height: 310px;
+
                         background-color: white;
-                        padding: 1rem;
-                        height: 150px;
+                        border-radius: 16px;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.316);
                         display: flex;
                         flex-direction: column;
+                        padding: 1rem;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+
+                        .c-icon{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            transition: all 0.2s ease-in-out;
+                            top:1%;
+                            right:1%;
+
+                            &:hover{
+                                cursor: pointer;
+                                background-color: rgba(0, 0, 0, 0.301);
+                            }
+                            
+                        }
+                     
+
+                        .table-container{
+                            width: 100%;
+                            display: flex;
+                            overflow-y: auto;
+                            overflow-x: auto;
+                            margin-top: 1.5rem;
+                        }
                     }
                 }
             }
@@ -96,6 +136,7 @@
                 
                 .util-container{
                     width: 100%;
+                    
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -105,7 +146,8 @@
         
 
                     .util{
-                        width: 50%;
+                        width: calc(50% - 16px);
+                        height: 310px;
                         background-color: white;
                         border-radius: 16px;
                         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.316);
@@ -114,6 +156,26 @@
                         padding: 1rem;
                         justify-content: center;
                         align-items: center;
+                        position: relative;
+
+                        .c-icon{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            transition: all 0.2s ease-in-out;
+                            top:1%;
+                            right:1%;
+
+                            &:hover{
+                                cursor: pointer;
+                                background-color: rgba(0, 0, 0, 0.301);
+                            }
+                            
+                        }
                     }
                 }
 
@@ -137,6 +199,7 @@
             width: 100%;
             display: flex;
             gap: 1rem;
+            margin-top: 2rem;
 
             .left{
                 width: 50%;
@@ -151,12 +214,46 @@
                     gap: 1rem;
         
                     .indi{
-                        width: 50%;
+                        width: calc(50% - 16px);
+                        height: 310px;
+
                         background-color: white;
-                        padding: 1rem;
-                        height: 150px;
+                        border-radius: 16px;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.316);
                         display: flex;
                         flex-direction: column;
+                        padding: 1rem;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+
+                        .c-icon{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            transition: all 0.2s ease-in-out;
+                            top:1%;
+                            right:1%;
+
+                            &:hover{
+                                cursor: pointer;
+                                background-color: rgba(0, 0, 0, 0.301);
+                            }
+                            
+                        }
+                     
+
+                        .table-container{
+                            width: 100%;
+                            display: flex;
+                            overflow-y: auto;
+                            overflow-x: auto;
+                            margin-top: 1.5rem;
+                        }
                     }
                 }
             }
@@ -168,19 +265,46 @@
                 
                 .util-container{
                     width: 100%;
+                    
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding: 1.5rem 0px;
+                    //padding: 1rem;
                     gap: 1rem;
+                    //background-color: rgb(241, 130, 130);
         
+
                     .util{
-                        width: 50%;
+                        width: calc(50% - 16px);
+                        height: 310px;
                         background-color: white;
-                        padding: 1rem;
-                        height: 150px;
+                        border-radius: 16px;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.316);
                         display: flex;
                         flex-direction: column;
+                        padding: 1rem;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+
+                        .c-icon{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            transition: all 0.2s ease-in-out;
+                            top:1%;
+                            right:1%;
+
+                            &:hover{
+                                cursor: pointer;
+                                background-color: rgba(0, 0, 0, 0.301);
+                            }
+                            
+                        }
                     }
                 }
 

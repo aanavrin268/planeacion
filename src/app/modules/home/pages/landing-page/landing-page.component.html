@@ -1,8 +1,6 @@
 <div class="main-content">
 
-    <div class="image-container-1">
-        <img src="cvvlogo.png" alt="">
-    </div>
+  
 
     <div class="image-container">
         <img src="logovan.png" alt="">
@@ -18,14 +16,103 @@
             <div class="left">
                 <div class="indi-container">
                     <div class="indi" *ngFor="let item of kpi_proveedores">
-                        <span>{{item.title}}</span>
+                        <span class="card-title">{{item.title}}</span>
+                        <i class="bi bi-three-dots-vertical c-icon"></i>
+
+                            
+                            <div class="table-container">
+                                <table mat-table [dataSource]="getDataSource(item.id)">
+                                    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            {{ column }}
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element[column] }}
+                                        </td>
+                                    </ng-container>
+                            
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                            </div>
+
+                        
+
+
                     </div>
                 </div>
             </div>
             <div class="right">
                 <div class="util-container">
                     <div class="util" *ngFor="let item of kp_util_list">
-                        <span>{{item.title}}</span>
+                        <span class="card-title">{{item.title}}</span>
+                        <i class="bi bi-three-dots-vertical c-icon"></i>
+
+                       
+
+                        <ngx-charts-gauge
+                        [view]="[230, 250]"
+                        [results]="item.data"
+                        [scheme]="'flame'"
+                        [angleSpan]="240"
+                        [startAngle]="-120"
+                        [units]="''"
+                        [valueFormatting]="formatForGauge"
+                        [tickFormatting]="formatTickValue" 
+                        [max]="calculateMax(item.data[0]?.value)"> 
+                      </ngx-charts-gauge>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+    </section>
+
+
+    <section class="main-instituciones">
+        <span class="title">Indicadores Clave (instituciones)</span>
+        <span class="sub">Visualiza puntos clave de múltiples áreas</span>
+
+        <div class="dividers">
+            <div class="left">
+                <div class="indi-container">
+                    <div class="indi" *ngFor="let item of kpi_clientes">
+                        <span class="card-title">{{item.title}}</span>
+                        <i class="bi bi-three-dots-vertical c-icon"></i>
+
+                            
+                            <div class="table-container">
+                                <table mat-table [dataSource]="getDataSourceCliente(item.id)">
+                                    <ng-container *ngFor="let column of displayedColumnsCliente" [matColumnDef]="column">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            {{ column }}
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element[column] }}
+                                        </td>
+                                    </ng-container>
+                            
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsCliente"></tr>
+                                    
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsCliente;"></tr>
+                                </table>
+                            </div>
+
+                        
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="util-container">
+                    <div class="util" *ngFor="let item of kpi_clientes">
+                        <span class="card-title">{{item.title}}</span>
+                        <i class="bi bi-three-dots-vertical c-icon"></i>
 
                        
 
@@ -45,31 +132,6 @@
             </div>
         </div>
 
-     
-    </section>
-
-
-    <section class="main-instituciones">
-        <span class="title">Indicadores Clave (instituciones)</span>
-        <span class="sub">Visualiza puntos clave de múltiples áreas</span>
-
-        <div class="dividers">
-            <div class="left">
-                <div class="indi-container">
-                    <div class="indi" *ngFor="let item of kpi_proveedores">
-                        <span>{{item.title}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <div class="util-container">
-                    <div class="util" *ngFor="let item of kpi_proveedores">
-                        <span>{{item.title}}</span>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
      
     </section>
