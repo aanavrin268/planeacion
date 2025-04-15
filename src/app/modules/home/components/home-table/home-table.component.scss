@@ -1,0 +1,47 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
+.main-modal{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .header{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        position: relative;
+
+        .title{
+            @include a.mx-card-title;
+        }
+
+        .t-icon{
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            position: absolute;
+            top: 1%;
+            right: 1%;
+            transition: all 0.2s ease-in-out;
+
+            &:hover{
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.39);
+            }
+
+        }
+    }
+
+    .body{
+        width: 100%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+}

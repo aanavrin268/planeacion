@@ -15,9 +15,20 @@
         <div class="dividers">
             <div class="left">
                 <div class="indi-container">
+
+                    
                     <div class="indi" *ngFor="let item of kpi_proveedores">
                         <span class="card-title">{{item.title}}</span>
-                        <i class="bi bi-three-dots-vertical c-icon"></i>
+                        <i class="bi bi-three-dots-vertical c-icon"
+                            (click)="openTopMenu(item)"></i>
+
+                        <div class="indi-menu" *ngIf="showTopMenu && selectedTopOption === item.id">
+                            <div class="menu-options" *ngFor="let option of menu_list"
+                                (click)="onMenuSelected(option, item)">
+                                <span class="opt">{{option.title}}</span>
+                            </div>
+                            
+                        </div>
 
                             
                             <div class="table-container">
@@ -47,22 +58,47 @@
                 <div class="util-container">
                     <div class="util" *ngFor="let item of kp_util_list">
                         <span class="card-title">{{item.title}}</span>
-                        <i class="bi bi-three-dots-vertical c-icon"></i>
-
-                       
-
-                        <ngx-charts-gauge
-                        [view]="[230, 250]"
-                        [results]="item.data"
-                        [scheme]="'flame'"
-                        [angleSpan]="240"
-                        [startAngle]="-120"
-                        [units]="''"
-                        [valueFormatting]="formatForGauge"
-                        [tickFormatting]="formatTickValue" 
-                        [max]="calculateMax(item.data[0]?.value)"> 
-                      </ngx-charts-gauge>
+                        <i class="bi bi-three-dots-vertical c-icon"
+                        (click)="openTopMenuR(item)"></i>
                         
+                        <span>sdsdñlaskdlñaskdñlaskd</span>
+
+                        <div class="utils-menu" *ngIf="showTopMenuR && selectedTopOption === item.id">
+                            <div class="menu-options" *ngFor="let option of menu_list"
+                                (click)="onMenuSelectedR(option, item)">
+                                <span class="opt">{{option.title}}</span>
+                            </div>
+                            
+                        </div>
+
+                    
+                        @if(item.id === 1 ){
+                            <ngx-charts-gauge
+                            [view]="[230, 250]"
+                            [results]="item.data"
+                            [scheme]="'flame'"
+                            [angleSpan]="240"
+                            [startAngle]="-120"
+                            [units]="''"
+                            [showAxis]="false"
+                            [max]="1692229"> 
+                          </ngx-charts-gauge>
+                            
+                        }@else if(item.id === 2){
+                            <ngx-charts-gauge
+                            [view]="[230, 250]"
+                            [results]="item.data"
+                            [scheme]="'flame'"
+                            [angleSpan]="240"
+                            [startAngle]="-120"
+                            [max]="100" 
+                            [units]="'%'"
+                            [valueFormatting]="formatValue"
+                            > 
+                            </ngx-charts-gauge>
+                        }
+
+                     
 
                     </div>
                 </div>
@@ -71,6 +107,13 @@
 
      
     </section>
+
+
+
+
+
+
+
 
 
     <section class="main-instituciones">
@@ -114,18 +157,43 @@
                         <span class="card-title">{{item.title}}</span>
                         <i class="bi bi-three-dots-vertical c-icon"></i>
 
-                       
+                     
 
-                            <ngx-charts-gauge
+
+                    <!-----
+                    
+                            
+                       @if(item.id === 1) {
+
+                        <ngx-charts-gauge
+                        [view]="[230, 250]"
+            
+                        [results]="item.data"
+                        [scheme]="'flame'"
+                        [angleSpan]="240"
+                        [startAngle]="-120"
+                        [units]="'%'">
+                      </ngx-charts-gauge>
+                    
+
+
+                       }@else if(item.id === 2){
+                        <ngx-charts-gauge
                             [view]="[230, 250]"
-                
                             [results]="item.data"
                             [scheme]="'flame'"
                             [angleSpan]="240"
                             [startAngle]="-120"
-                            [units]="'%'">
-                          </ngx-charts-gauge>
-                        
+                            [max]="100" 
+                            [units]="'%'"
+                            [valueFormatting]="formatValue"
+                            > 
+                            </ngx-charts-gauge>
+                       }
+                    -->
+
+
+                          
 
                     </div>
                 </div>

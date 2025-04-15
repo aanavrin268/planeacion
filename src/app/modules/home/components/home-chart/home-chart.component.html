@@ -1,0 +1,35 @@
+<div class="main-modal">
+    <section class="header">
+        <span class="tiutl">Grágico</span>
+    </section>
+
+
+    @if(id === '1' ){
+        <ngx-charts-gauge
+        [view]="[830, 450]"
+        [results]="data_list"
+        [scheme]="'flame'"
+        [angleSpan]="240"
+        [startAngle]="-120"
+        [units]="''"
+        [showAxis]="false"
+        [max]="1692229"> 
+      </ngx-charts-gauge>
+        
+    }@else if(id === '2'){
+        <ngx-charts-gauge
+        [view]="[830, 450]"
+        [results]="data_list"
+        [scheme]="'flame'"
+        [angleSpan]="240"
+        [startAngle]="-120"
+        [max]="100" 
+        [units]="'%'"
+        > 
+        </ngx-charts-gauge>
+    }
+
+
+
+    
+</div>

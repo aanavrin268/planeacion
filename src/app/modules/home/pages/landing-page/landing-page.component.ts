@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HomeService } from '../../services/home.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HomeTableComponent } from '../../components/home-table/home-table.component';
+import { HomeChartComponent } from '../../components/home-chart/home-chart.component';
 
 
 @Component({
   selector: 'app-landing-page',
-  imports: [CommonModule, FormsModule, NgxChartsModule, MatTableModule],
+  imports: [FormsModule, MatTableModule, NgxChartsModule, CommonModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss'
 })
@@ -27,6 +30,29 @@ export class LandingPageComponent implements OnInit {
   protected displayedColumns: any[]= [];
   protected displayedColumnsCliente: any[]= [];
 
+  protected showTopMenu: boolean = false;
+  protected showTopMenuR: boolean = false;
+
+
+  protected menu_list: any[] = [
+    {id: 1, title:'Ver más'},    {id: 2, title:'Cancelar'},
+
+  ];
+
+  selectedTopOption: any;
+  selectedTopUtil: any;
+
+
+
+  data1: any[] = [];
+  data2: any[] = [];
+  data3: any[] = [];
+  data4: any[] = [];
+
+  gaugeData1: any[] = [];
+  gaugeData2: any[] = [];
+  gaugeData3: any[] = [];
+  gaugeData4: any[] = [];
 
   
   margenGanancia = [
@@ -34,15 +60,18 @@ export class LandingPageComponent implements OnInit {
   ];
 
 
-  constructor(private homeService: HomeService){
+  constructor(private homeService: HomeService, private modal: NgbModal){
     this.kpi_proveedores = [ 
-      {id:1, title:'Top proveedores público', data:[]},   {id:2, title:'Top proveedores privado', data:[]},
+      {id:1, title:'Top proveedores público', type:'publico-proveedores', data:[]},   
+      {id:2, title:'Top proveedores privado', type:'privado-proveedores', data:[]},
 
     ]
 
     this.kp_util_list = [ 
-      {id:1, title: 'Top ganacia pública', data: [{name: 'Initial', value: 0}]},  
-      {id:2, title:'Top ganancia privada', data: [{name: 'Initial', value: 0}]},
+      {id:1, title: 'Top unidades pública', type:'publico-proveedores', 
+         data: [{name: 'Initial', value: 0}]},  
+      {id:2, title:'Top unidades privada', type:'privado-proveedores',
+         data: [{name: 'Initial', value: 0}]},
     ];
 
     this.kpi_clientes = [ 
@@ -63,9 +92,18 @@ export class LandingPageComponent implements OnInit {
 
     this.homeService.getTop3Providers('vw_topClientesPrivado').subscribe({
       next: (response) => {
+
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        const formattedTop3 = formattedData.slice(0,3);
+
         console.log("top-clientes-privado-data ", response);
         const top3 = response.result.slice(0, 3);
-        this.dataSource4 = new MatTableDataSource(top3);
+        this.dataSource4 = new MatTableDataSource(formattedTop3);
 
         const gaugeData = [{
           name: 'Piezas',
@@ -81,14 +119,22 @@ export class LandingPageComponent implements OnInit {
 
     this.homeService.getTop3Providers('vw_topClientesPublico').subscribe({
       next: (response) => {
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        const formattedTop3 = formattedData.slice(0,3);
+
         console.log("top-clientes-data ", response);
         const top3 = response.result.slice(0, 3);
-        this.dataSource3 = new MatTableDataSource(top3);
+        this.dataSource3 = new MatTableDataSource(formattedTop3);
 
-        const gaugeData = [{
-          name: 'Piezas',
-          value: response.result[0].PIEZAS
-        }];
+        const gaugeData = response.result.map((item: { CLIENTES: any; PIEZAS: any; }) => ({
+          name: item.CLIENTES, 
+          value: item.PIEZAS      
+        }));
     
         console.log("Gauge data", gaugeData);
     
@@ -99,15 +145,64 @@ export class LandingPageComponent implements OnInit {
 
     this.homeService.getTop3Providers('vw_topProveedoresPublico').subscribe({
       next: (response) => {
-        console.log("topprov3-data ", response);
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+    
+        console.log("Datos formateados:", formattedData);
+        this.data1  = formattedData;
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+        console.log("topprov3-data-public ", response);
         const top3 = response.result.slice(0, 3);
-        this.dataSource = new MatTableDataSource(top3);
+        const topAllBut3 = response.result.slice(3, response.result.length);
+
+
+
+        console.log("primero-top3", top3);
+        console.log("primero-top-despeus de 3", topAllBut3);
+
+        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+        const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+
+        console.log("suma total", totalPiezasAll);
+
+
+        console.log("suma top 3", totalPiezasTop3);
+        console.log("suma top despues de 3 ", totalPiezasTopAllBut3);
+
+
+        this.dataSource = new MatTableDataSource(formattedTop3);
+
+        const gaugeData = [
+          {name: "Top 3", value: totalPiezasTop3},
+          {name: "El resto", value: totalPiezasTopAllBut3},
+
+
+
+        ]
+
+        this.gaugeData1 = gaugeData;
+          
+        
     
-        const gaugeData = [{
-          name: 'Piezas',
-          value: response.result[0].PIEZAS
-        }];
-    
+        /*
+           const gaugeData = response.result.map((item: { PROVEEDORES: any; PIEZAS: any; }) => ({
+          name: item.PROVEEDORES, 
+          value: item.PIEZAS      
+        }));
+        
+        */
+
+
+       
+       
         console.log("Gauge data", gaugeData);
     
         this.kp_util_list[0].data = gaugeData;
@@ -119,21 +214,186 @@ export class LandingPageComponent implements OnInit {
 
     this.homeService.getTop3Providers('vw_topProveedoresPrivado').subscribe({
       next: (response) => {
-        console.log("topprov3-priv-data ", response);
-        const top3 = response.result.slice(0, 3);
-        this.dataSource2 = new MatTableDataSource(top3);
 
-        const gaugeData = [{
-          name: 'Piezas',
-          value: response.result[0].PIEZAS
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        this.data2  = formattedData;
+
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+
+        const datos = response.result.map((item: any) => ({
+          ...item,
+          PIEZAS: Number(item.PIEZAS)
+        }));
+    
+        const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        console.log('tpta_privado', totalGeneral);
+    
+        const top3 = datos.slice(0, 3);
+    
+        const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        console.log('tpta_tp333', sumaTop3);
+
+    
+        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
+    
+        this.dataSource2 = new MatTableDataSource(formattedTop3);
+    
+        this.kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
         }];
+
+        const gaugeData =  this.kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
+        }];
+
+ 
+
+        this.gaugeData2 = gaugeData;
+
     
-        console.log("Gauge data", gaugeData);
-    
-        this.kp_util_list[1].data = gaugeData;
+        console.log("Porcentaje acumulado del top 3:", porcentajeTop3 + '%');
       }
-    })
+    });
+
+
+
+
+
+
   }
+
+  openChart(item:any){
+    this.showTopMenuR = !this.showTopMenuR;
+
+
+    let bundleData: { id: any, data: any[] } = {
+      id: '',
+      data: []
+    }
+
+    if(item.type === 'publico-proveedores'){
+      bundleData.id = '1';
+      bundleData.data = this.gaugeData1;
+    }else if(item.type === 'privado-proveedores'){
+      bundleData.id = '2';
+      bundleData.data = this.gaugeData2;
+
+    }
+
+    const modalRef = this.modal.open(HomeChartComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo'
+    })
+
+
+    modalRef.componentInstance.bundle = bundleData;
+
+  }
+
+  openTable(item: any){
+    this.showTopMenu = !this.showTopMenu;
+
+
+    let bundleData: { data: any[] } = {
+      data: []
+    }
+
+    if(item.type === 'publico-proveedores'){
+      bundleData.data = this.data1;
+    }else if(item.type === 'privado-proveedores'){
+      bundleData.data = this.data2;
+
+    }
+
+    const modalRef = this.modal.open(HomeTableComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo'
+    })
+
+
+    modalRef.componentInstance.bundle = bundleData;
+
+  }
+
+  openTopMenuR(option:any){
+    this.showTopMenuR = !this.showTopMenuR;
+    this.selectedTopOption = option.id;
+    this.selectedTopUtil = option.id;
+
+    console.log("item es", option);
+  }
+
+
+  openTopMenu(option:any){
+    this.showTopMenu = !this.showTopMenu;
+    this.selectedTopOption = option.id;
+    this.selectedTopUtil = option.id;
+
+    console.log("item es", option);
+  }
+
+
+  onMenuSelectedR(option:any, item: any){
+    console.log("option es", option);
+    console.log("item es", item);
+
+
+  if(option.id === 2){
+    this.showTopMenuR = !this.showTopMenuR;
+
+  } else if (option.id === 1){
+    this.openChart(item);
+  }
+
+}
+
+  onMenuSelected(option:any, item: any){
+      console.log("option es", option);
+      console.log("item es", item);
+
+
+    if(option.id === 2){
+      this.showTopMenu = !this.showTopMenu;
+
+    } else if (option.id === 1){
+      this.openTable(item);
+    }
+
+  }
+
+
+  // En tu componente o servicio
+  formatNumberMain(value: any): string {
+    // Convertir a número primero por si viene como string
+    const num = Number(value);
+    
+    // Verificar si es un número válido
+    if (isNaN(num)) {
+      console.warn('Valor no numérico recibido:', value);
+      return '0';
+    }
+    
+    // Redondear y formatear
+    return Math.round(num).toLocaleString('en-US');
+  }
+
+
+formatValue = (v: number): string => {
+  return `${v}%`;
+};
 
 
   calculateMax(value: number): number {
