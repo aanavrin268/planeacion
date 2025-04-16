@@ -1,0 +1,13 @@
+<div class="main-modal">
+    <section class="header">
+        <span class="title">Galeria</span>
+    </section>
+    <section class="body">
+        <div class="images-container">
+            <div class="images-item" *ngFor="let image of data_list"
+                (click)="openImage(image)">
+                <img src="{{image.path}}" alt="">
+            </div>
+        </div>
+    </section>
+</div>

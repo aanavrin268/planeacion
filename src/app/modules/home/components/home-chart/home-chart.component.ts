@@ -14,6 +14,13 @@ export class HomeChartComponent implements OnInit {
   bundle: any;
   data_list: any[] = [];
 
+  topValue: any;
+  otherValue: any;
+  totalValue: any;
+
+  porcentTop: any;
+  
+
   constructor(){
 
   }
@@ -23,6 +30,22 @@ export class HomeChartComponent implements OnInit {
     this.data_list = this.bundle.data;
     
     console.log("bundle ", this.data_list);
+
+    if(this.id === '1'){
+      this.topValue = this.bundle.data[0].value;
+      this.otherValue = this.bundle.data[1].value;
+  
+      this.totalValue = Number(this.topValue) + Number(this.otherValue);
+
+    }else if(this.id === '2'){
+      this.porcentTop = this.bundle.data[0].value;
+      this.totalValue = this.bundle.some;
+    }
+
+    
+
+   
+
   }
 
 }

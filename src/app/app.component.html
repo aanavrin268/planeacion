@@ -6,7 +6,7 @@
   id="wrapper"
   >
       <!-- Sidebar -->
-      <div class="border-right" id="sidebar-wrapper">
+      <div class="border-right" id="sidebar-wrapper" *ngIf="currentSelectedRoute !== '/planTelling'">
         <div class="sidebar-heading">Menu
 
           <i   class="bi bi-list menu-t" (click)="toggleMenu()"></i>
@@ -110,9 +110,13 @@
   
         
     <!---RIGHT CONTENT ROUTEr-->
-        <div class="container-fluid">
+        <div class="container-fluid" *ngIf="currentSelectedRoute !== '/planTelling'">
          <router-outlet></router-outlet>
         </div>
+
+        <div class="container-fluid-dos" *ngIf="currentSelectedRoute == '/planTelling'">
+          <router-outlet></router-outlet>
+         </div>
   </div>
 
   <footer>

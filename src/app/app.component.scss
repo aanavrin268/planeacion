@@ -118,14 +118,28 @@
 
 
 .container-fluid{
-  //padding: 0 5rem;
        --bs-gutter-x: 0; 
        --bs-gutter-y: 0;
-  //background-color: antiquewhite;
+  //background-color: rgb(233, 140, 19);
 
-  margin-left: 250px; /* Margen igual al ancho del sidebar */
+  margin-left: 250px; 
   padding: 0;
-  width: calc(100% - 250px); /* Ajusta el ancho del contenido */
+ width: calc(100% - 250px); 
+ width: 100%;
+  box-sizing: border-box;
+  transition: margin 0.25s ease-out, width 0.25s ease-out; 
+
+}
+
+.telling{
+       --bs-gutter-x: 0; 
+       --bs-gutter-y: 0;
+  background-color: rgb(233, 140, 19);
+
+  //margin-left: 250px; /* Margen igual al ancho del sidebar */
+  padding: 0;
+ // width: calc(100% - 250px); /* Ajusta el ancho del contenido */
+ width: 100%;
   box-sizing: border-box;
   transition: margin 0.25s ease-out, width 0.25s ease-out; /* Transición suave */
 

@@ -34,9 +34,15 @@ export class LandingPageComponent implements OnInit {
   protected dataSource2 = new MatTableDataSource<any>();
   protected dataSource3 = new MatTableDataSource<any>();
   protected dataSource4 = new MatTableDataSource<any>();
+  protected dataSource5 = new MatTableDataSource<any>();
+  protected dataSource6 = new MatTableDataSource<any>();
+
 
   protected displayedColumns: any[]= [];
   protected displayedColumnsCliente: any[]= [];
+
+  protected displayedColumnsPrincipal: any[]= [];
+
 
   protected showTopMenu: boolean = false;
   protected showTopMenuR: boolean = false;
@@ -75,6 +81,8 @@ export class LandingPageComponent implements OnInit {
     { name: "Margen", value: 65 } // % de margen de ganancia
   ];
 
+  sendTotalGeneral: any;
+
 
   constructor(private homeService: HomeService, private modal: NgbModal){
     this.kpi_proveedores = [ 
@@ -110,6 +118,9 @@ export class LandingPageComponent implements OnInit {
 
     this.displayedColumns= ['PROVEEDORES', 'PIEZAS', 'MONTO'];
     this.displayedColumnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
+    this.displayedColumnsPrincipal=['ID_SIST_CL_INST', 'SKU', 'PRINCIPAL_CLIENTE', 'PRINCIPAL_PROVEEDOR',  'PIEZAS_VENDIDAS',
+        'MONTO_VENDIDO', 'PIEZAS_FACTURADAS', 'MONTO_FACTURADO'
+    ]
 
     this.formatForGauge = this.formatForGauge.bind(this);
 
@@ -117,6 +128,22 @@ export class LandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.homeService.getPrincipalPrivate().subscribe({
+      next:(reponse) => {
+        console.log("principal data privada es ", reponse);
+
+        this.dataSource6 = new MatTableDataSource(reponse.result);
+      }
+    })
+
+    this.homeService.getPrincipalPublic().subscribe({
+      next:(reponse) => {
+        console.log("principal data es ", reponse);
+
+        this.dataSource5 = new MatTableDataSource(reponse.result);
+      }
+    })
 
     this.homeService.getTop3Providers('vw_topClientesPrivado').subscribe({
       next: (response) => {
@@ -348,6 +375,8 @@ export class LandingPageComponent implements OnInit {
             
         const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
 
+        this.sendTotalGeneral = totalGeneral;
+
         console.log('tpta_privado', totalGeneral);
     
         const top3 = datos.slice(0, 3);
@@ -387,13 +416,47 @@ export class LandingPageComponent implements OnInit {
 
   }
 
+  openChartDown(item:any){
+    this.showDownMenuR = !this.showDownMenuR;
+
+    console.log("el attempt data es", item);
+
+
+    let bundleData: { id: any, data: any[], some: any } = {
+      id: '',
+      data: [],
+      some: ''
+    }
+
+    if(item.type === 'publico-clientes'){
+      bundleData.id = '1';
+      bundleData.data = this.gaugeData3;
+    }else if(item.type === 'privado-clientes'){
+      bundleData.id = '2';
+      bundleData.data = this.gaugeData4;
+      bundleData.some = this.sendTotalGeneral;
+
+    }
+
+    const modalRef = this.modal.open(HomeChartComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo'
+    })
+
+
+    modalRef.componentInstance.bundle = bundleData;
+
+  }
+
   openChart(item:any){
     this.showTopMenuR = !this.showTopMenuR;
 
 
-    let bundleData: { id: any, data: any[] } = {
+    let bundleData: { id: any, data: any[], some: any } = {
       id: '',
-      data: []
+      data: [],
+      some: ''
     }
 
     if(item.type === 'publico-proveedores'){
@@ -402,6 +465,7 @@ export class LandingPageComponent implements OnInit {
     }else if(item.type === 'privado-proveedores'){
       bundleData.id = '2';
       bundleData.data = this.gaugeData2;
+      bundleData.some = this.sendTotalGeneral;
 
     }
 
@@ -440,6 +504,14 @@ export class LandingPageComponent implements OnInit {
 
     modalRef.componentInstance.bundle = bundleData;
 
+  }
+
+  openDownMenuR(option:any){
+    this.showDownMenuR = !this.showDownMenuR;
+    this.selectedDownOption = option.id;
+    this.selectedDownUtil = option.id;
+
+    console.log("item es", option);
   }
 
   openTopMenuR(option:any){
@@ -524,6 +596,23 @@ export class LandingPageComponent implements OnInit {
   }
 
 }
+
+
+onMenuSelectedDownR(option:any, item: any){
+  console.log("option es", option);
+  console.log("item es", item);
+
+
+if(option.id === 2){
+  this.showDownMenuR = !this.showDownMenuR;
+
+} else if (option.id === 1){
+  console.log("down r attempt");
+  this.openChartDown(item);
+}
+
+}
+
 
   onMenuSelected(option:any, item: any){
       console.log("option es", option);

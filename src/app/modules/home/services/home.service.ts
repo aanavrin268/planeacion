@@ -12,6 +12,15 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
+  getPrincipalPrivate():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPrincipalPrivate`);
+  }
+
+
+  getPrincipalPublic():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getPrincipalPublic`);
+  }
+
   getTop3Providers(t_name: string): Observable<any>{
     const payload = {t_name: t_name}
 

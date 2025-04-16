@@ -4,34 +4,52 @@
     <div class="image-container">
         <img src="logovan.png" alt="logo">
     </div>
+
+    <i class="bi bi-x p-icon"
+        (click)="goHome()"></i>
+
 </header>
 
 <main class="contenedor_animacion">
     <section  class="seccion seccion_1">
+
+            <span class="bg-title">
+                Features
+            </span>
+
             <div class="one">
                 <span class="s-title">Visualización</span>
                 <span class="s-sub">Observa a detalle los planes de ventas para los sectores público y privado.</span>
+                <i class="bi bi-view-list o-icon"></i>
             </div>
 
 
             <div class="two">
                 <span class="s-title">Edición</span>
                 <span class="s-sub">Ajusta la cantidad de unidades planedas y obtenen nuevos datos.</span>
+                <i class="bi bi-pen o-icon"></i>
+
             </div>
 
             <div class="three">
                 <span class="s-title">Historicos</span>
                 <span class="s-sub">Guarda múltiples versiones de los planes comerciales.</span>
+                <i class="bi bi-clock-history o-icon"></i>
+
             </div>
 
             <div class="four">
                 <span class="s-title">Comparativa</span>
                 <span class="s-sub">Compara los planes guardados y genera datos relevanrtes.</span>
+                <i class="bi bi-arrows-collapse-vertical o-icon"></i>
+
             </div>
 
             <div class="five">
                 <span class="s-title">Escenarios</span>
                 <span class="s-sub">Genera descenas de escenarios, manipula datos y obten valores.</span>
+                <i class="bi bi-kanban o-icon"></i>
+
             </div>
 
             
@@ -48,6 +66,9 @@
             <span class="s2-title">Visualización de Planes</span>
             <span class="s2-sub">Obten la información en tiempo real de los planes comerciales.</span>
         </div>
+
+        <i class="bi bi-images i-image"
+            (click)="openModalImages(1)"></i>
 
 
         <div class="p-publico">
@@ -77,6 +98,8 @@
         <div class="left">
             <span class="s3-title">Cuatrimestres dinámicos</span>
             <span class="s3-sub">Gestiona la información que requieres.</span>
+            <i class="bi bi-images i-image"
+            (click)="openModalImages(2)"></i>
         </div>
 
         
@@ -173,8 +196,6 @@
 
 
 </section>
-
-
  
     <section class="seccion seccion_6">
         <div class="body">
@@ -200,8 +221,6 @@
       
     </section>
 
-
-    
     <section class="seccion seccion_7">
         <div class="body">
             <div class="left">
@@ -226,7 +245,6 @@
       
     </section>
 
-
     <!---third -->
 
 
@@ -239,6 +257,10 @@
             <span class="s2-title">Historico de Planes</span>
             <span class="s2-sub">Con el sistema de historicos, puedes analizar el pasado para un mejor futuro.</span>
         </div>
+
+        <i class="bi bi-images i-image"
+        (click)="openModalImages(3)"></i>
+
     
     
         <div class="p-publico">
@@ -272,6 +294,13 @@
         </div>
     
     
+        <div class="info-1">
+            <span class="i-title">Protección de datos críticos frente a pérdidas</span>
+            <span class="i-sub">
+                Un backup completo desde cero asegura que todos los datos del plan (incluidos históricos de unidades planificadas, configuraciones de planes y metadatos) puedan restaurarse sin depender 
+                de copias incrementales o diferenciales, que podrían estar incompletas o corruptas
+            </span>
+        </div>
       
         
     
@@ -344,7 +373,7 @@
 <footer class="final">
     <span class="f-title">Gracias por llegar al final</span>
     <button class="f-button" 
-        (click)="goBack()">Finalizar</button>
+        (click)="goHome()">Finalizar</button>
     <div class="image-container">
         <img src="logovan.png" alt="logo">
     </div>

@@ -1,0 +1,21 @@
+<div class="modal-main">
+    <div class="background">
+
+        <i class="bi bi-info i-con" *ngIf="!showInfo"
+            (click)="turnOnInfo()"></i>
+
+            <i class="bi bi-x i-con-2" *ngIf="showInfo"
+            (click)="turnOnInfo()">
+                
+            </i>
+
+        <div class="top " *ngIf="showInfo">
+            <span class="title">{{bundle.data.title}}</span>
+        </div>
+        <img src="{{bundle.data.path}}" alt="">
+        <div class="down" *ngIf="showInfo">
+            <span class="desc">{{bundle.data.desc}}</span>
+        </div>
+
+    </div>
+</div>

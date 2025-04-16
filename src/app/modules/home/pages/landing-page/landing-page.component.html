@@ -165,13 +165,12 @@
                     <div class="util" *ngFor="let item of utils_kp_util_list">
                         <span class="card-title">{{item.title}}</span>
                         <i class="bi bi-three-dots-vertical c-icon"
-                        (click)="openTopMenuR(item)"></i>
+                        (click)="openDownMenuR(item)"></i>
                         
-                        <span>sdsdñlaskdlñaskdñlaskd</span>
 
-                        <div class="utils-menu" *ngIf="showTopMenuR && selectedTopOption === item.id">
+                        <div class="utils-menu" *ngIf="showDownMenuR && selectedDownUtil === item.id">
                             <div class="menu-options" *ngFor="let option of menu_list"
-                                (click)="onMenuSelectedR(option, item)">
+                                (click)="onMenuSelectedDownR(option, item)">
                                 <span class="opt">{{option.title}}</span>
                             </div>
                             
@@ -213,5 +212,53 @@
 
 
      
+    </section>
+
+
+    <section class="main-principales">
+        <span class="title">Principal cliente y principal proveedor</span>
+        <span class="sub">Visualiza al cliente y proveedor principal</span>
+
+           
+        <div class="table-container">
+
+            <span class="title">Público</span>
+
+            <table mat-table [dataSource]="dataSource5">
+                <ng-container *ngFor="let column of displayedColumnsPrincipal" [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{ column }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element[column] }}
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsPrincipal"></tr>
+                
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsPrincipal;"></tr>
+            </table>
+        </div>
+
+
+        <div class="table-container">
+            <span class="title">Privado</span>
+
+            <table mat-table [dataSource]="dataSource6">
+                <ng-container *ngFor="let column of displayedColumnsPrincipal" [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{ column }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element[column] }}
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsPrincipal"></tr>
+                
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsPrincipal;"></tr>
+            </table>
+        </div>
+
     </section>
 </div>

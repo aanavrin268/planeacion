@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from './api.service';
-import { range } from 'rxjs';
+import { filter, range, Subscription } from 'rxjs';
 import { SubmenuComponent } from './shared/components/menus/submenu/submenu.component';
 import { PlanService } from './modules/planificacion/services/plan.service';
 
@@ -15,7 +15,9 @@ import { PlanService } from './modules/planificacion/services/plan.service';
   ],  templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
+
+  private routerSusbscription: Subscription;
 
   isPlanTellingActive = false;
 
@@ -24,9 +26,12 @@ export class AppComponent implements OnInit{
   protected isToggled = false;
   protected showBage: boolean;
 
+  protected currentSelectedRoute: any;
+
   showSubmenu: string | null = null;
 
-  
+
+  isTellingOn: boolean = false;
 
   planSubmenuItems = [
     { label: 'Plan de ventas', link: '/dashPlan' },
@@ -45,12 +50,51 @@ export class AppComponent implements OnInit{
 
   constructor(private apiService: ApiService, private router: Router, private planService: PlanService){
     this.showBage = false;
+
+    this.routerSusbscription = this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+    .subscribe((event: NavigationEnd) => {
+      console.log("ruta actual", event.url);
+      this.currentSelectedRoute = event.url;
+
+      if(this.currentSelectedRoute == '/planTelling'){
+        console.log("esta encendido");
+        this.isTellingOn = true;
+      }
+      
+      console.log("componente: ", this.getCurrentComponentName());
+    })
   }
 
   ngOnInit(): void {
     this.planService.isPlanTellingActive$.subscribe((isActive) => {
       this.isPlanTellingActive = isActive;
     });
+
+  
+
+   
+  }
+
+  isPlanTellingRoute(): boolean {
+    return this.router.url.includes('/planTelling');
+  }
+
+  ngOnDestroy(): void {
+    if(this.routerSusbscription){
+      this.routerSusbscription.unsubscribe();
+    }
+  }
+
+  getCurrentComponentName(){
+    let currentRoute = this.router.routerState.snapshot.root;
+    while(currentRoute.firstChild){
+      currentRoute = currentRoute.firstChild;
+    }
+
+    return currentRoute.component?.name || 'componente desconocido';
   }
 
 

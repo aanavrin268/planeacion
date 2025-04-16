@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'; 
 import { Router } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageModalComponent } from '../../components/image-modal/image-modal.component';
 
 
 
@@ -14,7 +16,7 @@ import { PlanService } from '../../services/plan.service';
 })
 export class PlanTellingComponent implements OnInit, OnDestroy {
 
-  constructor(private planService: PlanService, private router: Router){
+  constructor(private planService: PlanService, private router: Router, private modal: NgbModal){
     gsap.registerPlugin(ScrollTrigger);
     gsap.defaults({ ease: 'none', duration: 2});
   }
@@ -26,6 +28,32 @@ export class PlanTellingComponent implements OnInit, OnDestroy {
 
     this.initScrollAnimations();
   }
+
+  openModalImages(images_id: number){
+    const dataBundle = {
+      id: images_id,
+      data: []
+    }
+
+    const modalRef = this.modal.open(ImageModalComponent, {
+      centered:true,
+      size: 'lg',
+      windowClass: 'redondo'
+    })
+
+    modalRef.componentInstance.bundle = dataBundle;
+
+  }
+
+
+
+  goHome(){
+    this.router.navigate(['/home']).then(() => {
+      window.location.reload();
+    });
+  }
+
+
 
 
   ngOnDestroy(): void {

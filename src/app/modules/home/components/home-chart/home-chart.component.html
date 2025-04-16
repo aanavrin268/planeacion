@@ -1,33 +1,74 @@
 <div class="main-modal">
     <section class="header">
-        <span class="tiutl">Grágico</span>
+        <span class="title">Gráfico</span>
     </section>
 
+    <section class="body">
+        <div class="chart-container">
+            @if(id === '1' ){
+                <ngx-charts-gauge
+                [view]="[830, 450]"
+                [results]="data_list"
+                [scheme]="'flame'"
+                [angleSpan]="240"
+                [startAngle]="-120"
+                [units]="''"
+                [legendTitle]="'Leyenda'"
+                [showAxis]="true"
+                [legend]="true"
+                [max]="1692229"> 
+              </ngx-charts-gauge>
 
-    @if(id === '1' ){
-        <ngx-charts-gauge
-        [view]="[830, 450]"
-        [results]="data_list"
-        [scheme]="'flame'"
-        [angleSpan]="240"
-        [startAngle]="-120"
-        [units]="''"
-        [showAxis]="false"
-        [max]="1692229"> 
-      </ngx-charts-gauge>
+
+              <div class="info-container">
+                <div class="h-container">
+                    <span>Sumatoria total de unidades: </span>
+                    <span>{{totalValue || 0}}</span>
+                </div>
+                <div class="h-container">
+                    <span>Total de unidades del conjunto Top-3: </span>
+                    <span>{{topValue || 0}}</span>
+
+                </div>
+                <div class="h-container">
+                    <span>Total de unidades del conjunto restante: </span>
+                    <span>{{otherValue || 0}}</span>
+
+                </div>
+
+              </div>
+
+
+                
+            }@else if(id === '2'){
+                <ngx-charts-gauge
+                [view]="[830, 450]"
+                [results]="data_list"
+                [scheme]="'flame'"
+                [angleSpan]="240"
+                [legend]="true"
+                [showAxis]="true"
+                [legendTitle]="'Leyenda'"
         
-    }@else if(id === '2'){
-        <ngx-charts-gauge
-        [view]="[830, 450]"
-        [results]="data_list"
-        [scheme]="'flame'"
-        [angleSpan]="240"
-        [startAngle]="-120"
-        [max]="100" 
-        [units]="'%'"
-        > 
-        </ngx-charts-gauge>
-    }
+                [startAngle]="-120"
+                [max]="100" 
+                [units]="'%'"
+                > 
+                </ngx-charts-gauge>
+
+                <div class="info-container">
+                    <span>Del 100% de unidades que corresponde al siguiente valor: </span>
+                    <span>{{totalValue}}</span>
+                    <span>El porcentaje que representa el conjunto Top-3  es de: </span>
+                    <span>{{porcentTop + '%'}}</span>
+
+                </div>
+            }
+        </div>
+    </section>
+
+    
+   
 
 
 

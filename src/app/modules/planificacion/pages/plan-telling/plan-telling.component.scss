@@ -5,7 +5,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    width: 70vw;
+    width: 100%;
+    //transform: translateX(300px);
 }
 
 
@@ -18,6 +19,28 @@
     align-items: center;
     flex-direction: column;
     position: relative;
+
+    .p-icon{
+        position: fixed;
+        top: 20%;
+        right: 4%;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: gainsboro;
+        box-shadow: 2px 6px 8px rgba(0, 0, 0, 0.377);
+        transition: all 0.2s ease-in-out;
+        z-index: 10;
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(119, 117, 117);
+
+        }
+    }
 
     .image-container{
         position: absolute;
@@ -75,10 +98,67 @@
     flex-direction: column;
 }
 
+.o-icon{
+    width: 65px;
+    margin-top: 2rem;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #e3e3e361;
+    background-color: #6860fb54;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+        color: white;
+        background-color: #6860fbcb;
+        transform: scale(1.025);
+
+    }
+}
+
+.i-image{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    top: 65%;
+    font-size: 20px;
+    background-color: rgba(245, 245, 245, 0.2509803922);
+    color: #bbbbbb;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.02);
+        background-color: rgba(197, 196, 196, 0.251);
+
+    }
+
+}
+
 .seccion:nth-child(1){
     //background-color: #b9d5d5;
     background-color: a.$primary-color;
     flex-direction: row;
+
+    .bg-title{
+        color: white;
+        position: absolute;
+        width: fit-content;
+        top: 10%;
+        font-size: 55px;
+        font-weight: 700;
+        padding: .9rem 1.2rem;
+        background: #afa6a64f;
+        border-radius: 12px;
+
+    }
 
     .s-title{
         font-weight: 710;
@@ -86,6 +166,7 @@
         line-height: 1.1;
         text-align: center;
         width: 200px;
+        color:white;
         /* background-color: #424242; */
     }
 
@@ -93,14 +174,15 @@
         font-weight: 650;
         line-height: 1.1;
         font-size: 18px;
-        color: #424242;
+        color: #e7e7e7b5;
         word-wrap: break-word;
         overflow-wrap: break-word;
         text-align: center;
         width: 300px;
         margin-top: 1rem;
-        /* background-color: #485555; */
     }
+
+  
 
     .one{
         width: auto;
@@ -112,6 +194,8 @@
         position: absolute;
         left: 10%;
         top: 20%;
+
+       
 
     }
 
@@ -187,6 +271,8 @@
     background-color: a.$primary-dark;
     flex-direction: row;
 
+   
+
     .s2-title{
         font-weight: 710;
         font-size: 46px;
@@ -248,6 +334,8 @@
         padding: 1rem;
         position: absolute;
         left: 10%;
+        width: 84%;
+
         top: 14%;
         background: #f5f5f540;
         border-radius: 8px;
@@ -270,6 +358,7 @@
         flex-direction: column;
         padding: 1rem;
         position: absolute;
+        width: 84%;
         right: 10%;
         bottom: 14%;
         background: #f5f5f540;
@@ -671,6 +760,7 @@
         position: absolute;
         left: 10%;
         top: 14%;
+        width: 84%;
         background: #f5f5f540;
         border-radius: 8px;
 
@@ -693,6 +783,8 @@
         padding: 1rem;
         position: absolute;
         right: 10%;
+        width: 84%;
+
         bottom: 14%;
         background: #f5f5f540;
         border-radius: 8px;
@@ -935,6 +1027,7 @@
         position: absolute;
         left: 10%;
         top: 14%;
+        width: 84%;
         background: #f5f5f540;
         border-radius: 8px;
 
@@ -958,6 +1051,8 @@
         position: absolute;
         right: 10%;
         bottom: 14%;
+        width: 84%;
+
         background: #f5f5f540;
         border-radius: 8px;
 
@@ -995,6 +1090,8 @@
     background-color: a.$tertiary-color;
     flex-direction: row;
 
+    
+
     .s2-title{
         font-weight: 710;
         font-size: 46px;
@@ -1014,6 +1111,34 @@
         text-align: center;
         width: 400px;
         margin-top: .6rem;
+    }
+
+    .i-title{
+        font-weight: 710;
+        font-size: 46px;
+        line-height: 1.1;
+        text-align: center;
+        width: 300px;
+        color: white;   
+     }
+
+    .i-sub{
+        font-weight: 650;
+        line-height: 1.1;
+        font-size: 20px;
+        color: #cfcfcf;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        text-align: center;
+        width: 400px;
+        margin-top: .6rem;
+    }
+
+    .info-1{
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        
     }
 
     .left{
