@@ -11,6 +11,7 @@ import { MultiComparativaComponent } from './modules/planificacion/pages/multi-c
 import { PlanTellingComponent } from './modules/planificacion/pages/plan-telling/plan-telling.component';
 import { MainComparativaComponent } from './modules/planificacion/pages/main-comparativa/main-comparativa.component';
 import { LandingPageComponent } from './modules/home/pages/landing-page/landing-page.component';
+import { TestttComponent } from './testtt/testtt.component';
 
 
 
@@ -43,7 +44,7 @@ export const routes: Routes = [
 
 
 
-{path: '', component: LandingPageComponent, pathMatch: 'full'}
+{path: '', component: TestttComponent, pathMatch: 'full'}
 
 
 

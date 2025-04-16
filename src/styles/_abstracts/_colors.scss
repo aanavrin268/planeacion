@@ -14,6 +14,8 @@ $primary-light:#41a0d9;
 $primary-lighter: #27b9c8;
 $primary-dark: #234187;
 $primary-darker:#253365;
+$primary-darkerer:#171f3e;
+
 
 
 $secondary-color:#f08013;
@@ -24,6 +26,15 @@ $secondary-dark: color.scale($secondary-color, $lightness: -15%);
 $tertiary-color:#888b8c;
 $tertiary-light: color.scale($tertiary-color, $lightness: 15%);
 $tertiary-dark: color.scale($tertiary-color, $lightness: -15%);
+
+
+$fourth-color: #00897b;
+$fourth-light: color.scale($fourth-color, $lightness: 15%); 
+$fourth-dark: color.scale($fourth-color, $lightness: -15%); 
+
+$fifth-color: #d81b60;
+$fifth-light: color.scale($fifth-color, $lightness: 15%); 
+$fifth-dark: color.scale($fifth-color, $lightness: -15%); 
 
 
 

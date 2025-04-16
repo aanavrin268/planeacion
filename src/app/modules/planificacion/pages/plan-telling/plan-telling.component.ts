@@ -43,6 +43,18 @@ export class PlanTellingComponent implements OnInit, OnDestroy {
 
     tl.from('.seccion_2', {xPercent: -100});
     tl.from('.seccion_3', {xPercent: 100});
+    tl.from('.seccion_4', {xPercent: -100});
+
+    tl.from('.seccion_5', {yPercent: 100});
+    tl.from('.seccion_6', {xPercent: 100});
+    tl.from('.seccion_7', {xPercent: -100});
+
+    tl.from('.seccion_8', {yPercent: -100});
+    tl.from('.seccion_9', {yPercent: 100});
+    tl.from('.seccion_10', {yPercent: -100});
+    tl.from('.seccion_11', {xPercent: -100});
+
+
 
     ScrollTrigger.create({
       animation: tl,
