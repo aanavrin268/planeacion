@@ -44,7 +44,7 @@ export const routes: Routes = [
 
 
 
-{path: '', component: TestttComponent, pathMatch: 'full'}
+{path: '', component: LandingPageComponent, pathMatch: 'full'}
 
 
 

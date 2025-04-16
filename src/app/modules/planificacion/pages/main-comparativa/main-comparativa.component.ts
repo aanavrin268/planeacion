@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CanicasComponent } from '../../components/canicas/canicas.component';
 import { ActivatedRoute } from '@angular/router';
@@ -86,7 +87,7 @@ export class MainComparativaComponent implements OnInit {
   constructor(
     private modal: NgbModal,
     private route: ActivatedRoute,
-    private service: ApiService
+    private service: ApiService, private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +116,10 @@ export class MainComparativaComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  goBack(){
+    this.location.back();
   }
 
   async fetchAllDatas() {

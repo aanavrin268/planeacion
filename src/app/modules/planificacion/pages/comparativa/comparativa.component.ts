@@ -89,7 +89,15 @@ displayedColumns: string[] = [];
   goToCompare(){
     if(this.selected_plan_list.length === 1){
       this.showError("Error, faltan datos","Seleccina al menos 2 planes para la comparativa");
-    }else {
+    }else if(this.selected_plan_list.length === 2){
+      //
+      this.isPlanSelected = true;
+      this.selectPlan(this.selected_plan_list[this.selected_plan_list.length -1]);
+
+    }
+    
+    
+    else if(this.selected_plan_list.length === 3) {
       //this.router.navigate(['multi-comparativa'], { queryParams: 
         //{ selected_data: JSON.stringify(this.selected_plan_list) } });
 
