@@ -125,7 +125,16 @@
                 <div class="indi-container">
                     <div class="indi" *ngFor="let item of kpi_clientes">
                         <span class="card-title">{{item.title}}</span>
-                        <i class="bi bi-three-dots-vertical c-icon"></i>
+                        <i class="bi bi-three-dots-vertical c-icon"
+                        (click)="openDownMenu(item)"></i>
+
+                        <div class="indi-menu" *ngIf="showDownMenu && selectedDownOption === item.id">
+                            <div class="menu-options" *ngFor="let option of menu_list"
+                                (click)="onMenuSelectedDown(option, item)">
+                                <span class="opt">{{option.title}}</span>
+                            </div>
+                            
+                        </div>
 
                             
                             <div class="table-container">
@@ -153,32 +162,36 @@
             </div>
             <div class="right">
                 <div class="util-container">
-                    <div class="util" *ngFor="let item of kpi_clientes">
+                    <div class="util" *ngFor="let item of utils_kp_util_list">
                         <span class="card-title">{{item.title}}</span>
-                        <i class="bi bi-three-dots-vertical c-icon"></i>
+                        <i class="bi bi-three-dots-vertical c-icon"
+                        (click)="openTopMenuR(item)"></i>
+                        
+                        <span>sdsdñlaskdlñaskdñlaskd</span>
 
-                     
-
-
-                    <!-----
-                    
+                        <div class="utils-menu" *ngIf="showTopMenuR && selectedTopOption === item.id">
+                            <div class="menu-options" *ngFor="let option of menu_list"
+                                (click)="onMenuSelectedR(option, item)">
+                                <span class="opt">{{option.title}}</span>
+                            </div>
                             
-                       @if(item.id === 1) {
+                        </div>
 
-                        <ngx-charts-gauge
-                        [view]="[230, 250]"
-            
-                        [results]="item.data"
-                        [scheme]="'flame'"
-                        [angleSpan]="240"
-                        [startAngle]="-120"
-                        [units]="'%'">
-                      </ngx-charts-gauge>
                     
-
-
-                       }@else if(item.id === 2){
-                        <ngx-charts-gauge
+                        @if(item.id === 1 ){
+                            <ngx-charts-gauge
+                            [view]="[230, 250]"
+                            [results]="item.data"
+                            [scheme]="'flame'"
+                            [angleSpan]="240"
+                            [startAngle]="-120"
+                            [units]="''"
+                            [showAxis]="false"
+                            [max]="1692229"> 
+                          </ngx-charts-gauge>
+                            
+                        }@else if(item.id === 2){
+                            <ngx-charts-gauge
                             [view]="[230, 250]"
                             [results]="item.data"
                             [scheme]="'flame'"
@@ -189,11 +202,9 @@
                             [valueFormatting]="formatValue"
                             > 
                             </ngx-charts-gauge>
-                       }
-                    -->
+                        }
 
-
-                          
+                     
 
                     </div>
                 </div>

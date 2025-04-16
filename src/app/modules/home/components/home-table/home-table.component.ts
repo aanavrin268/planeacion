@@ -16,15 +16,20 @@ export class HomeTableComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>();
   displayedColumns: any[] = [];
+  displayedColumnsCliente: any[] = [];
 
 
   constructor(private active: NgbActiveModal){
     this.displayedColumns= ['PROVEEDORES', 'PIEZAS', 'MONTO'];
-    //this.displayedColumnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
+    this.displayedColumnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
   }
 
 
   ngOnInit(): void {
+
+    if(this.bundle.types === 'down'){
+      this.displayedColumns = this.displayedColumnsCliente;
+    }
 
     console.log("bundle received", this.bundle);
 

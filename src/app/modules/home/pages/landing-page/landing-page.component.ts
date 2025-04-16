@@ -8,6 +8,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeTableComponent } from '../../components/home-table/home-table.component';
 import { HomeChartComponent } from '../../components/home-chart/home-chart.component';
 
+/*
+  plan_austero
+  plan_ideal
+  plan_riesgo
+*/
+
 
 @Component({
   selector: 'app-landing-page',
@@ -21,6 +27,8 @@ export class LandingPageComponent implements OnInit {
   protected kpi_clientes: any[] = [];
 
   protected kp_util_list: any[] = [];
+  protected utils_kp_util_list: any[] = [];
+
 
   protected dataSource = new MatTableDataSource<any>();
   protected dataSource2 = new MatTableDataSource<any>();
@@ -33,6 +41,9 @@ export class LandingPageComponent implements OnInit {
   protected showTopMenu: boolean = false;
   protected showTopMenuR: boolean = false;
 
+  protected showDownMenu: boolean = false;
+  protected showDownMenuR: boolean = false;
+
 
   protected menu_list: any[] = [
     {id: 1, title:'Ver más'},    {id: 2, title:'Cancelar'},
@@ -41,6 +52,11 @@ export class LandingPageComponent implements OnInit {
 
   selectedTopOption: any;
   selectedTopUtil: any;
+
+  
+  selectedDownOption: any;
+  selectedDownUtil: any;
+
 
 
 
@@ -75,10 +91,22 @@ export class LandingPageComponent implements OnInit {
     ];
 
     this.kpi_clientes = [ 
-      {id:1, title:'Top clientes público', data: [{name: 'Initial', value: 0}]},   
-      {id:2, title:'Top clientes privado', data: [{name: 'Initial', value: 0}]},
+      {id:1, title:'Top clientes público', type:'publico-clientes',
+           data: [{name: 'Initial', value: 0}]},   
+      {id:2, title:'Top clientes privado', type:'privado-clientes',
+          data: [{name: 'Initial', value: 0}]},
 
     ]
+
+    this.utils_kp_util_list = [ 
+      {id:1, title:'Top clientes público', type:'publico-clientes',
+           data: [{name: 'Initial', value: 0}]},   
+      {id:2, title:'Top clientes privado', type:'privado-clientes',
+          data: [{name: 'Initial', value: 0}]},
+
+    ]
+
+
 
     this.displayedColumns= ['PROVEEDORES', 'PIEZAS', 'MONTO'];
     this.displayedColumnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
@@ -99,20 +127,62 @@ export class LandingPageComponent implements OnInit {
           MONTO: this.formatNumberMain(item?.MONTO)
         }));
 
+        this.data4  = formattedData;
+
+
         const formattedTop3 = formattedData.slice(0,3);
 
+
+        
+        const datos = response.result.map((item: any) => ({
+          ...item,
+          PIEZAS: Number(item.PIEZAS)
+        }));
+            
+        const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        console.log('TOTAL DOWN R', totalGeneral);
+    
+        const top3 = datos.slice(0, 3);
+    
+        const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        console.log('SUMA TOP 3 DOWN R', sumaTop3);
+
+    
+        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
+
+        console.log('PORCENTAJE DOWN  DOWN R', porcentajeTop3);
+
+        //this.dataSource2 = new MatTableDataSource(formattedTop3);
+    
+        
+        const gaugeData =  this.utils_kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
+        }];
+
+ 
+
+        this.gaugeData4 = gaugeData;
+
+
+
         console.log("top-clientes-privado-data ", response);
-        const top3 = response.result.slice(0, 3);
+        //const top3 = response.result.slice(0, 3);
         this.dataSource4 = new MatTableDataSource(formattedTop3);
 
+        /*
         const gaugeData = [{
           name: 'Piezas',
           value: response.result[0].PIEZAS
         }];
+
+        */
     
         console.log("Gauge data", gaugeData);
     
-        this.kpi_clientes[1].data = gaugeData;
+        //this.kpi_clientes[1].data = gaugeData;
       }
     });
 
@@ -125,20 +195,60 @@ export class LandingPageComponent implements OnInit {
           MONTO: this.formatNumberMain(item?.MONTO)
         }));
 
+        this.data3  = formattedData;
+
+
         const formattedTop3 = formattedData.slice(0,3);
 
         console.log("top-clientes-data ", response);
         const top3 = response.result.slice(0, 3);
         this.dataSource3 = new MatTableDataSource(formattedTop3);
 
-        const gaugeData = response.result.map((item: { CLIENTES: any; PIEZAS: any; }) => ({
-          name: item.CLIENTES, 
-          value: item.PIEZAS      
-        }));
-    
-        console.log("Gauge data", gaugeData);
-    
-        this.kpi_clientes[0].data = gaugeData;
+
+        const topAllBut3 = response.result.slice(3, response.result.length);
+
+
+        const datosConvertidos = top3.map((item: { PIEZAS: string; }) => ({
+          ...item,
+          PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
+      }));
+
+      const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
+        ...item,
+        PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
+    }));
+
+
+        console.log("primero-DOWN-3", datosConvertidos);
+        console.log("primero-DOWN-despeus de 3", datosConvertidosAfter);
+
+        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        const totalPiezasTop3 = datosConvertidos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+        const totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+
+        console.log("suma total DE DOWN", totalPiezasAll);
+
+
+        console.log("suma top 3 DOWN", totalPiezasTop3);
+        console.log("suma top despues de 3 DOWN ", totalPiezasTopAllBut3);
+
+
+        const gaugeData = [
+          {name: "Top 3", value: totalPiezasTop3},
+          {name: "El resto", value: totalPiezasTopAllBut3},
+
+
+        ]
+
+        this.utils_kp_util_list[0].data = gaugeData;
+
+
+        this.gaugeData3 = gaugeData;
+
+
+       
       }
     });
 
@@ -157,18 +267,22 @@ export class LandingPageComponent implements OnInit {
         const formattedTop3 = formattedData.slice(0,3);
 
         console.log("topprov3-data-public ", response);
+
+
         const top3 = response.result.slice(0, 3);
         const topAllBut3 = response.result.slice(3, response.result.length);
 
+     
 
 
-        console.log("primero-top3", top3);
+
+        //console.log("primero-top3", datosConvertidos);
         console.log("primero-top-despeus de 3", topAllBut3);
 
-        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
 
-        const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-        const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+        const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+        const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
 
 
         console.log("suma total", totalPiezasAll);
@@ -231,7 +345,7 @@ export class LandingPageComponent implements OnInit {
           ...item,
           PIEZAS: Number(item.PIEZAS)
         }));
-    
+            
         const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
 
         console.log('tpta_privado', totalGeneral);
@@ -337,12 +451,63 @@ export class LandingPageComponent implements OnInit {
   }
 
 
+  openTableDown(item: any){
+    this.showDownMenu = !this.showDownMenu;
+
+
+    let bundleData: { types: any, data: any[] } = {
+      types: 'down',
+      data: []
+    }
+
+    if(item.type === 'publico-clientes'){
+      bundleData.data = this.data3;
+    }else if(item.type === 'privado-clientes'){
+      bundleData.data = this.data4;
+
+    }
+
+    const modalRef = this.modal.open(HomeTableComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo'
+    })
+
+
+    modalRef.componentInstance.bundle = bundleData;
+
+  }
+
+  openDownMenu(option:any){
+    this.showDownMenu = !this.showDownMenu;
+    this.selectedDownOption = option.id;
+    this.selectedDownUtil = option.id;
+
+    console.log("item es", option);
+
+  }
+
+
   openTopMenu(option:any){
     this.showTopMenu = !this.showTopMenu;
     this.selectedTopOption = option.id;
     this.selectedTopUtil = option.id;
 
     console.log("item es", option);
+  }
+
+  onMenuSelectedDown(option:any, item:any){
+    console.log("option es", option);
+    console.log("item es", item);
+
+
+  if(option.id === 2){
+    this.showDownMenu = !this.showDownMenu;
+
+  } else if (option.id === 1){
+    this.openTableDown(item);
+  }
+
   }
 
 
