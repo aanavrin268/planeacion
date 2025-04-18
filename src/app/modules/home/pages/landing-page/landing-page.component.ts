@@ -84,6 +84,31 @@ export class LandingPageComponent implements OnInit {
   sendTotalGeneral: any;
 
 
+  dummyTableDate: any[] = [
+    {
+      'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
+    },
+    {
+      'PROVEEDORES': 'VARIFARMA', 'PIEZAS': 667896 ,'MONTO': 2986754
+    },
+    {
+      'PROVEEDORES': 'VANQUISH', 'PIEZAS': 34533 ,'MONTO': 1005678
+    },
+    {
+      'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
+    },
+    {
+      'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
+    },
+    {
+      'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
+    },
+    {
+      'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
+    }
+  ];
+
+
   constructor(private homeService: HomeService, private modal: NgbModal){
     this.kpi_proveedores = [ 
       {id:1, title:'Top proveedores público', type:'publico-proveedores', data:[]},   
@@ -282,7 +307,11 @@ export class LandingPageComponent implements OnInit {
 
     this.homeService.getTop3Providers('vw_topProveedoresPublico').subscribe({
       next: (response) => {
-        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+
+
+
+
+        const formattedData = this.dummyTableDate.map((item: { PIEZAS: number; MONTO: number; }) => ({
           ...item,
           PIEZAS: this.formatNumberMain(item?.PIEZAS),
           MONTO: this.formatNumberMain(item?.MONTO)
@@ -306,7 +335,7 @@ export class LandingPageComponent implements OnInit {
         //console.log("primero-top3", datosConvertidos);
         console.log("primero-top-despeus de 3", topAllBut3);
 
-        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+        const totalPiezasAll = this.dummyTableDate.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
 
         const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
         const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
@@ -414,6 +443,79 @@ export class LandingPageComponent implements OnInit {
 
 
 
+
+
+
+    const formattedData = this.dummyTableDate.map((item: { PIEZAS: number; MONTO: number; }) => ({
+      ...item,
+      PIEZAS: this.formatNumberMain(item?.PIEZAS),
+      MONTO: this.formatNumberMain(item?.MONTO)
+    }));
+
+    console.log("Datos formateados:", formattedData);
+    this.data1  = formattedData;
+
+    const formattedTop3 = formattedData.slice(0,3);
+
+
+
+    const top3 = this.dummyTableDate.slice(0, 3);
+    const topAllBut3 = this.dummyTableDate.slice(3, this.dummyTableDate.length);
+
+ 
+
+
+
+    //console.log("primero-top3", datosConvertidos);
+    console.log("primero-top-despeus de 3", topAllBut3);
+
+    const totalPiezasAll = this.dummyTableDate.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+
+    const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+    const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+
+
+    console.log("suma total", totalPiezasAll);
+
+
+    console.log("suma top 3", totalPiezasTop3);
+    console.log("suma top despues de 3 ", totalPiezasTopAllBut3);
+
+
+    this.dataSource = new MatTableDataSource(formattedTop3);
+
+    const gaugeData = [
+      {name: "Top 3", value: totalPiezasTop3},
+      {name: "El resto", value: totalPiezasTopAllBut3},
+
+
+
+    ]
+
+    this.gaugeData1 = gaugeData;
+      
+    
+
+    /*
+       const gaugeData = response.result.map((item: { PROVEEDORES: any; PIEZAS: any; }) => ({
+      name: item.PROVEEDORES, 
+      value: item.PIEZAS      
+    }));
+    
+    */
+
+
+   
+   
+    console.log("Gauge data", gaugeData);
+
+    this.kp_util_list[0].data = gaugeData;
+
+
+
+
+
+
   }
 
   openChartDown(item:any){
@@ -484,13 +586,19 @@ export class LandingPageComponent implements OnInit {
     this.showTopMenu = !this.showTopMenu;
 
 
-    let bundleData: { data: any[] } = {
+    let bundleData: { title: any, text: any, data: any[],  } = {
+      title: '',
+      text: '',
       data: []
     }
 
     if(item.type === 'publico-proveedores'){
+      bundleData.title = 'Proveedores públicos';
+      bundleData.text = 'Detalles de las piezas y los montos.'
       bundleData.data = this.data1;
     }else if(item.type === 'privado-proveedores'){
+        bundleData.title = 'Proveedores privados';
+      bundleData.text = 'Detalles de las piezas y los montos.'
       bundleData.data = this.data2;
 
     }
