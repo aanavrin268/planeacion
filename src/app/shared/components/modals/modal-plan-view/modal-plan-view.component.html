@@ -55,19 +55,6 @@
 
   
 
-
-
-
-
-
-
-
-
-
-
-    
-
-
     <div class="body">
         <div class="options-container">
           
@@ -115,6 +102,7 @@
     
     
               <div *ngIf="!isLoading">
+                
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tablax">
                   <ng-container *ngFor="let header of headers" [matColumnDef]="header.title.toLowerCase().replace(' ', '')">
                     

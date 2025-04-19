@@ -20,6 +20,28 @@ import { ModoPivoteComponent } from '../../../../modules/planificacion/pages/mod
 import { ModalNewHistoricComponent } from '../../../modals/modal-new-historic/modal-new-historic.component';
 import { ChooseHistoricsComponent } from '../../../modals/choose-historics/choose-historics.component';
 
+export interface PLANPUBLIC{
+  clave: string;
+  nombre: string;
+  disponibles: any;
+  enero: any;
+  fac_enero: any;
+  febrero: any;
+  fac_febrero: any;
+  marzo: any;
+  fac_marzo: any;
+  abril: any;
+  fac_abril: any;
+  mayo: any;
+  junio: any;
+  julio: any;
+  agosto: any;
+  septiembre: any;
+  octubre: any;
+  noviembre: any;
+  diciembre: any;
+}
+
 
 @Component({
   selector: 'app-modal-plan-view',
@@ -48,6 +70,9 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
   private movedCardId: number | null = null; 
   protected showSettingsMenu: boolean;
   protected isHovered: boolean;
+
+
+
 
 
   
@@ -425,7 +450,7 @@ isNumeric(value: any): boolean {
   }
 
   goToPivot(){
-   this.router.navigate(['/modo-pivote']);
+   this.router.navigate(['/full-view']);
   }
 
 
@@ -1213,7 +1238,7 @@ Swal.fire({
   }
 
   showDRows() {
-    this.isLoading = true;
+    //this.isLoading = true;
 /*
     let newHeaders: any[] = [];
     if (this.limits === 1) {
@@ -1252,6 +1277,8 @@ Swal.fire({
 
     //this.isLoading = false;
   
+
+    /*
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
@@ -1297,6 +1324,10 @@ Swal.fire({
         this.isLoading = false;
       }
     });
+
+
+*/
+
 
     
   }

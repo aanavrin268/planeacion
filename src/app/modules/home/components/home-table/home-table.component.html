@@ -15,11 +15,25 @@
         </div>
 
 <!-- HTML Template -->
+<!-- HTML Template -->
 <div class="table-container">
+    <div class="header-actions">
+      <h2>{{ tableTitle }}</h2>
+      <div class="search-container">
+        <input type="text" [(ngModel)]="searchText" (input)="filterData()" placeholder="Buscar...">
+      </div>
+    </div>
+  
     <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" class="header-row">
       <div *ngFor="let column of displayedColumns" class="header-cell" cdkDrag>
-        {{ column }}
-        <div class="drag-handle">☰</div>
+        <span (click)="sortData(column)" class="sort-header">
+          {{ column }}
+          <!-- Indicador de ordenamiento -->
+          <mat-icon *ngIf="sort.active === column" class="sort-icon">
+            {{ sort.direction === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+          </mat-icon>
+        </span>
+        <div class="drag-handle" cdkDragHandle>☰</div>
       </div>
     </div>
   
@@ -35,9 +49,12 @@
       No se encontraron resultados
     </span>
   
-    <mat-paginator [pageSizeOptions]="[3, 5, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  
+    <div class="actions">
+      <button (click)="close()" class="close-btn">Cerrar</button>
+    </div>
   </div>
-
 
 
     </section>

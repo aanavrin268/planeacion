@@ -12,6 +12,7 @@ import { PlanTellingComponent } from './modules/planificacion/pages/plan-telling
 import { MainComparativaComponent } from './modules/planificacion/pages/main-comparativa/main-comparativa.component';
 import { LandingPageComponent } from './modules/home/pages/landing-page/landing-page.component';
 import { TestttComponent } from './testtt/testtt.component';
+import { FullTableViewComponent } from './modules/home/components/full-table-view/full-table-view.component';
 
 
 
@@ -22,6 +23,8 @@ export const routes: Routes = [
 {path: 'planTelling', component: PlanTellingComponent},
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
+{path: 'full-view', component: FullTableViewComponent},
+
 {path: 'multi-comparativa', component: MultiComparativaComponent},
 {path: 'main-comparativa', component: MainComparativaComponent},
 
