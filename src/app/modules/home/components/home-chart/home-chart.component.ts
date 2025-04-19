@@ -12,6 +12,7 @@ export class HomeChartComponent implements OnInit {
 
   id: any;
   bundle: any;
+  protected title: string;
   data_list: any[] = [];
 
   topValue: any;
@@ -22,12 +23,14 @@ export class HomeChartComponent implements OnInit {
   
 
   constructor(){
+    this.title = '';
 
   }
 
   ngOnInit(): void {
     this.id = this.bundle.id;
     this.data_list = this.bundle.data;
+    this.title = this.bundle.title;
     
     console.log("bundle ", this.data_list);
 

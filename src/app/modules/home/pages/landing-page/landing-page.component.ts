@@ -555,17 +555,21 @@ export class LandingPageComponent implements OnInit {
     this.showTopMenuR = !this.showTopMenuR;
 
 
-    let bundleData: { id: any, data: any[], some: any } = {
+    let bundleData: { id: any, title: any, data: any[], some: any } = {
       id: '',
+      title: '',
       data: [],
       some: ''
     }
 
     if(item.type === 'publico-proveedores'){
       bundleData.id = '1';
+      bundleData.title = 'Gráfico de proveedores públicos';
       bundleData.data = this.gaugeData1;
     }else if(item.type === 'privado-proveedores'){
       bundleData.id = '2';
+      bundleData.title = 'Gráfico de proveedores privados';
+
       bundleData.data = this.gaugeData2;
       bundleData.some = this.sendTotalGeneral;
 
