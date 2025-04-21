@@ -134,6 +134,8 @@ export class LandingPageComponent implements OnInit {
   protected valueTitleDown: any;
   protected percentTitleDown: any;
 
+  protected totalValuess: any;
+
 
   constructor(private homeService: HomeService, private modal: NgbModal){
     this.kpi_proveedores = [ 
@@ -345,13 +347,18 @@ export class LandingPageComponent implements OnInit {
 
         this.dataSource = new MatTableDataSource(formattedTop3);
 
+        this.totalValuess = Number(totalPiezasAll) || 0;
+
         const gaugeData = [
-          {name: "Top 3", value: totalPiezasTop3},
-          {name: "El resto", value: totalPiezasTopAllBut3},
-
-
-
-        ]
+          {
+            name: "Top 3", 
+            value: Number(totalPiezasTop3) || 0
+          },
+          {
+            name: "Resto", 
+            value: Number(totalPiezasTopAllBut3) || 0
+          }
+        ];
 
         this.gaugeData1 = gaugeData;
           
@@ -667,19 +674,40 @@ export class LandingPageComponent implements OnInit {
     console.log("el attempt data es", item);
 
 
-    let bundleData: { id: any, data: any[], some: any } = {
+    let bundleData: { id: any, data: any[], some: any, selectedId: any} = {
       id: '',
       data: [],
-      some: ''
+      some: '',
+      selectedId: ''
     }
+
+   
 
     if(item.type === 'publico-clientes'){
       bundleData.id = '1';
       bundleData.data = this.gaugeData3;
+
+      if(this.selectedShowRValueDown == 1){
+        bundleData.selectedId = 1;
+      }else if(this.selectedShowRValueDown == 2){
+        console.log("se trata de de dineros")
+        bundleData.selectedId = 2;
+  
+      }
+
+
     }else if(item.type === 'privado-clientes'){
       bundleData.id = '2';
       bundleData.data = this.gaugeData4;
       bundleData.some = this.sendTotalGeneral;
+
+      if(this.selectedShowRValuePercentDown == 1){
+        bundleData.selectedId = 1;
+      }else if(this.selectedShowRValuePercentDown == 2){
+        console.log("se trata de de dineros")
+        bundleData.selectedId = 2;
+  
+      }
 
     }
 
@@ -698,23 +726,42 @@ export class LandingPageComponent implements OnInit {
     this.showTopMenuR = !this.showTopMenuR;
 
 
-    let bundleData: { id: any, title: any, data: any[], some: any } = {
+    let bundleData: { id: any, title: any, data: any[], some: any, selectedId: any } = {
       id: '',
       title: '',
       data: [],
-      some: ''
+      some: '',
+      selectedId: ''
     }
 
     if(item.type === 'publico-proveedores'){
       bundleData.id = '1';
       bundleData.title = 'Gráfico de proveedores públicos';
       bundleData.data = this.gaugeData1;
+
+      if(this.selectedShowRValue == 1){
+        bundleData.selectedId = 1;
+      }else if(this.selectedShowRValue == 2){
+        console.log("se trata de de dineros")
+        bundleData.selectedId = 2;
+  
+      }
+
+
     }else if(item.type === 'privado-proveedores'){
       bundleData.id = '2';
       bundleData.title = 'Gráfico de proveedores privados';
 
       bundleData.data = this.gaugeData2;
       bundleData.some = this.sendTotalGeneral;
+
+      if(this.selectedShowRValuePercent == 1){
+        bundleData.selectedId = 1;
+      }else if(this.selectedShowRValuePercent == 2){
+        console.log("se trata de de dineros")
+        bundleData.selectedId = 2;
+  
+      }
 
     }
 
@@ -782,17 +829,36 @@ export class LandingPageComponent implements OnInit {
     this.showDownMenu = !this.showDownMenu;
 
 
-    let bundleData: { types: any, data: any[] } = {
+
+
+    let bundleData: { types: any, title: any, text:any, data: any[] } = {
       types: 'down',
-      data: []
+      title: '',
+      text: '',
+      data: [],
     }
 
+    if(item.type === 'publico-clientes'){
+      bundleData.title = 'Clientes públicos';
+      bundleData.text = 'Detalles de las piezas y los montos.'
+      bundleData.data = this.data3;
+
+    }else if(item.type === 'privado-clientes'){
+        bundleData.title = 'Clientes privados';
+      bundleData.text = 'Detalles de las piezas y los montos.'
+      bundleData.data = this.data4;
+
+    }
+
+/*
     if(item.type === 'publico-clientes'){
       bundleData.data = this.data3;
     }else if(item.type === 'privado-clientes'){
       bundleData.data = this.data4;
 
     }
+
+    */
 
     const modalRef = this.modal.open(HomeTableComponent, {
       centered: true,

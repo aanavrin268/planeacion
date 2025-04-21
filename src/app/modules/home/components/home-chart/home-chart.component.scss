@@ -49,6 +49,24 @@
                 .h-container{
                     display: flex;
                     gap: 1rem;
+
+                    .h-text{
+                        line-height: 1.1;
+                        /* background-color: red; */
+                        font-weight: 650;
+                        margin-bottom: .4rem;
+                        color: #757575;
+                        font-size: 15px;
+                    }
+
+                    .h-text-value{
+                        line-height: 1.1;
+                        /* background-color: red; */
+                        font-weight: 650;
+                        margin-bottom: .4rem;
+                        color:rgb(63, 63, 63);
+                        font-size: 15px;
+                    }
                 }
             }
         }

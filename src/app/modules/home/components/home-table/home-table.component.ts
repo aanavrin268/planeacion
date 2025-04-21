@@ -42,7 +42,7 @@ export class HomeTableComponent implements OnInit, AfterViewInit {
 
   constructor(private active: NgbActiveModal, private cdr: ChangeDetectorRef){
     this.displayedColumns= ['PROVEEDORES', 'PIEZAS', 'MONTO'];
-    //this.displayedColmnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
+    this.displayedColumnsCliente= ['CLIENTES', 'PIEZAS', 'MONTO'];
   }
 
   ngAfterViewInit(): void {
@@ -53,6 +53,15 @@ export class HomeTableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if(this.bundle && this.bundle.types === 'down'){
       this.displayedColumns = this.displayedColumnsCliente;
+      this.filteredData = this.bundle.data;
+      this.ogData = [...this.bundle.data]; 
+      
+      if (this.bundle.text) this.tableText = this.bundle.text;
+      if (this.bundle.title) this.tableTitle = this.bundle.title;
+
+      this.dataSource = new MatTableDataSource(this.data_list);
+
+
     }
 
     console.log("bundle received", this.bundle);
@@ -60,7 +69,7 @@ export class HomeTableComponent implements OnInit, AfterViewInit {
     if (this.bundle && this.bundle.data) {
       this.data_list = this.bundle.data;
       this.filteredData = this.bundle.data;
-      this.ogData = [...this.bundle.data]; // Guardamos una copia de los datos originales
+      this.ogData = [...this.bundle.data]; 
       
       if (this.bundle.text) this.tableText = this.bundle.text;
       if (this.bundle.title) this.tableTitle = this.bundle.title;
