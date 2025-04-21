@@ -51,6 +51,8 @@ export class LandingPageComponent implements OnInit {
   protected showDownMenu: boolean = false;
   protected showDownMenuR: boolean = false;
 
+  protected sendDataGeneralDown: any;
+
 
   protected menu_list: any[] = [
     {id: 1, title:'Ver más'}, {id: 2, title:'Cancelar'},
@@ -605,7 +607,6 @@ export class LandingPageComponent implements OnInit {
 
 
           totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-          this.sendTotalGeneral = totalGeneral;
 
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
@@ -616,13 +617,17 @@ export class LandingPageComponent implements OnInit {
 
 
           totalGeneral = datos.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
-          this.sendTotalGeneral = totalGeneral;
+          
 
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
 
         }
 
+        this.sendDataGeneralDown = totalGeneral;
+
+
+        console.warn("EL TOTAL ESSSSSS", this.sendTotalGeneral);
 
 
     
@@ -699,7 +704,9 @@ export class LandingPageComponent implements OnInit {
     }else if(item.type === 'privado-clientes'){
       bundleData.id = '2';
       bundleData.data = this.gaugeData4;
-      bundleData.some = this.sendTotalGeneral;
+      bundleData.some = this.sendDataGeneralDown;
+
+      
 
       if(this.selectedShowRValuePercentDown == 1){
         bundleData.selectedId = 1;
@@ -790,6 +797,7 @@ export class LandingPageComponent implements OnInit {
       bundleData.title = 'Proveedores públicos';
       bundleData.text = 'Detalles de las piezas y los montos.'
       bundleData.data = this.data1;
+      
     }else if(item.type === 'privado-proveedores'){
         bundleData.title = 'Proveedores privados';
       bundleData.text = 'Detalles de las piezas y los montos.'

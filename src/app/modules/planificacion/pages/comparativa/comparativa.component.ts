@@ -77,6 +77,8 @@ displayedColumns: string[] = [];
 
     });
 
+
+
     //this.plan_list = this.dummy_list;
 
 
@@ -402,6 +404,7 @@ async selectPlan(plan: any) {
         if(this.id == 1){
 
           const getDetallesPlanPublicPromise = new Promise((resolve, reject) => {
+            /*
             this.service.getDetallesPlan().subscribe({
               next:(response) => {
                 console.log("plan actual publico", response);
@@ -410,6 +413,24 @@ async selectPlan(plan: any) {
           
                 this.originalData = [...response.result];
                 this.dataSource.data = response.result;
+                resolve(true);
+              },
+              error:(err) => {
+                reject(err);
+              }
+            });
+
+            */
+
+            this.service.getPlanSelectedByName(this.selected_plan_list[0].name).subscribe({
+              next:(response) => {
+                console.log("el primer plan selesccionado es: ", response.result[0]);
+      
+                //const formattedData = this.formatData(response.result[0]);
+                //console.log("data to pdf", formattedData);
+          
+                this.originalData = [...response.result[0]];
+                this.dataSource.data = response.result[0];
                 resolve(true);
               },
               error:(err) => {

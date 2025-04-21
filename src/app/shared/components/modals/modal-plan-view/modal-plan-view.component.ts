@@ -1238,8 +1238,8 @@ Swal.fire({
   }
 
   showDRows() {
-    //this.isLoading = true;
-/*
+    this.isLoading = true;
+
     let newHeaders: any[] = [];
     if (this.limits === 1) {
       newHeaders = this.headersQ1;
@@ -1261,7 +1261,7 @@ Swal.fire({
       header.title.toLowerCase().replace(' ', '')
     );
 
-*/
+
 
     //this.ogData = plan_public_all_data;
 
@@ -1278,7 +1278,7 @@ Swal.fire({
     //this.isLoading = false;
   
 
-    /*
+    
     this.service.getDetallesPlan().subscribe({
       next: (response) => {
         console.log('og data:', response);
@@ -1326,7 +1326,7 @@ Swal.fire({
     });
 
 
-*/
+
 
 
     
