@@ -106,7 +106,7 @@
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tablax">
                   <ng-container *ngFor="let header of headers" [matColumnDef]="header.title.toLowerCase().replace(' ', '')">
                     
-                    <th mat-header-cell *matHeaderCellDef
+                    <th mat-header-cell *matHeaderCellDef sticky
                     [ngClass]="{
                         'custom-header': header.title.toLowerCase() === 'enero' || header.title.toLowerCase() === 'febrero' || header.title.toLowerCase() === 'marzo',
                         'custom-header-q2': header.title.toLowerCase() === 'abril' || header.title.toLowerCase() === 'mayo' || header.title.toLowerCase() === 'junio',
@@ -143,7 +143,7 @@
                     
                   </ng-container>
                 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
               
@@ -187,7 +187,7 @@
                   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tablax">
                     <ng-container *ngFor="let header of headers" [matColumnDef]="header.title.toLowerCase().replace(' ', '')">
                       
-                      <th mat-header-cell *matHeaderCellDef
+                      <th mat-header-cell *matHeaderCellDef sticky
                       [ngClass]="{
                           'custom-header': header.title.toLowerCase() === 'enero' || header.title.toLowerCase() === 'febrero' || header.title.toLowerCase() === 'marzo',
                           'custom-header-q2': header.title.toLowerCase() === 'abril' || header.title.toLowerCase() === 'mayo' || header.title.toLowerCase() === 'junio',
@@ -223,7 +223,7 @@
                       
                     </ng-container>
                   
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     
                 

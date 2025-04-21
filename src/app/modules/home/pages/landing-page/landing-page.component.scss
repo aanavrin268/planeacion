@@ -111,6 +111,7 @@
                             right: 9%;
                             top: 10%;
                             border-radius: 12px;
+                            z-index: 1000;
 
                             .opt{
                                 &:hover{
@@ -149,6 +150,7 @@
                             overflow-y: auto;
                             overflow-x: auto;
                             margin-top: 1.5rem;
+                            max-height: 300px;
                         }
                     }
                 }
@@ -302,6 +304,7 @@
                             right: 9%;
                             top: 10%;
                             border-radius: 12px;
+                            z-index: 1000;
 
                             .opt{
                                 &:hover{
@@ -340,6 +343,7 @@
                             overflow-y: auto;
                             overflow-x: auto;
                             margin-top: 1.5rem;
+                            max-height: 300px;
                         }
                     }
                 }
