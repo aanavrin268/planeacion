@@ -6,7 +6,7 @@
                     <span class="title">Comparativa de planes</span>
 
                     <div class="badge-container" *ngIf="isPlanSelected">
-                         <span class="p-text-actual">Plan actual</span>
+                         <span class="p-text-actual">{{selected_plan_list[0].name}}</span>
                          <span class="p-text-v">Vs.</span>
                         <span class="p-text-selected">{{selectedPlan.name}}</span>
                         <span class="badge" (click)="closeSelected()">X</span>
@@ -85,10 +85,10 @@
         <div class="planes" *ngIf="isPlanSelected">
             <section class="main-plan-actual">
                 <div class="header">
-                    <span class="title">Plan actual</span>
+                    <span class="title">{{selected_plan_list[0].name}}</span>
                 </div>
                 <div class="body">
-                    <span class="sub">Datos tomados del plan de ventas privado principal.</span>
+                    <span class="sub">Datos tomados del plan de ventas {{ selected_plan_list[0].name}}</span>
 
                     <div class="table-container">
                         <table mat-table [dataSource]="dataSource">

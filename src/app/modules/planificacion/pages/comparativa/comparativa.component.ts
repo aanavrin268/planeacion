@@ -193,7 +193,7 @@ displayedColumns: string[] = [];
       const rowDifferences: any[] = [];
   
       Object.keys(row1).forEach(key => {
-        if (row2.hasOwnProperty(key)) {
+        if (key !== 'id_ph' && key !== 'nombre_plan' && row2.hasOwnProperty(key)) {
           const value1 = String(row1[key]);
           const value2 = String(row2[key]);
   
@@ -216,7 +216,7 @@ displayedColumns: string[] = [];
     });
   
     return differences;
-  }
+}
 
 
   
