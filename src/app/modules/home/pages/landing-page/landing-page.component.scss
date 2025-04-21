@@ -10,7 +10,9 @@
     .title{
         @include a.mx-text-title-lg;
     }
-
+    .subtitle {
+        font-size:35px;
+    }
     .sub{
         @include a.mx-text-body;
     }
@@ -63,7 +65,11 @@
         padding: 2rem 1rem;
         padding-left: 4rem;
         padding-top: 5rem;
-
+        
+        .title {
+            font-size:45px;
+        }
+           
      
 
         .dividers{
@@ -463,6 +469,8 @@
             background-color:white;
             box-shadow: 0px 4px 7px rgba(0, 0, 0, .4);
             border-radius: 16px;
+            width: 100%;
+            overflow-y: auto;
 
             .title{
                 margin-bottom: 1.6rem;
