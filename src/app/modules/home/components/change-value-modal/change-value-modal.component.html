@@ -1,0 +1,29 @@
+<div class="main-modal">
+    <section class="header">
+        <span class="title">Cambio de valores</span>
+
+    </section>
+    <section class="body">
+        <span class="sub">Modifica los datos que deseas mostrar.</span>
+
+        <select name="" id="" class="form-select m-select"
+        (change)="onChange($event)">
+            <option value="" disabled selected>
+                Selecciona una opción
+            </option>
+            <option *ngFor="let option of unit_list"
+                [value]="option.id" >
+                {{option.title}}
+            </option>
+        </select>
+
+    </section>
+
+
+    <section class="footer">
+        <button class="btn btn-light" (click)="onCancel()"> Cancelar </button>
+        <button class="btn btn-primary"
+            (click)="onAcept()"> Aceptar </button>
+    </section>
+
+</div>

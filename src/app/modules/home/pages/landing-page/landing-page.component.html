@@ -61,10 +61,9 @@
                         <i class="bi bi-three-dots-vertical c-icon"
                         (click)="openTopMenuR(item)"></i>
                         
-                        <span>sdsdñlaskdlñaskdñlaskd</span>
 
                         <div class="utils-menu" *ngIf="showTopMenuR && selectedTopOption === item.id">
-                            <div class="menu-options" *ngFor="let option of menu_list"
+                            <div class="menu-options" *ngFor="let option of menu_list_right"
                                 (click)="onMenuSelectedR(option, item)">
                                 <span class="opt">{{option.title}}</span>
                             </div>
@@ -83,6 +82,9 @@
                             [showAxis]="false"
                             [max]="1692229"> 
                           </ngx-charts-gauge>
+
+
+                          <span class="down-text">{{valueText}}</span>
                             
                         }@else if(item.id === 2){
                             <ngx-charts-gauge
@@ -96,6 +98,9 @@
                             [valueFormatting]="formatValue"
                             > 
                             </ngx-charts-gauge>
+
+                            <span class="down-text">{{percentText}}</span>
+
                         }
 
                      
@@ -117,7 +122,7 @@
 
 
     <section class="main-instituciones">
-        <span class="title">Indicadores Clave (instituciones)</span>
+        <span class="title">Indicadores Clave (Clientes)</span>
         <span class="sub">Visualiza puntos clave de múltiples áreas</span>
 
         <div class="dividers">

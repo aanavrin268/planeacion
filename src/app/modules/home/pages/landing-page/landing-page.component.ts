@@ -7,6 +7,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeTableComponent } from '../../components/home-table/home-table.component';
 import { HomeChartComponent } from '../../components/home-chart/home-chart.component';
+import { ChangeValueModalComponent } from '../../components/change-value-modal/change-value-modal.component';
 
 /*
   plan_austero
@@ -52,7 +53,12 @@ export class LandingPageComponent implements OnInit {
 
 
   protected menu_list: any[] = [
-    {id: 1, title:'Ver más'},    {id: 2, title:'Cancelar'},
+    {id: 1, title:'Ver más'}, {id: 2, title:'Cancelar'},
+
+  ];
+
+  protected menu_list_right: any[] = [
+    {id: 1, title:'Ver más'},  {id: 2, title:'Cambiar valor'},   {id: 3, title:'Cancelar'},
 
   ];
 
@@ -84,6 +90,7 @@ export class LandingPageComponent implements OnInit {
   sendTotalGeneral: any;
 
 
+
   dummyTableDate: any[] = [
     {
       'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
@@ -107,6 +114,13 @@ export class LandingPageComponent implements OnInit {
       'PROVEEDORES': 'AQVIDA', 'PIEZAS': 22356 ,'MONTO': 234563
     }
   ];
+
+
+  protected selectedShowRValue: any = 1;
+  protected selectedShowRValuePercent: any = 1;
+
+  protected valueText: any;
+  protected percentText: any;
 
 
   constructor(private homeService: HomeService, private modal: NgbModal){
@@ -305,146 +319,15 @@ export class LandingPageComponent implements OnInit {
     });
 
 
-    this.homeService.getTop3Providers('vw_topProveedoresPublico').subscribe({
-      next: (response) => {
-
-
-
-
-        const formattedData = this.dummyTableDate.map((item: { PIEZAS: number; MONTO: number; }) => ({
-          ...item,
-          PIEZAS: this.formatNumberMain(item?.PIEZAS),
-          MONTO: this.formatNumberMain(item?.MONTO)
-        }));
-    
-        console.log("Datos formateados:", formattedData);
-        this.data1  = formattedData;
-
-        const formattedTop3 = formattedData.slice(0,3);
-
-        console.log("topprov3-data-public ", response);
-
-
-        const top3 = response.result.slice(0, 3);
-        const topAllBut3 = response.result.slice(3, response.result.length);
-
-     
-
-
-
-        //console.log("primero-top3", datosConvertidos);
-        console.log("primero-top-despeus de 3", topAllBut3);
-
-        const totalPiezasAll = this.dummyTableDate.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
-
-        const totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
-        const totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
-
-
-        console.log("suma total", totalPiezasAll);
-
-
-        console.log("suma top 3", totalPiezasTop3);
-        console.log("suma top despues de 3 ", totalPiezasTopAllBut3);
-
-
-        this.dataSource = new MatTableDataSource(formattedTop3);
-
-        const gaugeData = [
-          {name: "Top 3", value: totalPiezasTop3},
-          {name: "El resto", value: totalPiezasTopAllBut3},
-
-
-
-        ]
-
-        this.gaugeData1 = gaugeData;
-          
-        
-    
-        /*
-           const gaugeData = response.result.map((item: { PROVEEDORES: any; PIEZAS: any; }) => ({
-          name: item.PROVEEDORES, 
-          value: item.PIEZAS      
-        }));
-        
-        */
-
-
-       
-       
-        console.log("Gauge data", gaugeData);
-    
-        this.kp_util_list[0].data = gaugeData;
-      }
-    });
-
-
-
-
-    this.homeService.getTop3Providers('vw_topProveedoresPrivado').subscribe({
-      next: (response) => {
-
-        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
-          ...item,
-          PIEZAS: this.formatNumberMain(item?.PIEZAS),
-          MONTO: this.formatNumberMain(item?.MONTO)
-        }));
-
-        this.data2  = formattedData;
-
-
-        const formattedTop3 = formattedData.slice(0,3);
-
-
-        const datos = response.result.map((item: any) => ({
-          ...item,
-          PIEZAS: Number(item.PIEZAS)
-        }));
-            
-        const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-        this.sendTotalGeneral = totalGeneral;
-
-        console.log('tpta_privado', totalGeneral);
-    
-        const top3 = datos.slice(0, 3);
-    
-        const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-        console.log('tpta_tp333', sumaTop3);
-
-    
-        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
-    
-        this.dataSource2 = new MatTableDataSource(formattedTop3);
-    
-        this.kp_util_list[1].data = [{
-          name: 'Top 3',
-          value: parseFloat(porcentajeTop3.toFixed(2)) 
-        }];
-
-        const gaugeData =  this.kp_util_list[1].data = [{
-          name: 'Top 3',
-          value: parseFloat(porcentajeTop3.toFixed(2)) 
-        }];
-
+    this.loadRDatas();
  
 
-        this.gaugeData2 = gaugeData;
-
-    
-        console.log("Porcentaje acumulado del top 3:", porcentajeTop3 + '%');
-      }
-    });
 
 
 
 
 
-
-
-
+    /*
 
     const formattedData = this.dummyTableDate.map((item: { PIEZAS: number; MONTO: number; }) => ({
       ...item,
@@ -493,6 +376,8 @@ export class LandingPageComponent implements OnInit {
     ]
 
     this.gaugeData1 = gaugeData;
+
+    */
       
     
 
@@ -507,13 +392,194 @@ export class LandingPageComponent implements OnInit {
 
    
    
-    console.log("Gauge data", gaugeData);
+    //console.log("Gauge data", gaugeData);
 
-    this.kp_util_list[0].data = gaugeData;
-
-
+    //this.kp_util_list[0].data = gaugeData;
 
 
+
+
+
+
+  }
+
+
+  loadRDatas(){
+
+    
+
+    this.homeService.getTop3Providers('vw_topProveedoresPublico').subscribe({
+      next: (response) => {
+
+    let totalPiezasAll: any = 0;
+    let totalPiezasTop3: any = 0;
+    let totalPiezasTopAllBut3: any = 0;
+
+
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+    
+        console.log("Datos formateados:", formattedData);
+        this.data1  = formattedData;
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+        console.log("topprov3-data-public ", response);
+
+
+        const top3 = response.result.slice(0, 3);
+        const topAllBut3 = response.result.slice(3, response.result.length);
+
+     
+
+
+
+        //console.log("primero-top3", datosConvertidos);
+        console.log("primero-top-despeus de 3", topAllBut3);
+
+
+        if(this.selectedShowRValue == 1){
+          this.valueText = 'Los valores actuales representan piezas.';
+
+          totalPiezasAll = formattedData.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+
+           totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+           totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+        }else if (this.selectedShowRValue == 2 ){
+          this.valueText = 'Los valores actuales representan montos.';
+          totalPiezasAll = formattedData.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
+
+          totalPiezasTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
+          totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
+        }
+
+      
+
+
+        console.log("suma total", totalPiezasAll);
+
+
+        console.log("suma top 3", totalPiezasTop3);
+        console.log("suma top despues de 3 ", totalPiezasTopAllBut3);
+
+
+        this.dataSource = new MatTableDataSource(formattedTop3);
+
+        const gaugeData = [
+          {name: "Top 3", value: totalPiezasTop3},
+          {name: "El resto", value: totalPiezasTopAllBut3},
+
+
+
+        ]
+
+        this.gaugeData1 = gaugeData;
+          
+        
+    
+        /*
+           const gaugeData = response.result.map((item: { PROVEEDORES: any; PIEZAS: any; }) => ({
+          name: item.PROVEEDORES, 
+          value: item.PIEZAS      
+        }));
+        
+        */
+
+
+       
+       
+        console.log("Gauge data", gaugeData);
+    
+        this.kp_util_list[0].data = gaugeData;
+      }
+    });
+
+    this.homeService.getTop3Providers('vw_topProveedoresPrivado').subscribe({
+      next: (response) => {
+
+        let totalGeneral = 0;
+        let top3: any;
+        let sumaTop3: any;
+
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        this.data2  = formattedData;
+
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+
+        const datos = response.result.map((item: any) => ({
+          ...item,
+          PIEZAS: Number(item.PIEZAS)
+        }));
+            
+        //const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+       // this.sendTotalGeneral = totalGeneral;
+
+        //console.log('tpta_privado', totalGeneral);
+    
+        //const top3 = datos.slice(0, 3);
+    
+        //const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        //console.log('tpta_tp333', sumaTop3);
+
+
+        if(this.selectedShowRValue == 1){
+          this.percentText = 'El porcentaje actual representa piezas.';
+
+          totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+          this.sendTotalGeneral = totalGeneral;
+
+          top3 = datos.slice(0, 3);
+          sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        }else if (this.selectedShowRValue == 2 ){
+          this.percentText = 'El porcentaje actual representa montos.';
+
+          totalGeneral = datos.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+          this.sendTotalGeneral = totalGeneral;
+
+          top3 = datos.slice(0, 3);
+          sumaTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+
+        }
+
+    
+        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
+    
+        this.dataSource2 = new MatTableDataSource(formattedTop3);
+    
+        this.kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
+        }];
+
+        const gaugeData =  this.kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
+        }];
+
+ 
+
+        this.gaugeData2 = gaugeData;
+
+    
+        console.log("Porcentaje acumulado del top 3:", porcentajeTop3 + '%');
+      }
+    });
+
+
+    
 
 
   }
@@ -695,16 +761,59 @@ export class LandingPageComponent implements OnInit {
   }
 
 
+  openChangeValues(item:any){
+
+    this.showTopMenuR = !this.showTopMenuR;
+
+
+    const dataBundle = {
+      item: item
+    }
+
+    const modalRef = this.modal.open(ChangeValueModalComponent, {
+      centered: true,
+      size:'md',
+      windowClass: 'redondo'
+    })
+
+    modalRef.componentInstance.bundle = dataBundle;
+
+    modalRef.result.then((result) => {
+      if(result !== 'cancelado'){
+        console.log("el restado es bundle  ", result);
+
+
+
+        if(result.retriveId === 1){
+          this.selectedShowRValue = result.value;
+
+        }else if(result.retriveId === 2){
+          this.selectedShowRValuePercent =  result.value;
+
+        }
+
+
+        this.loadRDatas();
+
+      }
+    }).catch((reason) => {
+      console.log("modal cerrado sin seleccionar", reason);
+    })
+  }
+
+
   onMenuSelectedR(option:any, item: any){
     console.log("option es", option);
     console.log("item es", item);
 
 
-  if(option.id === 2){
+  if(option.id === 3){
     this.showTopMenuR = !this.showTopMenuR;
 
   } else if (option.id === 1){
     this.openChart(item);
+  }else if(option.id === 2){
+    this.openChangeValues(item);
   }
 
 }
