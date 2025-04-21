@@ -36,12 +36,20 @@ export class ChangeValueModalComponent implements OnInit {
       this.id = this.bundle.item.id;
       this.types = this.bundle.item.type;
 
+
       if(this.id === 1 && this.types ==='publico-proveedores'){
         console.warn("se trata del r-1");
         this.retriveId = 1;
       }else if(this.id === 2 && this.types === 'privado-proveedores'){
         console.warn("se trata del r-2");
         this.retriveId = 2;
+
+      }else if(this.id === 1 && this.types === 'publico-clientes'){
+        console.warn("se trata del r-3");
+        this.retriveId = 3;
+      }else if(this.id === 2 && this.types === 'privado-clientes'){
+        console.warn("se trata del r-4");
+        this.retriveId = 4;
 
       }
     }

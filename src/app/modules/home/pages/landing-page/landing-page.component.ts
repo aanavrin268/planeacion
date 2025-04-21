@@ -118,9 +118,21 @@ export class LandingPageComponent implements OnInit {
 
   protected selectedShowRValue: any = 1;
   protected selectedShowRValuePercent: any = 1;
+  protected selectedShowRValueDown: any = 1;
+  protected selectedShowRValuePercentDown: any = 1;
 
   protected valueText: any;
   protected percentText: any;
+  
+  protected valueTextDown: any;
+  protected percentTextDown: any;
+
+  
+  protected valueTitle: any;
+  protected percentTitle: any;
+  
+  protected valueTitleDown: any;
+  protected percentTitleDown: any;
 
 
   constructor(private homeService: HomeService, private modal: NgbModal){
@@ -131,7 +143,7 @@ export class LandingPageComponent implements OnInit {
     ]
 
     this.kp_util_list = [ 
-      {id:1, title: 'Top unidades pública', type:'publico-proveedores', 
+      {id:1, title: 'Top unidades público', type:'publico-proveedores', 
          data: [{name: 'Initial', value: 0}]},  
       {id:2, title:'Top unidades privada', type:'privado-proveedores',
          data: [{name: 'Initial', value: 0}]},
@@ -184,148 +196,8 @@ export class LandingPageComponent implements OnInit {
       }
     })
 
-    this.homeService.getTop3Providers('vw_topClientesPrivado').subscribe({
-      next: (response) => {
-
-        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
-          ...item,
-          PIEZAS: this.formatNumberMain(item?.PIEZAS),
-          MONTO: this.formatNumberMain(item?.MONTO)
-        }));
-
-        this.data4  = formattedData;
-
-
-        const formattedTop3 = formattedData.slice(0,3);
-
-
-        
-        const datos = response.result.map((item: any) => ({
-          ...item,
-          PIEZAS: Number(item.PIEZAS)
-        }));
-            
-        const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-        console.log('TOTAL DOWN R', totalGeneral);
-    
-        const top3 = datos.slice(0, 3);
-    
-        const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-        console.log('SUMA TOP 3 DOWN R', sumaTop3);
-
-    
-        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
-
-        console.log('PORCENTAJE DOWN  DOWN R', porcentajeTop3);
-
-        //this.dataSource2 = new MatTableDataSource(formattedTop3);
-    
-        
-        const gaugeData =  this.utils_kp_util_list[1].data = [{
-          name: 'Top 3',
-          value: parseFloat(porcentajeTop3.toFixed(2)) 
-        }];
-
- 
-
-        this.gaugeData4 = gaugeData;
-
-
-
-        console.log("top-clientes-privado-data ", response);
-        //const top3 = response.result.slice(0, 3);
-        this.dataSource4 = new MatTableDataSource(formattedTop3);
-
-        /*
-        const gaugeData = [{
-          name: 'Piezas',
-          value: response.result[0].PIEZAS
-        }];
-
-        */
-    
-        console.log("Gauge data", gaugeData);
-    
-        //this.kpi_clientes[1].data = gaugeData;
-      }
-    });
-
-
-    this.homeService.getTop3Providers('vw_topClientesPublico').subscribe({
-      next: (response) => {
-        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
-          ...item,
-          PIEZAS: this.formatNumberMain(item?.PIEZAS),
-          MONTO: this.formatNumberMain(item?.MONTO)
-        }));
-
-        this.data3  = formattedData;
-
-
-        const formattedTop3 = formattedData.slice(0,3);
-
-        console.log("top-clientes-data ", response);
-        const top3 = response.result.slice(0, 3);
-        this.dataSource3 = new MatTableDataSource(formattedTop3);
-
-
-        const topAllBut3 = response.result.slice(3, response.result.length);
-
-
-        const datosConvertidos = top3.map((item: { PIEZAS: string; }) => ({
-          ...item,
-          PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
-      }));
-
-      const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
-        ...item,
-        PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
-    }));
-
-
-        console.log("primero-DOWN-3", datosConvertidos);
-        console.log("primero-DOWN-despeus de 3", datosConvertidosAfter);
-
-        const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-        const totalPiezasTop3 = datosConvertidos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-        const totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
-
-
-        console.log("suma total DE DOWN", totalPiezasAll);
-
-
-        console.log("suma top 3 DOWN", totalPiezasTop3);
-        console.log("suma top despues de 3 DOWN ", totalPiezasTopAllBut3);
-
-
-        const gaugeData = [
-          {name: "Top 3", value: totalPiezasTop3},
-          {name: "El resto", value: totalPiezasTopAllBut3},
-
-
-        ]
-
-        this.utils_kp_util_list[0].data = gaugeData;
-
-
-        this.gaugeData3 = gaugeData;
-
-
-       
-      }
-    });
-
 
     this.loadRDatas();
- 
-
-
-
-
-
 
     /*
 
@@ -407,7 +279,9 @@ export class LandingPageComponent implements OnInit {
   loadRDatas(){
 
     
-
+    /*
+        DATOS DE PROVEEDORES
+    */
     this.homeService.getTop3Providers('vw_topProveedoresPublico').subscribe({
       next: (response) => {
 
@@ -443,6 +317,7 @@ export class LandingPageComponent implements OnInit {
 
         if(this.selectedShowRValue == 1){
           this.valueText = 'Los valores actuales representan piezas.';
+          this.kp_util_list[0].title = 'Top piezas público';
 
           totalPiezasAll = formattedData.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
 
@@ -450,6 +325,8 @@ export class LandingPageComponent implements OnInit {
            totalPiezasTopAllBut3 = topAllBut3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
         }else if (this.selectedShowRValue == 2 ){
           this.valueText = 'Los valores actuales representan montos.';
+          this.kp_util_list[0].title = 'Top montos público';
+
           totalPiezasAll = formattedData.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
 
           totalPiezasTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
@@ -534,8 +411,10 @@ export class LandingPageComponent implements OnInit {
         //console.log('tpta_tp333', sumaTop3);
 
 
-        if(this.selectedShowRValue == 1){
+        if(this.selectedShowRValuePercent == 1){
           this.percentText = 'El porcentaje actual representa piezas.';
+          this.kp_util_list[1].title = 'Top piezas privado';
+
 
           totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
           this.sendTotalGeneral = totalGeneral;
@@ -543,8 +422,10 @@ export class LandingPageComponent implements OnInit {
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
 
-        }else if (this.selectedShowRValue == 2 ){
+        }else if (this.selectedShowRValuePercent == 2 ){
           this.percentText = 'El porcentaje actual representa montos.';
+          this.kp_util_list[1].title = 'Top montos privado';
+
 
           totalGeneral = datos.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
           this.sendTotalGeneral = totalGeneral;
@@ -575,6 +456,202 @@ export class LandingPageComponent implements OnInit {
 
     
         console.log("Porcentaje acumulado del top 3:", porcentajeTop3 + '%');
+      }
+    });
+
+      /*
+        DATOS DE CLIENTES
+    */
+
+    this.homeService.getTop3Providers('vw_topClientesPublico').subscribe({
+      next: (response) => {
+
+       let totalPiezasAll = 0;
+       let totalPiezasTop3 = 0;
+       let totalPiezasTopAllBut3 = 0;
+
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        this.data3  = formattedData;
+
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+        console.log("top-clientes-data ", response);
+        const top3 = response.result.slice(0, 3);
+        this.dataSource3 = new MatTableDataSource(formattedTop3);
+
+
+        const topAllBut3 = response.result.slice(3, response.result.length);
+
+
+        const datosConvertidos = top3.map((item: { PIEZAS: string; }) => ({
+          ...item,
+          PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
+      }));
+
+      const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
+        ...item,
+        PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
+    }));
+
+
+        console.log("primero-DOWN-3", datosConvertidos);
+        console.log("primero-DOWN-despeus de 3", datosConvertidosAfter);
+
+        //const totalPiezasAll = response.result.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        //const totalPiezasTop3 = datosConvertidos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+        //const totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+
+        if(this.selectedShowRValueDown == 1){
+          this.valueTextDown = 'Los valores actuales representan piezas.';
+          this.utils_kp_util_list[0].title = 'Top piezas público';
+
+
+          totalPiezasAll = formattedData.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+
+          totalPiezasTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + Number(item.PIEZAS), 0);
+          totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+
+          }else if (this.selectedShowRValueDown == 2 ){
+          this.valueTextDown = 'Los valores actuales representan montos.';
+          this.utils_kp_util_list[0].title = 'Top montos público';
+
+          totalPiezasAll = formattedData.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
+
+          totalPiezasTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + Number(item.MONTO), 0);
+          totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+        }
+
+
+        console.log("suma total DE DOWN", totalPiezasAll);
+
+
+        console.log("suma top 3 DOWN", totalPiezasTop3);
+        console.log("suma top despues de 3 DOWN ", totalPiezasTopAllBut3);
+
+
+        const gaugeData = [
+          {name: "Top 3", value: totalPiezasTop3},
+          {name: "El resto", value: totalPiezasTopAllBut3},
+
+
+        ]
+
+        this.utils_kp_util_list[0].data = gaugeData;
+
+
+        this.gaugeData3 = gaugeData;
+
+
+       
+      }
+    });
+
+
+    this.homeService.getTop3Providers('vw_topClientesPrivado').subscribe({
+      next: (response) => {
+        let totalGeneral = 0;
+        let top3: any;
+        let sumaTop3: any;
+
+        const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
+          ...item,
+          PIEZAS: this.formatNumberMain(item?.PIEZAS),
+          MONTO: this.formatNumberMain(item?.MONTO)
+        }));
+
+        this.data4  = formattedData;
+
+
+        const formattedTop3 = formattedData.slice(0,3);
+
+
+        
+        const datos = response.result.map((item: any) => ({
+          ...item,
+          PIEZAS: Number(item.PIEZAS)
+        }));
+            
+        //const totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        //console.log('TOTAL DOWN R', totalGeneral);
+    
+        //const top3 = datos.slice(0, 3);
+    
+        //const sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        console.log('SUMA TOP 3 DOWN R', sumaTop3);
+
+
+
+        if(this.selectedShowRValuePercentDown == 1){
+          this.percentTextDown = 'El porcentaje actual representa piezas.';
+          this.utils_kp_util_list[1].title = 'Top piezas privado';
+
+
+          totalGeneral = datos.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+          this.sendTotalGeneral = totalGeneral;
+
+          top3 = datos.slice(0, 3);
+          sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+        }else if (this.selectedShowRValuePercentDown == 2 ){
+          this.percentTextDown = 'El porcentaje actual representa montos.';
+          this.utils_kp_util_list[1].title = 'Top montos privado';
+
+
+          totalGeneral = datos.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+          this.sendTotalGeneral = totalGeneral;
+
+          top3 = datos.slice(0, 3);
+          sumaTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+
+        }
+
+
+
+    
+        const porcentajeTop3 = (sumaTop3 / totalGeneral) * 100;
+
+        console.log('PORCENTAJE DOWN  DOWN R', porcentajeTop3);
+
+        //this.dataSource2 = new MatTableDataSource(formattedTop3);
+    
+        
+        const gaugeData =  this.utils_kp_util_list[1].data = [{
+          name: 'Top 3',
+          value: parseFloat(porcentajeTop3.toFixed(2)) 
+        }];
+
+ 
+
+        this.gaugeData4 = gaugeData;
+
+
+
+        console.log("top-clientes-privado-data ", response);
+        //const top3 = response.result.slice(0, 3);
+        this.dataSource4 = new MatTableDataSource(formattedTop3);
+
+        /*
+        const gaugeData = [{
+          name: 'Piezas',
+          value: response.result[0].PIEZAS
+        }];
+
+        */
+    
+        console.log("Gauge data", gaugeData);
+    
+        //this.kpi_clientes[1].data = gaugeData;
       }
     });
 
@@ -782,13 +859,17 @@ export class LandingPageComponent implements OnInit {
       if(result !== 'cancelado'){
         console.log("el restado es bundle  ", result);
 
-
-
         if(result.retriveId === 1){
           this.selectedShowRValue = result.value;
 
         }else if(result.retriveId === 2){
           this.selectedShowRValuePercent =  result.value;
+
+        }else if(result.retriveId === 3){
+          this.selectedShowRValueDown = result.value;
+
+        }else if(result.retriveId === 4){
+          this.selectedShowRValuePercentDown =  result.value;
 
         }
 
@@ -824,14 +905,18 @@ onMenuSelectedDownR(option:any, item: any){
   console.log("item es", item);
 
 
-if(option.id === 2){
+if(option.id === 3){
   this.showDownMenuR = !this.showDownMenuR;
 
 } else if (option.id === 1){
   console.log("down r attempt");
   this.openChartDown(item);
-}
 
+} else if (option.id === 2){
+  this.showDownMenuR = !this.showDownMenuR;
+  this.openChangeValues(item);
+
+}
 }
 
 

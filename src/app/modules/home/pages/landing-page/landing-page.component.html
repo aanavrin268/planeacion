@@ -174,7 +174,7 @@
                         
 
                         <div class="utils-menu" *ngIf="showDownMenuR && selectedDownUtil === item.id">
-                            <div class="menu-options" *ngFor="let option of menu_list"
+                            <div class="menu-options" *ngFor="let option of menu_list_right"
                                 (click)="onMenuSelectedDownR(option, item)">
                                 <span class="opt">{{option.title}}</span>
                             </div>
@@ -193,6 +193,9 @@
                             [showAxis]="false"
                             [max]="1692229"> 
                           </ngx-charts-gauge>
+
+                          <span class="down-text">{{valueTextDown}}</span>
+
                             
                         }@else if(item.id === 2){
                             <ngx-charts-gauge
@@ -206,6 +209,9 @@
                             [valueFormatting]="formatValue"
                             > 
                             </ngx-charts-gauge>
+
+                            <span class="down-text">{{percentTextDown}}</span>
+
                         }
 
                      

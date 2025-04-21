@@ -375,6 +375,14 @@
                         align-items: center;
                         position: relative;
 
+                        .down-text{
+                            line-height: 1.1;
+                            /* background-color: red; */
+                            font-weight: 650;
+                            font-size: 13px;
+                            color: #7b7b7b;
+                        }
+
                         
                     .utils-menu{
                         position: absolute;
@@ -434,6 +442,14 @@
         width: 100%;
         padding: 2rem 1rem;
         padding-left: 4rem;
+
+        .down-text{
+            line-height: 1.1;
+            /* background-color: red; */
+            font-weight: 650;
+            font-size: 13px;
+            color: #7b7b7b;
+        }
 
         .table-container{
             margin-top: 2rem;
