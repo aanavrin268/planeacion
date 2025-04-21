@@ -18,6 +18,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class HomeTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+
+  combinedColumns: {name: string, sources: string[], operation: 'concat' | 'sum'}[] = [];
+  selectedColumnsForCombination: string[] = [];
+  isSelectingForCombination: boolean = false;
+
   bundle: any;
   data_list: any[] = [];
 
@@ -63,6 +68,85 @@ export class HomeTableComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource(this.data_list);
     }
   }
+
+  // Método para crear una nueva columna combinada
+  createCombinedColumn(operation: 'concat' | 'sum'): void {
+    if (this.selectedColumnsForCombination.length < 2) {
+      console.error('Se necesitan al menos 2 columnas para combinar');
+      return;
+    }
+    
+    // Crear nombre para la nueva columna
+    const newColumnName = this.selectedColumnsForCombination.join('+');
+    
+    // Añadir la nueva columna combinada
+    const combinedColumn = {
+      name: newColumnName,
+      sources: [...this.selectedColumnsForCombination],
+      operation: operation
+    };
+    
+    this.combinedColumns.push(combinedColumn);
+    
+    // Calcular los valores para la nueva columna
+    this.calculateCombinedColumnValues(combinedColumn);
+    
+    // Añadir la nueva columna a las columnas mostradas
+    this.displayedColumns = [...this.displayedColumns, newColumnName];
+    
+    // Resetear el estado de selección
+    this.isSelectingForCombination = false;
+    this.selectedColumnsForCombination = [];
+    
+    // Forzar detección de cambios
+    this.cdr.detectChanges();
+  }
+  
+  // Método para calcular los valores de la columna combinada
+  calculateCombinedColumnValues(combinedColumn: {name: string, sources: string[], operation: 'concat' | 'sum'}): void {
+    // Iterar sobre cada fila de datos
+    this.dataSource.data.forEach(row => {
+      if (combinedColumn.operation === 'concat') {
+        // Para concatenación de strings
+        row[combinedColumn.name] = combinedColumn.sources
+          .map(source => row[source])
+          .join(' + ');
+      } else if (combinedColumn.operation === 'sum') {
+        // Para suma de valores numéricos
+        row[combinedColumn.name] = combinedColumn.sources
+          .reduce((acc, source) => {
+            const val = parseFloat(row[source]);
+            return acc + (isNaN(val) ? 0 : val);
+          }, 0);
+      }
+    });
+  }
+  
+  // Método para cancelar la selección de columnas
+  cancelColumnCombination(): void {
+    this.isSelectingForCombination = false;
+    this.selectedColumnsForCombination = [];
+  }
+
+
+  // Método para iniciar el proceso de concatenación
+  startColumnCombination(): void {
+    this.isSelectingForCombination = true;
+    this.selectedColumnsForCombination = [];
+  }
+  
+  // Método para seleccionar/deseleccionar columnas para combinar
+  toggleColumnSelection(column: string): void {
+    if (!this.isSelectingForCombination) return;
+    
+    const index = this.selectedColumnsForCombination.indexOf(column);
+    if (index > -1) {
+      this.selectedColumnsForCombination.splice(index, 1);
+    } else {
+      this.selectedColumnsForCombination.push(column);
+    }
+  }
+  
 
   sortData(column: string): void {
     // Determinar la dirección del ordenamiento

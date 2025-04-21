@@ -159,3 +159,15 @@
 }
 
 
+
+.selected-for-combination {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 1px dashed #2196f3;
+}
+
+.table-actions {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 8px;
+}
+
