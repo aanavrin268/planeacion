@@ -188,17 +188,34 @@ export class LandingPageComponent implements OnInit {
       next:(reponse) => {
         console.log("principal data privada es ", reponse);
 
-        this.dataSource6 = new MatTableDataSource(reponse.result);
+        const formattedData = reponse.result.map((item: { PIEZAS_VENDIDAS: any; MONTO_VENDIDO: any; PIEZAS_FACTURADAS: any; MONTO_FACTURADO: any; }) => ({
+          ...item,
+          PIEZAS_VENDIDAS: Number(item.PIEZAS_VENDIDAS).toLocaleString('en-US'),
+          MONTO_VENDIDO: Number(item.MONTO_VENDIDO).toLocaleString('en-US'),
+          PIEZAS_FACTURADAS: Number(item.PIEZAS_FACTURADAS).toLocaleString('en-US'),
+          MONTO_FACTURADO: Number(item.MONTO_FACTURADO).toLocaleString('en-US')
+      }));
+
+
+        this.dataSource6 = new MatTableDataSource(formattedData);
       }
     })
 
     this.homeService.getPrincipalPublic().subscribe({
-      next:(reponse) => {
-        console.log("principal data es ", reponse);
-
-        this.dataSource5 = new MatTableDataSource(reponse.result);
+      next: (response) => {
+          console.log("principal data es ", response);
+  
+          const formattedData = response.result.map((item: { PIEZAS_VENDIDAS: any; MONTO_VENDIDO: any; PIEZAS_FACTURADAS: any; MONTO_FACTURADO: any; }) => ({
+              ...item,
+              PIEZAS_VENDIDAS: Number(item.PIEZAS_VENDIDAS).toLocaleString('en-US'),
+              MONTO_VENDIDO: Number(item.MONTO_VENDIDO).toLocaleString('en-US'),
+              PIEZAS_FACTURADAS: Number(item.PIEZAS_FACTURADAS).toLocaleString('en-US'),
+              MONTO_FACTURADO: Number(item.MONTO_FACTURADO).toLocaleString('en-US')
+          }));
+  
+          this.dataSource5 = new MatTableDataSource(formattedData);
       }
-    })
+  });
 
 
     this.loadRDatas();
