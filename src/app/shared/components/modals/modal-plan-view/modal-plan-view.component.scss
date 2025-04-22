@@ -659,6 +659,7 @@
             rgb(121, 9, 32) 41%,
             rgba(255, 0, 0, 0.8239670868) 94%);
           box-shadow: 0px 6px 10px #000000b3;
+          z-index: 10000;
 
           .header{
             display: flex;

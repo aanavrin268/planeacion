@@ -179,6 +179,7 @@ export class ModalPlanViewComponent implements OnInit, AfterViewInit, AfterViewC
 
     this.settings_options_list = [
       {id:1, title:'Generar backup', icon:'bi bi-caret-left-fill'}, {id:3, title:'Modo pivote', icon:''},  
+      {id:4, title:'Operaciones', icon:''}, 
       {id:2, title:'Cerrar', icon:''},
       
     ];
@@ -473,6 +474,10 @@ isNumeric(value: any): boolean {
           this.active.close();
           this.goToPivot();
           break;
+      case 4:
+        this.openSettingsMenu();
+        this.showUtility = !this.showUtility;
+        break;
     } 
   }
 
