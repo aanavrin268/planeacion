@@ -58,6 +58,9 @@ export class HomeChartComponent implements OnInit {
       this.porcentTop = this.bundle.data[0].value;
       this.totalValue = this.bundle.some;
       this.formattedTotalValue = this.formatNumber(this.totalValue);
+      this.porcentTop = this.formatNumber(this.porcentTop);
+
+      
     }
   }
 

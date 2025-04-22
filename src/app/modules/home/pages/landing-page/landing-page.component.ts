@@ -406,6 +406,7 @@ export class LandingPageComponent implements OnInit {
         let totalGeneral = 0;
         let top3: any;
         let sumaTop3: any;
+        let totalPiezasTopAllBut3: any;
 
         const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
           ...item,
@@ -448,6 +449,14 @@ export class LandingPageComponent implements OnInit {
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
 
+          const topAllBut3 = response.result.slice(3, response.result.length);
+          const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
+            ...item,
+            PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
+        }));
+  
+        totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
         }else if (this.selectedShowRValuePercent == 2 ){
           this.percentText = 'El porcentaje actual representa montos.';
           this.kp_util_list[1].title = 'Top montos privado';
@@ -459,6 +468,16 @@ export class LandingPageComponent implements OnInit {
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
 
+          const topAllBut3 = response.result.slice(3, response.result.length);
+          const datosConvertidosAfter = topAllBut3.map((item: { MONTO: string; }) => ({
+            ...item,
+            PIEZAS: parseInt(item.MONTO, 10) // o también puedes usar: +item.PIEZAS
+        }));
+  
+        totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+
+          
+
         }
 
     
@@ -466,15 +485,50 @@ export class LandingPageComponent implements OnInit {
     
         this.dataSource2 = new MatTableDataSource(formattedTop3);
     
+        /*
         this.kp_util_list[1].data = [{
           name: 'Top 3',
           value: parseFloat(porcentajeTop3.toFixed(2)) 
         }];
 
+        */
+
+        /*
         const gaugeData =  this.kp_util_list[1].data = [{
           name: 'Top 3',
           value: parseFloat(porcentajeTop3.toFixed(2)) 
         }];
+
+        */
+/*
+        const gaugeData =  this.utils_kp_util_list[1].data = [{
+          name: 'Conjunto Top 3',
+          //value: parseFloat(porcentajeTop3.toFixed(2)) 
+          value: sumaTop3
+        },
+        {
+          name: 'Conjunto restante',
+          value: totalPiezasTopAllBut3
+        }
+      
+      
+      ];
+
+      */
+
+
+      const gaugeData =  this.kp_util_list[1].data = [{
+        name: 'Conjunto Top 3',
+        //value: parseFloat(porcentajeTop3.toFixed(2)) 
+        value: sumaTop3
+      },
+      {
+        name: 'Conjunto restante',
+        value: totalPiezasTopAllBut3
+      }
+    
+    
+    ];
 
  
 
@@ -512,13 +566,15 @@ export class LandingPageComponent implements OnInit {
         this.dataSource3 = new MatTableDataSource(formattedTop3);
 
 
-        const topAllBut3 = response.result.slice(3, response.result.length);
 
 
         const datosConvertidos = top3.map((item: { PIEZAS: string; }) => ({
           ...item,
           PIEZAS: parseInt(item.PIEZAS, 10) // o también puedes usar: +item.PIEZAS
       }));
+
+      const topAllBut3 = response.result.slice(3, response.result.length);
+
 
       const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
         ...item,
@@ -587,6 +643,7 @@ export class LandingPageComponent implements OnInit {
         let totalGeneral = 0;
         let top3: any;
         let sumaTop3: any;
+        let totalPiezasTopAllBut3 : any;
 
         const formattedData = response.result.map((item: { PIEZAS: number; MONTO: number; }) => ({
           ...item,
@@ -628,6 +685,20 @@ export class LandingPageComponent implements OnInit {
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
 
+          const topAllBut3 = response.result.slice(3, response.result.length);
+
+
+        const datosConvertidosAfter = topAllBut3.map((item: { PIEZAS: string; }) => ({
+          ...item,
+          PIEZAS: parseInt(item.PIEZAS, 10) 
+      }));
+
+      totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { PIEZAS: any; }) => sum + item.PIEZAS, 0);
+
+  
+
+
+
         }else if (this.selectedShowRValuePercentDown == 2 ){
           this.percentTextDown = 'El porcentaje actual representa montos.';
           this.utils_kp_util_list[1].title = 'Top montos privado';
@@ -638,6 +709,14 @@ export class LandingPageComponent implements OnInit {
 
           top3 = datos.slice(0, 3);
           sumaTop3 = top3.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
+
+          const topAllBut3 = response.result.slice(3, response.result.length);
+          const datosConvertidosAfter = topAllBut3.map((item: { MONTO: string; }) => ({
+            ...item,
+            PIEZAS: parseInt(item.MONTO, 10) // o también puedes usar: +item.PIEZAS
+        }));
+  
+        totalPiezasTopAllBut3 = datosConvertidosAfter.reduce((sum: any, item: { MONTO: any; }) => sum + item.MONTO, 0);
 
         }
 
@@ -653,12 +732,24 @@ export class LandingPageComponent implements OnInit {
         console.log('PORCENTAJE DOWN  DOWN R', porcentajeTop3);
 
         //this.dataSource2 = new MatTableDataSource(formattedTop3);
+
+     
+
+  
     
         
         const gaugeData =  this.utils_kp_util_list[1].data = [{
-          name: 'Top 3',
-          value: parseFloat(porcentajeTop3.toFixed(2)) 
-        }];
+          name: 'Conjunto Top 3',
+          //value: parseFloat(porcentajeTop3.toFixed(2)) 
+          value: sumaTop3
+        },
+        {
+          name: 'Conjunto restante',
+          value: totalPiezasTopAllBut3
+        }
+      
+      
+      ];
 
  
 

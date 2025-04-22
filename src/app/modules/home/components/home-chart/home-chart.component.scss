@@ -38,13 +38,17 @@
             .info-container{
                 padding: 0.9rem 1.3rem;
                 display: flex;
-                width: 80%;
+                width: 39%;
+                height: 44%;
                 flex-direction: column;
                 background-color: #dddddd;
                 border-radius: 12px;
                 position: absolute;
-                bottom: 1%;
-                /* margin-top: -7rem; */
+                justify-content: center;
+                bottom: 27%;
+                right: 1%;
+                gap: .3rem;
+                align-items: flex-start;
 
                 .h-container{
                     display: flex;

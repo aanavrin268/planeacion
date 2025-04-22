@@ -6,18 +6,19 @@
     <section class="body">
         <div class="chart-container">
             @if(id === '1' ){
-                <ngx-charts-gauge
-                [view]="[830, 450]"
-                [results]="data_list"
-                [scheme]="'flame'"
-                [angleSpan]="240"
-                [startAngle]="-120"
-                [units]="''"
-                [legendTitle]="'Leyenda'"
-                [showAxis]="true"
-                [legend]="true"
-                [max]="1692229"> 
-              </ngx-charts-gauge>
+               
+
+              <ngx-charts-pie-chart
+              [view]="[830, 450]"
+              [results]="data_list"
+              [scheme]="'flame'"
+              [labels]="true"
+              [legend]="true"
+              [doughnut]="false"
+              [gradient]="true">
+            </ngx-charts-pie-chart>
+
+         
 
 
               <div class="info-container">
@@ -41,29 +42,28 @@
 
                 
             }@else if(id === '2'){
-                <ngx-charts-gauge
+             
+
+
+                <ngx-charts-advanced-pie-chart
                 [view]="[830, 450]"
-                [results]="data_list"
-                [scheme]="'flame'"
-                [angleSpan]="240"
-                [legend]="true"
-                [showAxis]="true"
-                [legendTitle]="'Leyenda'"
-        
-                [startAngle]="-120"
-                [max]="100" 
-                [units]="'%'"
-                > 
-                </ngx-charts-gauge>
+                        [results]="data_list"
+                [scheme]="'ocean'"
+                [gradient]="true"
+                [animations]="true"
+                [label]="'Total'"
+                [tooltipDisabled]="false">
+            </ngx-charts-advanced-pie-chart>
+    
 
                 <div class="info-container">
                     <div class="h-container">
-                        <span class="h-text">Del 100% de <strong>{{valueText}}</strong> que corresponde al siguiente valor: </span>
+                        <span class="h-text">Del total de <strong>{{valueText}}</strong> que corresponde al siguiente valor: </span>
                         <span class="h-text-value">{{formattedTotalValue}}</span>
                     </div>
                     <div class="h-container">
-                        <span class="h-text">El porcentaje que representa el conjunto Top-3  es de: </span>
-                        <span class="h-text-value">{{porcentTop + '%'}}</span>
+                        <span class="h-text">El valor  que corresponde al conjunto Top-3  es de: </span>
+                        <span class="h-text-value">{{porcentTop}}</span>
                     </div>
                    
                   

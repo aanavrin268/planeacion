@@ -75,32 +75,32 @@
 
                     
                         @if(item.id === 1 ){
-                            <ngx-charts-gauge
+                            <ngx-charts-pie-chart
                             [view]="[230, 250]"
                             [results]="item.data"
                             [scheme]="'flame'"
-                            [angleSpan]="240"
-                            [startAngle]="-120"
-                            [units]="''"
-                            [showAxis]="false"
-                            [max]="totalValuess"> 
-                          </ngx-charts-gauge>
+                            [labels]="false"
+                            [legend]="false"
+                            [doughnut]="false"
+                            [gradient]="true">
+                        </ngx-charts-pie-chart>
+
+
+                        
 
 
                           <span class="down-text">{{valueText}}</span>
                             
                         }@else if(item.id === 2){
-                            <ngx-charts-gauge
+                            <ngx-charts-pie-chart
                             [view]="[230, 250]"
                             [results]="item.data"
                             [scheme]="'flame'"
-                            [angleSpan]="240"
-                            [startAngle]="-120"
-                            [max]="100" 
-                            [units]="'%'"
-                            [valueFormatting]="formatValue"
-                            > 
-                            </ngx-charts-gauge>
+                            [labels]="false"
+                            [legend]="false"
+                            [doughnut]="true"
+                            [gradient]="true">
+                        </ngx-charts-pie-chart>
 
                             <span class="down-text">{{percentText}}</span>
 
@@ -187,32 +187,30 @@
 
                     
                         @if(item.id === 1 ){
-                            <ngx-charts-gauge
+                            <ngx-charts-pie-chart
                             [view]="[230, 250]"
                             [results]="item.data"
-                            [scheme]="'flame'"
-                            [angleSpan]="240"
-                            [startAngle]="-120"
-                            [units]="''"
-                            [showAxis]="false"
-                            [max]="1692229"> 
-                          </ngx-charts-gauge>
+                            [scheme]="'ocean'"
+                            [labels]="false"
+                            [legend]="false"
+                            [doughnut]="false"
+                            [gradient]="true">
+                        </ngx-charts-pie-chart>
+
 
                           <span class="down-text">{{valueTextDown}}</span>
 
                             
                         }@else if(item.id === 2){
-                            <ngx-charts-gauge
+                            <ngx-charts-pie-chart
                             [view]="[230, 250]"
                             [results]="item.data"
-                            [scheme]="'flame'"
-                            [angleSpan]="240"
-                            [startAngle]="-120"
-                            [max]="100" 
-                            [units]="'%'"
-                            [valueFormatting]="formatValue"
-                            > 
-                            </ngx-charts-gauge>
+                            [scheme]="'ocean'"
+                            [labels]="false"
+                            [legend]="false"
+                            [doughnut]="false"
+                            [gradient]="true">
+                        </ngx-charts-pie-chart>
 
                             <span class="down-text">{{percentTextDown}}</span>
 
