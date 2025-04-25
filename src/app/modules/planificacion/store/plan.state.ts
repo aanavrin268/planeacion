@@ -1,0 +1,73 @@
+import { Injectable } from '@angular/core';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, tap } from 'rxjs';
+import { PlanDetail } from '../models/plan.model';
+import { PlanService } from '../services/plan.service';
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PlanState {
+    private _plans = new BehaviorSubject<PlanDetail[]>([]);
+    private _loading = new BehaviorSubject<boolean>(false);
+    private _error = new BehaviorSubject<string | null> (null);
+
+    public plans$: Observable<PlanDetail[]> = this._plans.asObservable();
+    public loading$: Observable<boolean> = this._loading.asObservable();
+    public error$: Observable<string | null > = this._error.asObservable();
+
+    constructor(private planService: PlanService){
+    }
+
+  loadPlans(): Observable<PlanDetail[]> {
+    this._loading.next(true);
+    this._error.next(null);
+
+    return this.planService.getDetallesPlanGql().pipe(
+      tap({
+        next: (plans) => {
+          this._plans.next(plans);
+          this._loading.next(false);
+        },
+        error: (err) => {
+          this._error.next(err.message || 'Error al cargar planes');
+          this._loading.next(false);
+        }
+      }),
+      catchError(err => {
+        this._error.next(err.message || 'Error al cargar planes');
+        this._loading.next(false);
+        return [];
+      })
+    );
+  }
+
+  updatePlans(nueva_data: PlanDetail[]){
+    this._plans.next(nueva_data);
+  }
+
+
+  getPlansValue(): PlanDetail[]{
+    return this._plans.getValue();
+  }
+
+  resetState(){
+    this._plans.next([]);
+    this._loading.next(false);
+    this._error.next(null);
+  }
+
+
+  getPlanByName(nombre:string): Observable<PlanDetail | undefined>{
+    return this.plans$.pipe(
+        map(plans => plans.find(plan => plan.nombre === nombre)),
+        distinctUntilChanged()
+    );
+  }
+
+
+
+}
+
+

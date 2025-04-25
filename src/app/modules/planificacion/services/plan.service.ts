@@ -1,23 +1,72 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
+import { PlanDetail } from '../models/plan.model';
+import { GET_DETALLES_PLAN } from '../data/graphql/queries';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlanService {
+  private apiUrl = 'http://localhost:3000'; 
+
 
   private isPlanTellingActive = new BehaviorSubject<boolean>(false);
 
-  // Observable para que otros componentes puedan suscribirse
   isPlanTellingActive$ = this.isPlanTellingActive.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient, private apollo: Apollo) { }
+
+
+  getDetallesPlanGql(): Observable<PlanDetail[]>{
+    return this.apollo
+      .watchQuery<{ geteDetallesPlanGql: PlanDetail[]}>({
+        query: GET_DETALLES_PLAN,
+      })
+      .valueChanges.pipe(
+        map((result) => result.data.geteDetallesPlanGql),
+        shareReplay(1)
+      );
+  }
+
+
+    getDetallesPlan(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/api/detallesPlan`); 
+    }
 
 
 
 
-  // Método para cambiar el estado
   setPlanTellingActive(isActive: boolean): void {
     this.isPlanTellingActive.next(isActive);
   }
 }
+
+
+
+/*
+  tengo mi proyecto en angualr,
+  estoy usando grpahql como arquitecrua de apis
+  en mi front tengo la arqutiecrua domain-driven-design
+  donde tengo 'modulos' para mi logica de negocio escalable,
+  cada modulo tiene:
+  modules/
+    plan/
+      components/
+      models/
+      data/
+        graphql/
+          queries.ts
+      pages/
+      resolvers/
+      services/
+        plan.service.ts
+      store/
+      utils/
+        plan-state.ts
+      plan-routing.module.ts
+      plan.module.ts
+
+
+*/
