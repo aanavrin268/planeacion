@@ -4,29 +4,17 @@ import { FormsModule } from '@angular/forms';
 import interact from 'interactjs';
 import { PlanService } from '../modules/planificacion/services/plan.service';
 import { PlanState } from '../modules/planificacion/store/plan.state';
+import { Column, Group, InfoPivote } from '../modules/planificacion/models/plan.model';
+import { PlanDataService } from '../modules/planificacion/services/plan-data.service';
+import { MainTableComponent } from '../modules/planificacion/components/main-table/main-table.component';
+import { MainComparativaComponent } from "../modules/planificacion/pages/main-comparativa/main-comparativa.component";
 
-interface Column {
-  key: string;
-  header: string;
-  width: number;
-  visible: boolean;
-}
 
-interface RowData {
-  [key: string]: number | string;
-}
-
-interface Group {
-  label: string;
-  colspan: number;
-  startColumn: string;
-  endColumn: string;
-}
 
 @Component({
   selector: 'app-pruebatable',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MainTableComponent],
   templateUrl: './pruebatable.component.html',
   styleUrls: ['./pruebatable.component.scss']
 })
@@ -53,7 +41,7 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
   */
 
 
-  protected data: RowData[] = [];
+  data: InfoPivote[] = []; // Usa el tipo correcto en lugar de RowData[]
 
   /*
   data: RowData[] = [
@@ -93,7 +81,9 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
 
 
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState) {
+  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState,
+      private planDataService: PlanDataService,  private statePlan: PlanState
+  ) {
     this.list_plans = [
       {idP: 1, name: 'plan_moderado'},  {idP: 2, name: 'plan_escalado'},
 
@@ -125,22 +115,60 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
 
-    this.planService.getDetallesPlanByIdGql(1).subscribe({
-      next: (data) => {
-        console.log("first attempt ", data);
-      }
-    })
-
-
-
     this.plans$ = this.planState.plans$;
     this.loading$ = this.planState.loading$;
     this.error$ = this.planState.error$;
 
+    this.statePlan.loadPlans().subscribe(
+      {
+        next:(response) => {
+          console.log("response desde el MAIN MENU", response);
+
+          this.planDataService.setCurrentPlan(response[0]);
+        }
+      }
+    );
+
+
+    this.planDataService.currentPlan$.subscribe(
+      {
+        next:(data) => {
+          console.log("El plan acutal desde main menu es: ", data);
+
+          this.data = data.info;
+          this.generateColumnsFromData(this.data[0]);
+
+        }
+      }
+    );
+
+    
+
+
+    /*
     this.planState.loadPlans().subscribe(
       {
-        next:() => {
+        next:(data) => {
+
+
+          console.log("FETCHE DATA", data[0]);
+
+          this.planDataService.setCurrentPlan(data[0]);
+
+          this.planDataService.currentPlan$.subscribe(
+            {
+              next:(response) => {
+                console.log("OBSERVABLE DATA: ", response);
+              }
+            }
+          );
+
+
           console.log("PLANES GQL NEW 1:", this.planState.getPlansValue());
+          this.data =  data[0].info;
+          console.log("la new data es", )
+
+          this.generateColumnsFromData(this.data[0]);
         }
       }
     );
@@ -148,30 +176,14 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
     console.log("after something gql", this.plans$);
 
+    */
 
 
 
 
 
-    this.planService.getDetallesPlan().subscribe(
-      {
-        next:(response) => {
-          console.log("plan response:", response);
-          this.data = response.result;
 
-          this.generateColumnsFromData(this.data[0]);
-
-          /*
-          this.groups = [
-            { label: 'Primer Trimestre', colspan: 3, startColumn: 'enero', endColumn: 'enero' },
-
-          ];
-          */
-
-
-        }
-      }
-    )
+    
   }
 
 
@@ -180,7 +192,8 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
   generateColumnsFromData(sampleData: any){
     const excludedKeys = ['clave', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 
-        'diciembre', 'fac_abril', 'proveedor'
+        'diciembre', 'fac_abril', 'proveedor', 'fac_mayo', 'fac_junio', 'fac_julio', 'fac_agosto', 'fac_septiembre',
+        'fac_octubre', 'fac_noviembre', 'fac_diciembre', '__typename'
     ];
     const specialHeaders: { [key: string]: string} = {
       'nombre': 'Nombre',
@@ -213,7 +226,7 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
         visible: true
       }));
 
-      console.log("nuevos columns", this.columns)
+      console.log("nuevos columns MAIN MENU", this.columns)
 
       this.orderColumns();
       this.cdr.detectChanges();
@@ -256,48 +269,8 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    interact('tr:not(:first-child) th.resizable')
-      .resizable({
-        edges: { right: true },
-        listeners: {
-          move: (event) => {
-            const target = event.target;
-            const key = target.getAttribute('data-key');
-            const currentCol = this.columns.find(c => c.key === key);
-            if (!currentCol) return;
+    console.log("soy el after");
 
-            // Calcular el ancho total actual de la tabla (sin la columna actual)
-            const totalWidthWithoutCurrent = this.columns
-              .filter(c => c.key !== key)
-              .reduce((sum, col) => sum + col.width, 0);
-
-            // Obtener el ancho máximo permitido de la tabla
-            const containerWidth = this.tableContainer.nativeElement.offsetWidth;
-            const maxTableWidth = containerWidth * 0.8;
-
-            // Calcular el ancho máximo para la columna actual
-            const maxColumnWidth = maxTableWidth - totalWidthWithoutCurrent;
-
-            // Aplicar el nuevo ancho
-            const newWidth = Math.max(50, Math.min(event.rect.width, maxColumnWidth));
-            target.style.width = `${newWidth}px`;
-
-            // Actualizar celdas de datos
-            document.querySelectorAll<HTMLElement>(`td[data-key="${key}"]`)
-              .forEach(cell => {
-                cell.style.width = `${newWidth}px`;
-              });
-
-            // Actualizar el modelo
-            currentCol.width = newWidth;
-
-            // Depuración
-            console.log(`Column: ${key}, New Width: ${newWidth}, Total Table Width: ${totalWidthWithoutCurrent + newWidth}, Max Table Width: ${maxTableWidth}`);
-          }
-        }
-      });
-
-    console.log('Interact.js inicializado para:', document.querySelectorAll('tr:not(:first-child) th.resizable').length, 'elementos');
   }
 
   toggleColumnVisibility(column: Column){

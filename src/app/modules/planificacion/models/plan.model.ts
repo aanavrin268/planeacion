@@ -1,4 +1,24 @@
-interface InfoPivote {
+export interface Column {
+    key: string;
+    header: string;
+    width: number;
+    visible: boolean;
+  }
+  
+export   interface RowData {
+    [key: string]: number | string;
+  }
+  
+export  interface Group {
+    label: string;
+    colspan: number;
+    startColumn: string;
+    endColumn: string;
+  }
+
+
+export interface InfoPivote {
+    [key: string]: number | string | null; 
     clave: string;
     disponibles: number;
     enero: number;
@@ -37,6 +57,7 @@ export interface PlanAllDetails{
     id_plan: number;
     nombre: string;
     tipo: number;
+    categoria: number;
     estado: number;
     updatedAt: string;
     info: [InfoPivote]

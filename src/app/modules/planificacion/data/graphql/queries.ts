@@ -18,6 +18,7 @@ export const GET_DETALLES_PLAN_ID = gql`
       id_plan,
     nombre,
     tipo,
+    categoria,
     estado, 
     updatedAt,
     info{
