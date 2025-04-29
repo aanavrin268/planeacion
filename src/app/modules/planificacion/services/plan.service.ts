@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
-import { PlanDetail } from '../models/plan.model';
-import { GET_DETALLES_PLAN } from '../data/graphql/queries';
+import { PlanAllDetails, PlanDetail } from '../models/plan.model';
+import { GET_DETALLES_PLAN, GET_DETALLES_PLAN_ID } from '../data/graphql/queries';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,21 @@ export class PlanService {
   isPlanTellingActive$ = this.isPlanTellingActive.asObservable();
 
   constructor(private http: HttpClient, private apollo: Apollo) { }
+
+
+  getDetallesPlanByIdGql(id_plan: number): Observable<PlanAllDetails[]> {
+    return this.apollo.watchQuery<{ getPlanAllDetailsById: PlanAllDetails[] }>({
+      query: GET_DETALLES_PLAN_ID,
+      variables: {
+        idPlan: id_plan 
+      },
+      fetchPolicy: 'network-only'
+    }).valueChanges.pipe(
+      map((result) => result.data.getPlanAllDetailsById),
+      shareReplay(1)
+    );
+  }
+
 
 
   getDetallesPlanGql(): Observable<PlanDetail[]>{

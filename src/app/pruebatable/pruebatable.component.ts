@@ -125,6 +125,13 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
 
+    this.planService.getDetallesPlanByIdGql(1).subscribe({
+      next: (data) => {
+        console.log("first attempt ", data);
+      }
+    })
+
+
 
     this.plans$ = this.planState.plans$;
     this.loading$ = this.planState.loading$;
@@ -133,10 +140,13 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
     this.planState.loadPlans().subscribe(
       {
         next:() => {
-          console.log("PLANES GQL:", this.planState.getPlansValue());
+          console.log("PLANES GQL NEW 1:", this.planState.getPlansValue());
         }
       }
     );
+
+
+    console.log("after something gql", this.plans$);
 
 
 
