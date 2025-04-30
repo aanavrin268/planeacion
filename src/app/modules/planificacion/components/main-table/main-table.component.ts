@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PlanState } from '../../store/plan.state';
 import { PlanDataService } from '../../services/plan-data.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-main-table',
@@ -16,7 +17,18 @@ export class MainTableComponent implements OnInit, AfterViewInit {
   @ViewChild('tableContainer', { static: false }) tableContainer!: ElementRef<HTMLDivElement>;
 
 
-  protected columns: Column[] = [];
+
+   // Cambia esto:
+  // protected columns: Column[] = [];
+  // protected columns$: any;
+  // Por esto:
+  //columns$: Observable<Column[]> = this.dataPlanService.currentColumns$;
+
+  protected columns$: Observable<Column[]> = new Observable<Column[]>();
+
+  visibleColumnss$: Observable<Column[]> | undefined;
+
+
 
     groups: Group[] = [
       { label: 'Primer Trimestre', colspan: 3, startColumn: 'january', endColumn: 'march' },
@@ -36,6 +48,8 @@ export class MainTableComponent implements OnInit, AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService){
 
+
+
   }
 
   
@@ -45,62 +59,35 @@ export class MainTableComponent implements OnInit, AfterViewInit {
       {
         next:(data) => {
           console.log("El plan acutal DESDE MAIN TABLE ES: ", data);
-
+          
           this.data = data.info;
-          this.generateColumnsFromData(this.data[0]);
+          this.cdr.detectChanges(); // Forzar actualización
+
 
         }
       }
     );
 
+    //this.columns$ = this.dataPlanService.currentColumns$;
 
+    this.visibleColumnss$ = this.dataPlanService.currentColumns$.pipe(
+      map(columns => columns.filter(col => col.visible))
+    );
+
+
+
+  }
+
+  toggleColumnVisibility(column: Column) {
+    this.dataPlanService.toggleColumnVisibilityx(column.key);
   }
 
 
 
   
-  generateColumnsFromData(sampleData: any){
-    const excludedKeys = ['clave', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 
-        'diciembre', 'fac_abril', 'proveedor', 'fac_mayo', 'fac_junio', 'fac_julio', 'fac_agosto', 'fac_septiembre',
-        'fac_octubre', 'fac_noviembre', 'fac_diciembre', '__typename'
-    ];
-    const specialHeaders: { [key: string]: string} = {
-      'nombre': 'Nombre',
-      'proveedor': 'Proveedor',
-      'inventario': 'Inventario',
-      'enero': 'Enero',
-      'febrero': 'Febrero',
-      'marzo': 'Marzo',
-      'abril': 'Abril',
-      'mayo': 'Mayo',
-      'junio': 'Junio',
-      'julio': 'Julio',
-      'agosto': 'Agosto',
-      'septiembre': 'Septiembre',
-      'octubre': 'Octubre',
-      'noviembre': 'Noviembre',
-      'diciembre': 'Diciembre',
-      'fac_enero': 'Fac. Enero',
-      'fac_febrero': 'Fac. Febrero',
-      'fac_marzo': 'Fac. Marzo',
-      'fac_abril': 'Fac. Abril'
-    }
+ 
 
-    this.columns = Object.keys(sampleData)
-      .filter(key => !excludedKeys.includes(key))
-      .map(key => ({
-        key: key,
-        header: specialHeaders[key] || this.formatHeader(key),
-        width: this.calculateWidth(key),
-        visible: true
-      }));
-
-      console.log("nuevos columns", this.columns)
-
-      this.orderColumns();
-      this.cdr.detectChanges();
-  }
-
+  /*
   private orderColumns(){
     const columnOrder = ['nombre', 'proveedor', 'inventario', 'enero', 'febrero' , 'marzo'];
     this.columns.sort((a, b) => {
@@ -114,6 +101,8 @@ export class MainTableComponent implements OnInit, AfterViewInit {
       return a.key.localeCompare(b.key);
     })
   }
+
+  */
 
   private calculateWidth(key: string):number{
     if(key === 'nombre') return 200;
@@ -130,6 +119,8 @@ export class MainTableComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
+
+/*
     interact('tr:not(:first-child) th.resizable')
       .resizable({
         edges: { right: true },
@@ -170,34 +161,26 @@ export class MainTableComponent implements OnInit, AfterViewInit {
           }
         }
       });
+*/
 
-    console.log('Interact.js inicializado para:', document.querySelectorAll('tr:not(:first-child) th.resizable').length, 'elementos');
+
+    //console.log('Interact.js inicializado para:', document.querySelectorAll('tr:not(:first-child) th.resizable').length, 'elementos');
   }
 
-  toggleColumnVisibility(column: Column){
-    column.visible = !column.visible;
 
-    this.cdr.detectChanges();
-
-  }
 
   trackByColumnKey(index: number, column: Column): string {
     return column.key
   }
 
-  get visibleColumns(){
-
-    
-
-    return this.columns.filter(column => column.visible || column.key === 'name');
-  }
 
 
+/*
   getHiddenColumns(){
     return this.columns.filter(column => !column.visible);
   }
 
-
+*/
 
 
 
@@ -209,7 +192,10 @@ export class MainTableComponent implements OnInit, AfterViewInit {
     return !!this.groups.find(g => g.startColumn === columnKey);
   }
 
+
+
   // Determina si una columna pertenece a un grupo
+  /*
   isGroupColumn(columnKey: string): boolean {
     return !!this.groups.find(g => {
       const startIndex = this.columns.findIndex(c => c.key === g.startColumn);
@@ -218,6 +204,7 @@ export class MainTableComponent implements OnInit, AfterViewInit {
       return columnIndex >= startIndex && columnIndex <= endIndex;
     });
   }
+    */
 
   // Obtiene el colspan para una columna de grupo
   getGroupColspan(columnKey: string): number {
@@ -235,6 +222,7 @@ export class MainTableComponent implements OnInit, AfterViewInit {
     return `clamp(0.6rem, ${baseFontSize}rem, 1.2rem)`;
   }
 
+  /*
   getGroupFontSize(group: Group | undefined): string {
     if (!group) return '1rem';
     const startIndex = this.columns.findIndex(c => c.key === group.startColumn);
@@ -245,4 +233,23 @@ export class MainTableComponent implements OnInit, AfterViewInit {
     return `clamp(0.8rem, ${baseFontSize}rem, 1.5rem)`;
   }
 
+  */
+
 }
+
+
+
+
+/*
+  trazabiidad factura pt
+  OCR para factueas
+  proceso de convertido de monedas
+  catalogo de frozen times
+  catalogo costos
+  modulo de presupuestos con alertas, en base a importacion,
+  productos de imorotacion, ajuste presupeusto en base al ajuste que pueda ocurrer o no,
+  bajar pasivos
+  sistema de rankeo de prioridades
+
+
+*/

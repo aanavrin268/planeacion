@@ -1,5 +1,18 @@
 import { gql } from '@apollo/client/core';
 
+export const GET_PLANS_BY_CATEGORY = gql`
+  query GetJustPlans($categoria: Int!){
+    getJustPlans(categoria: $categoria){
+        id_plan,
+        nombre,
+        tipo,
+        categoria,
+        estado, 
+        updatedAt,
+    }
+  }
+
+`;
 
 export const GET_DETALLES_PLAN = gql `
    query GeteDetallesPlanGql {

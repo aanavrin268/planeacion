@@ -20,18 +20,18 @@ export class PlanState {
     constructor(private planService: PlanService){
     }
 
-  loadPlans(): Observable<PlanAllDetails[]> {
+  loadPlans(id_plan: number): Observable<PlanAllDetails[]> {
     this._loading.next(true);
     this._error.next(null);
 
-    return this.planService.getDetallesPlanByIdGql(1).pipe(
+    return this.planService.getDetallesPlanByIdGql(id_plan).pipe(
       tap({
         next: (plans) => {
           let name = plans[0].nombre;
           let data_list = plans[0].info;
 
 
-          console.log("el nombre del plan es", name);
+          console.log("el nombre del plan desde el state service es", name);
 
                this._plans.next(data_list);
                this._loading.next(false);

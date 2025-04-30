@@ -62,3 +62,13 @@ export interface PlanAllDetails{
     updatedAt: string;
     info: [InfoPivote]
 }
+
+
+export interface PlanJust{
+  id_plan: number;
+  nombre: string;
+  tipo: number | string;
+  categoria: number | string;
+  estado: number | string;
+  updatedAt: string;
+}

@@ -1,0 +1,49 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
+.main-modal{
+   @include a.mx-modal-md;
+
+    header{
+        @include a.mx-header-basic;
+
+        .title{
+            @include a.mx-text-title-lg;
+        }
+    }
+
+    main{
+        @include a.mx-body-basic;
+
+        .m-text{
+            @include a.mx-text-body;
+            width: 100%;
+            height: 10%;
+        }
+
+        .g-container{
+            width: 100%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            /* background-color: red; */
+            gap: 1rem;
+            justify-content: flex-start;
+            align-items: center;
+
+
+            .input-container{
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: .4rem;
+            }
+        }
+
+       
+    }
+
+    footer{
+        @include a.mx-footer-basic;
+    }
+}

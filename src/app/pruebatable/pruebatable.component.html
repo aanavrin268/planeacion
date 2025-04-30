@@ -4,16 +4,17 @@
 
         <div class="sides">
             <div class="left">
-                <span class="title">Tipo del plan</span>
+                <span class="title">{{currentData.categoria == 1 ? 'Público' : 'Privado'}}</span>
 
-                <select name="" id="" class="p-select">
+                <select name="" id="" class="p-select"
+                    (change)="onChangePlanName($event)">
                     <option value="" disabled
                         class="p-option">
                         Selecciona un plan
                     </option>
-                    <option value="" *ngFor="let option of list_plans"
+                    <option [value]="option.id_plan" *ngFor="let option of list_plan_names"
                         class="p-option">
-                        {{ option.name }}
+                        {{ option.nombre }}
                     </option>
                 </select>
     
@@ -62,7 +63,7 @@
                 </div>
                 <div class="down">
                         @if(isMainMenuOptSelected && mainMenuIdSelected === 1) {
-                            <span>Se trata de inventarios</span>
+                            <app-ribbon-information></app-ribbon-information>
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 2){
 
                             <div class="columnas-container">
@@ -80,14 +81,16 @@
                                               Visibles
                                             </button>
                                             <div class="dropdown-menu">
-                                              <div *ngFor="let column of columns" class="dropdown-item">
-                                                <label>
-                                                  <input type="checkbox" 
-                                                         [checked]="column.visible" 
-                                                         (change)="column.visible = !column.visible">
-                                                  {{ column.header }}
-                                                </label>
-                                              </div>
+                                                <div *ngFor="let column of (visibleColumns$ | async)" class="dropdown-item">
+                                                    <label>
+                                                      <input type="checkbox" 
+                                                             [checked]="column.visible" 
+                                                             (change)="toggleColumnVisibility(column)">  <!-- Usa el método del componente -->
+                                                      {{ column.header }}
+                                                    </label>
+                                                  </div>
+
+
                                             </div>
                                           </div>
 
@@ -98,14 +101,14 @@
                                                 Ocultas
                                             </button>
                                             <div class="dropdown-menu">
-                                                <div class="dropdown-item"
-                                                    *ngFor="let column of getHiddenColumns()">
-                                                    <input type="checkbox"
-                                                        [checked]="column.visible"
-                                                        (change)="column.visible = !column.visible">
-                                                        {{ column.header }}
-
-                                                </div>
+                                                <div *ngFor="let column of (hiddenColumns$ | async)" class="dropdown-item">
+                                                    <label>
+                                                      <input type="checkbox"
+                                                             [checked]="!column.visible"
+                                                             (change)="toggleColumnVisibility(column)">  <!-- Usa el método del componente -->
+                                                      {{ column.header }}
+                                                    </label>
+                                                  </div>
                                             </div>
 
                                           </div>
@@ -134,7 +137,7 @@
                             <span>Se trata de opciones</span>
 
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 4){
-                            <span>Se trata de datos</span>
+                            <app-ribbon-data></app-ribbon-data>
 
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 5){
                             <span>Se trata de buscar</span>
@@ -152,53 +155,6 @@
       </div>
 
       <app-main-table></app-main-table>
-
-
-      <!----
-      
-        
-      <div class="table-container" #tableContainer>
-
-        <table class="excel-grid">
-            <thead>
-              <tr *ngIf="groups.length > 0">
-                <ng-container *ngFor="let col of visibleColumns; let i = index">
-                  <td *ngIf="isGroupStartColumn(col.key)"
-                      [attr.colspan]="getGroupColspan(col.key)"
-                      [style.background-color]="groupColor"
-                      [style.border-color]="groupColor"
-                      [style.font-size]="getGroupFontSize(getGroupForColumn(col.key))">
-                    {{ getGroupForColumn(col.key)?.label }}
-                  </td>
-                  <td *ngIf="!isGroupStartColumn(col.key) && !isGroupColumn(col.key)"></td>
-                </ng-container>
-              </tr>
-              <tr>
-                <th *ngFor="let col of visibleColumns; trackBy: trackByColumnKey"
-                    [style.width.px]="col.width"
-                    [style.background-color]="headerColor"
-                    [style.font-size]="getFontSize(col.width)"
-                    class="resizable"
-                    [attr.data-key]="col.key">
-                  {{ col.header }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of data">
-                <td *ngFor="let col of visibleColumns"
-                    [style.width.px]="col.width"
-                    [style.font-size]="getFontSize(col.width)"
-                    [attr.data-key]="col.key">
-                  {{ row[col.key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-      </div>
-      -->
-
 
 
 </div>
