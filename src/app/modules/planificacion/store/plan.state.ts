@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { BehaviorSubject, catchError, tap } from 'rxjs';
-import { PlanDetail } from '../models/plan.model';
+import { PlanAllDetails, PlanDetail } from '../models/plan.model';
 import { PlanService } from '../services/plan.service';
 
 
@@ -9,26 +9,35 @@ import { PlanService } from '../services/plan.service';
     providedIn: 'root'
 })
 export class PlanState {
-    private _plans = new BehaviorSubject<PlanDetail[]>([]);
+    private _plans = new BehaviorSubject<any[]>([]);
     private _loading = new BehaviorSubject<boolean>(false);
     private _error = new BehaviorSubject<string | null> (null);
 
-    public plans$: Observable<PlanDetail[]> = this._plans.asObservable();
+    public plans$: Observable<PlanAllDetails[]> = this._plans.asObservable();
     public loading$: Observable<boolean> = this._loading.asObservable();
     public error$: Observable<string | null > = this._error.asObservable();
 
     constructor(private planService: PlanService){
     }
 
-  loadPlans(): Observable<PlanDetail[]> {
+  loadPlans(id_plan: number): Observable<PlanAllDetails[]> {
     this._loading.next(true);
     this._error.next(null);
 
-    return this.planService.getDetallesPlanGql().pipe(
+    return this.planService.getDetallesPlanByIdGql(id_plan).pipe(
       tap({
         next: (plans) => {
-          this._plans.next(plans);
-          this._loading.next(false);
+          let name = plans[0].nombre;
+          let data_list = plans[0].info;
+
+
+          console.log("el nombre del plan desde el state service es", name);
+
+               this._plans.next(data_list);
+               this._loading.next(false);
+          
+
+       
         },
         error: (err) => {
           this._error.next(err.message || 'Error al cargar planes');
@@ -43,12 +52,12 @@ export class PlanState {
     );
   }
 
-  updatePlans(nueva_data: PlanDetail[]){
+  updatePlans(nueva_data: PlanAllDetails[]){
     this._plans.next(nueva_data);
   }
 
 
-  getPlansValue(): PlanDetail[]{
+  getPlansValue(): PlanAllDetails[]{
     return this._plans.getValue();
   }
 
@@ -59,7 +68,7 @@ export class PlanState {
   }
 
 
-  getPlanByName(nombre:string): Observable<PlanDetail | undefined>{
+  getPlanByName(nombre:string): Observable<PlanAllDetails | undefined>{
     return this.plans$.pipe(
         map(plans => plans.find(plan => plan.nombre === nombre)),
         distinctUntilChanged()

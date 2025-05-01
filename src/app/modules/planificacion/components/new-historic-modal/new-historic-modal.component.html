@@ -1,0 +1,28 @@
+<div class="main-modal">
+    <header>
+        <span class="title">Nuevo Historico</span>
+    </header>
+    <main>
+        <span class="m-text">Escribe un nombre y una pequeña descripción para el nuevo historico.</span>
+
+        <div class="g-container">
+            <div class="input-container">
+                <label for="">Nombre</label>
+                <input type="text" class="form-control" placeholder="ej: plan_historico_uno"
+                    [(ngModel)]="nameInput">
+            </div>
+    
+            <div class="input-container">
+                <label for="">Descripción</label>
+                <Textarea type="text" class="form-control"></Textarea>
+            </div>
+        </div>
+
+      
+
+    </main>
+    <footer>
+        <button class="btn btn-light" (click)="onCancel()">Cancelar</button>
+        <button class="btn btn-success"(click)="saveHistoric()">Guardar</button>
+    </footer>
+</div>

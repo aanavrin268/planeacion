@@ -4,30 +4,27 @@ import { FormsModule } from '@angular/forms';
 import interact from 'interactjs';
 import { PlanService } from '../modules/planificacion/services/plan.service';
 import { PlanState } from '../modules/planificacion/store/plan.state';
-import { Column, Group, RowData } from '../modules/planificacion/models/plan.model';
-import { TablePivotsComponent } from '../table-pivots/table-pivots.component';
+import { Column, Group, InfoPivote, PlanAllDetails } from '../modules/planificacion/models/plan.model';
+import { PlanDataService } from '../modules/planificacion/services/plan-data.service';
+import { MainTableComponent } from '../modules/planificacion/components/main-table/main-table.component';
+import { MainComparativaComponent } from "../modules/planificacion/pages/main-comparativa/main-comparativa.component";
+import { map, Observable } from 'rxjs';
+import { RibbonInformationComponent } from '../modules/planificacion/components/ribbon-information/ribbon-information.component';
+import { RibbonDataComponent } from '../modules/planificacion/components/ribbon-data/ribbon-data.component';
 
 
 
 @Component({
   selector: 'app-pruebatable',
   standalone: true,
-  imports: [CommonModule, FormsModule, TablePivotsComponent],
+  imports: [CommonModule, FormsModule, MainTableComponent, RibbonInformationComponent, RibbonDataComponent],
   templateUrl: './pruebatable.component.html',
   styleUrls: ['./pruebatable.component.scss']
 })
-export class PruebatableComponent implements AfterViewInit, OnInit {
-  @ViewChild('tableContainer', { static: false }) tableContainer!: ElementRef<HTMLDivElement>;
+export class PruebatableComponent implements OnInit {
 
   protected columns: Column[] = [];
-
-
-  protected data: RowData[] = [];
-
-
-
-  headerColor = '#f0f0f0';
-  groupColor = 'rgb(233, 74, 74)';
+  data: InfoPivote[] = []; 
 
   protected list_plans: any[] = [];
   protected list_plan_views: any[] = [];
@@ -38,14 +35,39 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
   protected mainMenuIdSelected: number;
   protected isDropdownHideOpen: boolean;
 
-  protected plans$: any;
-  protected loading$: any;
-  protected error$: any;
+  protected columns$: Observable<Column[]> = new Observable<Column[]>();
+
+  visibleColumnss$: Observable<Column[]>;
+  hiddenColumnss$: Observable<Column[]>;
+
+  protected currentData: PlanAllDetails;
+
+  protected list_plan_names: any[] = [];
+
+  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState,
+      private planDataService: PlanDataService,  private statePlan: PlanState
+  ) {
+
+    this.currentData = {
+      id_plan: 0,
+      nombre: '',
+      tipo: 0,
+      categoria: 0,
+      estado: 0,
+      updatedAt: '',
+      info: [{} as InfoPivote],
+    };
+
+    this.visibleColumnss$ = this.columns$.pipe(
+      map((columns: Column[]) => columns.filter((col: { visible: any; }) => col.visible))
+    );
+
+    this.hiddenColumnss$ = this.columns$.pipe(
+      map(columns => columns.filter((col: { visible: any; }) => !col.visible))
+    );
 
 
 
-
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState) {
     this.list_plans = [
       {idP: 1, name: 'plan_moderado'},  {idP: 2, name: 'plan_escalado'},
 
@@ -63,7 +85,7 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
     ];
 
     this.main_menu_list = [
-      {idT: 1, name: 'Inventario'},  {idT: 2, name: 'Columnas'}, {idT: 3, name: 'Opciones'}, 
+      {idT: 1, name: 'Información'},  {idT: 2, name: 'Columnas'}, {idT: 3, name: 'Opciones'}, 
       {idT: 4, name: 'Datos'},{idT: 5, name: 'Buscar'},
  
 
@@ -77,193 +99,98 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
 
+    this.planService.getJustPlanesByCategoryGql(1).subscribe({
+      next:(response) => {
+        console.log("response de plan_name_list ", response);
+        this.list_plan_names = response.map((p) => ({
+          id_plan: p.id_plan,
+          nombre: p.nombre
+        }));
 
-    this.plans$ = this.planState.plans$;
-    this.loading$ = this.planState.loading$;
-    this.error$ = this.planState.error$;
+        console.log("mapeo de nombres:", this.list_plan_names);
+      }
+    })
 
-    this.planState.loadPlans().subscribe(
+    this.loadAndInitData(1);
+
+
+    
+  }
+
+
+  onChangePlanName(event: Event){
+    let datas = event.target as HTMLSelectElement;
+    let value = Number(datas.value);
+
+    console.log("on select id", value);
+
+    this.loadAndInitData(value);
+
+    
+    
+  }
+
+
+  loadAndInitData(id_plan: number){
+    this.statePlan.loadPlans(id_plan).subscribe(
       {
-        next:() => {
-          console.log("PLANES GQL:", this.planState.getPlansValue());
+        next:(response) => {
+          console.log("response desde el MAIN MENU", response);
+
+          this.planDataService.setCurrentPlan(response[0]);
         }
       }
     );
 
 
 
-
-
-
-    this.planService.getDetallesPlan().subscribe(
+    this.planDataService.currentPlan$.subscribe(
       {
-        next:(response) => {
-          console.log("plan response:", response);
-          this.data = response.result;
+        next:(data) => {
+          console.log("El plan acutal desde main menu es: ", data);
+          this.currentData = data;
 
-          this.generateColumnsFromData(this.data[0]);
-
-          /*
-          this.groups = [
-            { label: 'Primer Trimestre', colspan: 3, startColumn: 'enero', endColumn: 'enero' },
-
-          ];
-          */
-
-
+          console.log("LA CURRENT DATA ES: ", this.currentData);
+          this.data = data.info;
         }
       }
-    )
+    );   
+    
+    this.columns$ = this.planDataService.currentColumns$;
+
+
+
+
+
   }
 
 
 
 
-
-  generateColumnsFromData(sampleData: any){
-    const excludedKeys = ['clave', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 
-        'diciembre', 'fac_abril', 'proveedor'
-    ];
-    const specialHeaders: { [key: string]: string} = {
-      'nombre': 'Nombre',
-      'proveedor': 'Proveedor',
-      'inventario': 'Inventario',
-      'enero': 'Enero',
-      'febrero': 'Febrero',
-      'marzo': 'Marzo',
-      'abril': 'Abril',
-      'mayo': 'Mayo',
-      'junio': 'Junio',
-      'julio': 'Julio',
-      'agosto': 'Agosto',
-      'septiembre': 'Septiembre',
-      'octubre': 'Octubre',
-      'noviembre': 'Noviembre',
-      'diciembre': 'Diciembre',
-      'fac_enero': 'Fac. Enero',
-      'fac_febrero': 'Fac. Febrero',
-      'fac_marzo': 'Fac. Marzo',
-      'fac_abril': 'Fac. Abril'
-    }
-
-    this.columns = Object.keys(sampleData)
-      .filter(key => !excludedKeys.includes(key))
-      .map(key => ({
-        key: key,
-        header: specialHeaders[key] || this.formatHeader(key),
-        width: this.calculateWidth(key),
-        visible: true
-      }));
-
-      console.log("nuevos columns", this.columns)
-
-      this.orderColumns();
-      this.cdr.detectChanges();
-  }
-
-  private orderColumns(){
-    const columnOrder = ['nombre', 'proveedor', 'inventario', 'enero', 'febrero' , 'marzo'];
-    this.columns.sort((a, b) => {
-      const aIndex = columnOrder.indexOf(a.key);
-      const bIndex = columnOrder.indexOf(b.key);
-
-      if(aIndex >= 0 && bIndex >= 0) return aIndex - bIndex;
-      if(aIndex >= 0) return -1;
-      if(bIndex >= 0 ) return 1;
-
-      return a.key.localeCompare(b.key);
-    })
-  }
-
-  private calculateWidth(key: string):number{
-    if(key === 'nombre') return 200;
-    if(key === 'proveedor') return 100;
-    if(key.startsWith('fac_')) return 80;
-    return 100;
-  }
-
-  private formatHeader(key: string): string{
-    return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  }
-
-
-
-
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.closeDropdown();
-    }
-  }
-
-  ngAfterViewInit(): void {
-    interact('tr:not(:first-child) th.resizable')
-      .resizable({
-        edges: { right: true },
-        listeners: {
-          move: (event) => {
-            const target = event.target;
-            const key = target.getAttribute('data-key');
-            const currentCol = this.columns.find(c => c.key === key);
-            if (!currentCol) return;
-
-            // Calcular el ancho total actual de la tabla (sin la columna actual)
-            const totalWidthWithoutCurrent = this.columns
-              .filter(c => c.key !== key)
-              .reduce((sum, col) => sum + col.width, 0);
-
-            // Obtener el ancho máximo permitido de la tabla
-            const containerWidth = this.tableContainer.nativeElement.offsetWidth;
-            const maxTableWidth = containerWidth * 0.8;
-
-            // Calcular el ancho máximo para la columna actual
-            const maxColumnWidth = maxTableWidth - totalWidthWithoutCurrent;
-
-            // Aplicar el nuevo ancho
-            const newWidth = Math.max(50, Math.min(event.rect.width, maxColumnWidth));
-            target.style.width = `${newWidth}px`;
-
-            // Actualizar celdas de datos
-            document.querySelectorAll<HTMLElement>(`td[data-key="${key}"]`)
-              .forEach(cell => {
-                cell.style.width = `${newWidth}px`;
-              });
-
-            // Actualizar el modelo
-            currentCol.width = newWidth;
-
-            // Depuración
-            console.log(`Column: ${key}, New Width: ${newWidth}, Total Table Width: ${totalWidthWithoutCurrent + newWidth}, Max Table Width: ${maxTableWidth}`);
-          }
-        }
-      });
-
-    console.log('Interact.js inicializado para:', document.querySelectorAll('tr:not(:first-child) th.resizable').length, 'elementos');
-  }
 
   toggleColumnVisibility(column: Column){
-    column.visible = !column.visible;
+   // column.visible = !column.visible;
+
+   this.planDataService.toggleColumnVisibilityx(column.key);
 
     this.cdr.detectChanges();
 
   }
 
-  trackByColumnKey(index: number, column: Column): string {
-    return column.key
+  get visibleColumns$(): Observable<Column[]> {
+    return this.columns$.pipe(
+      map((columns: Column[]) => columns.filter((col: { visible: any; key: string; }) => col.visible || col.key === 'name'))
+    );
   }
 
-  get visibleColumns(){
-    return this.columns.filter(column => column.visible || column.key === 'name');
+
+
+
+  get hiddenColumns$(): Observable<Column[]> {
+    return this.columns$.pipe(
+      map((columns: Column[]) => columns.filter((col: { visible: any; }) => !col.visible))
+    );
   }
-
-
-  getHiddenColumns(){
-    return this.columns.filter(column => !column.visible);
-  }
-
-  
-
 
 isDropdownOpen = false;
 
@@ -294,23 +221,9 @@ closeDropdown() {
 
 
 
-  
 }
 
 
 
 
 
-/*
-  trazabiidad factura pt
-  OCR para factueas
-  proceso de convertido de monedas
-  catalogo de frozen times
-  catalogo costos
-  modulo de presupuestos con alertas, en base a importacion,
-  productos de imorotacion, ajuste presupeusto en base al ajuste que pueda ocurrer o no,
-  bajar pasivos
-  sistema de rankeo de prioridades
-
-
-*/
