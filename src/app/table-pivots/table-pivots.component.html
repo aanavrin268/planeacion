@@ -1,0 +1,44 @@
+<div class="table-container" #tableContainer>
+
+    <table class="excel-grid">
+        <thead>
+          <!-- Fila de grupos -->
+          <tr *ngIf="groups.length > 0">
+            <ng-container *ngFor="let col of visibleColumns; let i = index">
+              <!-- Renderizar <td> para el grupo solo en startColumn -->
+              <td *ngIf="isGroupStartColumn(col.key)"
+                  [attr.colspan]="getGroupColspan(col.key)"
+                  [style.background-color]="groupColor"
+                  [style.border-color]="groupColor"
+                  [style.font-size]="getGroupFontSize(getGroupForColumn(col.key))">
+                {{ getGroupForColumn(col.key)?.label }}
+              </td>
+              <!-- Renderizar <td> vacío para columnas sin grupo o no iniciales -->
+              <td *ngIf="!isGroupStartColumn(col.key) && !isGroupColumn(col.key)"></td>
+            </ng-container>
+          </tr>
+          <!-- Fila de encabezados -->
+          <tr>
+            <th *ngFor="let col of visibleColumns; trackBy: trackByColumnKey"
+                [style.width.px]="col.width"
+                [style.background-color]="headerColor"
+                [style.font-size]="getFontSize(col.width)"
+                class="resizable"
+                [attr.data-key]="col.key">
+              {{ col.header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data">
+            <td *ngFor="let col of visibleColumns"
+                [style.width.px]="col.width"
+                [style.font-size]="getFontSize(col.width)"
+                [attr.data-key]="col.key">
+              {{ row[col.key] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+  </div>

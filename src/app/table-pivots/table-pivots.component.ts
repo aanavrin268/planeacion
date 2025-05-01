@@ -1,51 +1,84 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import interact from 'interactjs';
-import { PlanService } from '../modules/planificacion/services/plan.service';
-import { PlanState } from '../modules/planificacion/store/plan.state';
 import { Column, Group, RowData } from '../modules/planificacion/models/plan.model';
-import { TablePivotsComponent } from '../table-pivots/table-pivots.component';
-
-
+import interact from 'interactjs';
 
 @Component({
-  selector: 'app-pruebatable',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TablePivotsComponent],
-  templateUrl: './pruebatable.component.html',
-  styleUrls: ['./pruebatable.component.scss']
+  selector: 'app-table-pivots',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './table-pivots.component.html',
+  styleUrl: './table-pivots.component.scss'
 })
-export class PruebatableComponent implements AfterViewInit, OnInit {
+export class TablePivotsComponent implements OnInit {
+
   @ViewChild('tableContainer', { static: false }) tableContainer!: ElementRef<HTMLDivElement>;
 
-  protected columns: Column[] = [];
+  //protected columns: Column[] = [];
+
+  
+  columns: Column[] = [
+    { key: 'name', header: 'Nombre', width: 200 , visible: true },
+    { key: 'january', header: 'Enero', width: 100 , visible: true},
+    { key: 'february', header: 'Febrero', width: 100, visible: true },
+    { key: 'march', header: 'Marzo', width: 100 , visible: true},
+    { key: 'april', header: 'Abril', width: 100, visible: true },
+    { key: 'may', header: 'Mayo', width: 100 , visible: true},
+    { key: 'june', header: 'Junio', width: 100 , visible: true},
+    { key: 'july', header: 'Julio', width: 100 , visible: true},
+    { key: 'augost', header: 'Agosto', width: 100, visible: true },
+    { key: 'september', header: 'Septiembre', width: 100 , visible: true},
+
+  ];
+
+  
 
 
-  protected data: RowData[] = [];
+  //protected data: RowData[] = [];
+
+  
+  data: RowData[] = [
+    { name: 'Tacrolimus', january: 100, february: 200, march: 300, april: 300, may: 500, june: 100,
+      july: 100, augost: 200, september: 1000
+     },
+    { name: 'Busulfan', january: 150, february: 250, march: 350, april: 300, may: 500, june: 100,
+      july: 100, augost: 200, september: 1000
+     }
+  ];
+
+  
 
 
 
-  headerColor = '#f0f0f0';
-  groupColor = 'rgb(233, 74, 74)';
-
-  protected list_plans: any[] = [];
-  protected list_plan_views: any[] = [];
-  protected list_plan_times: any[] =[];
-  protected main_menu_list: any[] =[];
-
-  protected isMainMenuOptSelected: boolean;
-  protected mainMenuIdSelected: number;
-  protected isDropdownHideOpen: boolean;
-
-  protected plans$: any;
-  protected loading$: any;
-  protected error$: any;
-
-
+   
+    groups: Group[] = [
+      { label: 'Primer Trimestre', colspan: 3, startColumn: 'january', endColumn: 'march' },
+      { label: 'Segundo Trimestre', colspan: 3, startColumn: 'april', endColumn: 'june' },
+      { label: 'Tercer Trimestre', colspan: 3, startColumn: 'july', endColumn: 'september' },
+  
+    ];
+  
+    headerColor = '#f0f0f0';
+    groupColor = 'rgb(233, 74, 74)';
+  
+    protected list_plans: any[] = [];
+    protected list_plan_views: any[] = [];
+    protected list_plan_times: any[] =[];
+    protected main_menu_list: any[] =[];
 
 
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState) {
+    protected isMainMenuOptSelected: boolean;
+    protected mainMenuIdSelected: number;
+    protected isDropdownHideOpen: boolean;
+  
+    protected plans$: any;
+    protected loading$: any;
+    protected error$: any;
+  
+
+
+
+  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef){
     this.list_plans = [
       {idP: 1, name: 'plan_moderado'},  {idP: 2, name: 'plan_escalado'},
 
@@ -78,47 +111,11 @@ export class PruebatableComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
 
 
-    this.plans$ = this.planState.plans$;
-    this.loading$ = this.planState.loading$;
-    this.error$ = this.planState.error$;
-
-    this.planState.loadPlans().subscribe(
-      {
-        next:() => {
-          console.log("PLANES GQL:", this.planState.getPlansValue());
-        }
-      }
-    );
-
-
-
-
-
-
-    this.planService.getDetallesPlan().subscribe(
-      {
-        next:(response) => {
-          console.log("plan response:", response);
-          this.data = response.result;
-
-          this.generateColumnsFromData(this.data[0]);
-
-          /*
-          this.groups = [
-            { label: 'Primer Trimestre', colspan: 3, startColumn: 'enero', endColumn: 'enero' },
-
-          ];
-          */
-
-
-        }
-      }
-    )
   }
 
 
 
-
+  
 
   generateColumnsFromData(sampleData: any){
     const excludedKeys = ['clave', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 
@@ -292,25 +289,45 @@ closeDropdown() {
 
 
 
+  // Determina si una columna es el inicio de un grupo
+  isGroupStartColumn(columnKey: string): boolean {
+    return !!this.groups.find(g => g.startColumn === columnKey);
+  }
 
+  // Determina si una columna pertenece a un grupo
+  isGroupColumn(columnKey: string): boolean {
+    return !!this.groups.find(g => {
+      const startIndex = this.columns.findIndex(c => c.key === g.startColumn);
+      const endIndex = this.columns.findIndex(c => c.key === g.endColumn);
+      const columnIndex = this.columns.findIndex(c => c.key === columnKey);
+      return columnIndex >= startIndex && columnIndex <= endIndex;
+    });
+  }
 
-  
+  // Obtiene el colspan para una columna de grupo
+  getGroupColspan(columnKey: string): number {
+    const group = this.groups.find(g => g.startColumn === columnKey);
+    return group ? group.colspan : 1;
+  }
+
+  // Obtiene el grupo para una columna
+  getGroupForColumn(columnKey: string): Group | undefined {
+    return this.groups.find(g => g.startColumn === columnKey);
+  }
+
+  getFontSize(columnWidth: number): string {
+    const baseFontSize = columnWidth / 125;
+    return `clamp(0.6rem, ${baseFontSize}rem, 1.2rem)`;
+  }
+
+  getGroupFontSize(group: Group | undefined): string {
+    if (!group) return '1rem';
+    const startIndex = this.columns.findIndex(c => c.key === group.startColumn);
+    const endIndex = this.columns.findIndex(c => c.key === group.endColumn);
+    const totalWidth = this.columns.slice(startIndex, endIndex + 1)
+      .reduce((sum, col) => sum + col.width, 0);
+    const baseFontSize = totalWidth / 100;
+    return `clamp(0.8rem, ${baseFontSize}rem, 1.5rem)`;
+  }
+
 }
-
-
-
-
-
-/*
-  trazabiidad factura pt
-  OCR para factueas
-  proceso de convertido de monedas
-  catalogo de frozen times
-  catalogo costos
-  modulo de presupuestos con alertas, en base a importacion,
-  productos de imorotacion, ajuste presupeusto en base al ajuste que pueda ocurrer o no,
-  bajar pasivos
-  sistema de rankeo de prioridades
-
-
-*/
