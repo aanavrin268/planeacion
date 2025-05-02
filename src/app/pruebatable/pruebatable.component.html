@@ -154,7 +154,15 @@
       
       </div>
 
-      <app-main-table></app-main-table>
+
+   <ng-container *ngIf="!editMode; else editTemplate">
+        <app-main-table></app-main-table>
+   </ng-container>
+
+   <ng-template #editTemplate>
+        <app-edit-table></app-edit-table>
+   </ng-template>
+      
 
 
 </div>

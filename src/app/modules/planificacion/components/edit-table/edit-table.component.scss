@@ -1,0 +1,51 @@
+.cell-input {
+    width: calc(100% - 8px); /* Ajuste para el padding */
+    height: calc(100% - 8px); /* Ajuste para el padding */
+    border: 2px solid #4a90e2; /* Borde azul para mejor visibilidad */
+    outline: none;
+    padding: 4px;
+    box-sizing: border-box;
+    font-size: inherit;
+    background-color: #fffed3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+  
+  td {
+    position: relative;
+    padding: 4px;
+    cursor: cell;
+    
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+  
+
+  
+  .excel-grid {
+    border-collapse: collapse;
+    
+    th, td {
+      border: 1px solid #ddd;
+    }
+  }
+
+  .non-editable {
+    background-color: #f5f5f5;
+    cursor: default;
+    
+    &:hover {
+      background-color: #f5f5f5 !important;
+    }
+  }
+  
+  /* Asegúrate que el span ocupe todo el espacio */
+  td span {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+  }

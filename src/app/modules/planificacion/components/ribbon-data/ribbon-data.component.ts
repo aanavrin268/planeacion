@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewHistoricModalComponent } from '../new-historic-modal/new-historic-modal.component';
+import { PlanState } from '../../store/plan.state';
 
 @Component({
   selector: 'app-ribbon-data',
@@ -10,12 +11,21 @@ import { NewHistoricModalComponent } from '../new-historic-modal/new-historic-mo
 })
 export class RibbonDataComponent implements OnInit {
 
-  constructor(private modal: NgbModal){}
+  protected editSwitch: boolean;
+
+  constructor(private modal: NgbModal, private state: PlanState){
+    this.editSwitch = false;
+  }
 
 
   ngOnInit(): void {
 
 
+  }
+
+  allowEdits(){
+    this.editSwitch = !this.editSwitch;
+    this.state.changeEditValue(this.editSwitch);
   }
 
 

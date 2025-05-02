@@ -11,13 +11,14 @@ import { MainComparativaComponent } from "../modules/planificacion/pages/main-co
 import { map, Observable } from 'rxjs';
 import { RibbonInformationComponent } from '../modules/planificacion/components/ribbon-information/ribbon-information.component';
 import { RibbonDataComponent } from '../modules/planificacion/components/ribbon-data/ribbon-data.component';
+import { EditTableComponent } from '../modules/planificacion/components/edit-table/edit-table.component';
 
 
 
 @Component({
   selector: 'app-pruebatable',
   standalone: true,
-  imports: [CommonModule, FormsModule, MainTableComponent, RibbonInformationComponent, RibbonDataComponent],
+  imports: [CommonModule, FormsModule, MainTableComponent, RibbonInformationComponent, RibbonDataComponent, EditTableComponent],
   templateUrl: './pruebatable.component.html',
   styleUrls: ['./pruebatable.component.scss']
 })
@@ -34,6 +35,7 @@ export class PruebatableComponent implements OnInit {
   protected isMainMenuOptSelected: boolean;
   protected mainMenuIdSelected: number;
   protected isDropdownHideOpen: boolean;
+  protected editMode: boolean;
 
   protected columns$: Observable<Column[]> = new Observable<Column[]>();
 
@@ -44,9 +46,12 @@ export class PruebatableComponent implements OnInit {
 
   protected list_plan_names: any[] = [];
 
+
   constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState,
       private planDataService: PlanDataService,  private statePlan: PlanState
   ) {
+
+    this.editMode = false;
 
     this.currentData = {
       id_plan: 0,
@@ -98,6 +103,15 @@ export class PruebatableComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.planState.isEditing$.subscribe(
+      {
+        next:(data) => {
+          this.editMode = data;
+          console.log("desde MAIN MENU EDIT MODE:", this.editMode);
+        }
+      }
+    );
 
     this.planService.getJustPlanesByCategoryGql(1).subscribe({
       next:(response) => {
