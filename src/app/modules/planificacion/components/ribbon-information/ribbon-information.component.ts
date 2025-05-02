@@ -33,7 +33,8 @@ export class RibbonInformationComponent implements OnInit {
             ...this.currentPlanData,
             categoria: this.currentPlanData.categoria === 1 ? 'Público' : 'Privado',
             estado: this.currentPlanData.estado === 1 ? 'Activo' : 'Inactivo',
-            tipo: this.currentPlanData.tipo === 1 ? 'Master' : 'Histórico'
+            tipo: this.currentPlanData.tipo === 1 ? 'Master' : 'Histórico',
+            descripcion: ''
         };
 
         this.formatedPlanData = this.currentPlanData;

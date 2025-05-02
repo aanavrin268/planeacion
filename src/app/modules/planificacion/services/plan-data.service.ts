@@ -16,6 +16,7 @@ export class PlanDataService {
     tipo: 0,
     categoria: 0,
     estado: 0,
+    descripcion: '',
     updatedAt: '',
     info: [{
       clave: '',

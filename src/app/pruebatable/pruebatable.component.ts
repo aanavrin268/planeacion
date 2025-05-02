@@ -60,6 +60,7 @@ export class PruebatableComponent implements OnInit {
       categoria: 0,
       estado: 0,
       updatedAt: '',
+      descripcion: '',
       info: [{} as InfoPivote],
     };
 
@@ -113,7 +114,7 @@ export class PruebatableComponent implements OnInit {
       }
     );
 
-    this.planService.getJustPlanesByCategoryGql(1).subscribe({
+    this.planService.getJustPlanesByTypeGql(1).subscribe({
       next:(response) => {
         console.log("response de plan_name_list ", response);
         this.list_plan_names = response.map((p) => ({

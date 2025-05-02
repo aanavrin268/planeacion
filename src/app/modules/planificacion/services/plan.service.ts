@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
-import { PlanAllDetails, PlanDetail, PlanJust } from '../models/plan.model';
-import { GET_DETALLES_PLAN, GET_DETALLES_PLAN_ID, GET_PLANS_BY_CATEGORY } from '../data/graphql/queries';
+import { Count, PlanAllDetails, PlanDetail, PlanDetailsInput, PlanDetailss, PlanInput, PlanJust } from '../models/plan.model';
+import { GET_DETALLES_PLAN, GET_DETALLES_PLAN_ID, GET_HISTORIC_COUNTS, GET_PLANS_BY_CATEGORY } from '../data/graphql/queries';
+import { CREATE_PLAN, CREATE_PLAN_DETAILS } from '../data/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,43 @@ export class PlanService {
 
   constructor(private http: HttpClient, private apollo: Apollo) { }
 
-  getJustPlanesByCategoryGql(categoria: number): Observable<PlanJust[]>{
+  getAllPlansCountGql(): Observable<Count>{
+    return this.apollo.watchQuery<{ getCountPlans: Count}>({
+      query: GET_HISTORIC_COUNTS,
+    })
+    .valueChanges.pipe(
+      map((result) => result.data.getCountPlans),
+      shareReplay(1)
+    );
+  }
+
+
+  createPlanDetailsGql(plan_details: PlanDetailsInput[]): Observable<PlanDetailss>{
+    return this.apollo.mutate<{ createPlanDetails: PlanDetailss}>({
+      mutation: CREATE_PLAN_DETAILS,
+      variables: {
+        input: plan_details
+      }
+    }).pipe(
+      map(result => result.data!.createPlanDetails)
+    );
+  }
+
+
+
+
+  createPlanGql(planData: PlanInput): Observable<PlanJust>{
+    return this.apollo.mutate<{ createPlan: PlanJust }>({
+      mutation: CREATE_PLAN,
+      variables: {
+        input: planData
+      }
+    }).pipe(
+      map(result => result.data!.createPlan)
+    );
+  }
+
+  getJustPlanesByTypeGql(categoria: number): Observable<PlanJust[]>{
     return this.apollo.watchQuery<{ getJustPlans: PlanJust[ ]}>({
       query: GET_PLANS_BY_CATEGORY,
       variables: {

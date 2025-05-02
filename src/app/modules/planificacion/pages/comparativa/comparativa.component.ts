@@ -12,6 +12,7 @@ import { EditPlanListModalComponent } from '../../../../shared/components/modals
 import { BehaviorsService } from '../../../../core/services/behaviors.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PlanService } from '../../services/plan.service';
 
 
 @Component({
@@ -59,7 +60,7 @@ displayedColumns: string[] = [];
 
 
   constructor(private service: ApiService, private cdr:ChangeDetectorRef, private modal: NgbModal, private behaviorService: BehaviorsService,
-    private route: ActivatedRoute, private router: Router
+    private route: ActivatedRoute, private router: Router, private planService: PlanService
   ){
 
     this.settings_list_menu = [{id: 1, title: 'Editar lista'}, {id:2, title: 'Cerrar'}];
@@ -78,12 +79,32 @@ displayedColumns: string[] = [];
     });
 
 
+    this.planService.getJustPlanesByTypeGql(Number(this.id)).subscribe(
+      {
+        next:(response) => {
+          console.warn("PLAN LIST BY ID GQL", response);
+          this.plan_list = response;
+
+          this.plan_list = this.plan_list.map(plan => ({
+            ...plan,
+            selected: false
+        }));
+        
+        console.warn("FORMATTED DATA", this.plan_list);
+
+
+        }
+      }
+    );
+
+
+
 
     //this.plan_list = this.dummy_list;
 
 
 
-    this.getPlaListData();
+    //this.getPlaListData();
 
 
   }
@@ -128,7 +149,8 @@ displayedColumns: string[] = [];
 
 
   selectManyPlans(plan:any){
-
+    //this.selected_plan_list.push(plan);
+    
     if(this.selected_plan_list.length === 3){
         this.showError("Error, limite alcanzado", "Solo puedes seleccionar 3 planes para la comparativa");
     }else{
@@ -142,6 +164,11 @@ displayedColumns: string[] = [];
 
   }
 
+
+
+
+
+
   cleanOneRow(planToRemove: any) {
 
     this.plan_list.forEach((plan) => {
@@ -149,7 +176,7 @@ displayedColumns: string[] = [];
     });
 
     this.selected_plan_list = this.selected_plan_list.filter(
-      plan => plan.id_ph !== planToRemove.id_ph
+      plan => plan.id_plan !== planToRemove.id_plan
     );
 
 
@@ -218,8 +245,6 @@ displayedColumns: string[] = [];
     return differences;
 }
 
-
-  
 
   async getDifferencesPromise(data1: any[], data2: any[]){
     return new Promise((resolve, reject) => {

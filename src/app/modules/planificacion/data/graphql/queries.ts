@@ -1,5 +1,17 @@
 import { gql } from '@apollo/client/core';
 
+
+export const GET_HISTORIC_COUNTS = gql`
+  query GetCountPlans{
+    getCountPlans{
+      public,
+      private,
+      all
+    }
+  }
+
+`;
+
 export const GET_PLANS_BY_CATEGORY = gql`
   query GetJustPlans($categoria: Int!){
     getJustPlans(categoria: $categoria){

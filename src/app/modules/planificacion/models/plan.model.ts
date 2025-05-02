@@ -16,6 +16,18 @@ export  interface Group {
     endColumn: string;
   }
 
+  /*
+          QUERIES
+  
+  */
+
+          
+export interface Count {
+      public: number;
+      private: number;
+      all: number;
+  }
+
 
 export interface InfoPivote {
     [key: string]: number | string | null; 
@@ -60,8 +72,10 @@ export interface PlanAllDetails{
     categoria: number;
     estado: number;
     updatedAt: string;
+    descripcion: string;
     info: [InfoPivote]
 }
+
 
 
 export interface PlanJust{
@@ -70,5 +84,42 @@ export interface PlanJust{
   tipo: number | string;
   categoria: number | string;
   estado: number | string;
+  descripcion: string;
   updatedAt: string;
+}
+
+
+/*
+  MUTACIONES
+
+*/
+
+
+export interface PlanDetailsInput{
+  id_plan: number;
+  clave: string;
+  disponibles: number;
+  mes: string;
+  unidades_planificadas: number;
+  unidades_facturadas: number;
+  proveedor_id: number;
+}
+
+export interface PlanDetailss   {
+  id_plan: number;
+  clave: string;
+  disponibles: number;
+  mes: string;
+  unidades_planificadas: number;
+  unidades_facturadas: number;
+  proveedor_id: number;
+}
+
+
+export interface PlanInput {
+  nombre: string;
+  tipo: number;
+  categoria: number;
+  estado: number;
+  descripcion: string;
 }

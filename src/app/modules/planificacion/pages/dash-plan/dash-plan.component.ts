@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BehaviorSubject } from 'rxjs';
 import { BehaviorsService } from '../../../../core/services/behaviors.service';
+import { PlanService } from '../../services/plan.service';
 
 
 @Component({
@@ -29,7 +30,9 @@ export class DashPlanComponent implements OnInit {
 
 
 
-  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router, private behaviors: BehaviorsService){
+  constructor(private modal: NgbModal, private apiService: ApiService, private router: Router, private behaviors: BehaviorsService,
+      private planService: PlanService
+  ){
     this.plan_list = [
       {id:1, name: 'PLAN VENTA PÚBLICO', filters:['Todos los Qs', 'Historico', 'Sector público'], time:'historico'},
       {id: 2, name: 'PLAN VENTA PRIVADO', filters:['Todos los Qs', 'Productos', 'Sector privado'], time:'historico'}
@@ -49,9 +52,32 @@ export class DashPlanComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.planService.getAllPlansCountGql().subscribe(
+      {
+        next:(response:any) => {
+          console.warn("INIT PLAN COUNTS", response);
 
+          
+              if(response[0].public == 1){
+                this.plan_version_list[0].versions = '1 versión';
+              }else if(response[0].public > 1){
+                this.plan_version_list[0].versions =  response[0].public + ' versiones';
+              }
+
+              
+              if(response[0].private == 1){
+                this.plan_version_list[1].versions = '1 versión';
+              }else if(response[0].private > 1){
+                this.plan_version_list[1].versions =  response[0].public + ' versiones';
+              }
+          
+
+        }
+      }
+    );
     
-    this.plan_version_list[1].versions='Sin versiones';
+    //this.plan_version_list[1].versions='Sin versiones';
+    /*
     this.apiService.getPlanPublicoKeys().subscribe({
       next:(response:any) => {
         console.log("keys public", response);
@@ -76,9 +102,9 @@ export class DashPlanComponent implements OnInit {
 
       }
     });
-    
+    */
  
-    this.loadListData();
+    //this.loadListData();
 
 
   }

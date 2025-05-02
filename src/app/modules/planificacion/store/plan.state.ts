@@ -22,6 +22,8 @@ export class PlanState {
     
   protected dummy_list: PlanAllDetails[] = [{
     id_plan: 1,
+    descripcion:'',
+
     info: [
       {
         nombre: 'Busulfan', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",

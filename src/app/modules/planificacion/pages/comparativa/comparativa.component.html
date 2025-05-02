@@ -46,11 +46,9 @@
                         (click)="selectManyPlans(plan)" 
                         [ngClass]="{'selected-item': plan.selected}">
 
-                   
-
                         <i class="bi bi-clock-history plan-icon"></i>
-                        <span class="p-title">{{ plan.name }}</span>
-                        <span class="p-sub"> {{ plan.date_save | date:'dd-MM-yyyy' }}</span>
+                        <span class="p-title">{{ plan.nombre }}</span>
+                        <span class="p-sub"> {{ plan.updatedAt | date:'dd-MM-yyyy' }}</span>
 
                     </div>
                 </div>
@@ -61,7 +59,7 @@
                         <div class="hh-container">
                             <div class="hh-item"  *ngFor="let plan of selected_plan_list">
                                 <span class="hh-text" >
-                                {{plan.name}}
+                                {{plan.nombre}}
                             </span>
                             <i class="bi bi-x-lg ms-icon" (click)="cleanOneRow(plan)"></i>
                             </div>
