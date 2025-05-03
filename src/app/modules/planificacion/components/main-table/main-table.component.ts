@@ -78,6 +78,11 @@ export class MainTableComponent implements OnInit, AfterViewInit {
 
   }
 
+  isFacColumn(columnKey: string): boolean{
+    return columnKey.startsWith('fac_');
+  }
+
+
   toggleColumnVisibility(column: Column) {
     this.dataPlanService.toggleColumnVisibilityx(column.key);
   }

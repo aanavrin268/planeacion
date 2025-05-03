@@ -1,0 +1,97 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
+
+.main-modal{
+    @include a.mx-modal-md;
+
+    header{
+        @include a.mx-header-basic;
+
+        .title{
+            @include a.mx-text-title-lg;
+            font-size: 25px;
+        }
+    }
+
+    main{
+        @include a.mx-body-basic;
+        overflow-y: auto;
+
+        .sub{
+            @include a.mx-text-body;
+        }
+
+        .form-select{
+            margin-top: 2rem;
+        }
+
+        .name-container{
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-top: 2rem;
+        }
+
+        .selected-container{
+            width: 100%;
+            display: flex;
+            gap: .5rem;
+            flex-direction: column;
+            margin-top: 2rem;
+
+            .headers-container{
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+                flex-wrap: wrap;
+
+                .header-item{
+                   display: flex;
+                   position: relative;
+                   
+
+                    .header-text{
+                        padding: .3rem .5rem;
+                        background-color: antiquewhite;
+                        border-radius: 6px;
+
+                    }
+
+                    .delete-item{
+                        background-color: red;
+                        color: white;
+                        right: -13%;
+                        position: absolute;
+                        top: -26%;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 13px;
+                        width: 20px;
+                        z-index: 1;
+                        height: 20px;
+                        box-shadow: 0px 4px 6px #00000036;
+                        transition: all 0.2s ease-in;
+
+                        &:hover{
+                            cursor: pointer;
+                            background-color: rgb(158, 6, 6);
+
+
+                        }
+                    }
+                }
+
+               
+            }
+
+
+
+        }
+    }
+
+    footer{
+        @include a.mx-footer-basic;
+    }
+}

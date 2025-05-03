@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import interact from 'interactjs';
 import { PlanService } from '../modules/planificacion/services/plan.service';
 import { PlanState } from '../modules/planificacion/store/plan.state';
-import { Column, Group, InfoPivote, PlanAllDetails } from '../modules/planificacion/models/plan.model';
+import { Column, Group, InfoPivote, PlanAllDetails, ViewTable } from '../modules/planificacion/models/plan.model';
 import { PlanDataService } from '../modules/planificacion/services/plan-data.service';
 import { MainTableComponent } from '../modules/planificacion/components/main-table/main-table.component';
 import { MainComparativaComponent } from "../modules/planificacion/pages/main-comparativa/main-comparativa.component";
@@ -12,13 +12,15 @@ import { map, Observable } from 'rxjs';
 import { RibbonInformationComponent } from '../modules/planificacion/components/ribbon-information/ribbon-information.component';
 import { RibbonDataComponent } from '../modules/planificacion/components/ribbon-data/ribbon-data.component';
 import { EditTableComponent } from '../modules/planificacion/components/edit-table/edit-table.component';
+import { RibbonColumnsComponent } from '../modules/planificacion/components/ribbon-columns/ribbon-columns.component';
+import { parse } from 'graphql';
 
 
 
 @Component({
   selector: 'app-pruebatable',
   standalone: true,
-  imports: [CommonModule, FormsModule, MainTableComponent, RibbonInformationComponent, RibbonDataComponent, EditTableComponent],
+  imports: [CommonModule, FormsModule, MainTableComponent, RibbonInformationComponent, RibbonDataComponent, EditTableComponent, RibbonColumnsComponent],
   templateUrl: './pruebatable.component.html',
   styleUrls: ['./pruebatable.component.scss']
 })
@@ -45,6 +47,7 @@ export class PruebatableComponent implements OnInit {
   protected currentData: PlanAllDetails;
 
   protected list_plan_names: any[] = [];
+  protected rxView_list: ViewTable[] = [];
 
 
   constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private planService: PlanService, private planState: PlanState,
@@ -104,6 +107,37 @@ export class PruebatableComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.rxView_list = this.planDataService.views_array;
+
+
+    const localViewsData = localStorage.getItem('localViews');
+
+    if(localViewsData){
+      const parsedData = JSON.parse(localViewsData);
+
+      console.log("la paresed data", parsedData);
+
+
+      let currentId = this.rxView_list[this.rxView_list.length - 1].id;
+
+      const updatedLocalViews = parsedData.map((view:any, index: number) => ({
+        ...view,
+        id: currentId + 1 + index
+      }))
+
+      console.log("Datos actualizados con nuevos IDs:", updatedLocalViews);
+
+
+      this.rxView_list = [...this.rxView_list, ...updatedLocalViews];
+      //this.rxView_list = this.planDataService.views_array;
+
+
+
+
+    }else {
+      console.warn("no hay views locales guardas");
+
+    }
 
     this.planState.isEditing$.subscribe(
       {
@@ -114,6 +148,7 @@ export class PruebatableComponent implements OnInit {
       }
     );
 
+    /*
     this.planService.getJustPlanesByTypeGql(1).subscribe({
       next:(response) => {
         console.log("response de plan_name_list ", response);
@@ -125,11 +160,35 @@ export class PruebatableComponent implements OnInit {
         console.log("mapeo de nombres:", this.list_plan_names);
       }
     })
+      */
+
+    this.list_plan_names = [{id_plan: 1, nombre:'Público-dummy v1'}]
 
     this.loadAndInitData(1);
 
 
     
+  }
+
+  onViewChange(event: Event){
+    let target = event.target as HTMLSelectElement;
+    let value = target.value;
+    console.log("VIEW CHANFE;", value);
+
+
+    const selectedView = this.rxView_list.find(view => view.id === Number(value));
+
+    if(selectedView){
+      console.log("view encoentrada", selectedView);
+
+      this.planDataService.setCurrentView(selectedView);
+    }else {
+      console.error("view no encioenteada", selectedView);
+    }
+
+
+    //this.planDataService.setCurrentView()
+
   }
 
 
@@ -198,9 +257,6 @@ export class PruebatableComponent implements OnInit {
     );
   }
 
-
-
-
   get hiddenColumns$(): Observable<Column[]> {
     return this.columns$.pipe(
       map((columns: Column[]) => columns.filter((col: { visible: any; }) => !col.visible))
@@ -220,6 +276,10 @@ toggleDropdown() {
 closeDropdown() {
   this.isDropdownOpen = false;
 }
+
+
+
+
 
 
 

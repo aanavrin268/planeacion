@@ -1,0 +1,46 @@
+<div class="main-modal">
+    <header>
+        <span class="title">Nueva vista</span>
+    </header>
+    <main>
+        <span class="sub">Añade un nombre y selecciona las columnas que deseas añadir a la nueva vista personalizada.</span>
+
+        <div class="name-container">
+            <span class="sub-title">Nombre</span>
+            <input type="text" class="form-control" placeholder="Ej. vista_tres"
+                [(ngModel)]="inputName">
+        </div>
+
+        <select name="" id="" class="form-select"
+            (change)="onSelectOption($event)">
+            <option [value]="null" selected>
+                Selecciona múltiples valores
+            </option>
+            <option [value]="header.id" *ngFor="let header of AllNonSelectedHeaders">
+                {{header.value}}
+            </option>
+        </select>
+
+        <div class="selected-container" *ngIf="AllSelectedHeaders.length > 0">
+            <span class="sub-title">Columnas seleccionadas</span>
+            <div class="headers-container">
+                <div class="header-item" *ngFor="let header of AllSelectedHeaders">
+                    <span class="header-text">
+                        {{ header.value}}
+
+                    </span>
+
+                    <div class="delete-item" (click)="removeItem(header.id)">
+                        <i class="bi bi-x-lg"></i>
+                    </div>
+                </div>  
+                
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <button class="btn btn-light" (click)="onCancel()">Cancelar</button>
+        <button class="btn btn-primary" (click)="onSave()">Aceptar</button>
+    </footer>
+</div>

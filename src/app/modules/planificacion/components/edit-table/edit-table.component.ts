@@ -23,6 +23,8 @@ export class EditTableComponent {
 
   visibleColumnss$: Observable<Column[]> | undefined;
 
+  protected allSelected: boolean;
+
 
 
     groups: Group[] = [
@@ -49,7 +51,7 @@ export class EditTableComponent {
 
 
   constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService){
-
+    this.allSelected = false;
 
 
   }
@@ -80,9 +82,31 @@ export class EditTableComponent {
 
   }
 
+  handleCheckboxChange(row: InfoPivote, event: Event): void {
+    const target = event.target as HTMLInputElement;
+    row.selected = target?.checked || false;
+  }
+
+  getSelectedRows(): InfoPivote[]{
+    return this.data.filter(row => row.selected);
+  }
+
+  get isSomeSelected(): boolean {
+    return this.data.some(row => row.selected) && !this.allSelected;
+  }
+
+
+  toggleSelectAll(event: Event){
+    const checked = (event.target as HTMLInputElement).checked;
+    this.allSelected = checked;
+
+    this.data.forEach(item => item.selected = checked);
+  }
+
+
   // Añade este método para verificar si una columna es editable
 isEditableColumn(columnKey: string): boolean {
-  const nonEditableColumns = ['nombre', 'inventario', 'disponibles'];
+  const nonEditableColumns = ['acciones','nombre', 'inventario', 'disponibles'];
   return !nonEditableColumns.includes(columnKey.toLowerCase());
 }
 

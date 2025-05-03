@@ -8,11 +8,21 @@
     align-items: center;
   }
 
+  app-main-table{
+    width: 100%;
+    height: 100vh;
+  }
+
+  app-edit-table{
+    width: 100%;
+    height: 100vh;
+  }
+
   .menu-content {
     width:100%;
     height: 30%;
     display: flex;
-    padding: .6rem .4rem;
+    //padding: .6rem .4rem;
     background-color: white;
 
     .title{
@@ -22,28 +32,30 @@
     }
 
     .sides{
-        background-color: rgb(240, 240, 240);
+        background-color: rgb(212, 212, 212);
         width: 100%;
         display: flex;
         padding: 1rem;
-        border-radius: 16px;
+        //border-radius: 16px;
         
         .left{
             width: 30%;
             height: 100%;
             display:flex;
             flex-direction: column;
+            padding-right: 2rem;
             //background-color: yellow;
 
-            .p-select{
-                /* padding: 0px 22rem; */
-                /* padding-left: 0px; */
-                border-radius: 12px;
+            .p-selects{
+              
+                //border-radius: 12px;
                 border: none;
                 width: fit-content;
-                background-color: rgb(240, 240, 240);
-                outline: #d5d5d5;
-                color: #424242;
+                //background-color: rgb(240, 240, 240);
+                padding: 0px;
+                margin: 0px;
+                outline: none;
+                color: #b91313;
                 font-size: 30px;
                 font-weight: 600;  
                 
@@ -65,10 +77,11 @@
                 margin-top: 1rem;
 
                 .item-container{
-                    display: flex;
-                    gap: .6rem;
-                    justify-content: center;
-                    align-items: center;
+                  display: flex;
+                  gap: 0.5rem;
+                  flex-direction: column;
+                  justify-content: flex-start;
+                  align-items: flex-start;
 
                     .i-text{
                         color: #424242;
@@ -78,11 +91,20 @@
                     }
 
                     .i-select{
-                    border: none;
-                    background-color: rgb(240, 240, 240);
-                    line-height: 1.1;
-                    font-size: 16px;
-                    font-weight: 700;                    
+                      border: none;
+                      background-color: rgb(212, 212, 212);
+                      font-size: 16px;
+                      outline: none;
+                      padding: 4px 6px;
+                      font-weight: 700;
+                      transition: all 0.2s ease-in-out;
+                      border-radius: 8px;
+
+                      &:hover{
+                        cursor: pointer;
+                        background: rgba(129, 128, 128, 0.449);
+                      }
+                      
                 }
                 }
             }
@@ -163,6 +185,11 @@
                 }
 
                 app-ribbon-data{
+                  width: 100%;
+                  height: 100%;
+                }
+
+                app-ribbon-columns{
                   width: 100%;
                   height: 100%;
                 }

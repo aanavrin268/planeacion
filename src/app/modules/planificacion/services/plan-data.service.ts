@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Column, PlanAllDetails } from '../models/plan.model';
+import { Column, PlanAllDetails, ViewTable } from '../models/plan.model';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class PlanDataService {
 
 
-
+  
   private currentPlan = new BehaviorSubject<PlanAllDetails>({
     id_plan: 0,
     nombre: '',
@@ -49,12 +49,60 @@ export class PlanDataService {
   });
 
   private currentColumns = new BehaviorSubject<Column[]>([]);
+  private showActionColumn = new BehaviorSubject<Boolean>(false);
+
+  private currentView = new BehaviorSubject<ViewTable>({ 
+    id: 0,
+    name: '', 
+    excludedKeys: [] 
+  });
+
+  public currentView$: Observable<ViewTable> = this.currentView.asObservable();
 
   public currentPlan$: Observable<PlanAllDetails> = this.currentPlan.asObservable();
   public currentColumns$ = this.currentColumns.asObservable();
+  public showActionColumn$ = this.showActionColumn.asObservable();
+
+
+  public views_array: ViewTable[]= [
+    {id: 1, name: 'initialView', excludedKeys : [ '__typename']},
+    {id: 2, name: 'planificada', excludedKeys:['fac_enero', 'fac_febrero', 'fac_marzo', 'fac_abril', 'fac_mayo', 'fac_junio', 'clave', 'disponibles', '__typename',
+      'fac_julio', 'fac_agosto', 'fac_septiembre' , 'fac_octubre' ,'fac_noviembre', 'fac_diciembre'
+    ]},
+    {id: 3, name:'facturadas', excludedKeys: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio','agosto', 'septiembre', 'octubre', 'noviembre',
+      'diciembre'
+    ]},
+    {id: 4, name: 'Q1', excludedKeys: ['abril', 'mayo', 'junio', 'julio','agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'fac_abril', 'fac_mayo', 'fac_junio', 'clave', 'disponibles', '__typename',
+      'fac_julio', 'fac_agosto', 'fac_septiembre' , 'fac_octubre' ,'fac_noviembre', 'fac_diciembre']}
+
+
+  ];
+
+
 
   constructor() { 
 
+
+    this.currentView.next(this.views_array[0]);
+
+  }
+
+  setCurrentView(sampleData: ViewTable){
+    this.currentView.next(sampleData);
+    this.regenerateColumns();
+  }
+
+  toggleActionsColumn(show: boolean){
+    this.showActionColumn.next(show);
+    this.regenerateColumns();
+  }
+
+  private regenerateColumns(){
+    const currentPlan = this.currentPlan.value;
+
+    if(currentPlan?.info?.length > 0){
+      this.generateColumns(currentPlan.info[0]);
+    }
   }
  
   setCurrentPlan(dataBundle: PlanAllDetails){
@@ -64,10 +112,17 @@ export class PlanDataService {
   } 
 
   private generateColumns(sampleData: any){
-    const excludedKeys = ['clave', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 
-      'diciembre', 'fac_abril', 'proveedor', 'fac_mayo', 'fac_junio', 'fac_julio', 'fac_agosto', 'fac_septiembre',
+    /*
+    const excludedKeys = ['clave', 'septiembre', 'octubre', 'noviembre', 
+      'diciembre', 'proveedor', 'fac_septiembre',
       'fac_octubre', 'fac_noviembre', 'fac_diciembre', '__typename'
   ];
+
+  */
+
+  const actualView = this.currentView.getValue();
+
+  const excludedKeys =  actualView.excludedKeys;
 
   const specialHeaders: { [key: string]: string} = {
     'nombre': 'Nombre',
@@ -98,9 +153,39 @@ export class PlanDataService {
       header: specialHeaders[key] || this.formatHeader(key),
       width: this.calculateWidth(key),
       visible:true
-    }))
+    }));
 
-    this.currentColumns.next(columns);
+    let finalColumns = [...columns];
+
+    if(this.showActionColumn.value){
+      finalColumns = [
+        {
+          key: 'acciones',
+          header: 'Acciones',
+          visible: true,
+          width: 100
+        },
+        ...finalColumns
+
+      ];
+    }
+
+    this.currentColumns.next(finalColumns);
+
+    /*
+    this.currentColumns.next([
+      { 
+        key: 'acciones', 
+        header: 'Acciones', 
+        visible: true,
+        width: 100 
+      },
+      ...columns
+    ]);
+
+    */
+
+    //this.currentColumns.next(columns);
 
   }
 

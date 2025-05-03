@@ -4,6 +4,7 @@ import { NewHistoricModalComponent } from '../new-historic-modal/new-historic-mo
 import { PlanState } from '../../store/plan.state';
 import { PlanService } from '../../services/plan.service';
 import { PlanDetailss, PlanInput } from '../../models/plan.model';
+import { PlanDataService } from '../../services/plan-data.service';
 
 @Component({
   selector: 'app-ribbon-data',
@@ -14,14 +15,22 @@ import { PlanDetailss, PlanInput } from '../../models/plan.model';
 export class RibbonDataComponent implements OnInit {
 
   protected editSwitch: boolean;
+  protected multiSwitch: boolean;
 
-  constructor(private modal: NgbModal, private state: PlanState, private planService: PlanService){
+  constructor(private modal: NgbModal, private state: PlanState, private planService: PlanService, private planDataService: PlanDataService){
     this.editSwitch = false;
+    this.multiSwitch = false;
   }
 
 
   ngOnInit(): void {
 
+
+  }
+
+  activateMultiEdit(){
+    this.multiSwitch = !this.multiSwitch;
+    this.planDataService.toggleActionsColumn(this.multiSwitch);
 
   }
 

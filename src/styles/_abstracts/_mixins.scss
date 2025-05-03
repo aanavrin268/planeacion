@@ -2,6 +2,60 @@
 
 
 /*
+        MIXINS DE RIBBONS
+
+*/
+
+@mixin mx-ribbon-title{
+    line-height: 1.1;
+    font-size: 15px;
+    font-weight: lighter;
+    position: absolute;
+    top: -72%;
+    //left: 10%;
+}
+
+@mixin mx-ribbon-body{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    //background-color: rgba(0, 255, 136, 0.411);
+}
+
+@mixin mx-ribbon-header{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //background-color: rgba(255, 217, 0, 0.411);
+    position:relative;
+
+}
+
+@mixin mx-ribbon-section{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    //background-color: rgba(255, 102, 0, 0.411);
+    padding: .3rem;
+    border-right: 1px solid #c1c2c2;
+}
+
+
+@mixin mx-main-ribbon{
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    height: 100%;
+}
+
+
+/*
         MIXINS DE MODALES
 
 */
@@ -95,7 +149,7 @@
     height: 10%;
     display: flex;  
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 @mixin mx-footer-basic{

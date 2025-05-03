@@ -1,3 +1,11 @@
+export interface List_With_Select{
+  id:number;
+  value: string;
+  selected: boolean;
+}
+
+
+
 export interface Column {
     key: string;
     header: string;
@@ -16,6 +24,12 @@ export  interface Group {
     endColumn: string;
   }
 
+  export interface ViewTable{
+    id:number;
+    name: string;
+    excludedKeys: string[];
+  }
+
   /*
           QUERIES
   
@@ -30,7 +44,8 @@ export interface Count {
 
 
 export interface InfoPivote {
-    [key: string]: number | string | null; 
+    [key: string]: number | string | boolean | null | undefined; 
+    selected?: boolean | undefined;
     clave: string;
     disponibles: number;
     enero: number;
@@ -73,7 +88,7 @@ export interface PlanAllDetails{
     estado: number;
     updatedAt: string;
     descripcion: string;
-    info: [InfoPivote]
+    info: InfoPivote[]
 }
 
 

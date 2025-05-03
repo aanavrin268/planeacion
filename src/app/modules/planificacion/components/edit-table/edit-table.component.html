@@ -1,4 +1,8 @@
 <div class="table-container" #tableContainer>
+    <div class="multi-container" *ngIf="getSelectedRows().length > 0">
+
+    </div>
+
     <table class="excel-grid">
         <thead>
           <!-- Fila de grupos (sin cambios) -->
@@ -21,35 +25,61 @@
                 [style.font-size]="getFontSize(col.width)"
                 class="resizable"
                 [attr.data-key]="col.key">
-              {{ col.header }}
+
+
+                <ng-container *ngIf="col.key === 'acciones'; else defaultHeader">
+                  <label class="checkbox-container">
+                    <input type="checkbox" 
+                           [checked]="allSelected"
+                           [indeterminate]="isSomeSelected"
+                           (change)="toggleSelectAll($event)">
+                    <span>{{ col.header }}</span>
+                  </label>
+                </ng-container>
+
+                <ng-template #defaultHeader>
+                  {{ col.header }}
+
+                </ng-template>
+
             </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of data; let rowIndex = index">
             <td *ngFor="let col of (visibleColumnss$ | async); trackBy: trackByColumnKey"
-            [style.width.px]="col.width"
-            [style.font-size]="getFontSize(col.width)"
-            [attr.data-key]="col.key"
-            (dblclick)="isEditableColumn(col.key) ? startEditing(rowIndex, col.key) : null"
-            (click)="stopEditing()"
-            [class.non-editable]="!isEditableColumn(col.key)">
-          
-          <!-- Mostrar input cuando está en modo edición Y es editable -->
-          <input *ngIf="editing.active && editing.rowIndex === rowIndex && editing.columnKey === col.key && isEditableColumn(col.key)"
-                 #cellInput
-                 type="text"
-                 [value]="row[col.key]"
-                 (blur)="saveEditing($event, row, col.key)"
-                 (keyup.enter)="saveEditing($event, row, col.key)"
-                 (keyup.escape)="stopEditing()"
-                 class="cell-input">
-          
-          <!-- Mostrar valor normal -->
-          <span>
-            {{ row[col.key] }}
-          </span>
-        </td>
+                [style.width.px]="col.width"
+                [style.font-size]="getFontSize(col.width)"
+                [attr.data-key]="col.key"
+                (dblclick)="isEditableColumn(col.key) ? startEditing(rowIndex, col.key) : null"
+                (click)="stopEditing()"
+                [class.non-editable]="!isEditableColumn(col.key)">
+              
+              <!-- Columna de Acciones (checkbox) -->
+              <ng-container *ngIf="col.key === 'acciones'">
+                <input type="checkbox" 
+                       [checked]="row.selected || false"
+                       (change)="handleCheckboxChange(row, $event)">
+                      </ng-container>
+              
+              <!-- Otras columnas editables -->
+              <ng-container *ngIf="col.key !== 'acciones'">
+                <!-- Input de edición -->
+                <input *ngIf="editing.active && editing.rowIndex === rowIndex && editing.columnKey === col.key && isEditableColumn(col.key)"
+                       #cellInput
+                       type="text"
+                       [value]="row[col.key]"
+                       (blur)="saveEditing($event, row, col.key)"
+                       (keyup.enter)="saveEditing($event, row, col.key)"
+                       (keyup.escape)="stopEditing()"
+                       class="cell-input">
+                
+                <!-- Valor normal -->
+                <span *ngIf="!(editing.active && editing.rowIndex === rowIndex && editing.columnKey === col.key)">
+                  {{ row[col.key] }}
+                </span>
+              </ng-container>
+            </td>
           </tr>
         </tbody>
       </table>

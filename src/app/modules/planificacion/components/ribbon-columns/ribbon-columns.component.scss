@@ -1,0 +1,54 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
+.main-ribbon{
+    @include a.mx-main-ribbon;
+
+    .r-section{
+        @include a.mx-ribbon-section;
+
+        .r-header{
+            @include a.mx-ribbon-header;
+
+            .title{
+                @include a.mx-ribbon-title;
+            }
+        }
+
+        .r-main{
+            @include a.mx-ribbon-body;
+
+            .data-container{
+                display: flex;
+                gap: .4rem;
+                width: 48%;
+                justify-content: flex-start;
+                align-items: center;
+                //background-color: rgba(255, 0, 242, 0.411);
+
+                .btn-container{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: .2rem .3rem;
+                    font-size: 14.5px;
+                    gap: .3rem;
+                    width: fit-content;
+                    border-radius: 6px;
+                    line-height: 1.1;
+                    font-weight: 550;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: rgba(128, 128, 128, 0.281);
+
+                    }
+                }
+
+              
+            }
+        }
+    }
+}
+
+

@@ -6,7 +6,7 @@
             <div class="left">
                 <span class="title">{{currentData.categoria == 1 ? 'Público' : 'Privado'}}</span>
 
-                <select name="" id="" class="p-select"
+                <select name="" id="" class="p-selects"
                     (change)="onChangePlanName($event)">
                     <option value="" disabled
                         class="p-option">
@@ -21,11 +21,12 @@
                 <div class="h-container">
                     <div class="item-container">
                         <span class="i-text">Tipo de vista</span>
-                        <select name="" id="" class="i-select">
+                        <select name="" id="" class="i-select"
+                            (change)="onViewChange($event)">
                             <option value="" disabled selected>
                                 Selecciona una 
                             </option>
-                            <option value="" *ngFor="let view of list_plan_views">
+                            <option [value]="view.id" *ngFor="let view of rxView_list">
                                 {{ view.name}}
                             </option>
                         </select>
@@ -66,7 +67,9 @@
                             <app-ribbon-information></app-ribbon-information>
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 2){
 
-                            <div class="columnas-container">
+                            <!------
+                            
+                                     <div class="columnas-container">
                                 <div class="im-container">
                                     <div class="im-header">
                                         <span class="im-header-title">Visualización</span>
@@ -85,52 +88,55 @@
                                                     <label>
                                                       <input type="checkbox" 
                                                              [checked]="column.visible" 
-                                                             (change)="toggleColumnVisibility(column)">  <!-- Usa el método del componente -->
-                                                      {{ column.header }}
-                                                    </label>
+                                                             (change)="toggleColumnVisibility(column)">  
+                                                             {{ column.header }}
+                                                            </label>
+                                                          </div>
+        
+        
+                                                    </div>
                                                   </div>
-
-
-                                            </div>
-                                          </div>
-
-                                          <div class="custom-dropdown"
-                                            [class.open]="isDropdownHideOpen">
-                                            <button class="dropdown-toggle"
-                                                (click)="toggleHideDropwon()">
-                                                Ocultas
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <div *ngFor="let column of (hiddenColumns$ | async)" class="dropdown-item">
-                                                    <label>
-                                                      <input type="checkbox"
-                                                             [checked]="!column.visible"
-                                                             (change)="toggleColumnVisibility(column)">  <!-- Usa el método del componente -->
-                                                      {{ column.header }}
-                                                    </label>
+        
+                                                  <div class="custom-dropdown"
+                                                    [class.open]="isDropdownHideOpen">
+                                                    <button class="dropdown-toggle"
+                                                        (click)="toggleHideDropwon()">
+                                                        Ocultas
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <div *ngFor="let column of (hiddenColumns$ | async)" class="dropdown-item">
+                                                            <label>
+                                                              <input type="checkbox"
+                                                                     [checked]="!column.visible"
+                                                                     (change)="toggleColumnVisibility(column)">  
+                                                              {{ column.header }}
+                                                            </label>
+                                                          </div>
+                                                    </div>
+        
                                                   </div>
+        
+        
                                             </div>
-
-                                          </div>
-
-
+                                        </div>
+        
+                                        <div class="im-container">
+                                            <div class="im-header">
+                                                <span class="im-header-title">Grupos</span>
+        
+                                            </div>
+                                            <div class="im-body">
+                                                <button class="im-btn">Crear nuevo</button>
+                                                <button>Editar</button>
+        
+                                            </div>
+                                        </div>
+        
                                     </div>
-                                </div>
+        
+                            -->
 
-                                <div class="im-container">
-                                    <div class="im-header">
-                                        <span class="im-header-title">Grupos</span>
-
-                                    </div>
-                                    <div class="im-body">
-                                        <button class="im-btn">Crear nuevo</button>
-                                        <button>Editar</button>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
+                            <app-ribbon-columns></app-ribbon-columns>
                             
 
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 3){
