@@ -4,7 +4,7 @@
 
         <div class="sides">
             <div class="left">
-                <span class="title">{{currentData.categoria == 1 ? 'Público' : 'Privado'}}</span>
+                <span class="title">{{currentData.categoria == 1 ? 'Comercial Público' : 'Comercial Privado'}}</span>
 
                 <select name="" id="" class="p-selects"
                     (change)="onChangePlanName($event)">
@@ -61,6 +61,14 @@
                             </span>
                         </div>
                     </div>
+
+                    <div class="search-container">
+                        <i class="bi bi-search m-icon"></i>
+                        <input type="text" class="form-control" placeholder="Ingresa algo para buscar..."
+                            class="m-input">
+
+                    </div>
+
                 </div>
                 <div class="down">
                         @if(isMainMenuOptSelected && mainMenuIdSelected === 1) {

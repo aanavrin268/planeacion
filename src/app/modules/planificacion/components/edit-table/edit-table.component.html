@@ -1,5 +1,11 @@
 <div class="table-container" #tableContainer>
     <div class="multi-container" *ngIf="getSelectedRows().length > 0">
+      <span class="mt-text">{{infotText}}</span>
+
+      <div class="btns-container">
+        <i class="bi bi-pencil-square mt-icon" (click)="openMultiWindow()"></i>
+        <i class="bi bi-trash3 mt-icon" (click)="deleteAllSelection()"></i>
+      </div>
 
     </div>
 
@@ -35,6 +41,7 @@
                            (change)="toggleSelectAll($event)">
                     <span>{{ col.header }}</span>
                   </label>
+
                 </ng-container>
 
                 <ng-template #defaultHeader>
@@ -46,7 +53,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data; let rowIndex = index">
+          <tr *ngFor="let row of data; let rowIndex = index"
+          [ngClass]="{'selected-row': isSingleRowSelected && currentRowKey === row['nombre']}"
+          >
             <td *ngFor="let col of (visibleColumnss$ | async); trackBy: trackByColumnKey"
                 [style.width.px]="col.width"
                 [style.font-size]="getFontSize(col.width)"
@@ -57,10 +66,27 @@
               
               <!-- Columna de Acciones (checkbox) -->
               <ng-container *ngIf="col.key === 'acciones'">
-                <input type="checkbox" 
-                       [checked]="row.selected || false"
-                       (change)="handleCheckboxChange(row, $event)">
-                      </ng-container>
+                <div class="accions">
+                  <input type="checkbox" 
+                  [checked]="row.selected || false"
+                  (change)="handleCheckboxChange(row, $event)">
+
+                  <div class="icons-container">
+
+                    <i class="bi bi-arrow-right-square-fill a-icon"
+                    (click)="onSingleRowSelected(row)"></i>
+
+                    <i *ngIf="isSingleRowSelected && currentRowKey === row['nombre']" 
+                    class="bi bi-x-square-fill a-icon red"
+                    (click)="resetSingleRow(row)"></i>
+
+                  </div>
+
+                
+
+                </div>
+               
+             </ng-container>
               
               <!-- Otras columnas editables -->
               <ng-container *ngIf="col.key !== 'acciones'">

@@ -5,6 +5,8 @@ import { PlanState } from '../../store/plan.state';
 import { PlanDataService } from '../../services/plan-data.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalMultiEditssComponent } from '../../../../shared/modals/modal-multi-editss/modal-multi-editss.component';
 
 @Component({
   selector: 'app-edit-table',
@@ -24,6 +26,11 @@ export class EditTableComponent {
   visibleColumnss$: Observable<Column[]> | undefined;
 
   protected allSelected: boolean;
+  protected isSingleRowSelected: boolean;
+
+
+  protected infotText: string;
+  protected currentRowKey: string;
 
 
 
@@ -50,10 +57,13 @@ export class EditTableComponent {
   
 
 
-  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService){
+  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService, private modal: NgbModal){
     this.allSelected = false;
+    this.isSingleRowSelected = false;
 
 
+    this.infotText = '';
+    this.currentRowKey = '';
   }
 
   
@@ -82,9 +92,58 @@ export class EditTableComponent {
 
   }
 
+  resetSingleRow(row:any){
+    this.isSingleRowSelected = false;
+    this.currentRowKey = '';
+  }
+
+  onSingleRowSelected(row:any){
+    this.isSingleRowSelected = true;
+    this.currentRowKey = row.nombre;
+
+    console.log("rowwwww", row);
+
+
+  }
+
+
+  openMultiWindow(){
+
+    const bundleData = {
+      data: this.getSelectedRows()
+    };
+
+    const modalRef = this.modal.open(ModalMultiEditssComponent, {
+      centered: true,
+      size: 'xl',
+      windowClass: 'redondo'
+    });
+
+    modalRef.componentInstance.bundle = bundleData;
+
+  }
+
+  deleteAllSelection(){
+
+    this.data.forEach(items => items.selected = false);
+    
+  }
+
   handleCheckboxChange(row: InfoPivote, event: Event): void {
     const target = event.target as HTMLInputElement;
     row.selected = target?.checked || false;
+
+    if(this.getSelectedRows().length > 0){
+      if(this.getSelectedRows().length === 1){
+        this.infotText = '1  producto seleccionado';
+      }else if(this.getSelectedRows().length > 1){
+        this.infotText = this.getSelectedRows().length + '  productos seleccionados';
+
+      }
+
+    }
+
+
   }
 
   getSelectedRows(): InfoPivote[]{

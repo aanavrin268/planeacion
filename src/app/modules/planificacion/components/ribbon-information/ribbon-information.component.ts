@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanDataService } from '../../services/plan-data.service';
 import { PlanJust } from '../../models/plan.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ribbon-information',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './ribbon-information.component.html',
   styleUrl: './ribbon-information.component.scss'
 })

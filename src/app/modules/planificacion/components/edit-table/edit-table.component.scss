@@ -1,3 +1,5 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
 .table-container{
   display: flex;
   flex-direction: column;
@@ -6,16 +8,49 @@
   position: relative;
 
   .multi-container{
-    width: 60%;
-    height: 10%;
+    width: 30%;
+    height: 8%;
     background-color: black;
     border-radius: 12px;
     padding: 1rem;
     position: absolute;
     z-index: 1;
     bottom: 35%;
+    justify-content: space-between;
     right: 50%;
+    display: flex;
     transform: translateX(50%);
+    align-items: center;
+    box-shadow: 0px 4px 6px black;
+
+    .mt-text{
+      width: 60%;
+      color: white;
+    }
+
+    .btns-container{
+      width: 40%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: white;
+      gap: 1.6rem;
+
+      .mt-icon{
+        transition: all 0.2s ease-in-out;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover{
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.267);
+        }
+      }
+    }
   }
 }
 
@@ -74,3 +109,57 @@
     height: 100%;
     padding: 4px;
   }
+
+
+ .accions{
+  //background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: .4rem;
+
+  .icons-container{
+    display: flex;
+    background-color: white;
+    border-radius: 12px;
+    padding: .1rem;
+    justify-content: center;
+    box-shadow: 0px 4px 6px #00000018;
+    align-items: center;
+
+    .a-icon{
+      width: 35px;
+      height: 35px;
+      display: flex;
+      /* background-color: red; */
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-size: 18px;
+      color: a.$primary-dark;
+      transition: all 0.2s ease-in-out;
+  
+      &:hover{
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.201);
+      }
+  
+    }
+  
+    .red{
+      color: red;
+    }
+  }
+  
+
+ 
+
+}
+
+.selected-row{
+  background-color: #7f9dec69;
+  border: 6px solid #7f9dec;
+
+}

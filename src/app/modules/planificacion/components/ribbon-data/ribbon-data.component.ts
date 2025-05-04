@@ -28,6 +28,23 @@ export class RibbonDataComponent implements OnInit {
 
   }
 
+ 
+  onSwitchChange(event: Event){
+    const isChecked = (event.target as HTMLInputElement).checked;
+
+    if(isChecked){
+      console.log("encendido");
+
+    }else {
+      console.log("apagado");
+    }
+
+    this.state.changeEditValue(isChecked);
+    this.activateMultiEdit();
+
+
+  }
+
   activateMultiEdit(){
     this.multiSwitch = !this.multiSwitch;
     this.planDataService.toggleActionsColumn(this.multiSwitch);

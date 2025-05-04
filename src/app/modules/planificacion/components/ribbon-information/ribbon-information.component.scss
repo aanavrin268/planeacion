@@ -1,3 +1,5 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
 .main-ribbon{
     display: flex;
     gap: 1.5rem;
@@ -7,50 +9,19 @@
 
 
     section{
-        display: flex;
-        flex-direction: column;
-        width: 50%;
-        height: 100%;
-        //background-color: rgba(255, 102, 0, 0.411);
-        padding: .3rem;
-        border-right: 1px solid #c1c2c2;
-
-      
-
-
-
+       @include a.mx-ribbon-section;
+       width: 40%;
 
         header{
-            width: 100%;
-            height: 20%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            //background-color: rgba(255, 217, 0, 0.411);
-            position:relative;
-
-           
-                
+            @include a.mx-ribbon-header;
                 .title{
-                    line-height: 1.1;
-                    font-size: 15px;
-                    font-weight: lighter;
-                    position: absolute;
-                    top: -72%;
-                    //left: 10%;
-            
+                   @include a.mx-ribbon-title;
             }
         }   
 
         main{
-            width: 100%;
-            height: 80%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: wrap;
+           @include a.mx-ribbon-body;
             //background-color: rgba(0, 255, 136, 0.411);
-
 
             .data-container{
                 display: flex;
@@ -83,8 +54,39 @@
                     
                 }
 
+                
+                .turn-on{
+                    width: fit-content;
+                    color: white;
+                    background-color: green;
+                    padding: .2rem .4rem;
+                    border-radius: 4px;
+                    font-size: 12px;                
+                }
+
+                .public-on{
+                    width: fit-content;
+                    color: white;
+                    background-color: a.$primary-dark;
+                    padding: .2rem .4rem;
+                    border-radius: 4px;
+                    font-size: 12px;                
+                }
+
+                .private-on{
+                    width: fit-content;
+                    color: white;
+                    background-color: green;
+                    padding: .2rem .4rem;
+                    border-radius: 4px;
+                    font-size: 12px;                
+                }
+
             }
+
+            
         }   
 
     }
 }
+

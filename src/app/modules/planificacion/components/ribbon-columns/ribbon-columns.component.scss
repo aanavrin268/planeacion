@@ -18,31 +18,14 @@
             @include a.mx-ribbon-body;
 
             .data-container{
-                display: flex;
-                gap: .4rem;
-                width: 48%;
-                justify-content: flex-start;
-                align-items: center;
-                //background-color: rgba(255, 0, 242, 0.411);
+              display: flex;
+              gap: 0.4rem;
+              width: 100%;
+              justify-content: space-between;
+              align-items: center;
 
                 .btn-container{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: .2rem .3rem;
-                    font-size: 14.5px;
-                    gap: .3rem;
-                    width: fit-content;
-                    border-radius: 6px;
-                    line-height: 1.1;
-                    font-weight: 550;
-                    transition: all 0.2s ease-in-out;
-
-                    &:hover{
-                        cursor: pointer;
-                        background-color: rgba(128, 128, 128, 0.281);
-
-                    }
+                   @include a.mx-ribbon-btn-container;
                 }
 
               

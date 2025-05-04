@@ -14,6 +14,7 @@ import { LandingPageComponent } from './modules/home/pages/landing-page/landing-
 import { TestttComponent } from './testtt/testtt.component';
 import { FullTableViewComponent } from './modules/home/components/full-table-view/full-table-view.component';
 import { PruebatableComponent } from './pruebatable/pruebatable.component';
+import { TestPivotssComponent } from './test-pivotss/test-pivotss.component';
 
 
 

@@ -1,0 +1,68 @@
+<div class="pivot-container">
+    <div class="config-panel">
+      <h3>Pivot Configuration</h3>
+      <div>
+        <label>Rows:</label>
+        <select multiple [(ngModel)]="config.rows">
+          <option value="nombre">Nombre</option>
+          <option value="clave">Clave</option>
+        </select>
+      </div>
+      <div>
+        <label>Columns:</label>
+        <select multiple [(ngModel)]="config.columns">
+          <option value="month">Month</option>
+        </select>
+      </div>
+      <div>
+        <label>Values:</label>
+        <select multiple [(ngModel)]="config.values">
+          <option value="inventario">Inventario</option>
+          <option value="disponibles">Disponibles</option>
+          <option value="value">Month Value</option>
+          <option value="fac">Facturación</option>
+        </select>
+      </div>
+      <button (click)="generatePivotTable()">Apply</button>
+    </div>
+  
+    <div class="pivot-table" *ngIf="pivotData.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th [attr.colspan]="config.rows.length" rowspan="2"></th>
+            <th [attr.colspan]="columnHeaders.length">{{config.columns.join(' / ') || 'Values'}}</th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columnHeaders">{{col}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rowHeaders; let i = index">
+            <td *ngFor="let rowPart of row.split('|')">{{rowPart}}</td>
+            <td *ngFor="let val of valueMatrix[i]">{{val !== null ? val : '-'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="month-details" *ngIf="data.length > 0">
+      <h3>Monthly Details</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Value</th>
+            <th>Facturación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let month of getMonthValues('')">
+            <td>{{month.month}}</td>
+            <td>{{month.value}}</td>
+            <td>{{month.fac}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

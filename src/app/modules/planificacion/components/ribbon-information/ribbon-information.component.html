@@ -7,15 +7,17 @@
         <main>
             <div class="data-container">
                 <span class="m-title">Categoria</span>
-                <span class="m-value">
+                <span class="m-value"
+                    [ngClass]="currentPlanData.categoria === 'Público' ? 'public-on' : 'private-on' ">
                     {{ formatedPlanData.categoria}}
                 </span>
             </div>
 
             <div class="data-container">
                 <span class="m-title">Estado</span>
-                <span class="m-value">
-                    {{ currentPlanData.categoria}}
+                <span class="m-value"
+                    [ngClass]="currentPlanData.estado === 'Activo' ? 'turn-on' : 'turn-off' ">
+                    {{ currentPlanData.estado}}
                 </span>
             </div>
 

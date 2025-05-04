@@ -27,16 +27,24 @@
 
     .title{
         @include a.mx-text-title-lg;
-        font-size: 40px;
+        line-height: 1.1;
+        font-weight: 720;
+        font-size: 16px;
         width: 100%;
+        font-weight: 700;
+        background-color: a.$primary-dark;
+        width: fit-content;
+        padding: .2rem .6rem;
+        border-radius: 8px;
+        color: white;
     }
 
     .sides{
-        background-color: rgb(212, 212, 212);
-        width: 100%;
-        display: flex;
-        padding: 1rem;
-        //border-radius: 16px;
+      background-color: white;
+      width: 100%;
+      display: flex;
+      padding: 1rem;
+      box-shadow: 0px 4px 6px #0000004a;
         
         .left{
             width: 30%;
@@ -47,17 +55,25 @@
             //background-color: yellow;
 
             .p-selects{
-              
-                //border-radius: 12px;
-                border: none;
-                width: fit-content;
-                //background-color: rgb(240, 240, 240);
-                padding: 0px;
-                margin: 0px;
-                outline: none;
-                color: #b91313;
-                font-size: 30px;
-                font-weight: 600;  
+              border: none;
+              width: fit-content;
+              padding: .3rem .2rem;
+              margin: 0px;
+              background-color: rgb(255 255 255);
+              outline: none;
+              border: 1px solid #e6e6d6;
+              color: #34488f;
+              margin-top: 10px;
+              font-size: 25px;
+              font-weight: 600;
+              transition: all 0.2s ease-in-out;
+              border-radius: 12px;
+
+              &:hover{
+                cursor: pointer;
+                background-color: #e6e6e6;
+
+              }
                 
                 .p-option{
                     font-size: 16px;
@@ -92,17 +108,18 @@
 
                     .i-select{
                       border: none;
-                      background-color: rgb(212, 212, 212);
+                      background-color: rgb(255 255 255);
                       font-size: 16px;
                       outline: none;
                       padding: 4px 6px;
+                      border: 2px solid #e6e6e6;
                       font-weight: 700;
                       transition: all 0.2s ease-in-out;
                       border-radius: 8px;
 
                       &:hover{
                         cursor: pointer;
-                        background: rgba(129, 128, 128, 0.449);
+                        background: #e6e6e6;
                       }
                       
                 }
@@ -119,14 +136,15 @@
             //background-color: rgb(255, 166, 0);
 
             .top{
-                width: 100%;
-                display: flex;
-                //background-color: yellow;
-                height: 30%;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              height: 30%;
+              align-items: center;
 
                 .menu-container{
                     width: 100%;
-                    height: 100%;
+                    height: 60%;
                     display: flex;
                     //background-color: rgb(245, 186, 78);
                     gap: 1.6rem;
@@ -150,17 +168,18 @@
 
                             &:hover{
                                 cursor: pointer;
-                                background-color: #42424249;
+                                background-color: #276ed1;
+                                color: white;
+
                             }
                         }
 
 
                         .selected{
-                            color: black;
-                            font-weight: 700;
-                            font-size: 18.5px;
-                            text-decoration: underline;
-                            transition: all 0.2s ease-in-out;
+                          /* text-decoration: underline; */
+                          transition: all 0.2s ease-in-out;
+                          background-color: #276ed1;
+                          color: white;
 
                         }
 
@@ -169,15 +188,42 @@
                       
                     }
                 }
+
+                .search-container{
+                  width: 40%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  position: relative;
+                  //background-color: rgb(181, 254, 160);
+
+                  .m-icon{
+                       /* background-color: red; */
+                    position: absolute;
+                    left: 4%;
+                    font-size: 14px;
+                  }
+
+                  .m-input{
+                    width: 100%;
+                    padding: 0.4rem 2rem;
+                    border-radius: 24px;
+                    outline: none;
+                    border: 2px solid #e6e6e6;
+
+                  }
+
+                }
             }
 
             .down{
-                width: 100%;
-                display: flex;
-                background-color: white;
-                height: 70%;
-                border-radius: 12px;
-                padding: 1rem;
+              width: 100%;
+              display: flex;
+              background-color: white;
+              height: 70%;
+              border: 2px solid #e6e6e6;
+              border-radius: 12px;
+              padding: 1rem;
 
                 app-ribbon-information{
                   width: 100%;

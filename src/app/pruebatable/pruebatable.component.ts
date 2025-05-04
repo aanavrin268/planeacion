@@ -100,13 +100,19 @@ export class PruebatableComponent implements OnInit {
 
     ];
 
-    this.isMainMenuOptSelected = false;
-    this.mainMenuIdSelected = 0;
+    //this.mainMenuIdSelected = 1;
+
+
+
+    this.isMainMenuOptSelected = true;
+    this.mainMenuIdSelected = 4;
     this.isDropdownHideOpen = false;
   }
 
 
   ngOnInit(): void {
+
+
     this.rxView_list = this.planDataService.views_array;
 
 
