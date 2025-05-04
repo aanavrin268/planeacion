@@ -67,74 +67,8 @@
                             <app-ribbon-information></app-ribbon-information>
                         }@else if(isMainMenuOptSelected && mainMenuIdSelected === 2){
 
-                            <!------
-                            
-                                     <div class="columnas-container">
-                                <div class="im-container">
-                                    <div class="im-header">
-                                        <span class="im-header-title">Visualización</span>
-
-                                    </div>
-                                    <div class="im-body">
-                                       
-
-                                       
-                                        <div class="custom-dropdown" [class.open]="isDropdownOpen">
-                                            <button class="dropdown-toggle" (click)="toggleDropdown()">
-                                              Visibles
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <div *ngFor="let column of (visibleColumns$ | async)" class="dropdown-item">
-                                                    <label>
-                                                      <input type="checkbox" 
-                                                             [checked]="column.visible" 
-                                                             (change)="toggleColumnVisibility(column)">  
-                                                             {{ column.header }}
-                                                            </label>
-                                                          </div>
-        
-        
-                                                    </div>
-                                                  </div>
-        
-                                                  <div class="custom-dropdown"
-                                                    [class.open]="isDropdownHideOpen">
-                                                    <button class="dropdown-toggle"
-                                                        (click)="toggleHideDropwon()">
-                                                        Ocultas
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <div *ngFor="let column of (hiddenColumns$ | async)" class="dropdown-item">
-                                                            <label>
-                                                              <input type="checkbox"
-                                                                     [checked]="!column.visible"
-                                                                     (change)="toggleColumnVisibility(column)">  
-                                                              {{ column.header }}
-                                                            </label>
-                                                          </div>
-                                                    </div>
-        
-                                                  </div>
-        
-        
-                                            </div>
-                                        </div>
-        
-                                        <div class="im-container">
-                                            <div class="im-header">
-                                                <span class="im-header-title">Grupos</span>
-        
-                                            </div>
-                                            <div class="im-body">
-                                                <button class="im-btn">Crear nuevo</button>
-                                                <button>Editar</button>
-        
-                                            </div>
-                                        </div>
-        
-                                    </div>
-        
-                            -->
+                    
+                                                      
 
                             <app-ribbon-columns></app-ribbon-columns>
                             

@@ -7,7 +7,50 @@
 
             <div class="data-container">
 
-            </div>
+             
+                                       
+
+                                       
+                    <div class="custom-dropdown" [class.open]="isDropdownOpen">
+                        <button class="dropdown-toggle" (click)="toggleDropdown()">
+                          Visibles
+                        </button>
+                        <div class="dropdown-menu">
+                            <div *ngFor="let column of (visibleColumns$ | async)" class="dropdown-item">
+                                <label>
+                                  <input type="checkbox" 
+                                         [checked]="column.visible" 
+                                         (change)="toggleColumnVisibility(column)">  
+                                         {{ column.header }}
+                                        </label>
+                                      </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="custom-dropdown"
+                                [class.open]="isDropdownHideOpen">
+                                <button class="dropdown-toggle"
+                                    (click)="toggleHideDropwon()">
+                                    Ocultas
+                                </button>
+                                <div class="dropdown-menu">
+                                    <div *ngFor="let column of (hiddenColumns$ | async)" class="dropdown-item">
+                                        <label>
+                                          <input type="checkbox"
+                                                 [checked]="!column.visible"
+                                                 (change)="toggleColumnVisibility(column)">  
+                                          {{ column.header }}
+                                        </label>
+                                      </div>
+                                </div>
+
+                    </div>
+
+
+                    </div>
+
 
         </main>
     </section>
