@@ -6,7 +6,8 @@
         <main>
 
             <div class="data-container">
-                <div class="btn-container">
+                <div class="btn-container"
+                    (click)="addNewHistoric()">
                     <i class="bi bi-plus-lg"></i>
                     <span>
                     Nuevo
@@ -14,7 +15,8 @@
                 </div> 
                 
                 
-                <div class="btn-container">
+                <div class="btn-container"
+                    (click)="overwriteHistoric()">
                     <i class="bi bi-copy"></i>                   
                      <span>
                     Sobrescribir

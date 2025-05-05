@@ -1,6 +1,17 @@
 import { gql } from '@apollo/client/core';
 
 
+export const GET_PLANS_BY_TYPO = gql`
+  query GetDetallesPlanType($tipo: Int!){
+    getDetallesPlanType(tipo: $tipo){
+      id_plan,
+      nombre,
+      tipo,
+      categoria
+    }
+  }
+`;
+
 export const GET_HISTORIC_COUNTS = gql`
   query GetCountPlans{
     getCountPlans{

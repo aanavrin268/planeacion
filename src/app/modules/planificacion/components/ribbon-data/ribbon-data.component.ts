@@ -5,6 +5,7 @@ import { PlanState } from '../../store/plan.state';
 import { PlanService } from '../../services/plan.service';
 import { PlanDetailss, PlanInput } from '../../models/plan.model';
 import { PlanDataService } from '../../services/plan-data.service';
+import { OverwriteHistoricModalComponent } from '../overwrite-historic-modal/overwrite-historic-modal.component';
 
 @Component({
   selector: 'app-ribbon-data',
@@ -26,6 +27,18 @@ export class RibbonDataComponent implements OnInit {
   ngOnInit(): void {
 
 
+  }
+
+  overwriteHistoric(){
+
+
+    const modalRef = this.modal.open(OverwriteHistoricModalComponent, {
+      centered:true,
+      size:'md',
+      windowClass: 'redondo'
+    });
+
+    //modalRef.componentInstance.bundle = finalBundle;
   }
 
  
@@ -60,11 +73,11 @@ export class RibbonDataComponent implements OnInit {
   addNewHistoric(){
 
     const bundleData: PlanInput = {
-      nombre: 'test_desde_angular',
-      tipo: 1,
+      nombre: '',
+      tipo: 2,
       categoria: 1,
       estado: 1,
-      descripcion: 'descripcion_test_angular'
+      descripcion: ''
 
     };
 
@@ -118,44 +131,35 @@ export class RibbonDataComponent implements OnInit {
 
     ];
 
-    this.planService.createPlanDetailsGql(bundleDataInfo).subscribe(
-      {
-        next:(response) => {
-          console.warn("ATTEPMT INSERT PLAN DETAILES", response);
-        }
-      }
-    )
+    const finalBundle = {
+      planData: bundleData,
+      planDetails: bundleDataInfo
 
-
-
-
-
-
-
-
+    };
 
     /*
+   
+
+    */
+
+    
     const modalRef = this.modal.open(NewHistoricModalComponent, {
       centered:true,
       size:'md',
       windowClass: 'redondo'
     });
-    */
+
+    modalRef.componentInstance.bundle = finalBundle;
+    
 
 
-    /*
-    this.planService.createPlanGql(bundleData).subscribe(
-      {
-        next:(data) => {
-          console.log("attempt to inset", data);
-        }
-      }
-    );
-
-    */
+   
 
 
 
   }
+
+
+
 
 }

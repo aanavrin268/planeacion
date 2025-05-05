@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalMultiEditssComponent } from '../../../../shared/modals/modal-multi-editss/modal-multi-editss.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-table',
@@ -25,13 +26,18 @@ export class EditTableComponent {
 
   visibleColumnss$: Observable<Column[]> | undefined;
 
+  
+
   protected allSelected: boolean;
   protected isSingleRowSelected: boolean;
+  protected showAbsolute: boolean;
 
 
   protected infotText: string;
   protected currentRowKey: string;
+  protected absInputValue: string;
 
+  protected allCurrentColumns: any[] =[];
 
 
     groups: Group[] = [
@@ -57,13 +63,17 @@ export class EditTableComponent {
   
 
 
-  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService, private modal: NgbModal){
+  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService, private modal: NgbModal,
+    
+  ){
     this.allSelected = false;
     this.isSingleRowSelected = false;
+    this.showAbsolute = false;
 
 
     this.infotText = '';
     this.currentRowKey = '';
+    this.absInputValue = "";
   }
 
   
@@ -88,16 +98,107 @@ export class EditTableComponent {
       map(columns => columns.filter(col => col.visible))
     );
 
+    
+    this.dataPlanService.currentColumns$.subscribe(
+      {
+        next: (data) => {
+          this.allCurrentColumns = data;
+        }
+      }
+    );
+
+
+
+    this.statePlan.swtichAbsolute.subscribe(
+      {
+        next: (data) => {
+          this.showAbsolute = data;
+
+          if(this.showAbsolute === true){
+           
+            console.warn("COLUMNAS ACTUALES DESDE ABS: ", this.allCurrentColumns);
+
+
+            //console.warn("LA EDTIBALE COLUMN LIST: ", editableColumns);
+
+            //let editableColumnsKeys = editableColumns.map((cols: {key: any}) => cols.key);
+
+
+            //comprobar la fecha ahora
+            const current_date = new Date;
+            const current_month = current_date.getMonth();
+            const adjust_month = current_month + 1;
+
+            console.warn("CURRENT MONTH", adjust_month);
+
+            const excludedMoths = ['enero', 'febrero', 'marzo'];
+
+            let editableColumns = this.allCurrentColumns.map(columns => {
+              if(adjust_month >= 4 && excludedMoths.includes(columns.key)){
+                return {
+                  ...columns,
+                  editable: false
+                };
+              }
+              return columns;
+
+            });
+
+
+            let filteredEditableColumns = editableColumns.filter(columns => columns.editable);
+
+            console.warn("COLUMNAS EDITABLES ACTUALIZADAS:", filteredEditableColumns);
+
+            if(filteredEditableColumns.length < 1){
+              
+              this.showAbsolute = !this.showAbsolute;
+              this.statePlan.changeAbsoluteSwitchValue(this.showAbsolute); 
+              Swal.fire('Error', 'No hay columnas disponibles a editar', 'error')
+                .then((result) => {
+                  this.isSingleRowSelected = false;
+                  this.currentRowKey = '';
+                  
+                  this.cdr.detectChanges();
+                });
+
+            }else {
+              this.statePlan.absInputValue$.subscribe(
+                {
+                  next:(response) =>{
+                    let dummyData = {
+                      nombre: 'Busulfan',
+                      value: Number(response)
+                    }
+  
+                    console.log("el abs input recibido es: ", response);
+                    this.dataPlanService.updateCurrentPlan(dummyData, filteredEditableColumns);
+  
+                  }
+                }
+              );
+            }
+            }
+
+
+
+
+          
+        }
+      }
+    );
+
 
 
   }
 
-  resetSingleRow(row:any){
+  resetSingleRow(){
     this.isSingleRowSelected = false;
     this.currentRowKey = '';
   }
 
   onSingleRowSelected(row:any){
+    this.showAbsolute = !this.showAbsolute;
+    this.statePlan.changeAbsoluteSwitchValue(this.showAbsolute);
     this.isSingleRowSelected = true;
     this.currentRowKey = row.nombre;
 
@@ -170,7 +271,6 @@ isEditableColumn(columnKey: string): boolean {
 }
 
 
-// Modifica el método startEditing
 startEditing(rowIndex: number, columnKey: string) {
   this.editing = {
     active: true,
@@ -178,22 +278,19 @@ startEditing(rowIndex: number, columnKey: string) {
     columnKey
   };
   
-  // Forzar la detección de cambios y luego enfocar
   this.cdr.detectChanges();
   setTimeout(() => {
     if (this.cellInput) {
       this.cellInput.nativeElement.focus();
-      this.cellInput.nativeElement.select(); // Selecciona todo el texto
+      this.cellInput.nativeElement.select(); 
     }
   });
 }
 
-// Método para detener la edición
 stopEditing() {
   this.editing.active = false;
 }
 
-// Método para guardar los cambios
 saveEditing(event: any, row: InfoPivote, columnKey: string) {
   row[columnKey] = event.target.value;
   this.stopEditing();
@@ -230,13 +327,11 @@ saveEditing(event: any, row: InfoPivote, columnKey: string) {
 
 
 
-  // Obtiene el colspan para una columna de grupo
   getGroupColspan(columnKey: string): number {
     const group = this.groups.find(g => g.startColumn === columnKey);
     return group ? group.colspan : 1;
   }
 
-  // Obtiene el grupo para una columna
   getGroupForColumn(columnKey: string): Group | undefined {
     return this.groups.find(g => g.startColumn === columnKey);
   }

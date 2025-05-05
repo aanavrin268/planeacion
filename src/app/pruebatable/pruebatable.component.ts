@@ -38,6 +38,10 @@ export class PruebatableComponent implements OnInit {
   protected mainMenuIdSelected: number;
   protected isDropdownHideOpen: boolean;
   protected editMode: boolean;
+  protected showAbsolute: boolean;
+
+  protected absInput: string;
+
 
   protected columns$: Observable<Column[]> = new Observable<Column[]>();
 
@@ -107,6 +111,10 @@ export class PruebatableComponent implements OnInit {
     this.isMainMenuOptSelected = true;
     this.mainMenuIdSelected = 4;
     this.isDropdownHideOpen = false;
+    this.showAbsolute = false;
+
+    this.absInput = "";
+
   }
 
 
@@ -145,11 +153,21 @@ export class PruebatableComponent implements OnInit {
 
     }
 
+    this.planState.swtichAbsolute.subscribe(
+      {
+        next:(data) => {
+          this.showAbsolute = data;
+          console.log("desde MAIN MENU ABSOLUTE SWTICH: ", this.showAbsolute);
+        } 
+      }
+    );
+
     this.planState.isEditing$.subscribe(
       {
         next:(data) => {
           this.editMode = data;
           console.log("desde MAIN MENU EDIT MODE:", this.editMode);
+
         }
       }
     );
@@ -174,6 +192,16 @@ export class PruebatableComponent implements OnInit {
 
 
     
+  }
+
+  sendInputAbs(){
+    if(this.showAbsolute === true){
+      console.log("el input es: ", this.absInput);
+      this.planState.setAbsInputValue(this.absInput);
+
+   }
+
+
   }
 
   onViewChange(event: Event){

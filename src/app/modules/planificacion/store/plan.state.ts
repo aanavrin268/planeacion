@@ -13,11 +13,15 @@ export class PlanState {
     private _loading = new BehaviorSubject<boolean>(false);
     private _error = new BehaviorSubject<string | null> (null);
     private _isEditing = new BehaviorSubject<boolean>(false);
+    private _switchAbsolute = new BehaviorSubject<boolean>(false);
+    private _absInputValue = new BehaviorSubject<string>("");
 
     public plans$: Observable<PlanAllDetails[]> = this._plans.asObservable();
     public loading$: Observable<boolean> = this._loading.asObservable();
     public error$: Observable<string | null > = this._error.asObservable();
     public isEditing$: Observable<boolean> = this._isEditing.asObservable();
+    public swtichAbsolute: Observable<boolean> = this._switchAbsolute.asObservable();
+    public absInputValue$: Observable<string> = this._absInputValue.asObservable();
 
     
   protected dummy_list: PlanAllDetails[] = [{
@@ -27,7 +31,7 @@ export class PlanState {
     info: [
       {
         nombre: 'Busulfan', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
-        marzo: "100", fac_marzo: "3000", clave: '', disponibles: 0, abril: "100", fac_abril: '1000', mayo: '100',
+        marzo: "100", fac_marzo: "3000", clave: '100BUSU', disponibles: 0, abril: "100", fac_abril: '1000', mayo: '100',
         fac_mayo: '0',
         junio: '1000',
         fac_junio: '0',
@@ -47,7 +51,7 @@ export class PlanState {
       {
         nombre: 'Azatioprina', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
         marzo: "100", fac_marzo: "3000",
-        clave: '',
+        clave: '100AZA',
         disponibles: 0,
         abril: '',
         fac_abril: '',
@@ -71,7 +75,7 @@ export class PlanState {
       {
         nombre: 'Tacrolumus', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
         marzo: "100", fac_marzo: "3000",
-        clave: '',
+        clave: '100TAC',
         disponibles: 0,
         abril: '',
         fac_abril: '',
@@ -95,7 +99,7 @@ export class PlanState {
       {
         nombre: 'Misoprostol', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
         marzo: "100", fac_marzo: "3000",
-        clave: '',
+        clave: '100MIS',
         disponibles: 0,
         abril: '',
         fac_abril: '',
@@ -119,7 +123,7 @@ export class PlanState {
       {
         nombre: 'Acido ascorbico', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
         marzo: "100", fac_marzo: "3000",
-        clave: '',
+        clave: '100ACI',
         disponibles: 0,
         abril: '',
         fac_abril: '',
@@ -200,6 +204,15 @@ this._loading.next(false);
 
 return this._plans.asObservable();
     
+  }
+
+  setAbsInputValue(input: string){
+    this._absInputValue.next(input);
+  }
+
+  changeAbsoluteSwitchValue(value: boolean){
+    this._switchAbsolute.next(value);
+    console.log("new abs swtich value: ", this._switchAbsolute.getValue());
   }
 
   changeEditValue(value: boolean){

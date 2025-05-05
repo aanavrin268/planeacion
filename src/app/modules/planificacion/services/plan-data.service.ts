@@ -19,6 +19,7 @@ export class PlanDataService {
     descripcion: '',
     updatedAt: '',
     info: [{
+      nombre: '',
       clave: '',
       disponibles: 0,
       enero: 0,
@@ -111,18 +112,67 @@ export class PlanDataService {
 
   } 
 
-  private generateColumns(sampleData: any){
+
+  updateCurrentPlan(updatedValue: { nombre: string; value: number }, editableColumns: any) {
+    const currentValue = this.currentPlan.getValue();
+
+    const editibleColumnsKeys = editableColumns.map((cols: { key: any; }) => cols.key);
+
+    console.log("EDITABLE KEYS ARRAY: ", editibleColumnsKeys);
+
+    const updatedPlan = {
+      ...currentValue,
+      info: currentValue.info.map(item => {
+        if(item.nombre === updatedValue.nombre){
+          const updatedItem = {...item};
+
+          editibleColumnsKeys.forEach((key: PropertyKey) => {
+            if(updatedItem.hasOwnProperty(key)){
+              updatedItem[key as string] = key === 'enero'
+              ? updatedValue.value
+              : updatedValue.value.toString();
+            }
+          });
+
+          return updatedItem;
+        }
+
+        return item;
+      })
+    };
+    
     /*
-    const excludedKeys = ['clave', 'septiembre', 'octubre', 'noviembre', 
-      'diciembre', 'proveedor', 'fac_septiembre',
-      'fac_octubre', 'fac_noviembre', 'fac_diciembre', '__typename'
+    const updatedPlan = {
+      ...currentValue,
+      info: currentValue.info.map(item => {
+        if (item.nombre === updatedValue.nombre) { 
+          return {
+            ...item,
+            enero: updatedValue.value,
+            febrero: updatedValue.value.toString(),
+            marzo: updatedValue.value.toString()
+          };
+        }
+        return item;
+      })
+    };
+    */
+  
+    this.currentPlan.next(updatedPlan);
+  }
+
+
+private isEditableColumn(columnKey: string): boolean {
+  const editableColumns = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre',
+    'noviembre', 'diciembre'
   ];
+  return editableColumns.includes(columnKey);
+}
 
-  */
 
+private generateColumns(sampleData: any) {
   const actualView = this.currentView.getValue();
-
-  const excludedKeys =  actualView.excludedKeys;
+  const excludedKeys = actualView.excludedKeys;
 
   const specialHeaders: { [key: string]: string} = {
     'nombre': 'Nombre',
@@ -144,7 +194,7 @@ export class PlanDataService {
     'fac_febrero': 'Fac. Febrero',
     'fac_marzo': 'Fac. Marzo',
     'fac_abril': 'Fac. Abril'
-  }  
+  };  
 
   const columns = Object.keys(sampleData)
     .filter(key => !excludedKeys.includes(key))
@@ -152,42 +202,31 @@ export class PlanDataService {
       key: key,
       header: specialHeaders[key] || this.formatHeader(key),
       width: this.calculateWidth(key),
-      visible:true
+      visible: true,
+      editable: this.isEditableColumn(key) 
     }));
 
-    let finalColumns = [...columns];
+  let finalColumns = [...columns];
 
-    if(this.showActionColumn.value){
-      finalColumns = [
-        {
-          key: 'acciones',
-          header: 'Acciones',
-          visible: true,
-          width: 100
-        },
-        ...finalColumns
-
-      ];
-    }
-
-    this.currentColumns.next(finalColumns);
-
-    /*
-    this.currentColumns.next([
-      { 
-        key: 'acciones', 
-        header: 'Acciones', 
+  if(this.showActionColumn.value) {
+    finalColumns = [
+      {
+        key: 'acciones',
+        header: 'Acciones',
         visible: true,
-        width: 100 
+        width: 100,
+        editable: false 
       },
-      ...columns
-    ]);
-
-    */
-
-    //this.currentColumns.next(columns);
-
+      ...finalColumns
+    ];
   }
+
+  this.currentColumns.next(finalColumns);
+}
+
+
+
+
 
   private calculateWidth(key: string): number {
     if(key === 'nombre') return 200;

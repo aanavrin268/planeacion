@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
-import { Count, PlanAllDetails, PlanDetail, PlanDetailsInput, PlanDetailss, PlanInput, PlanJust } from '../models/plan.model';
-import { GET_DETALLES_PLAN, GET_DETALLES_PLAN_ID, GET_HISTORIC_COUNTS, GET_PLANS_BY_CATEGORY } from '../data/graphql/queries';
+import { Count, PlanAllDetails, PlanDetail, PlanDetailsInput, PlanDetailss, PlanInput, PlanJust, PlanType } from '../models/plan.model';
+import { GET_DETALLES_PLAN, GET_DETALLES_PLAN_ID, GET_HISTORIC_COUNTS, GET_PLANS_BY_CATEGORY, GET_PLANS_BY_TYPO } from '../data/graphql/queries';
 import { CREATE_PLAN, CREATE_PLAN_DETAILS } from '../data/graphql';
 
 @Injectable({
@@ -29,6 +29,7 @@ export class PlanService {
     );
   }
 
+  
 
   createPlanDetailsGql(plan_details: PlanDetailsInput[]): Observable<PlanDetailss>{
     return this.apollo.mutate<{ createPlanDetails: PlanDetailss}>({
@@ -53,6 +54,19 @@ export class PlanService {
     }).pipe(
       map(result => result.data!.createPlan)
     );
+  }
+
+  getPlansByTypoGql(tipo: number): Observable<PlanType[]>{
+    return this.apollo.watchQuery<{getDetallesPlanType: PlanType[]}>({
+      query: GET_PLANS_BY_TYPO,
+      variables: {
+        tipo: tipo
+      },
+      fetchPolicy: 'network-only'
+    }).valueChanges.pipe(
+      map((result) => result.data.getDetallesPlanType),
+      shareReplay(1)
+    )
   }
 
   getJustPlanesByTypeGql(categoria: number): Observable<PlanJust[]>{

@@ -1,0 +1,18 @@
+<div class="main-modal">
+    <header>
+        <span class="title">Sobrescribir archivo</span>
+    </header>
+    <main>
+        <span class="m-text">Selecciona un archivo ya generado para actualizar los datos.</span>
+
+        <div class="list-container">
+            <div class="item-plan" *ngFor="let item of list_plan">
+                
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button class="btn btn-light" (click)="onCancel()">Cancelar</button>
+        <button class="btn btn-success" (click)="onSave()">Aceptar</button>
+    </footer>
+</div>

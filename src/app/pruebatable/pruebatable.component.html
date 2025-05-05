@@ -102,13 +102,15 @@
       
       </div>
 
-      <div class="sub-menu-content">
+      <div class="sub-menu-content" *ngIf="showAbsolute">
         <span>Llenado absoluto</span>
-        <input type="number" class="form-control">
+        <input type="number" class="form-control" 
+            [(ngModel)]="absInput">
         <div class="sm-container">
-            <i class="bi bi-check-lg"></i>
-            <i class="bi bi-x-lg"></i>
-        </div>
+            <i class="bi bi-check-lg sm-icon"
+                (click)="sendInputAbs()"></i>
+                <i class="bi bi-arrow-counterclockwise sm-icon blues"></i>       
+         </div>
       </div>
 
 

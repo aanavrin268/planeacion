@@ -11,6 +11,7 @@ export interface Column {
     header: string;
     width: number;
     visible: boolean;
+    editable: boolean;
   }
   
 export   interface RowData {
@@ -35,6 +36,13 @@ export  interface Group {
   
   */
 
+export interface  PlanType{
+            id_plan: number;
+            nombre: string;
+            tipo: number;
+            categoria: number;
+        }
+
           
 export interface Count {
       public: number;
@@ -44,7 +52,8 @@ export interface Count {
 
 
 export interface InfoPivote {
-    [key: string]: number | string | boolean | null | undefined; 
+    [key: string]: number | string | boolean | null | undefined;
+    nombre: string; 
     selected?: boolean | undefined;
     clave: string;
     disponibles: number;

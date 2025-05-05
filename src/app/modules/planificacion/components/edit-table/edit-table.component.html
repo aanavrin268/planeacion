@@ -11,7 +11,6 @@
 
     <table class="excel-grid">
         <thead>
-          <!-- Fila de grupos (sin cambios) -->
           <tr *ngIf="groups.length > 0">
             <ng-container *ngFor="let col of (visibleColumnss$ | async); let i = index">
               <td *ngIf="isGroupStartColumn(col.key)"
@@ -23,7 +22,6 @@
               <td *ngIf="!isGroupStartColumn(col.key)"></td>
             </ng-container>
           </tr>
-          <!-- Fila de encabezados (sin cambios) -->
           <tr>
             <th *ngFor="let col of (visibleColumnss$ | async); trackBy: trackByColumnKey"
                 [style.width.px]="col.width"
@@ -78,7 +76,7 @@
 
                     <i *ngIf="isSingleRowSelected && currentRowKey === row['nombre']" 
                     class="bi bi-x-square-fill a-icon red"
-                    (click)="resetSingleRow(row)"></i>
+                    (click)="resetSingleRow()"></i>
 
                   </div>
 
