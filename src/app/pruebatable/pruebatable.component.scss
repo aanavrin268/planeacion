@@ -293,6 +293,33 @@
 
 
   }
+
+  .sub-menu-content{
+    width: 38%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(255, 254, 255);
+    padding: 1rem;
+    border: 2px solid #e6e6e6;
+    /* border-top-left-radius: 16px; */
+    align-self: flex-end;
+    border-bottom-left-radius: 16px;
+    margin-bottom: 0.4rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.368627451);
+
+    .form-control{
+      width: 40%;
+    }
+
+    .sm-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .6rem;
+    }
+  }
   
   .table-container {
     width: 100%;
