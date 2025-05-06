@@ -1,0 +1,43 @@
+<div class="main-page">
+    <!-- Eliminamos *ngIf para que el menú permanezca en el DOM -->
+    <div class="menu-left" #leftMenu>
+      <div class="top">
+        <i class="bi bi-arrows-angle-contract ml-icon" (click)="minimize()"></i>
+        <div class="h-container">
+          <span>Tipo de plan</span>
+          <select name="" id="" class="form-select">
+            <option value="" disabled selected>Selecciona uno</option>
+            <option value=""></option>
+          </select>
+        </div>
+        <div class="h-container">
+          <span>Plan</span>
+          <select name="" id="" class="form-select">
+            <option value="" disabled selected>Selecciona uno</option>
+            <option value=""></option>
+          </select>
+        </div>
+      </div>
+      <div class="down">
+        <div class="h-container">
+          <span>Proveedores</span>
+          <select name="" id="" class="form-select">
+            <option value="" disabled selected>Selecciona uno</option>
+            <option value=""></option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+    <div class="main-menu">
+      <i
+        class="bi bi-menu-up main-icon"
+        *ngIf="!showLeftMenu"
+        (click)="minimize()"
+      ></i>
+    </div>
+  
+    <section class="arribos"></section>
+    <section class="planeacion"></section>
+    <section class="desplazamiento"></section>
+  </div>

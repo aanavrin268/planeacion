@@ -15,6 +15,7 @@ import { TestttComponent } from './testtt/testtt.component';
 import { FullTableViewComponent } from './modules/home/components/full-table-view/full-table-view.component';
 import { PruebatableComponent } from './pruebatable/pruebatable.component';
 import { TestPivotssComponent } from './test-pivotss/test-pivotss.component';
+import { TiempoComponent } from './modules/planificacion/pages/tiempo/tiempo.component';
 
 
 
@@ -26,6 +27,8 @@ export const routes: Routes = [
 {path: 'inventariosTiempo', component: InventariosTiempoComponent},
 {path: 'modo-pivote', component: ModoPivoteComponent},
 {path: 'full-view', component: FullTableViewComponent},
+{path: 'time', component: TiempoComponent},
+
 
 {path: 'multi-comparativa', component: MultiComparativaComponent},
 {path: 'main-comparativa', component: MainComparativaComponent},
@@ -49,7 +52,7 @@ export const routes: Routes = [
 
 
 
-{path: '', component: PruebatableComponent, pathMatch: 'full'}
+{path: '', component: TiempoComponent, pathMatch: 'full'}
 
 
 

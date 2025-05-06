@@ -1,0 +1,89 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  
+    .menu-left {
+      width: 20vw;
+      position: absolute;
+      top: 1%;
+      left: 1%;
+      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      will-change: transform;
+      pointer-events: auto; // Aseguramos que el menú sea interactivo
+  
+      .top {
+        background-color: rgb(255, 255, 255);
+        border-radius: 12px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.426);
+        display: flex;
+        padding: 1rem;
+        flex-direction: column;
+  
+        .ml-icon {
+          cursor: pointer;
+          background-color: rgba(0, 0, 0, 0.327);
+        }
+      }
+  
+      .down {
+        width: 100%;
+        height: 200px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 12px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.426);
+        display: flex;
+        padding: 1rem;
+        flex-direction: column;
+      }
+    }
+  
+    .main-menu {
+      width: 100%;
+      height: 10%;
+      background-color: white;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.397);
+      z-index: 1;
+  
+      .main-icon {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(70, 70, 70, 0.295);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 20px;
+  
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  
+    section {
+      width: 100%;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      border-radius: 16px;
+    }
+  
+    .arribos {
+      background-color: rgb(243, 130, 130);
+    }
+  
+    .planeacion {
+      background-color: rgb(130, 243, 228);
+    }
+  
+    .desplazamiento {
+      background-color: rgb(138, 243, 130);
+    }
+  }
