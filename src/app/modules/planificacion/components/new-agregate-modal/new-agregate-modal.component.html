@@ -1,0 +1,50 @@
+<div class="main-modal">
+    <header>
+        <span class="title">Funciones agregadas</span>
+    </header>
+    <main>
+        <span class="sub">Selecciona el tipo de función que deseas usar y, a continuacion, las columnas.</span>
+
+        <div class="functions-container">
+            <div class="function" *ngFor="let item of list_functions">
+                <i class="{{ item.icon }}"></i>
+                <span class="f-text">
+                    {{ item.title }}
+                </span>
+            </div>
+        </div>
+
+        <div class="work-container">
+            <div class="left">
+                <span class="ss-title">
+                    Columnas
+                </span>
+
+                <select name="" id="" class="form-select">
+                    <option value="" disabled selected>
+                        Selecciona varias
+                    </option>
+                    <option value="">
+
+                    </option>
+                </select>
+
+                <span class="ss-title">Columnas seleccionadas:</span>
+                
+                <div class="selected-container">
+                    <div class="selected-item">
+                        
+                    </div>
+                </div>
+
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button class="btn btn-light" (click)="close()">Cancelar</button>
+        <button class="btn btn-primary" (click)="onSave()">Aceptar</button>
+    </footer>
+</div>

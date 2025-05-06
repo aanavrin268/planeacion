@@ -1,0 +1,220 @@
+@use '../../../../../styles/_abstracts/index' as a;
+
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell{
+    background-color: rgb(97 97 97 / 19%);
+}
+
+.main-modal{
+    @include a.mx-modal-md;
+    padding: 0px;
+    position: relative;
+
+    header{
+        @include a.mx-header-basic;
+        width: 60%;
+        /* align-self: flex-end; */
+        height: 10%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        position: absolute;
+        padding-left: 1rem;
+        z-index: 1;
+        right: 0%;
+        //background: #ffffff30;
+        /* padding-top: 1rem; */
+        gap: 1rem;
+
+        .close{
+            width: 30px;
+            height: 30px;
+            color: white;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            position: absolute;
+            top: 2.6%;
+            right: 1.4%;
+            font-size: 19px;
+            @include a.mx-hover-basic;
+        }
+
+        .menu{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-start;
+            align-items: center;
+
+            .m-item{
+                color: white;
+                font-size: 18px;
+                font-weight: bold;
+                padding: .3rem .6rem;
+                border-radius: 9px;
+                transition: all 0.2s ease-in-out;
+
+                &:hover{
+                    cursor: pointer;
+                    background-color: #ffffff33;
+
+                }
+            }
+
+        }
+
+    }
+
+    main{
+        @include a.mx-body-basic;
+        height: 100%;
+        flex-direction: row;
+        //background-color: rgb(201, 69, 69)
+
+        .left{
+            width: 40%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgb(235, 233, 153);
+
+            .image-container{
+                width: 120%;
+                height: 80%;
+                display: flex;
+                padding: 1rem;
+                justify-content: center;
+                align-items: center;
+                z-index: 10;
+
+                .m-img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: drop-shadow(0px 4px 6px black);
+                }
+
+            }
+
+        }
+
+        .right{
+            width: 60%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: a.$primary-dark;
+            position: relative;
+
+            .title-container{
+                display: flex;
+                //background-color: rgba(255, 255, 255, 0.37);
+                position: absolute;
+                top: 18%;
+                gap: 0.5rem;
+                left: 9%;
+                justify-content: center;
+                align-items: center;
+
+
+                .title{
+                    color: white;
+                    font-size: 55px;
+                    font-weight: lighter;
+
+                }
+
+                .badge{
+                    color: white;
+                    background-color: a.$primary-light;
+                }
+            }
+
+            .indicator-container{
+                background-color: rgba(122, 131, 212, 0.404);
+                width: 100%;
+                position: absolute;
+                top: 43%;
+                display: flex;
+                gap: 1rem;
+                padding: .6rem 1rem;
+
+                .indicator{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    border-right: 2px solid #c2d4e75c;
+                    gap: 0.3rem;
+                    align-items: center;
+
+                    .i-icon{
+                        background-color: #53c5d170;
+                        color: #ffffffc9;
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        font-size: 23px;                    }
+
+                    .i-title{
+    /* background-color: red; */
+    color: #ffffffc4;
+    font-weight: 700;
+    font-size: 20px;                    }
+
+                    .i-sub-title{
+    /* background-color: yellow; */
+    width: 90%;
+    line-height: 1.1;
+    color: white;
+    text-align: center;                    }
+                }
+
+                .end{
+                    border-right: none;
+                }
+            }
+
+            .costos-container{
+                width: 90%;
+                height: 82%;
+                margin-top: 4%;
+                background-color: #ffffff30;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+                border-radius: 18px;
+
+                .sub{
+                    margin-bottom: 1.5rem;
+                    color: white;
+                    font-weight: lighter;
+                    font-size: 22px;
+                }
+            }
+
+        }
+
+
+    }
+}
+
+/*
+{
+    origen: 550,
+    divisa: USD,
+    MXN: 11049.5,
+    importacion: 31.9
+    logistica: 23.6
+    total:13664.06
+}
+*/

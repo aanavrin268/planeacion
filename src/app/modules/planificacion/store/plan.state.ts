@@ -46,7 +46,11 @@ export class PlanState {
         noviembre: '',
         fac_noviembre: '',
         diciembre: '',
-        fac_diciembre: ''
+        fac_diciembre: '',
+        cos_origin: 550,
+        divisa: 'MXN',
+        cos_importacion: 23,
+        cos_logistica: 43
       },
       {
         nombre: 'Azatioprina', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
@@ -70,7 +74,11 @@ export class PlanState {
         noviembre: '',
         fac_noviembre: '',
         diciembre: '',
-        fac_diciembre: ''
+        fac_diciembre: '',
+        cos_origin: 550,
+        divisa: 'MXN',
+        cos_importacion: 23,
+        cos_logistica: 43
       },
       {
         nombre: 'Tacrolumus', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
@@ -94,7 +102,11 @@ export class PlanState {
         noviembre: '',
         fac_noviembre: '',
         diciembre: '',
-        fac_diciembre: ''
+        fac_diciembre: '',
+        cos_origin: 550,
+        divisa: 'MXN',
+        cos_importacion: 23,
+        cos_logistica: 43
       },
       {
         nombre: 'Misoprostol', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
@@ -118,7 +130,11 @@ export class PlanState {
         noviembre: '',
         fac_noviembre: '',
         diciembre: '',
-        fac_diciembre: ''
+        fac_diciembre: '',
+        cos_origin: 550,
+        divisa: 'MXN',
+        cos_importacion: 23,
+        cos_logistica: 43
       },
       {
         nombre: 'Acido ascorbico', inventario: 3000, enero: 100, fac_enero: 1000, febrero: "200", fac_febrero: "1000",
@@ -142,7 +158,11 @@ export class PlanState {
         noviembre: '',
         fac_noviembre: '',
         diciembre: '',
-        fac_diciembre: ''
+        fac_diciembre: '',
+        cos_origin: 550,
+        divisa: 'MXN',
+        cos_importacion: 23,
+        cos_logistica: 43
       },
       
     ],

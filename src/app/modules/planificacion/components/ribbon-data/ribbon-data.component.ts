@@ -6,6 +6,7 @@ import { PlanService } from '../../services/plan.service';
 import { PlanDetailss, PlanInput } from '../../models/plan.model';
 import { PlanDataService } from '../../services/plan-data.service';
 import { OverwriteHistoricModalComponent } from '../overwrite-historic-modal/overwrite-historic-modal.component';
+import { NewAgregateModalComponent } from '../new-agregate-modal/new-agregate-modal.component';
 
 @Component({
   selector: 'app-ribbon-data',
@@ -27,6 +28,14 @@ export class RibbonDataComponent implements OnInit {
   ngOnInit(): void {
 
 
+  }
+
+  addNewAgregate(){
+    const modalRef = this.modal.open(NewAgregateModalComponent, {
+      centered: true,
+      size:'xl',
+      windowClass: 'redondo'
+    });
   }
 
   overwriteHistoric(){

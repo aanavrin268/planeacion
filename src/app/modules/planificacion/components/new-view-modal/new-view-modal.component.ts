@@ -134,7 +134,23 @@ export class NewViewModalComponent implements OnInit {
         {
           value: 'fac_diciembre', selected: false,
           id: 26
-        }
+        },
+        {
+          value: 'cos_origin', selected: false,
+          id: 27
+        },
+        {
+          value: 'cos_importacion', selected: false,
+          id: 28
+        },
+        {
+          value: 'cos_logistica', selected: false,
+          id: 29
+        },
+        {
+          value: 'divisa', selected: false,
+          id: 30
+        },
       ];
 
 

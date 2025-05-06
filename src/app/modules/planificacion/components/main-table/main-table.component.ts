@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { PlanState } from '../../store/plan.state';
 import { PlanDataService } from '../../services/plan-data.service';
 import { map, Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ViewItemModalComponent } from '../view-item-modal/view-item-modal.component';
 
 @Component({
   selector: 'app-main-table',
@@ -46,7 +48,9 @@ export class MainTableComponent implements OnInit, AfterViewInit {
   
 
 
-  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService){
+  constructor(private cdr: ChangeDetectorRef, private statePlan: PlanState, private dataPlanService: PlanDataService,
+      private modal: NgbModal
+  ){
 
 
 
@@ -78,8 +82,26 @@ export class MainTableComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  viewItem(row:any){
+    console.log("es row: ", row);
+
+    const modalRef = this.modal.open(ViewItemModalComponent, {
+      centered: true,
+      size:'xl',
+      windowClass:'custom-modal-width-medium',
+    });
+
+    modalRef.componentInstance.bundle = row;
+
+  }
+
   isFacColumn(columnKey: string): boolean{
     return columnKey.startsWith('fac_');
+  }
+
+  isCostColumn(columnKey: string): boolean{
+    return columnKey.startsWith('cos_');
   }
 
 

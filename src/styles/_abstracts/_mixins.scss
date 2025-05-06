@@ -1,6 +1,20 @@
 @use './variables' as v;
 
 
+
+/*
+
+        MIXINS DE HOVERS
+*/
+
+@mixin mx-hover-basic{
+    &:hover{
+        cursor: pointer;
+        background-color: #2626264b;
+    }
+}
+
+
 /*
         MIXINS DE RIBBONS
 

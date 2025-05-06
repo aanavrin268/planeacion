@@ -17,7 +17,8 @@
           <tr>
             <th *ngFor="let col of (visibleColumnss$ | async); trackBy: trackByColumnKey"
                 [style.width.px]="col.width"
-                [style.background-color]="isFacColumn(col.key) ? '#007bff' : headerColor"
+                [style.background-color]="isFacColumn(col.key)  ? '#007bff' : 
+                  (isCostColumn(col.key) ? 'rgb(35 139 77)' : headerColor)"
                 [style.font-size]="getFontSize(col.width)"
                 class="resizable"
                 [attr.data-key]="col.key">
@@ -30,9 +31,22 @@
             <td *ngFor="let col of (visibleColumnss$ | async)"
                 class="celda"
                 [style.width.px]="col.width"
-                [style.background-color]="isFacColumn(col.key) ? 'rgb(92 169 252)' : headerColor"
+                [style.background-color]="isFacColumn(col.key) ? 'rgb(92 169 252)' : 
+                  (isCostColumn(col.key) ? 'rgb(91 221 143)' : headerColor)"
                 [style.font-size]="getFontSize(col.width)"
                 [attr.data-key]="col.key">
+
+                     <!-- Columna de Acciones (checkbox) -->
+              <ng-container *ngIf="col.key === 'acciones'">
+                <div class="accions">
+                
+                  <div class="icons-container">
+                    <i class="bi bi-eye-fill a-icon"
+                      (click)="viewItem(row)"></i>
+                  </div>
+                </div>
+               
+             </ng-container>
               {{ row[col.key] }}
             </td>
           </tr>

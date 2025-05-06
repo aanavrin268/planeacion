@@ -193,7 +193,11 @@ private generateColumns(sampleData: any) {
     'fac_enero': 'Fac. Enero',
     'fac_febrero': 'Fac. Febrero',
     'fac_marzo': 'Fac. Marzo',
-    'fac_abril': 'Fac. Abril'
+    'fac_abril': 'Fac. Abril',
+    'cos_origin': 'Cos. origin',
+    'divisa': 'Divisa',
+    'cos_importacion': 'Cos. Importacion',
+    'cos_logistica': 'Cos. Logistica'
   };  
 
   const columns = Object.keys(sampleData)
@@ -208,6 +212,7 @@ private generateColumns(sampleData: any) {
 
   let finalColumns = [...columns];
 
+  /*
   if(this.showActionColumn.value) {
     finalColumns = [
       {
@@ -220,6 +225,19 @@ private generateColumns(sampleData: any) {
       ...finalColumns
     ];
   }
+
+  */
+
+  finalColumns = [
+    {
+      key: 'acciones',
+      header: 'Acciones',
+      visible: true,
+      width: 100,
+      editable: false 
+    },
+    ...finalColumns
+  ];
 
   this.currentColumns.next(finalColumns);
 }
