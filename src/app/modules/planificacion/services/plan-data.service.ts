@@ -161,6 +161,13 @@ export class PlanDataService {
     this.currentPlan.next(updatedPlan);
   }
 
+private isAgregateColumn(columnKey: string): boolean {
+  const agregateColumns = ['cos_origin', 'cos_importacion', 'cos_logistica'
+  ];
+
+  return agregateColumns.includes(columnKey);
+}
+
 
 private isEditableColumn(columnKey: string): boolean {
   const editableColumns = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre',
@@ -207,7 +214,8 @@ private generateColumns(sampleData: any) {
       header: specialHeaders[key] || this.formatHeader(key),
       width: this.calculateWidth(key),
       visible: true,
-      editable: this.isEditableColumn(key) 
+      editable: this.isEditableColumn(key),
+      agregate: this.isAgregateColumn(key) 
     }));
 
   let finalColumns = [...columns];
@@ -234,7 +242,8 @@ private generateColumns(sampleData: any) {
       header: 'Acciones',
       visible: true,
       width: 100,
-      editable: false 
+      editable: false,
+      agregate: false,
     },
     ...finalColumns
   ];

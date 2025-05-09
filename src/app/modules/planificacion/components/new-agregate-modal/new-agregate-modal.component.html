@@ -6,7 +6,8 @@
         <span class="sub">Selecciona el tipo de función que deseas usar y, a continuacion, las columnas.</span>
 
         <div class="functions-container">
-            <div class="function" *ngFor="let item of list_functions">
+            <div class="function" *ngFor="let item of list_functions"
+                (click)="onFunctionSelected(item)">
                 <i class="{{ item.icon }}"></i>
                 <span class="f-text">
                     {{ item.title }}
@@ -20,25 +21,33 @@
                     Columnas
                 </span>
 
-                <select name="" id="" class="form-select">
-                    <option value="" disabled selected>
+                <select name="" id="" class="form-select"
+                    (change)="onChangeOption($event)">
+                    <option [value]="null"  selected>
                         Selecciona varias
                     </option>
-                    <option value="">
-
+                    <option [value]="column.key" *ngFor="let column of allNonSelectedColumns">
+                        {{ column.header }}
                     </option>
                 </select>
 
                 <span class="ss-title">Columnas seleccionadas:</span>
                 
                 <div class="selected-container">
-                    <div class="selected-item">
-                        
+                    <div class="selected-item" *ngFor="let column of allSelectedColumns">
+                        <span>{{ column.header }}</span>
+                        <i class="bi bi-x-lg s-icon"
+                            (click)="onRemoveItem(column)"></i>
                     </div>
                 </div>
 
             </div>
             <div class="right">
+
+                <div class="input-container">
+                    <label for="">Nombre de la columna</label>
+                    <input type="text" placeholder="Ej. total" class="form-control">
+                </div>
 
             </div>
         </div>

@@ -55,17 +55,18 @@
             margin-top: 2rem;
             width: 100%;
             height: 85%;
+            gap: 10px;
             //background-color: rgb(236, 118, 118);
             display: flex;
             justify-content: flex-start;
             align-items: center;
             
             .left{
-                width: 50%;
+                width: 48%;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                background-color: rgb(231, 231, 105);
+                //background-color: rgb(231, 231, 105);
 
                 .selected-container{
                     width: 100%;
@@ -77,17 +78,43 @@
                         background-color: rgb(230, 230, 79);
                         padding: .6rem;
                         border-radius: 10px;
-                        
+                        gap: .5rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+
+                        .s-icon{
+                            position: absolute;
+                            background-color: red;
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                            color: white;
+                            right: -5%;
+                            top: -36%;
+                            z-index: 1;
+                            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4588235294);
+                            transition: all 0.2s ease-in-out;
+
+                            &:hover{
+                                cursor: pointer;
+                                background-color: rgb(155, 4, 4);
+                            }
+                        }
                     }
                 }
             }
 
             .right{
-                width: 50%;
+                width: 48%;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                background-color: rgb(105, 231, 137);
+                //background-color: rgb(105, 231, 137);
 
             }
         }

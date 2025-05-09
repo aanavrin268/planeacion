@@ -12,6 +12,7 @@ export interface Column {
     width: number;
     visible: boolean;
     editable: boolean;
+    agregate: boolean;
   }
   
 export   interface RowData {
