@@ -60,7 +60,7 @@ export class NewAgregateModalComponent implements OnInit {
         //sumar
         break;
       case 2:
-        //avg
+        //avgasdasd
         break;
     }
   }
